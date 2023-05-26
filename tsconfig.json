@@ -19,6 +19,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src",".eslintrc.cjs"], //module.export 오류 해결- ".eslintrc.cjs" 추가
+  "include": ["src", ".eslintrc.cjs"], //module.export 오류 해결- ".eslintrc.cjs" 추가
   "references": [{ "path": "./tsconfig.node.json" }]
 }

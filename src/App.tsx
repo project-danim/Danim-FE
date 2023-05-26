@@ -1,9 +1,14 @@
-import "./App.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+import Router from "./router/Router";
+
+const queryclient = new QueryClient();
 
 function App() {
-  const hello: number = 1;
-
-  return hello;
+  return (
+    <QueryClientProvider client={queryclient}>
+      <Router />
+    </QueryClientProvider>
+  );
 }
 
 export default App;

@@ -4,9 +4,10 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    "plugin:react/recommended",
     "airbnb",
     "airbnb-typescript",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
   ],
   overrides: [],
@@ -18,6 +19,7 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint"],
   rules: {
+    "react/react-in-jsx-scope": "off",
     // 'no-var' : 'warn',
   },
 };
