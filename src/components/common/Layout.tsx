@@ -6,6 +6,7 @@ const OutletWrapper = styled.div`
   width: 1120px;
   /* width: 70rem; */
 `;
+
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -14,6 +15,7 @@ const Container = styled.div`
   justify-content: center;
   margin-bottom: 205px;
 `;
+
 function Layout() {
   return (
     <Container>

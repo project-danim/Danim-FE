@@ -5,6 +5,10 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
+    "types": [
+      "kakao.maps.d.ts" // kakaoMap typescript
+    ],
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -15,10 +19,12 @@
 
     /* Linting */
     "strict": true,
+    // null 이나 undefined (strictNullChecks) 에 대한 경고를 off 함 - 라이브러리에 대한 제한이 너무 강할 때, 개발시에는 true 로 개발할 것
+    // "strict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", ".eslintrc.cjs"], //module.export 오류 해결- ".eslintrc.cjs" 추가
+  "include": ["src", ".eslintrc.cjs"], // module.export 오류 해결- ".eslintrc.cjs" 추가
   "references": [{ "path": "./tsconfig.node.json" }]
 }
