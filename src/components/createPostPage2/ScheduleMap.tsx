@@ -2,6 +2,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import { Map, MapMarker, Polyline } from "react-kakao-maps-sdk";
+import { useRecoilState } from "recoil";
+import { selectedInfosState } from "../../recoil/post/postState";
 
 interface MarkerType {
   position: {
@@ -9,12 +11,6 @@ interface MarkerType {
     lng: number;
   };
   content: string;
-}
-
-interface SelectedInfo {
-  info: MarkerType;
-  date: Date | null;
-  id: string;
 }
 
 function ScheduleMap() {
@@ -32,16 +28,7 @@ function ScheduleMap() {
   const today = new Date(); // datePicker에서 오늘의 날짜 이후를 선택가능하게 하기 위한 today
 
   // 사용자가 선택한 장소와 날짜를 저장하는 [] state
-  const [selectedInfos, setSelectedInfos] = useState<SelectedInfo[]>([]);
-
-  useEffect(() => {
-    console.log(` 값을 확인하고 싶어요`, selectedInfos);
-  }, [selectedInfos]);
-
-  console.log(`나와랍!`);
-
-  // console.log(`info`, info);
-  // console.log(markers);
+  const [selectedMapInfos, setSelectedMapInfos] = useRecoilState(selectedInfosState);
 
   // 지도 검색과 그 마커들을 표시
   const searchPlaces = () => {
@@ -77,7 +64,7 @@ function ScheduleMap() {
   // 선택된 장소와 시간들을 추가한 후 검색 키워드들을 삭제
   const addSelectedInfo = () => {
     if (info && selectedDate) {
-      setSelectedInfos([...selectedInfos, { info, date: selectedDate, id: Date.now().toString() }]);
+      setSelectedMapInfos([...selectedMapInfos, { info, date: selectedDate, id: Date.now().toString() }]);
       setMarkers([]);
       setInfo(null);
       setSelectedDate(null);
@@ -143,7 +130,7 @@ function ScheduleMap() {
 
         {/* 선택된 장소 연결선 */}
         <Polyline
-          path={selectedInfos.map((selectedInfo) => selectedInfo.info.position)}
+          path={selectedMapInfos.map((selectedInfo) => selectedInfo.info.position)}
           strokeWeight={3} // 선의 두께
           strokeColor="black" // 선의 색깔
           strokeOpacity={0.5} // 선의 불투명도 ( 0 - 1 / 투명 -> 불투명)
@@ -151,7 +138,7 @@ function ScheduleMap() {
         />
 
         {/* 마커들의 정보를 표시 */}
-        {selectedInfos.map((selectedInfo, index) => (
+        {selectedMapInfos.map((selectedInfo, index) => (
           <MapMarker
             key={`marker-${selectedInfo.info.content}-${selectedInfo.info.position.lat},
             ${selectedInfo.info.position.lng}`}
@@ -165,7 +152,7 @@ function ScheduleMap() {
 
       {/* 선택한 정보를 화면에 표시 */}
       <ul>
-        {selectedInfos.map((selectedInfo) => (
+        {selectedMapInfos.map((selectedInfo) => (
           <li key={selectedInfo.id}>
             {selectedInfo.info.content}: {selectedInfo.date?.toLocaleDateString()}
           </li>

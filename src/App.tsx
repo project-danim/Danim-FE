@@ -9,6 +9,7 @@ function App() {
     <RecoilRoot>
       <QueryClientProvider client={queryclient}>
         <Router />
+        {/* <ScrollToTop /> */}
       </QueryClientProvider>
     </RecoilRoot>
   );

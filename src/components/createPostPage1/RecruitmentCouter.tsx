@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { recruitmentCountState } from "../../recoil/post/postState";
 
 function RecruitmentCouter() {
-  const [count, setCount] = useState<number>(2);
+  const [count, setCount] = useRecoilState(recruitmentCountState);
 
   const incrementCount = () => {
     setCount((prevCount) => (prevCount < 10 ? prevCount + 1 : prevCount));
@@ -18,6 +20,7 @@ function RecruitmentCouter() {
       setCount(10);
     }
   }, [count]);
+
   return (
     <div>
       <button type="button" onClick={incrementCount}>
@@ -26,7 +29,7 @@ function RecruitmentCouter() {
       <button type="button" onClick={decrementCount}>
         -
       </button>
-      <p>Count : {count}</p>
+      <p>{count}</p>
     </div>
   );
 }

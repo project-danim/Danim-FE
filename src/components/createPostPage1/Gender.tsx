@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { selectedGenderState } from "../../recoil/post/postState";
 
 function Gender() {
   const ageOptions = ["남", "여"];
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [selectedValues, setSelectedValues] = useRecoilState(selectedGenderState);
 
   const handleOptionToggle = (ageOption: string) => {
     if (selectedValues.includes(ageOption)) {
@@ -11,8 +12,6 @@ function Gender() {
       setSelectedValues([...selectedValues, ageOption]);
     }
   };
-
-  // console.log(`선택된 나이대s`, selectedValues);
 
   return (
     <div>

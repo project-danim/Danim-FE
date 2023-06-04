@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { selectedKeywordState } from "../../recoil/atoms/postState";
+import { selectedKeywordState } from "../../recoil/post/postState";
 
 function Keywords() {
   const keywordOptions = ["맛집탐방", "투어", "포토스팟", "성지순례", "쇼핑"];
@@ -8,7 +8,6 @@ function Keywords() {
   const handleOptionToggle = (keywordOption: string) => {
     setSelectedValue(keywordOption);
   };
-  // console.log(`선택된 keywords`, selectedValue);
   return (
     <div>
       {keywordOptions.map((keywordOption) => (

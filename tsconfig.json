@@ -19,6 +19,8 @@
 
     /* Linting */
     "strict": true,
+    // null 이나 undefined (strictNullChecks) 에 대한 경고를 off 함 - 라이브러리에 대한 제한이 너무 강할 때, 개발시에는 true 로 개발할 것
+    // "strict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true

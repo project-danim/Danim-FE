@@ -1,13 +1,11 @@
-import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useRecoilState } from "recoil";
+import { tripEndDateState, tripStartDateState } from "../../recoil/post/postState";
 
 function TripDatePicker() {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-
-  // console.log(`여행 시작 날짜`, startDate);
-  // console.log(`여행 끝나는 날짜`, endDate);
+  const [startDate, setStartDate] = useRecoilState(tripStartDateState);
+  const [endDate, setEndDate] = useRecoilState(tripEndDateState);
 
   return (
     <div>
@@ -16,6 +14,7 @@ function TripDatePicker() {
         onChange={(date: Date | null) => setStartDate(date)}
         selectsStart
         startDate={startDate}
+        dateFormat="yyyy년 MM월 dd일"
         endDate={endDate}
         minDate={new Date()} // 오늘 이전의 날짜는 선택 불가능
         isClearable
@@ -26,6 +25,7 @@ function TripDatePicker() {
         onChange={(date: Date | null) => setEndDate(date)}
         selectsEnd
         startDate={startDate}
+        dateFormat="yyyy년 MM월 dd일"
         endDate={endDate}
         minDate={startDate} // 시작 날짜 이전의 날짜는 선택 불가능
         isClearable

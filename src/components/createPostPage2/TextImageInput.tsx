@@ -1,18 +1,13 @@
 import { useState } from "react";
+import { useRecoilState } from "recoil";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
-type QuillNode = {
-  // QuillNode 타입을 정의합니다.
-  type: string;
-  text?: string;
-  level?: number;
-  src?: string;
-  alt?: string;
-};
+import { QuillNode } from "../../types/postContextType";
+import { tripPostContentState } from "../../recoil/post/postState";
 
 function TextImageInput() {
   const [quillText, setQuillText] = useState<string>("");
+  const [quillContent, setQuillContent] = useRecoilState(tripPostContentState);
 
   const modules = {
     toolbar: [[{ header: [1, 2, false] }], ["link", "image"]],
@@ -30,7 +25,6 @@ function TextImageInput() {
           result.push({
             type: "image",
             src: imgNode.getAttribute("src") || "",
-            alt: imgNode.getAttribute("alt") || "",
           });
         } else if (node.firstChild && node.firstChild.nodeName === "BR") {
           result.push({ type: "enter", text: "/n" });
@@ -44,16 +38,18 @@ function TextImageInput() {
       }
     });
 
-    // console.log(result);
-
+    console.log(`아아아아`, result);
+    setQuillContent(result);
     setQuillText(value);
   };
 
-  // console.log(`quill 텍스트 출력해줘`, quillText);
+  console.log(`quill 텍스트 출력해줘`, quillText);
 
   return (
     <div>
-      <ReactQuill theme="snow" value={quillText} modules={modules} onChange={handleQuillChange} />
+      {/* <ReactQuill theme="snow" value={quillText} modules={modules} onChange={handleQuillChange} /> 
+      defaultValue 로 처리하긴 했지만 여전히 문제가 있음 고려해보아야함 */}
+      <ReactQuill theme="snow" defaultValue={quillText} modules={modules} onChange={handleQuillChange} />
     </div>
   );
 }

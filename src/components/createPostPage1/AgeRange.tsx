@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { selectedAgeRangeState } from "../../recoil/post/postState";
 
 function AgeRange() {
   const ageOptions = ["10대(성인)", "20대", "30대", "40대", "50대", "60대이상"];
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [selectedValues, setSelectedValues] = useRecoilState(selectedAgeRangeState);
 
   const handleOptionToggle = (ageOption: string) => {
     if (selectedValues.includes(ageOption)) {
@@ -11,7 +12,6 @@ function AgeRange() {
       setSelectedValues([...selectedValues, ageOption]);
     }
   };
-  // console.log(`선택된 나이대s`, selectedValues);
 
   return (
     <div>
