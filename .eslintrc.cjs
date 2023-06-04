@@ -25,9 +25,16 @@ module.exports = {
     // project: "./tsconfig.json",
     project: ["./tsconfig.json", "./vite.config.ts"],
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: ["react", "@typescript-eslint", "prettier"],
   rules: {
     "react/react-in-jsx-scope": "off",
     "max-len": ["error", { code: 120 }],
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        some: ["nesting", "id"],
+      },
+    ],
+
   },
 };
