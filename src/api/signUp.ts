@@ -1,9 +1,11 @@
 import axios from "axios";
-import { User } from "../types/userType";
+import { User, UserInfoForKakao } from "../types/userType";
 
-// export const axiosInstance = axios.create({
-//   baseURL: import.meta.env.VITE_APP_URL,
-// });
+// axiosInstace 생성
+export const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_URL,
+});
+
 // 에러 콘솔 출력 함수
 export function showError(error: any) {
   console.log("여기서 error 발생", error);
@@ -23,8 +25,10 @@ export const getCookie = (name: string) => {
 };
 // 액세스 토큰 가져오는 함수
 export const getAccessToken = () => getCookie("accessToken");
+
 // 리프레시 토큰 가져오는 함수
 export const getRefreshToken = () => getCookie("refreshToken");
+
 // 쿠키에 토큰 저장 함수
 export const setCookie = (name: string, value: string, days: number) => {
   let expires = "";
@@ -35,16 +39,13 @@ export const setCookie = (name: string, value: string, days: number) => {
   }
   document.cookie = `${name}=${value || ""}${expires}; path=/`;
 };
+
 // 회원가입 - 아이디 중복검사
 export const fetchCheckId = async (id: string) => {
   try {
-    // const response = await axiosInstance.post("/api/user/checkId", {
-    //   userId: id,
-    // });
-    const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/api/user/checkId`,
-      { userId: id }
-    );
+    const response = await axiosInstance.post("/api/user/checkId", {
+      userId: id,
+    });
     if (response.data.message === "아이디 중복 검사 성공") {
       return response.data.message;
     }
@@ -56,14 +57,10 @@ export const fetchCheckId = async (id: string) => {
 };
 // 회원가입 - 닉네임 중복검사
 export const fetchCheckNickname = async (nickname: string) => {
-  console.log(import.meta.env.VITE_APP_URL);
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/api/user/checkNickname`,
-      {
-        nickname,
-      }
-    );
+    const response = await axiosInstance.post("/api/user/checkNickname", {
+      nickname,
+    });
     if (response.data.message === "닉네임 중복 검사 성공") {
       return response.data.message;
     }
@@ -73,29 +70,36 @@ export const fetchCheckNickname = async (nickname: string) => {
     return errMessage;
   }
 };
+
 // 회원가입
 export const fetchSignUp = async (user: User) => {
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/api/user/signup`,
-      user
-    );
+    const response = await axiosInstance.post("/api/user/signup", user);
     return response.data;
   } catch (err) {
     showError(err);
     throw err;
   }
 };
+
+// 회원가입 - 소셜 추가 정보받기
+export const fetchSignUpForSocial = async (userInfo: UserInfoForKakao) => {
+  try {
+    const response = await axiosInstance.post("/api/user/userInfo", userInfo);
+    return response.data;
+  } catch (err) {
+    showError(err);
+    throw err;
+  }
+};
+
 // 로그인
 export const fetchLogin = async (user: {
   userId: string;
   password: string;
 }) => {
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/api/user/login`,
-      user
-    );
+    const response = await axiosInstance.post("/api/user/login", user);
     if (response.data.message === "로그인 성공") {
       const accessToken = response.headers.access_key;
       const refreshToken = response.headers.refresh_key;
@@ -114,14 +118,11 @@ export const fetchLogin = async (user: {
 export const fetchLogout = async () => {
   try {
     const accessToken = getAccessToken();
-    const response = await axios.delete(
-      `${import.meta.env.VITE_APP_URL}/api/user/logout`,
-      {
-        headers: {
-          ACCESS_KEY: accessToken,
-        },
-      }
-    );
+    const response = await axiosInstance.delete("/api/user/logout", {
+      headers: {
+        ACCESS_KEY: accessToken,
+      },
+    });
     document.cookie =
       "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie =
