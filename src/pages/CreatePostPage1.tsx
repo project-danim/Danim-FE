@@ -27,20 +27,21 @@ const StyledLink = styled(Link)`
 function CreatePostPage1() {
   return (
     <div>
-      <h6>다님의 목적을 알려주세요.</h6>
+      <p>메인 페이지에 노출 될 기본 정보를 알려주세요.</p>
+      <p>메인 페이지에 노출 될 기본 정보를 알려주세요.</p>
+      <p>다님의 목적을 알려주세요.</p>
       <Keywords />
-      <h3>어디서 모이나요?</h3>
+      <p>어디서 함께하시나요?</p>
       <Location />
-      <h3>누구와 함께하고 싶나요?</h3>
-      <p>*중복선택가능</p>
+      <TripDatePicker />
+      <p>어떤 사람들과 함께 하시고 싶나요?</p>
+      <p>* 중복선택 가능</p>
       <Gender />
       <AgeRange />
-      <h3>모집기한</h3>
+      <p>키워드로 글을 작성하면 같이 다닐 확률이 높아져요!</p>
       <RecruitmentDatePicker />
-      <h3>모집인원</h3>
+      <p>모집 인원을 알려주세요</p>
       <RecruitmentCouter />
-      <h3>여행 날짜</h3>
-      <TripDatePicker />
       <StyledLink to="/create-post/step2">다음</StyledLink>
     </div>
   );

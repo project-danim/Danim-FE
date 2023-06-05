@@ -1,5 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CreatePostPage1, CreatePostPage2, HomePage, NotFoundPage } from "../pages";
+import {
+  CreatePostPage1,
+  CreatePostPage2,
+  HomePage,
+  NotFoundPage,
+} from "../pages";
 import Layout from "../components/common/Layout";
 import ScrollToTop from "../utils/ScrollToTop";
 import SignUpPage from "../pages/SignUp/SignUpPage";
@@ -18,7 +23,6 @@ function Router() {
           <Route path="home" element={<HomePage />} />
           <Route path="create-post/step1" element={<CreatePostPage1 />} />
           <Route path="create-post/step2" element={<CreatePostPage2 />} />
-          <Route path="create-post" element={<CreatePostPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route path="/signup/social" element={<SignUpForSocialPage />} />
           <Route path="login" element={<LoginPage />} />

@@ -1,17 +1,45 @@
+import { useState } from "react";
+import { useRecoilState } from "recoil";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useRecoilState } from "recoil";
-import { tripEndDateState, tripStartDateState } from "../../recoil/post/postState";
+import {
+  tripEndDateState,
+  tripStartDateState,
+} from "../../recoil/post/postState";
+import convertDateFormat from "../../utils/convertDateFormat";
 
 function TripDatePicker() {
-  const [startDate, setStartDate] = useRecoilState(tripStartDateState);
-  const [endDate, setEndDate] = useRecoilState(tripEndDateState);
+  // 변환되어 recoil로 전달될 state
+  const [, setTripStartDate] = useRecoilState(tripStartDateState);
+  const [, setTripEndDate] = useRecoilState(tripEndDateState);
+
+  // DatePicker 에서 사용될 날짜 state
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  // 출발) 날짜가 선택될 때 - state변환, recoil state 전달
+  const handleStartChange = (date: Date | null) => {
+    if (date) {
+      const formattedDate = convertDateFormat(date);
+      setStartDate(date);
+      setTripStartDate(formattedDate);
+    }
+  };
+
+  // 도착) 날짜가 선택될 때 - state변환, recoil state 전달
+  const handleEndChange = (date: Date | null) => {
+    if (date) {
+      const formattedDate = convertDateFormat(date);
+      setEndDate(date);
+      setTripEndDate(formattedDate);
+    }
+  };
 
   return (
     <div>
       <DatePicker
         selected={startDate}
-        onChange={(date: Date | null) => setStartDate(date)}
+        onChange={handleStartChange}
         selectsStart
         startDate={startDate}
         dateFormat="yyyy년 MM월 dd일"
@@ -22,7 +50,7 @@ function TripDatePicker() {
       />
       <DatePicker
         selected={endDate}
-        onChange={(date: Date | null) => setEndDate(date)}
+        onChange={handleEndChange}
         selectsEnd
         startDate={startDate}
         dateFormat="yyyy년 MM월 dd일"
