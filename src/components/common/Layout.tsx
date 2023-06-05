@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Footer, Header } from ".";
 
 const OutletWrapper = styled.div`
-  width: 1120px;
+  max-width: 1120px;
   /* width: 70rem; */
 `;
 
