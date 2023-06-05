@@ -28,7 +28,7 @@ export const postState = selector({
     const groupSize = get(recruitmentCountState);
     const tripStartDate = get(tripStartDateState);
     const tripEndDate = get(tripEndDateState);
-    const contents = get(tripPostContentState);
+    const content = get(tripPostContentState);
     const MapAPI = get(selectedInfosState);
 
     return {
@@ -42,7 +42,7 @@ export const postState = selector({
       location,
       gender,
       keyword,
-      contents,
+      content,
       MapAPI,
     };
   },

@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance, setCookie, showError } from "../../api/signUp";
+import { setCookie, showError } from "../../api/signUp";
 
 export const fetchKakaoToken = async (code: string) => {
-  const response = await axiosInstance.get(
-    `/api/user/kakao/callback?code=${code}`
+  const response = await axios.get(
+    `${import.meta.env.VITE_APP_URL}}/api/user/kakao/callback?code=${code}`
   );
 
   return response;

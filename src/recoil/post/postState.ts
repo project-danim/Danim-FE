@@ -1,6 +1,6 @@
 import { atom } from "recoil";
-import type { QuillNode } from "../../types/postContextType";
 import { SelectedMapInfoType } from "../../types/selectedMapInfoType";
+import convertDateFormat from "../../utils/convertDateFormat";
 
 // 키워드
 export const selectedKeywordState = atom({
@@ -27,13 +27,13 @@ export const selectedAgeRangeState = atom({
 });
 
 // 모집 시작 날짜 - 글을 쓰는 당일로 고정
-export const recruitmentStartDateState = atom({
+export const recruitmentStartDateState = atom<string | null>({
   key: "recruitmentStartDateState",
-  default: new Date(),
+  default: convertDateFormat(new Date()),
 });
 
 // 모집 마감 기한
-export const recruitmentEndDateState = atom({
+export const recruitmentEndDateState = atom<string | null>({
   key: "recruitmentEndDateState",
   default: null,
 });
@@ -45,21 +45,21 @@ export const recruitmentCountState = atom({
 });
 
 // 여행 시작 날짜
-export const tripStartDateState = atom<Date | null>({
+export const tripStartDateState = atom<string | null>({
   key: "tripStartDateState",
   default: null,
 });
 
 // 여행 끝나는 날짜
-export const tripEndDateState = atom<Date | null>({
+export const tripEndDateState = atom<string | null>({
   key: "tripEndDateState",
   default: null,
 });
 
 // 여행에 관련된 상세 설명 게시글 - type은 import 됨
-export const tripPostContentState = atom<QuillNode[]>({
+export const tripPostContentState = atom<string>({
   key: "tripPostContentState", // unique ID (with respect to other atoms/selectors)
-  default: [], // default value (aka initial value)
+  default: "", // default value (aka initial value)
 });
 
 // 지도 - 장소와 각각의 장소를 방문할 날짜 []
