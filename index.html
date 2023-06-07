@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DANIM</title>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51aae15944db6f4e651f115e7306e658&libraries=services,clusterer"
+    ></script>
+    <!-- src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51aae15944db6f4e651f115e7306e658"></script> -->
+    <!-- kakao map api 호출 스크립트 (ReactKakaoMapSDK 사용) -->
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DANIM</title>
-  <script type="text/javascript"
-    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51aae15944db6f4e651f115e7306e658&libraries=services,clusterer"></script>
-  <!-- src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51aae15944db6f4e651f115e7306e658"></script> -->
-  <!-- kakao map api 호출 스크립트 (ReactKakaoMapSDK 사용) -->
-</head>
-
-
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-
-</body>
-
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
