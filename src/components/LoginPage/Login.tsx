@@ -1,3 +1,4 @@
+import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -7,6 +8,7 @@ import { fetchLogin } from "../../api/signUp";
 import st from "../SignUpPage/SignUpST";
 import loginSt from "./LoginST";
 import UserId from "../SignUpPage/UserId";
+import { userCookieState } from "../../recoil/login/userInfo";
 
 function Login() {
   // 아이디 입력값 state , 아이디 에러 메세지 state
@@ -15,6 +17,8 @@ function Login() {
   // 비밀번호 입력값 state, 비밀번호 에러 메세지 state
   const [password, handleChangePassword, , passwordRef] = useInput("");
   const [passwordError, setPasswordError] = useState("");
+  // 사용자 쿠키 state
+  const [userCookie, setUserCookie] = useRecoilState(userCookieState);
   // 네비게이트 함수 생성
   const navigate = useNavigate();
 
@@ -38,14 +42,22 @@ function Login() {
   // 로그인 뮤테이션 함수
   const { mutate: mutateLogin } = useMutation(fetchLogin, {
     onSuccess: (response) => {
+      if (response === "등록되지 않은 아이디 입니다.") {
+        return alert(response);
+      }
+      if (response === "잘못된 비밀번호 입니다.") {
+        return alert(response);
+      }
       if (response.data.message === "로그인 성공") {
+        const { cookie } = document;
+        setUserCookie(cookie);
         return navigate("/");
       }
-      return alert(response.data.message);
+      return alert("로그인을 다시 시도해주세요.");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.log(error);
-      alert("요청이 실패했습니다. 다시 시도해주세요!");
+      alert("요청 실패 : 로그인을 다시 시도해 주세요.");
     },
   });
 
@@ -83,6 +95,7 @@ function Login() {
     }
     if (passwordError) {
       passwordRef.current?.focus();
+      return;
     }
     const user = {
       userId,
