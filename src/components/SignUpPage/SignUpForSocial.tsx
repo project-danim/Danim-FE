@@ -1,20 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
-import useInput from "../../hooks/useInput";
+import { useRecoilState } from "recoil";
 import useToggle from "../../hooks/useToggle";
 import { fetchSignUpForSocial } from "../../api/signUp";
 import st from "./SignUpST";
 import { UserInfoForKakao } from "../../types/userType";
+import { userIdState } from "../../recoil/login/userInfo";
 
-function SignUpForSocial(userId: any) {
+function SignUpForSocial() {
+  const [userIdAtom, setUserId] = useRecoilState(userIdState);
+
   // 성별, 나이 입력값 state
   const [activeGender, setActiveGender] = useState("");
   const userGenderRef = useRef<HTMLButtonElement>(null);
   const [agreeGender, handleAgreeGender, setAgreeGender] = useToggle(false);
   const [activeAge, setActiveAge] = useState("");
-  const [isAgreeForAge, handleIsAgreeForAge, setIsAgreeForAge] =
-    useToggle(false);
+  const [agreeForAge, handleIsAgreeForAge, setIsAgreeForAge] = useToggle(false);
 
   // 성별, 연령대 에러 메세지 상태
   const [genderError, setGenderError] = useState("");
@@ -56,10 +58,10 @@ function SignUpForSocial(userId: any) {
       setAgeError("");
       return;
     }
-    if (isAgreeForAge) {
+    if (agreeForAge) {
       setGenderError("");
     }
-  }, [activeAge, isAgreeForAge]);
+  }, [activeAge, agreeForAge]);
 
   // 연령 클릭 핸들러, 연령 정보 제공 핸들러
   const handleAgeClick = (age: string) => {
@@ -101,13 +103,13 @@ function SignUpForSocial(userId: any) {
       setAgeError("연령을 선택해주세요.");
       return;
     }
-    if (!isAgreeForAge) {
+    if (!agreeForAge) {
       setAgeError("연령 정보 제공에 동의해주세요.");
       return;
     }
 
     const user: UserInfoForKakao = {
-      userId: "",
+      userId: userIdAtom,
       gender: activeGender,
       ageRange: activeAge,
       agreeForGender: true,
