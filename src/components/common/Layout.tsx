@@ -4,7 +4,7 @@ import { Footer, Header } from ".";
 
 const OutletWrapper = styled.div`
   max-width: 1120px;
-  /* width: 70rem; */
+  width: 100%;
 `;
 
 const Container = styled.div`
