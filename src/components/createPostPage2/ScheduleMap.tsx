@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import { Map, MapMarker, Polyline } from "react-kakao-maps-sdk";
 import { useRecoilState } from "recoil";
-import { selectedInfosState } from "../../recoil/post/postState";
+import { selectedInfosState } from "../../recoil/post/postCreateState";
 
 interface MarkerType {
   position: {
@@ -12,6 +12,8 @@ interface MarkerType {
   };
   content: string;
 }
+
+const days = ["일", "월", "화", "수", "목", "금", "토"];
 
 function ScheduleMap() {
   // 지도의 state
@@ -28,7 +30,10 @@ function ScheduleMap() {
   const today = new Date(); // datePicker에서 오늘의 날짜 이후를 선택가능하게 하기 위한 today
 
   // 사용자가 선택한 장소와 날짜를 저장하는 [] state
-  const [selectedMapInfos, setSelectedMapInfos] = useRecoilState(selectedInfosState);
+  const [selectedMapInfos, setSelectedMapInfos] =
+    useRecoilState(selectedInfosState);
+
+  // console.log(`필요한 정보`, selectedMapInfos);
 
   // 지도 검색과 그 마커들을 표시
   const searchPlaces = () => {
@@ -47,7 +52,9 @@ function ScheduleMap() {
             },
             content: item.place_name,
           };
-          bounds.extend(new kakao.maps.LatLng(marker.position.lat, marker.position.lng));
+          bounds.extend(
+            new kakao.maps.LatLng(marker.position.lat, marker.position.lng)
+          );
           return marker;
         });
 
@@ -64,7 +71,10 @@ function ScheduleMap() {
   // 선택된 장소와 시간들을 추가한 후 검색 키워드들을 삭제
   const addSelectedInfo = () => {
     if (info && selectedDate) {
-      setSelectedMapInfos([...selectedMapInfos, { info, date: selectedDate, id: Date.now().toString() }]);
+      setSelectedMapInfos([
+        ...selectedMapInfos,
+        { info, date: selectedDate, id: Date.now().toString() },
+      ]);
       setMarkers([]);
       setInfo(null);
       setSelectedDate(null);
@@ -124,13 +134,17 @@ function ScheduleMap() {
             position={marker.position}
             onClick={() => setInfo(marker)}
           >
-            {info && info.content === marker.content && <div style={{ color: "#000" }}>{marker.content}</div>}
+            {info && info.content === marker.content && (
+              <div style={{ color: "#000" }}>{marker.content}</div>
+            )}
           </MapMarker>
         ))}
 
         {/* 선택된 장소 연결선 */}
         <Polyline
-          path={selectedMapInfos.map((selectedInfo) => selectedInfo.info.position)}
+          path={selectedMapInfos.map(
+            (selectedInfo) => selectedInfo.info.position
+          )}
           strokeWeight={3} // 선의 두께
           strokeColor="black" // 선의 색깔
           strokeOpacity={0.5} // 선의 불투명도 ( 0 - 1 / 투명 -> 불투명)
@@ -151,13 +165,29 @@ function ScheduleMap() {
       </Map>
 
       {/* 선택한 정보를 화면에 표시 */}
-      <ul>
-        {selectedMapInfos.map((selectedInfo) => (
-          <li key={selectedInfo.id}>
-            {selectedInfo.info.content}: {selectedInfo.date?.toLocaleDateString()}
-          </li>
-        ))}
-      </ul>
+
+      {selectedMapInfos.map((selectedInfo, index) => (
+        <div key={selectedInfo.id}>
+          <span>{index + 1}</span>
+          <div>{selectedInfo.info.content}</div>
+          {selectedInfo.date &&
+            `${selectedInfo.date.toLocaleDateString()} (${
+              days[selectedInfo.date.getDay()]
+            })`}
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedMapInfos(
+                selectedMapInfos.filter(
+                  (makerInfo) => makerInfo.id !== selectedInfo.id
+                )
+              );
+            }}
+          >
+            x
+          </button>
+        </div>
+      ))}
     </div>
   );
 }

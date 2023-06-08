@@ -17,6 +17,7 @@ export const createPost = async (data: any) => {
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -33,24 +34,67 @@ export const uploadImage = async (formData: FormData): Promise<string> => {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Failed to upload image: ", error);
-    // throw error;
+    throw error;
+  }
+};
+
+// 게시글 가져오기
+export const getPost = async (postId: number) => {
+  try {
+    const response = await axios.get(
+      // `${import.meta.env.VITE_APP_URL}/api/post`,
+      `${import.meta.env.VITE_APP_URL}/api/post/${postId}`,
+      {
+        headers: {
+          ACCESS_KEY: getCookie("accessToken"),
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+// 게시글 수정
+export const editPost = async (postId: number, formData: FormData) => {
+  try {
+    const response = await axios.put(
+      // `${import.meta.env.VITE_APP_URL}/api/post`,
+      `${import.meta.env.VITE_APP_URL}/api/post/${postId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          ACCESS_KEY: getCookie("accessToken"),
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
 
 // 게시글 삭제
-export const deletePost = async (data: any) => {
+export const deletePost = async (postId: number) => {
   try {
     const response = await axios.delete(
-      `${import.meta.env.VITE_APP_URL}/api/post/image`,
-      data
+      `${import.meta.env.VITE_APP_URL}/api/post/${postId}`,
+      {
+        headers: {
+          ACCESS_KEY: getCookie("accessToken"),
+        },
+      }
     );
     return response.data;
   } catch (error) {
-    // throw error;
-    //   console.error(error);
+    console.error(error);
+    throw error;
   }
 };

@@ -1,35 +1,47 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useEffect } from "react";
 import { useRecoilState } from "recoil";
+import { useEffect } from "react";
 import {
   AgeRange,
   Gender,
   Keywords,
   Location,
+  RecruitmentCouter,
   RecruitmentDatePicker,
   TripDatePicker,
-  RecruitmentCouter,
 } from "../components/CreatePostPage1";
+import { postIdState } from "../recoil/post/postGetState";
 import postIsEditingState from "../recoil/post/postIsEditingState";
-import * as Styled from "./CreatePostPage1Styles";
 
-function CreatePostPage1() {
-  // 컴포넌트가 랜더링 될때 수정 중이 아니도록 하기 위해, postIsEditing 속성을 false로
+const StyledLink = styled(Link)`
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+function EditingPostPage1() {
+  // 글이 수정될때 postIsEditing state 를 true 로 변경
   const [postIsEditing, setPostIsEditing] = useRecoilState(postIsEditingState);
   useEffect(() => {
-    setPostIsEditing(false);
+    setPostIsEditing(true);
   }, [setPostIsEditing]);
+
+  // 다음 edit page로 이동하기 위한 posId
+  const [postId] = useRecoilState(postIdState);
 
   return (
     <div>
-      <p>
-        <Styled.CircleNumbering>1</Styled.CircleNumbering>
-        <Styled.MainInfoContext>
-          메인 페이지에 노출 될 기본 정보를 알려주세요.
-        </Styled.MainInfoContext>
-      </p>
-
+      <p>메인 페이지에 노출 될 기본 정보를 알려주세요.</p>
+      <p>메인 페이지에 노출 될 기본 정보를 알려주세요.</p>
       <p>다님의 목적을 알려주세요.</p>
       <Keywords />
       <p>어디서 함께하시나요?</p>
@@ -43,9 +55,9 @@ function CreatePostPage1() {
       <RecruitmentDatePicker />
       <p>모집 인원을 알려주세요</p>
       <RecruitmentCouter />
-      <Styled.StyledLink to="/create-post/step2">다음</Styled.StyledLink>
+      <StyledLink to={`/edit-post/step2/${postId}`}>다음</StyledLink>
     </div>
   );
 }
 
-export default CreatePostPage1;
+export default EditingPostPage1;
