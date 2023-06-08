@@ -11,11 +11,12 @@ import {
   tripEndDateState,
   tripPostContentState,
   tripStartDateState,
-} from "./postState";
+  imageUrlsState,
+} from "./postCreateState";
 
 // export default selector({
-export const postState = selector({
-  key: "postState",
+const postCreateState = selector({
+  key: "postCreateState",
   // 서버로 보내기 전 변수명을 맞춰줌.
   get: ({ get }) => {
     const postTitle = "제목입니다";
@@ -30,6 +31,7 @@ export const postState = selector({
     const tripEndDate = get(tripEndDateState);
     const content = get(tripPostContentState);
     const MapAPI = get(selectedInfosState);
+    const imageUrls = get(imageUrlsState);
 
     return {
       postTitle,
@@ -44,6 +46,9 @@ export const postState = selector({
       keyword,
       content,
       MapAPI,
+      imageUrls,
     };
   },
 });
+
+export default postCreateState;

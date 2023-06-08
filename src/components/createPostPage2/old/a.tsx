@@ -2,9 +2,9 @@ import { useState, useRef } from "react";
 import { useRecoilState } from "recoil";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { QuillNode } from "../../types/postContextType";
-import { tripPostContentState } from "../../recoil/post/postState";
-import { uploadImage } from "../../api/post";
+import { QuillNode } from "../../../types/postContextType";
+import { tripPostContentState } from "../../../recoil/post/postCreateState";
+import { uploadImage } from "../../../api/post";
 
 function TextImageInput() {
   const quillRef = useRef<ReactQuill | null>(null);
@@ -67,12 +67,11 @@ function TextImageInput() {
       }
     });
 
-    console.log(`아아아아`, result);
     setQuillContent(result);
     setQuillText(value);
   };
 
-  console.log(`quill 텍스트 출력해줘`, quillText);
+  // console.log(`quill 텍스트 출력해줘`, quillText);
 
   return (
     <div>
