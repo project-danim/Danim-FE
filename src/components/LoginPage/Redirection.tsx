@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import { axiosInstance, setCookie, showError } from "../../api/signUp";
 import SignUpForSocial from "../SignUpPage/SignUpForSocial";
+import { userIdState } from "../../recoil/login/userInfo";
 
 export const fetchKakaoToken = async (code: string) => {
   const response = await axiosInstance.get(
@@ -13,6 +16,13 @@ function Redirection() {
   const url = new URL(window.location.href);
   const userCode: string | null = url.searchParams.get("code");
   const navigate = useNavigate();
+  const [userId, setUserId] = useRecoilState(userIdState);
+
+  useEffect(() => {
+    if (userId !== undefined && userId !== null) {
+      setUserId(userId);
+    }
+  }, [userId]);
   const fetchKakaoLogin = async () => {
     if (userCode !== null) {
       // userCode가 null이 아닐 때만 실행
@@ -22,24 +32,29 @@ function Redirection() {
         const refreshToken = response.headers.refresh_key;
         setCookie("accessToken", accessToken, 1);
         setCookie("refreshToken", refreshToken, 30);
-        navigate("/signup/social");
-        const userId = response.data;
-        return userId;
+        const userIdResponse = response.data.data.toString();
+        setUserId((prev) => userIdResponse);
       } catch (err) {
         showError(err);
       }
     } else {
-      const userId = null;
       return userId;
     }
     return null;
   };
-  const userId = fetchKakaoLogin();
+  useEffect(() => {
+    fetchKakaoLogin();
+  }, []);
 
+  useEffect(() => {
+    if (userId && userId !== "") {
+      navigate("/signup/social");
+    }
+  }, [userId]);
   return (
     <div>
-      {userCode ? (
-        <SignUpForSocial userId={userId} />
+      {userId && userId !== null ? (
+        <SignUpForSocial />
       ) : (
         <>카카오 로그인 중입니다.</>
       )}

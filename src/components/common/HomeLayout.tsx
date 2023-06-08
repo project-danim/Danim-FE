@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Footer, Header } from ".";
 
 const OutletWrapper = styled.div`
-  max-width: 1120px;
   width: 100%;
 `;
 
@@ -16,15 +15,15 @@ const Container = styled.div`
   margin-bottom: 205px;
 `;
 
-function Layout() {
+function HomeLayout() {
   return (
     <Container>
       <Header />
       <OutletWrapper>
         <Outlet />
       </OutletWrapper>
-      <Footer />
+      {/* <Footer /> */}
     </Container>
   );
 }
-export default Layout;
+export default HomeLayout;

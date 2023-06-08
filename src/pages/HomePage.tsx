@@ -1,18 +1,25 @@
-import { fetchLogout } from "../api/signUp";
+import styled from "styled-components";
+import Main from "../components/HomePage/Main";
+
+const HomeBanner = styled.div`
+  width: 100%;
+  height: 383px;
+  background-image: url("/danimBanner.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  // 임의로 설정한 크기입니다! - 지수 -
+  @media (max-width: 1400px) and (min-width: 320px) {
+    height: 150px;
+  }
+`;
 
 function HomePage() {
-  const handleLogoutBtnClick = () => {
-    fetchLogout();
-    alert("로그아웃이 완료되었습니다!");
-  };
   return (
-    <div>
-      홈입니다🏡
-      <button type="button" onClick={handleLogoutBtnClick}>
-        {" "}
-        로그아웃
-      </button>
-    </div>
+    <>
+      <HomeBanner />
+      <Main />
+    </>
   );
 }
 
