@@ -22,8 +22,7 @@ function SignUp() {
   const userGenderRef = useRef<HTMLButtonElement>(null);
   const [agreeGender, handleAgreeGender, setAgreeGender] = useToggle(false);
   const [activeAge, setActiveAge] = useState("");
-  const [isAgreeForAge, handleIsAgreeForAge, setIsAgreeForAge] =
-    useToggle(false);
+  const [agreeForAge, handleIsAgreeForAge, setIsAgreeForAge] = useToggle(false);
 
   // 아이디, 비밀번호, 닉네임, 성별, 연령대 에러 메세지 상태
   const [userIdError, setUserIdError] = useState("");
@@ -162,10 +161,10 @@ function SignUp() {
       setAgeError("");
       return;
     }
-    if (isAgreeForAge) {
+    if (agreeForAge) {
       setGenderError("");
     }
-  }, [activeAge, isAgreeForAge]);
+  }, [activeAge, agreeForAge]);
 
   // 연령 클릭 핸들러, 연령 정보 제공 핸들러
   const handleAgeClick = (age: string) => {
@@ -241,7 +240,7 @@ function SignUp() {
       setAgeError("연령을 선택해주세요.");
       return;
     }
-    if (!isAgreeForAge) {
+    if (!agreeForAge) {
       setAgeError("연령 정보 제공에 동의해주세요.");
       return;
     }
@@ -257,7 +256,7 @@ function SignUp() {
     };
     mutateSignUp(user);
     alert("회원가입이 완료되었습니다!");
-    navigate("/");
+    navigate("/login");
   };
 
   return (
