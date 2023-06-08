@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -13,11 +13,10 @@ import postIsEditingState from "../../recoil/post/postIsEditingState";
 
 function TextImageInput() {
   const quillRef = useRef<ReactQuill | null>(null);
-  const [quillText, setQuillText] = useState<string>("");
 
-  // 글 수정 - 서버에서 가져온 PostState에서 keyword 값을 추출
+  // 글 수정 - 서버에서 가져온 PostState에서 content와 imageUrls 값을 추출
   const getPostData = useRecoilValue(PostGetState);
-  const { content } = getPostData || {};
+  const { content, imageUrls } = getPostData || {};
 
   // 수정중인지 아닌지에 대한 값 true, false
   const postIsEditing = useRecoilValue(postIsEditingState);
@@ -26,8 +25,7 @@ function TextImageInput() {
   const [quillContent, setQuillContent] = useRecoilState(tripPostContentState);
 
   // 서버에서 전달받은 이미지 urls []
-  const [imageUrls, setImageUrls] = useRecoilState(imageUrlsState);
-  console.log(imageUrls);
+  const [returnImageUrls, setReturnImageUrls] = useRecoilState(imageUrlsState);
 
   const uploadImageMutation = useMutation(uploadImage);
 
@@ -43,7 +41,7 @@ function TextImageInput() {
         formData
       );
       // 서버에서 전달받은 이미지 urls 업데이트
-      setImageUrls([...imageUrls, imageUrl]);
+      setReturnImageUrls((prevUrls) => [...prevUrls, imageUrl]);
       const quill = quillRef.current?.getEditor();
       const range = quill?.getSelection();
 
@@ -65,9 +63,17 @@ function TextImageInput() {
   };
 
   const handleQuillChange = (value: string) => {
-    setQuillText(value);
     setQuillContent(value);
   };
+
+  // if editing, initialize the content and images
+  useEffect(() => {
+    if (postIsEditing) {
+      const quill = quillRef.current?.getEditor();
+      quill?.setContents(content || "");
+      setReturnImageUrls(imageUrls);
+    }
+  }, [postIsEditing, content, imageUrls]);
 
   return (
     <div>
@@ -75,7 +81,6 @@ function TextImageInput() {
       <ReactQuill
         ref={quillRef}
         theme="snow"
-        defaultValue={quillText}
         modules={modules}
         onChange={handleQuillChange}
       />

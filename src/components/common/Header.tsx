@@ -87,13 +87,19 @@ function Header() {
     navigate("/");
   };
 
+  const handleCreatePostClick = () => {
+    navigate("/create-post/step1");
+  };
+
   return (
     <Container>
       <DanimLogo onClick={handleClickDanimLogo}>danim</DanimLogo>
       <ButtonContainer>
         {userCookie !== "" ? (
           <>
-            <button type="button">동행 만들기</button>
+            <button type="button" onClick={handleCreatePostClick}>
+              동행 만들기
+            </button>
             <button type="button">채팅하기</button>
             <button type="button">마이 페이지</button>
             <button type="button" onClick={handleLogoutBtnClick}>
