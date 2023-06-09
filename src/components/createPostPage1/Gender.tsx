@@ -1,8 +1,20 @@
 import { useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import styled from "styled-components";
 import { selectedGenderState } from "../../recoil/post/postCreateState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
 import { PostGetState } from "../../recoil/post/postGetState";
+import CommonButton from "../common/CommonButton";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const ButtonWrapper = styled.div`
+  margin: 5px;
+`;
 
 function Gender() {
   const genderOptions = ["남", "여"];
@@ -33,12 +45,14 @@ function Gender() {
         let color = "gray";
         if (postIsEditing) {
           if (selectedValues.length) {
-            color = selectedValues.includes(genderOption) ? "green" : "gray";
+            color = selectedValues.includes(genderOption)
+              ? "#2F5901"
+              : "#A4BF3B";
           } else {
-            color = gender?.includes(genderOption) ? "green" : "gray";
+            color = gender?.includes(genderOption) ? "#2F5901" : "#A4BF3B";
           }
         } else {
-          color = selectedValues.includes(genderOption) ? "green" : "gray";
+          color = selectedValues.includes(genderOption) ? "#2F5901" : "#A4BF3B";
         }
         return {
           genderOption,
@@ -49,18 +63,20 @@ function Gender() {
   );
 
   return (
-    <div>
+    <Container>
       {buttonStyles.map(({ genderOption, style }) => (
-        <button
-          key={genderOption}
-          type="button"
-          onClick={() => handleOptionToggle(genderOption)}
-          style={style}
-        >
-          {genderOption}
-        </button>
+        <ButtonWrapper key={genderOption}>
+          <CommonButton
+            key={genderOption}
+            type="button"
+            onClick={() => handleOptionToggle(genderOption)}
+            style={style}
+          >
+            {genderOption}
+          </CommonButton>
+        </ButtonWrapper>
       ))}
-    </div>
+    </Container>
   );
 }
 

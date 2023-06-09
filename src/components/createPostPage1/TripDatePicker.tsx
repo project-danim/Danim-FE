@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import styled from "styled-components";
 import {
   tripEndDateState,
   tripStartDateState,
@@ -9,6 +10,41 @@ import {
 import convertDateFormat from "../../utils/convertDateFormat";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
+
+// DatePicker 스타일링 - Start
+const CustomStartInput = React.forwardRef(({ value, onClick }, ref) => (
+  <StyledInput onClick={onClick} ref={ref}>
+    {value || "출발 날짜를 알려주세요."}
+  </StyledInput>
+));
+
+// DatePicker 스타일링 - End
+const CustomEndInput = React.forwardRef(({ value, onClick }, ref) => (
+  <StyledInput onClick={onClick} ref={ref}>
+    {value || "도착 날짜를 알려주세요."}
+  </StyledInput>
+));
+
+const StyledInput = styled.div`
+  border: 0.5px solid #a3a3a3;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding: 9.5px 0;
+  padding-left: 12px;
+  width: 100%;
+  line-height: 22px;
+  border-radius: 8px;
+  color: #a3a3a3;
+`;
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const DatePickerWrapper = styled.div`
+  width: 100%;
+  margin: 5px;
+`;
 
 function TripDatePicker() {
   // 변환되어 recoil로 전달될 state
@@ -23,10 +59,6 @@ function TripDatePicker() {
   const postIsEditing = useRecoilValue(postIsEditingState);
 
   // DatePicker 에서 사용될 날짜 state
-  // const [startDate, setStartDate] = useState<Date | null>(new Date());
-  // const [endDate, setEndDate] = useState<Date | null>(null);
-
-  // postIsEditing 이 true이고 tripStart/endDate 가 있다면 그 값을 보여주고 false라면 값을 선택하게 출력
   const [startDate, setStartDate] = useState<Date | null>(
     postIsEditing && tripStartDate ? new Date(tripStartDate) : new Date()
   );
@@ -53,31 +85,34 @@ function TripDatePicker() {
   };
 
   return (
-    <div>
-      <DatePicker
-        selected={startDate}
-        onChange={handleStartChange}
-        selectsStart
-        startDate={startDate}
-        dateFormat="yyyy년 MM월 dd일"
-        endDate={endDate}
-        minDate={new Date()} // 오늘 이전의 날짜는 선택 불가능
-        isClearable
-        placeholderText="다님이 출발할 날짜를 알려주세요."
-      />
-      <DatePicker
-        selected={endDate}
-        onChange={handleEndChange}
-        selectsEnd
-        startDate={startDate}
-        dateFormat="yyyy년 MM월 dd일"
-        endDate={endDate}
-        minDate={startDate} // 시작 날짜 이전의 날짜는 선택 불가능
-        isClearable
-        placeholderText="다님이 끝날 날짜를 알려주세요."
-      />
-    </div>
+    <Container>
+      <DatePickerWrapper>
+        <DatePicker
+          selected={startDate}
+          onChange={handleStartChange}
+          selectsStart
+          startDate={startDate}
+          dateFormat="yyyy년 MM월 dd일"
+          endDate={endDate}
+          minDate={new Date()} // 오늘 이전의 날짜는 선택 불가능
+          placeholderText="다님이 출발할 날짜를 알려주세요."
+          customInput={<CustomStartInput />}
+        />
+      </DatePickerWrapper>
+      <DatePickerWrapper>
+        <DatePicker
+          selected={endDate}
+          onChange={handleEndChange}
+          selectsEnd
+          startDate={startDate}
+          dateFormat="yyyy년 MM월 dd일"
+          endDate={endDate}
+          minDate={startDate} // 시작 날짜 이전의 날짜는 선택 불가능
+          placeholderText="다님이 끝날 날짜를 알려주세요."
+          customInput={<CustomEndInput />}
+        />
+      </DatePickerWrapper>
+    </Container>
   );
 }
-
 export default TripDatePicker;
