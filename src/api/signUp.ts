@@ -51,7 +51,7 @@ export const fetchCheckId = async (id: string) => {
     }
     return "아이디 중복 검사 실패";
   } catch (err: any) {
-    const errMessage = err.response.data.detail;
+    const errMessage = err.response.data.detail || err.message;
     return errMessage;
   }
 };
@@ -110,7 +110,7 @@ export const fetchLogin = async (user: {
     }
     return response;
   } catch (err: any) {
-    const errMessage = err.response.data.detail;
+    const errMessage = err.response?.data.detail || err.message;
     return errMessage;
   }
 };
@@ -118,16 +118,23 @@ export const fetchLogin = async (user: {
 export const fetchLogout = async () => {
   try {
     const accessToken = getAccessToken();
-    const response = await axiosInstance.delete("/api/user/logout", {
-      headers: {
-        ACCESS_KEY: accessToken,
-      },
-    });
-    document.cookie =
-      "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    const refreshToken = getRefreshToken();
+    if (accessToken) {
+      const response = await axiosInstance.delete("/api/user/logout", {
+        headers: {
+          ACCESS_KEY: accessToken,
+        },
+      });
+      document.cookie =
+        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      return response;
+    }
+
     document.cookie =
       "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    return response;
+    return { data: "refreshToken 삭제 완료" };
   } catch (err) {
     showError(err);
     throw err;

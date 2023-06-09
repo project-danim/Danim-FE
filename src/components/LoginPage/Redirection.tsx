@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { axiosInstance, setCookie, showError } from "../../api/signUp";
 import SignUpForSocial from "../SignUpPage/SignUpForSocial";
-import { userIdState } from "../../recoil/login/userInfo";
+import userIdState from "../../recoil/login/userInfo";
 
 export const fetchKakaoToken = async (code: string) => {
   const response = await axiosInstance.get(

@@ -3,6 +3,7 @@ import styled from "styled-components";
 // 필터 버튼 프롭 타입
 type FilterButtonProps = {
   "data-active": boolean;
+  buttonName: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 // 공통 width 스타일
@@ -15,16 +16,24 @@ const CommonButton = styled.button<FilterButtonProps>`
   font-size: 16px;
   border: none;
   border-radius: 20px;
-  padding: 8px 12px;
+  padding: ${(props) =>
+    props.buttonName === "ageButton" ? "8px 31px" : "8px 12px"};
   background-color: #ffffff;
   background-color: ${(props) =>
     props["data-active"] ? "#2E5902" : "#ffffff"};
   color: ${(props) => (props["data-active"] ? "#ffffff" : "#2E5902")};
+  transition: 0.2s all ease-in-out;
+  box-sizing: border-box;
+  border: ${(props) =>
+    props.buttonName === "ageButton" ? "1px solid #E4EDC5" : "none"};
   &:hover {
     cursor: pointer;
+    background-color: #2e5902;
+    color: #ffffff;
   }
   @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 14px;
+    font-size: ${(props) =>
+      props.buttonName === "ageButton" ? "11px" : "14px"};
     border-radius: 20px;
     padding: 6px 10px;
   }
@@ -38,6 +47,7 @@ const CommonLableNameText = styled.p`
   text-align: left;
   color: #858585;
   margin-bottom: 0px;
+  margin-top: 0;
   @media (max-width: 1400px) and (min-width: 320px) {
     font-size: 12px;
   }
@@ -137,6 +147,7 @@ const LocationAndSizeContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 24px;
 `;
 
 // 인원수 컨테이너
@@ -144,6 +155,23 @@ const GroupSizeContainer = styled.div`
   margin-left: 24px;
   @media (max-width: 1400px) and (min-width: 320px) {
     margin-left: 10px;
+  }
+`;
+
+// 연령대 컨테이너
+const AgeContainer = styled.div`
+  padding: 0 12px;
+  box-sizing: border-box;
+  width: 100%;
+`;
+
+// 연령대 버튼 컨테이너
+const AgeButtonContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 24px;
+  @media (max-width: 1400px) and (min-width: 320px) {
+    gap: 4px 10px;
   }
 `;
 
@@ -206,6 +234,8 @@ export default {
   TitleInput,
   LocationAndSizeContainer,
   GroupSizeContainer,
+  AgeContainer,
+  AgeButtonContainer,
   StyleContainer,
   SocialLoginContainer,
   SocialExplainText,

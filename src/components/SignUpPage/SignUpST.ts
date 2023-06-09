@@ -21,8 +21,10 @@ const OriginalButton = styled.button`
   border: none;
   border-radius: 8px;
   font-weight: 400;
+  transition: 0.1s all ease-in-out;
   &:hover {
     cursor: pointer;
+    background-color: #2e5902;
   }
   @media (max-width: 1400px) and (min-width: 320px) {
     font-size: 11px;
@@ -190,6 +192,11 @@ const GenderButton = styled.button<GenderButtonProps>`
   border-radius: 8px;
   cursor: pointer;
   background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
+  transition: 0.1s all ease-in-out;
+  &:hover {
+    cursor: pointer;
+    background-color: #2e5902;
+  }
   @media (max-width: 1400px) and (min-width: 320px) {
     padding: 10px 40px;
     font-size: 12px;
@@ -220,6 +227,11 @@ const AgeButton = styled.button<GenderButtonProps>`
   font-weight: 500;
   cursor: pointer;
   background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
+  transition: 0.1s all ease-in-out;
+  &:hover {
+    cursor: pointer;
+    background-color: #2e5902;
+  }
   @media (max-width: 1400px) and (min-width: 320px) {
     font-size: 12px;
     height: 32px;
