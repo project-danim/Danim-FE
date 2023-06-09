@@ -15,6 +15,7 @@ import LoginPage from "../pages/LoginPage";
 import Redirection from "../components/LoginPage/Redirection";
 import SignUpForSocialPage from "../pages/SignUp/SignUpForSocialPage";
 import HomeLayout from "../components/common/HomeLayout";
+import ChatPage from "../pages/Chat/ChatPage";
 import MyPage from "../pages/My/MyPage";
 
 function Router() {
@@ -33,6 +34,7 @@ function Router() {
           <Route path="/signup/social" element={<SignUpForSocialPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="/api/user/kakao/callback" element={<Redirection />} />
+          <Route path="/chat" element={<ChatPage />} />
           {/* 👇 존재하지 않는 페이지에 대한 처리 */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>

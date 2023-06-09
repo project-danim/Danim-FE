@@ -6,7 +6,7 @@ import useToggle from "../../hooks/useToggle";
 import { fetchSignUpForSocial } from "../../api/signUp";
 import st from "./SignUpST";
 import { UserInfoForKakao } from "../../types/userType";
-import { userIdState } from "../../recoil/login/userInfo";
+import userIdState from "../../recoil/login/userInfo";
 
 function SignUpForSocial() {
   const [userIdAtom, setUserId] = useRecoilState(userIdState);

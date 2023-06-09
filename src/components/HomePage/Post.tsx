@@ -29,26 +29,24 @@ const Post = React.forwardRef<any, PostProps>(
       const tripEndDate = `${year}-${month}-${day}`;
       return tripEndDate;
     };
-
     return (
       <div>
-        {isSearched ? (
-          <div key={post.id} ref={ref}>
-            <p>게시글 제목 : {post.title}</p>
-            <p>닉네임 : {post.nickname}</p>
-            <img src={post.imageUrl} alt="게시글 이미지" />
-            <p>
-              모집 인원 : {post.numberOfParticipants}/{post.groupSize}
-            </p>
-            {/* (키워드 / 지역 / 모집인원 / 연령대) */}
-            <p>모집 기한 : {getEndDate(post.recruitmentEndDate)}</p>
-            <div>게시글 지역 : {post.location}</div>
-            <div>게시글 : {post.groupSize}</div>
-            <div>게시글 : {post.ageRange}</div>
-            <div>게시글자체 키워드 : {post.keyword}</div>
-            <button type="button">자세히 보기</button>
+        {/* {isSearched ? ( */}
+        <div key={post.id} ref={ref}>
+          <p>게시글 제목 : {post.title}</p>
+          <p>닉네임 : {post.nickname}</p>
+          <img src={post.imageUrl} alt="게시글 이미지" />
+          <p>
+            모집 인원 : {post.numberOfParticipants}/{post.groupSize}
+          </p>
+          <p>모집 기한 : {getEndDate(post.recruitmentEndDate)}</p>
+          <div>
+            게시글 키워드 :
+            <span>{`${post.keyword} ${post.location} ${post.groupSize}명 ${post.ageRange}`}</span>
           </div>
-        ) : (
+          <button type="button">자세히 보기</button>
+        </div>
+        {/* ) : (
           <div key={post.id} ref={ref}>
             <p>게시글 제목 : {post.title}</p>
             <p>닉네임 : {post.nickname}</p>
@@ -61,7 +59,7 @@ const Post = React.forwardRef<any, PostProps>(
             <div>게시글 연령대 : {post.ageRange}</div>
             <button type="button">자세히 보기</button>
           </div>
-        )}
+        )} */}
       </div>
     );
   }

@@ -1,28 +1,38 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import useInput from "../../hooks/useInput";
 import st from "./SignUpST";
-import { fetchCheckNickname, fetchSignUp } from "../../api/signUp";
+import { fetchSignUp } from "../../api/signUp";
 import { ApiResponse, ErrorResponse } from "../../types/apiType";
 import { User } from "../../types/userType";
 import useToggle from "../../hooks/useToggle";
 import UserId from "./UserId";
+import {
+  isNicknameUniqueState,
+  isUserIdUniqueState,
+  nicknameState,
+  signUpUserIdState,
+} from "../../recoil/signUp/userInfo";
+import Nickname from "./Nickname";
 
 function SignUp() {
   // 아이디, 비밀번호, 닉네임, 성별, 나이 입력값 state
-  const [userId, , setUserId, userIdRef] = useInput("");
-  const [isIdUnique, , setIsIdUnique] = useToggle(false);
+  const [userId] = useRecoilState(signUpUserIdState);
+  const userIdRef = useRef<any>();
+  const [isIdUnique] = useRecoilState(isUserIdUniqueState);
   const [password, handleChangePassword, , passwordRef] = useInput("");
   const [passwordCheck, handleChangePasswordCheck, , passwordCheckRef] =
     useInput("");
-  const [nickname, handleChangeNickname, , nicknameRef] = useInput("");
-  const [isNicknameUnique, , setIsNicknameUnique] = useToggle(false);
+  const [nickname] = useRecoilState(nicknameState);
+  const nicknameRef = useRef<any>();
+  const [isNicknameUnique] = useRecoilState(isNicknameUniqueState);
   const [activeGender, setActiveGender] = useState("");
   const userGenderRef = useRef<HTMLButtonElement>(null);
-  const [agreeGender, handleAgreeGender, setAgreeGender] = useToggle(false);
+  const [agreeGender, handleAgreeGender] = useToggle(false);
   const [activeAge, setActiveAge] = useState("");
-  const [agreeForAge, handleIsAgreeForAge, setIsAgreeForAge] = useToggle(false);
+  const [agreeForAge, handleIsAgreeForAge] = useToggle(false);
 
   // 아이디, 비밀번호, 닉네임, 성별, 연령대 에러 메세지 상태
   const [userIdError, setUserIdError] = useState("");
@@ -38,72 +48,6 @@ function SignUp() {
   // 성별과 연령대 정보 배열
   const genders = ["남", "여"];
   const ages = ["10대(성인)", "20대", "30대", "40대", "50대", "60대 이상"];
-
-  // 아이디 입력 핸들러
-  const handleIdChange = (newId: string) => {
-    setUserId(newId);
-  };
-
-  // 아이디 유효성 검사
-  useEffect(() => {
-    const idPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!!userId && !idPattern.test(userId)) {
-      setUserIdError("올바르지 않은 아이디 형식입니다.");
-      return;
-    }
-    if (userId && !isIdUnique) {
-      setUserIdError("아이디 중복을 확인하세요.");
-      return;
-    }
-    if (!!userId && !!isIdUnique) {
-      setUserIdError("사용 가능한 아이디입니다.");
-    }
-  }, [userId]);
-
-  // 닉네임 중복검사 뮤테이션 함수
-  const { mutate: mutateCheckNickname } = useMutation(fetchCheckNickname, {
-    onSuccess: (response) => {
-      if (response === "닉네임 중복 검사 성공") {
-        setIsNicknameUnique(true);
-        return;
-      }
-      if (response === "중복된 닉네임 입니다.") {
-        setIsNicknameUnique(false);
-        setNicknameError("중복된 닉네임입니다.");
-      }
-    },
-    onError: (error) => {
-      console.log("실패", error);
-    },
-  });
-
-  // 닉네임 중복 검사
-  const handleCheckNicknameBtnClick = () => {
-    mutateCheckNickname(nickname);
-  };
-
-  // 닉네임 유효성 검사
-  useEffect(() => {
-    const nicknamePattern = /^[\dA-Za-z가-힣]{3,8}$/;
-    const specCharPattern = /[\p{P}\p{S}\s]+/u;
-    if (!nickname) {
-      setNicknameError("");
-    }
-    if (nickname && specCharPattern.test(nickname)) {
-      setNicknameError("특수문자는 허용되지 않습니다.");
-      return;
-    }
-    if (nickname && !nicknamePattern.test(nickname)) {
-      setNicknameError("한글/영문의 3~8자로 입력하세요.");
-      return;
-    }
-    if (nickname && !isNicknameUnique) {
-      setNicknameError("닉네임 중복을 확인하세요.");
-    }
-    if (nickname && isNicknameUnique) {
-      setNicknameError("사용 가능한 닉네임입니다.");
-    }
-  }, [nickname, isNicknameUnique]);
 
   // 비밀번호 유효성 검사
   useEffect(() => {
@@ -270,36 +214,13 @@ function SignUp() {
       <st.UserInfoContainer>
         <UserId
           pageName="signUpPage"
-          onIdChange={handleIdChange}
           idRef={userIdRef}
           signUpIdError={userIdError}
-          setIsIdUnique={setIsIdUnique}
         />
-        <label htmlFor="userNickname">
-          <st.IdAreaExplainText>*닉네임 설정</st.IdAreaExplainText>
-          <st.IdAreaContainer>
-            <st.CommonInput
-              type="text"
-              value={nickname}
-              onChange={handleChangeNickname}
-              ref={nicknameRef}
-              id="userNickname"
-              placeholder="닉네임은 8자 이내로 입력해 주세요."
-              aria-describedby="userNicknameError"
-              maxLength={8}
-              size={28}
-            />
-            <st.OriginalButton
-              type="submit"
-              onClick={handleCheckNicknameBtnClick}
-            >
-              중복 확인
-            </st.OriginalButton>
-          </st.IdAreaContainer>
-        </label>
-        <st.CommonErrorText role="alert" id="userNicknameError">
-          {nicknameError}
-        </st.CommonErrorText>
+        <Nickname
+          nicknameRef={nicknameRef}
+          signUpNicknameError={nicknameError}
+        />
         <div>
           <label htmlFor="userPassword">
             <st.IdAreaExplainText>*비밀번호 설정</st.IdAreaExplainText>
