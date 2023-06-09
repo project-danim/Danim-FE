@@ -37,7 +37,8 @@ function Posts() {
     onSuccess: (response) => {
       if (response.statusCode === 200) {
         handleSearchClicked(true);
-        setFilteredPosts([...filteredPosts, ...response.data]);
+        // 중복된 데이터 또 렌더링 하지 않게 처리
+        setFilteredPosts((prevData) => [...response.data]);
         // 더 이상 가져올 데이터 없음
         if (response.data.length < size) {
           setHasMore(false);
@@ -78,19 +79,22 @@ function Posts() {
 
   // 검색된 게시글 불러오기
   const getSearchedPosts = () => {
+    // 더 이상 불러올 데이터가 없다면 종료
     if (!hasMore) return;
-    if (allFilter.length !== 0) {
-      const allKeyword = allFilter;
-      mutateSearch({ allKeyword, page, size });
-    }
+    const allKeyword = allFilter;
+    mutateSearch({ allKeyword, page, size });
   };
 
   // page 값에 따른 전체 게시글 불러오기
   useEffect(() => {
-    getAllPosts();
-    if (isSearched) {
-      getSearchedPosts();
-    }
+    const getPosts = async () => {
+      if (isSearched) {
+        await getSearchedPosts();
+      } else {
+        await getAllPosts();
+      }
+    };
+    getPosts();
   }, [page]);
 
   // 옵저버 객체 생성
@@ -108,7 +112,7 @@ function Posts() {
       // 데이터가 불러와지기 전에 실행하면 안되니까 lastPostRef.current가 있을때로 조건 생성
       observer.current.observe(lastPostRef.current);
     }
-  }, [allPosts]);
+  }, [allPosts, filteredPosts]);
 
   return (
     <div>
@@ -119,7 +123,7 @@ function Posts() {
           <div>
             {filteredPosts.length !== 0 ? (
               filteredPosts.map((post: any, index) => {
-                if (index === allPosts.length - 1) {
+                if (index === filteredPosts.length - 1) {
                   return (
                     <Post
                       ref={lastPostRef}
@@ -165,7 +169,7 @@ function Posts() {
                 );
               })
             ) : (
-              <div>게시글이 존재하지 않습니다.</div>
+              <div>조건에 맞는 게시글이 존재하지 않습니다.</div>
             )}
           </div>
         )}
@@ -173,5 +177,4 @@ function Posts() {
     </div>
   );
 }
-
 export default Posts;
