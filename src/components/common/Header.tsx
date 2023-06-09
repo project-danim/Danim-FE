@@ -102,8 +102,18 @@ function Header() {
     navigate("/login");
   };
 
+  // 채팅하기 버튼 클릭시
+  const handleChatButtonClick = () => {
+    navigate("/chat");
+  };
+
+  // 마이페이지 버튼 클릭시
+  const handleMyPageButtonClick = () => {
+    navigate("/mypage");
+  };
+
   // 로그아웃 버튼 클릭시
-  const handleLogoutBtnClick = () => {
+  const handleLogoutButtonClick = () => {
     mutateLogout();
     setUserAccessCookie(null);
     setUserRefreshCookie(null);
@@ -124,9 +134,13 @@ function Header() {
             <button type="button" onClick={handleCreatePostClick}>
               동행 만들기
             </button>
-            <button type="button">채팅하기</button>
-            <button type="button">마이 페이지</button>
-            <button type="button" onClick={handleLogoutBtnClick}>
+            <button type="button" onClick={handleChatButtonClick}>
+              채팅하기
+            </button>
+            <button type="button" onClick={handleMyPageButtonClick}>
+              마이 페이지
+            </button>
+            <button type="button" onClick={handleLogoutButtonClick}>
               로그아웃
             </button>
           </>
