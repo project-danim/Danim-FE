@@ -43,19 +43,30 @@ function FilterBar() {
   const [isGroupSizeToggled, handleIsGroupSizeToggled] = useToggle(false);
   // 현재 검색된 상태인지 토글 state
   const [isSearched, handleSearchClicked] = useRecoilState(isSearchClicked);
+  // 더 이상 불러올 데이터가 있는지 표시하는 상태
+  const [hasMore, setHasMore] = useState(true);
 
   // 게시글 페이지 state
   const [page, setPage] = useState(0);
+  const size = 3;
 
   // 검색 뮤테이션 함수
   const { mutate: mutateSearch } = useMutation(fetchSearch, {
     onSuccess: (response) => {
       if (response.statusCode === 200) {
         handleSearchClicked(true);
-        setFilteredPosts([...filteredPosts, ...response.data]);
+        // 중복된 데이터 또 렌더링 하지 않게 처리
+        console.log("여기임...");
+        setFilteredPosts((prevData) => [...response.data]);
+        // 더 이상 가져올 데이터 없음
+        if (response.data.length < size) {
+          setHasMore(false);
+          console.log(page, "더 이상 가져올 데이터 없음");
+        }
       }
     },
     onError: (error) => {
+      console.log("애애앵애");
       console.log(error);
       alert("요청이 실패했습니다. 다시 시도해주세요!");
     },
@@ -127,7 +138,6 @@ function FilterBar() {
       groupSize: groupSizeNumber !== 0 ? groupSizeNumber : null,
       searchKeyword: titleValue !== "" ? titleValue : null,
     };
-    const size = 3;
     setAllKeyword({ ...allKeyword });
     mutateSearch({ allKeyword, page, size });
   };
@@ -138,6 +148,7 @@ function FilterBar() {
       <st.KeywordFilterContainer>
         {keywordList.map((keyword) => (
           <st.CommonButton
+            buttonName="keywordButton"
             key={keyword}
             type="button"
             onClick={handleSelectKeyword}
@@ -225,19 +236,22 @@ function FilterBar() {
           </st.LocationAndSizeContainer>
         </st.StyleContainer>
         {/* 연령대 필터 박스 */}
-        <st.GroupSizeContainer>
+        <st.AgeContainer>
           <st.CommonLableNameText>연령대</st.CommonLableNameText>
-          {ageList.map((age) => (
-            <button
-              key={age}
-              type="button"
-              onClick={handleSelectedAge}
-              data-active={selectedAge.includes(age)}
-            >
-              {age}
-            </button>
-          ))}
-        </st.GroupSizeContainer>
+          <st.AgeButtonContainer>
+            {ageList.map((age) => (
+              <st.CommonButton
+                buttonName="ageButton"
+                key={age}
+                type="button"
+                onClick={handleSelectedAge}
+                data-active={selectedAge.includes(age)}
+              >
+                {age}
+              </st.CommonButton>
+            ))}
+          </st.AgeButtonContainer>
+        </st.AgeContainer>
       </st.DetailFilterContainer>
       <button type="button" onClick={handleClickSearchButton}>
         검색
