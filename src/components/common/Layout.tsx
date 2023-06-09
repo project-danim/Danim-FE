@@ -23,7 +23,7 @@ function Layout() {
       <OutletWrapper>
         <Outlet />
       </OutletWrapper>
-      <Footer />
+      {/* <Footer /> */}
     </Container>
   );
 }
