@@ -1,45 +1,44 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import st from "./SignUpST";
-import useInput from "../../hooks/useInput";
-import useToggle from "../../hooks/useToggle";
 import { fetchCheckId } from "../../api/signUp";
+import {
+  isUserIdUniqueState,
+  signUpUserIdState,
+} from "../../recoil/signUp/userInfo";
+import loginUserIdState from "../../recoil/login/userInfo";
 
 interface MyComponentProps {
   pageName: string;
-  onIdChange: any;
   idRef: any;
   loginIdError?: string;
   signUpIdError?: string;
-  setIsIdUnique?: any;
 }
 
 function UserId({
   pageName,
-  onIdChange,
   idRef,
   loginIdError,
   signUpIdError,
-  setIsIdUnique,
 }: MyComponentProps) {
-  // 아이디 입력값 state
-  const [userId, handleChangeUserId, setUserId] = useInput("");
-
+  // 아이디 입력값, 아이디 중복 여부 state
+  const [signUpUserId, setSignUpUserId] = useRecoilState(signUpUserIdState);
+  const [loginUserId, setLoginUserId] = useRecoilState(loginUserIdState);
+  const [isIdUnique, setIsIdUnique] = useRecoilState(isUserIdUniqueState);
   // 아이디 에러 메세지 state
   const [userIdError, setUserIdError] = useState("");
 
   // 로그인 아이디 값 입력 핸들러
   const handleChangeLoginId = (e: ChangeEvent<HTMLInputElement>) => {
     const newUserId = e.target.value;
-    setUserId(newUserId);
-    onIdChange(newUserId);
+    setLoginUserId(newUserId);
   };
 
   // 회원가입 아이디 값 입력 핸들러
   const handleChangeSignUpId = (e: ChangeEvent<HTMLInputElement>) => {
     const newUserId = e.target.value;
-    setUserId(newUserId);
-    onIdChange(newUserId);
+    setSignUpUserId(newUserId);
   };
 
   // 아이디 중복 검사 뮤테이션 함수
@@ -63,14 +62,31 @@ function UserId({
   // 아이디 중복 검사
   const handleCheckIdBtnClick = () => {
     // 아이디 값이 없는 상태로 중복검사 요청시
-    if (!userId) {
+    if (!signUpUserId) {
       idRef.current?.focus();
       setUserIdError("아이디를 입력하세요.");
       return;
     }
-    mutateCheckId(userId);
+    mutateCheckId(signUpUserId);
   };
 
+  useEffect(() => {
+    const idPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!!signUpUserId && !idPattern.test(signUpUserId)) {
+      setUserIdError((prevError) => "올바르지 않은 아이디 형식입니다.");
+      setIsIdUnique(false); // 입력값이 변경될 때마다 중복검사를 초기화
+      return;
+    }
+
+    if (signUpUserId) {
+      setUserIdError("아이디 중복을 확인하세요.");
+      setIsIdUnique(false); // 입력값이 변경될 때마다 중복검사를 초기화
+      return;
+    }
+    if (!!signUpUserId && !!isIdUnique) {
+      setUserIdError((prevError) => "사용 가능한 아이디입니다.");
+    }
+  }, [signUpUserId]);
   return (
     <div>
       {pageName === "loginPage" ? (
@@ -80,7 +96,7 @@ function UserId({
             <st.CommonInput
               ref={idRef}
               type="text"
-              value={userId}
+              value={loginUserId}
               onChange={handleChangeLoginId}
               placeholder="이메일 주소를 입력해주세요."
               aria-describedby="idInputError"
@@ -98,7 +114,7 @@ function UserId({
               <st.CommonInput
                 id="userId"
                 type="text"
-                value={userId}
+                value={signUpUserId}
                 onChange={handleChangeSignUpId}
                 ref={idRef}
                 placeholder="이메일 주소를 입력해 주세요."
@@ -120,6 +136,5 @@ function UserId({
 UserId.defaultProps = {
   loginIdError: "",
   signUpIdError: "",
-  setIsIdUnique: null,
 };
 export default UserId;
