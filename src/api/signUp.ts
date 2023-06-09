@@ -51,7 +51,7 @@ export const fetchCheckId = async (id: string) => {
     }
     return "아이디 중복 검사 실패";
   } catch (err: any) {
-    const errMessage = err.response.data.detail;
+    const errMessage = err.response.data.detail || err.message;
     return errMessage;
   }
 };
