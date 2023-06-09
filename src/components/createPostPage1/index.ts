@@ -5,6 +5,7 @@ import Gender from "./Gender";
 import TripDatePicker from "./TripDatePicker";
 import RecruitmentDatePicker from "./RecruitmentDatePicker";
 import RecruitmentCouter from "./RecruitmentCouter";
+import PostTitle from "./PostTitle";
 
 export {
   Keywords,
@@ -14,4 +15,5 @@ export {
   TripDatePicker,
   RecruitmentDatePicker,
   RecruitmentCouter,
+  PostTitle,
 };

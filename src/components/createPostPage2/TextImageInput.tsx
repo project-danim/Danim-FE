@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -23,6 +23,7 @@ function TextImageInput() {
 
   // 테그들과 이미지url이 포함된 작성자가 작성한 contents
   const [quillContent, setQuillContent] = useRecoilState(tripPostContentState);
+  console.log(quillContent);
 
   // 서버에서 전달받은 이미지 urls []
   const [returnImageUrls, setReturnImageUrls] = useRecoilState(imageUrlsState);
@@ -68,10 +69,11 @@ function TextImageInput() {
 
   // if editing, initialize the content and images
   useEffect(() => {
-    if (postIsEditing) {
-      const quill = quillRef.current?.getEditor();
-      quill?.setContents(content || "");
-      setReturnImageUrls(imageUrls);
+    if (postIsEditing && quillRef.current) {
+      const quill = quillRef.current.getEditor();
+      quill.setContents(quill.clipboard.convert(content || ""));
+      setQuillContent(content || "");
+      setReturnImageUrls(imageUrls || []);
     }
   }, [postIsEditing, content, imageUrls]);
 
@@ -81,6 +83,7 @@ function TextImageInput() {
       <ReactQuill
         ref={quillRef}
         theme="snow"
+        value={quillContent}
         modules={modules}
         onChange={handleQuillChange}
       />

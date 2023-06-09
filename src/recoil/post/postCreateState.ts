@@ -58,8 +58,8 @@ export const tripEndDateState = atom<string | null>({
 
 // 여행에 관련된 상세 설명 게시글 - type은 import 됨
 export const tripPostContentState = atom<string>({
-  key: "tripPostContentState", // unique ID (with respect to other atoms/selectors)
-  default: "", // default value (aka initial value)
+  key: "tripPostContentState", //
+  default: "",
 });
 
 // 지도 - 장소와 각각의 장소를 방문할 날짜 []

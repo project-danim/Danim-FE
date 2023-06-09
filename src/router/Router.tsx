@@ -16,6 +16,7 @@ import Redirection from "../components/LoginPage/Redirection";
 import SignUpForSocialPage from "../pages/SignUp/SignUpForSocialPage";
 import HomeLayout from "../components/common/HomeLayout";
 import ChatPage from "../pages/Chat/ChatPage";
+import MyPage from "../pages/My/MyPage";
 
 function Router() {
   return (
@@ -39,6 +40,7 @@ function Router() {
         </Route>
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="MyPage" element={<MyPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
