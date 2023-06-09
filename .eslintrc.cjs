@@ -33,6 +33,7 @@ module.exports = {
     "react/prop-types": "off",
     "import/extensions": "off",
     "no-console": "off",
+    "react/no-array-index-key": "off",
     "max-len": ["error", { code: 120 }],
     "jsx-a11y/label-has-associated-control": [
       2,
