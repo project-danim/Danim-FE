@@ -20,6 +20,8 @@ interface PostData {
   tripStartDate?: string;
 }
 
+// console.log("Content:", content);
+
 export const PostGetState = atom<PostData | null>({
   key: "PostGetState",
   default: null,

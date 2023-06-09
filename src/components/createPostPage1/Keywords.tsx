@@ -1,8 +1,21 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useMemo } from "react";
+import styled from "styled-components";
 import { selectedKeywordState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
+import CommonButton from "../common/CommonButton";
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const ButtonWrapper = styled.div`
+  margin: 0 5px 0 5px;
+  width: 100%;
+  /* display: flex; */
+  /* align-items: center; */
+`;
 
 function Keywords() {
   const keywordOptions = ["맛집탐방", "투어", "포토스팟", "성지순례", "쇼핑"];
@@ -25,13 +38,13 @@ function Keywords() {
         // postIsEditing 이 true 일때 -> 수정 중 일때
         if (postIsEditing) {
           if (selectedValue) {
-            color = keywordOption === selectedValue ? "green" : "gray";
+            color = keywordOption === selectedValue ? "#2F5901" : "#A4BF3B";
           } else {
-            color = keywordOption === keyword ? "green" : "gray";
+            color = keywordOption === keyword ? "#2F5901" : "#A4BF3B";
           }
           // postIsEditing 이 false 일때 -> 글이 작성 중 일때
         } else {
-          color = keywordOption === selectedValue ? "green" : "gray";
+          color = keywordOption === selectedValue ? "#2F5901" : "#A4BF3B";
         }
         return {
           keywordOption,
@@ -46,18 +59,19 @@ function Keywords() {
   };
 
   return (
-    <div>
+    <Container>
       {buttonStyles.map(({ keywordOption, style }) => (
-        <button
-          key={keywordOption}
-          type="button"
-          onClick={() => handleOptionToggle(keywordOption)}
-          style={style}
-        >
-          {keywordOption}
-        </button>
+        <ButtonWrapper key={keywordOption}>
+          <CommonButton
+            type="button"
+            onClick={() => handleOptionToggle(keywordOption)}
+            style={style}
+          >
+            {keywordOption}
+          </CommonButton>
+        </ButtonWrapper>
       ))}
-    </div>
+    </Container>
   );
 }
 

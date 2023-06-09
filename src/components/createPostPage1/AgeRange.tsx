@@ -1,8 +1,20 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useMemo } from "react";
+import styled from "styled-components";
 import { selectedAgeRangeState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
+import CommonButton from "../common/CommonButton";
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 두 개의 열로 설정 */
+  width: 100%;
+`;
+
+const ButtonWrapper = styled.div`
+  margin: 5px;
+`;
 
 function AgeRange() {
   const ageOptions = ["10대(성인)", "20대", "30대", "40대", "50대", "60대이상"];
@@ -32,12 +44,12 @@ function AgeRange() {
         let color = "gray";
         if (postIsEditing) {
           if (selectedValues.length) {
-            color = selectedValues.includes(ageOption) ? "green" : "gray";
+            color = selectedValues.includes(ageOption) ? "#2F5901" : "#A4BF3B";
           } else {
-            color = ageRange?.includes(ageOption) ? "green" : "gray";
+            color = ageRange?.includes(ageOption) ? "#2F5901" : "#A4BF3B";
           }
         } else {
-          color = selectedValues.includes(ageOption) ? "green" : "gray";
+          color = selectedValues.includes(ageOption) ? "#2F5901" : "#A4BF3B";
         }
         return {
           ageOption,
@@ -48,18 +60,20 @@ function AgeRange() {
   );
 
   return (
-    <div>
+    <Container>
       {buttonStyles.map(({ ageOption, style }) => (
-        <button
-          key={ageOption}
-          type="button"
-          onClick={() => handleOptionToggle(ageOption)}
-          style={style}
-        >
-          {ageOption}
-        </button>
+        <ButtonWrapper key={ageOption}>
+          <CommonButton
+            key={ageOption}
+            type="button"
+            onClick={() => handleOptionToggle(ageOption)}
+            style={style}
+          >
+            {ageOption}
+          </CommonButton>
+        </ButtonWrapper>
       ))}
-    </div>
+    </Container>
   );
 }
 

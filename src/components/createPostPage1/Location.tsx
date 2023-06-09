@@ -1,8 +1,20 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useMemo } from "react";
+import styled from "styled-components";
 import { selectedLocationState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
+import CommonButton from "../common/CommonButton";
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 두 개의 열로 설정 */
+  width: 100%;
+`;
+
+const ButtonWrapper = styled.div`
+  margin: 5px;
+`;
 
 function Location() {
   const keywordOptions = [
@@ -42,13 +54,13 @@ function Location() {
         // postIsEditing 이 true 일때 -> 수정 중 일때
         if (postIsEditing) {
           if (selectedValue) {
-            color = keywordOption === selectedValue ? "green" : "gray";
+            color = keywordOption === selectedValue ? "#2F5901" : "#A4BF3B";
           } else {
-            color = keywordOption === location ? "green" : "gray";
+            color = keywordOption === location ? "#2F5901" : "#A4BF3B";
           }
           // postIsEditing 이 false 일때 -> 글이 작성 중 일때
         } else {
-          color = keywordOption === selectedValue ? "green" : "gray";
+          color = keywordOption === selectedValue ? "#2F5901" : "#A4BF3B";
         }
         return {
           keywordOption,
@@ -59,18 +71,20 @@ function Location() {
   );
 
   return (
-    <div>
+    <Container>
       {buttonStyles.map(({ keywordOption, style }) => (
-        <button
-          key={keywordOption}
-          type="button"
-          onClick={() => handleOptionToggle(keywordOption)}
-          style={style}
-        >
-          {keywordOption}
-        </button>
+        <ButtonWrapper key={keywordOption}>
+          <CommonButton
+            key={keywordOption}
+            type="button"
+            onClick={() => handleOptionToggle(keywordOption)}
+            style={style}
+          >
+            {keywordOption}
+          </CommonButton>
+        </ButtonWrapper>
       ))}
-    </div>
+    </Container>
   );
 }
 
