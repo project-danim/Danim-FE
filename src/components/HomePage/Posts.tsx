@@ -37,8 +37,7 @@ function Posts() {
     onSuccess: (response) => {
       if (response.statusCode === 200) {
         handleSearchClicked(true);
-        // 중복된 데이터 또 렌더링 하지 않게 처리
-        setFilteredPosts((prevData) => [...response.data]);
+        setFilteredPosts((prevData) => [...prevData, ...response.data]);
         // 더 이상 가져올 데이터 없음
         if (response.data.length < size) {
           setHasMore(false);
