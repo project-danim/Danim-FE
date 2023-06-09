@@ -1,31 +1,26 @@
-import { useRecoilState } from "recoil";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
+import { useRecoilState } from "recoil";
 import KAKAO_AUTH_URL from "./kakaoAuth";
 import useInput from "../../hooks/useInput";
 import { fetchLogin } from "../../api/signUp";
 import st from "../SignUpPage/SignUpST";
 import loginSt from "./LoginST";
 import UserId from "../SignUpPage/UserId";
-import { userCookieState } from "../../recoil/login/userInfo";
+import loginUserIdState from "../../recoil/login/userInfo";
 
 function Login() {
   // 아이디 입력값 state , 아이디 에러 메세지 state
-  const [userId, , setUserId, userIdRef] = useInput("");
+  const [userId] = useRecoilState(loginUserIdState);
+  const userIdRef = useRef<any>();
   const [userIdError, setUserIdError] = useState("");
   // 비밀번호 입력값 state, 비밀번호 에러 메세지 state
   const [password, handleChangePassword, , passwordRef] = useInput("");
   const [passwordError, setPasswordError] = useState("");
-  // 사용자 쿠키 state
-  const [userCookie, setUserCookie] = useRecoilState(userCookieState);
+
   // 네비게이트 함수 생성
   const navigate = useNavigate();
-
-  // 아이디 입력 핸들러
-  const handleIdChange = (newId: string) => {
-    setUserId(newId);
-  };
 
   // 아이디 유효성 검사
   useEffect(() => {
@@ -49,8 +44,6 @@ function Login() {
         return alert(response);
       }
       if (response.data.message === "로그인 성공") {
-        const { cookie } = document;
-        setUserCookie(cookie);
         return navigate("/");
       }
       return alert("로그인을 다시 시도해주세요.");
@@ -113,7 +106,6 @@ function Login() {
     <st.ContainerForm>
       <UserId
         pageName="loginPage"
-        onIdChange={handleIdChange}
         idRef={userIdRef}
         loginIdError={userIdError}
       />
