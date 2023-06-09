@@ -1,8 +1,10 @@
-import styled from "styled-components";
 import { useRecoilState } from "recoil";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { fetchLogout } from "../../api/signUp";
-import { userCookieState } from "../../recoil/login/userInfo";
+import { useState } from "react";
+import { useMutation } from "react-query";
+import { fetchLogout, getAccessToken, getRefreshToken } from "../../api/signUp";
+import loginUserIdState from "../../recoil/login/userInfo";
 
 // 버튼 프롭 타입 정의
 type CommonStyleButtonProps = {
@@ -59,10 +61,31 @@ const CommonStyleButton = styled.button<CommonStyleButtonProps>`
 `;
 
 function Header() {
-  const [userCookie, setUserCookie] = useRecoilState(userCookieState);
+  const accessToken = getAccessToken();
+  const refreshToken = getRefreshToken();
+  const [userAccessCookie, setUserAccessCookie] = useState(accessToken);
+  const [userRefreshCookie, setUserRefreshCookie] = useState(refreshToken);
+  const [loginUserId, setLoginUserId] = useRecoilState(loginUserIdState);
 
   // 네비게이트 함수 생성
   const navigate = useNavigate();
+
+  // 로그아웃 뮤테이션 함수
+  const { mutate: mutateLogout } = useMutation(fetchLogout, {
+    onSuccess: (response) => {
+      if (response.data === "refreshToken 삭제 완료") {
+        alert("로그아웃이 완료되었습니다.");
+
+        return navigate("/");
+      }
+      alert("로그아웃이 완료되었습니다.");
+      return navigate("/");
+    },
+    onError: (error: any) => {
+      console.log(error);
+      alert("요청 실패 : 로그아웃을 다시 시도해 주세요.");
+    },
+  });
 
   // 다님 로고 클릭시
   const handleClickDanimLogo = () => {
@@ -81,9 +104,10 @@ function Header() {
 
   // 로그아웃 버튼 클릭시
   const handleLogoutBtnClick = () => {
-    fetchLogout();
-    alert("로그아웃이 완료되었습니다!");
-    setUserCookie("");
+    mutateLogout();
+    setUserAccessCookie(null);
+    setUserRefreshCookie(null);
+    setLoginUserId("");
     navigate("/");
   };
 
@@ -95,7 +119,7 @@ function Header() {
     <Container>
       <DanimLogo onClick={handleClickDanimLogo}>danim</DanimLogo>
       <ButtonContainer>
-        {userCookie !== "" ? (
+        {userAccessCookie || userRefreshCookie ? (
           <>
             <button type="button" onClick={handleCreatePostClick}>
               동행 만들기
