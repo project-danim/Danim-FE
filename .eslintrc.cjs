@@ -27,6 +27,8 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "prettier"],
   rules: {
+    "@typescript-eslint/no-use-before-define": "warn",
+    "react/display-name": "warn",
     "react/react-in-jsx-scope": "off",
     "max-len": ["error", { code: 120 }],
     "jsx-a11y/label-has-associated-control": [
@@ -35,6 +37,5 @@ module.exports = {
         some: ["nesting", "id"],
       },
     ],
-
   },
 };
