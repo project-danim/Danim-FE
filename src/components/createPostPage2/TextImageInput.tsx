@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useMutation } from "react-query";
+import styled from "styled-components";
 import {
   imageUrlsState,
   tripPostContentState,
@@ -10,6 +11,16 @@ import {
 import { uploadImage } from "../../api/post";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
+
+const StyledReactQuill = styled(ReactQuill)`
+  width: 100%;
+  height: 400px;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  margin-bottom: 100px;
+`;
 
 function TextImageInput() {
   const quillRef = useRef<ReactQuill | null>(null);
@@ -78,16 +89,16 @@ function TextImageInput() {
   }, [postIsEditing, content, imageUrls]);
 
   return (
-    <div>
+    <Container>
       <input type="file" onChange={handleFileChange} />
-      <ReactQuill
+      <StyledReactQuill
         ref={quillRef}
         theme="snow"
         value={quillContent}
         modules={modules}
         onChange={handleQuillChange}
       />
-    </div>
+    </Container>
   );
 }
 

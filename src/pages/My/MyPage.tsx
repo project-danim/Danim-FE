@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 // 최상단 컨테이너

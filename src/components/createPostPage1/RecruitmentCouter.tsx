@@ -5,6 +5,29 @@ import { recruitmentCountState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
 
+const Container = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: 0.5px solid #a3a3a3;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding: 9.5px 0;
+  padding-left: 12px;
+  width: 100%;
+  line-height: 22px;
+  border-radius: 8px;
+`;
+
+const CountButton = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+
+const CounterWrapper = styled.div``;
+
 function RecruitmentCouter() {
   const [count, setCount] = useRecoilState(recruitmentCountState);
 
@@ -52,28 +75,3 @@ function RecruitmentCouter() {
 }
 
 export default RecruitmentCouter;
-
-const Container = styled.div`
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  border: 0.5px solid #a3a3a3;
-  font-size: 16px;
-  box-sizing: border-box;
-  padding: 9.5px 0;
-  padding-left: 12px;
-  width: 100%;
-  line-height: 22px;
-  border-radius: 8px;
-`;
-
-const CountButton = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
-
-const CounterWrapper = styled.div``;
-
-// const Container = styled.div``;

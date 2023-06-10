@@ -1,9 +1,20 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Map, MapMarker, Polyline } from "react-kakao-maps-sdk";
 import { useRecoilState } from "recoil";
 import { selectedInfosState } from "../../recoil/post/postCreateState";
+import CommonInput from "../common/CommonInput";
+import * as Styled from "./ScheduleMapStyle";
+import CommonButton from "../common/CommonButton";
+import PinIcon from "../Test/PinIcon";
+
+// DatePicker 스타일링 - Start
+const CustomDateInput = React.forwardRef(({ value, onClick }, ref) => (
+  <Styled.StyledInput onClick={onClick} ref={ref}>
+    {value || "출발 날짜를 알려주세요."}
+  </Styled.StyledInput>
+));
 
 interface MarkerType {
   position: {
@@ -27,23 +38,19 @@ function ScheduleMap() {
 
   // 사용자가 장소별 선택한 날짜
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const today = new Date(); // datePicker에서 오늘의 날짜 이후를 선택가능하게 하기 위한 today
+  const today = new Date(); // datePicker에서 오늘의 날짜 이후를 선택 가능하게 하기 위한 today
 
   // 사용자가 선택한 장소와 날짜를 저장하는 [] state
   const [selectedMapInfos, setSelectedMapInfos] =
     useRecoilState(selectedInfosState);
 
-  // console.log(`필요한 정보`, selectedMapInfos);
-
   // 지도 검색과 그 마커들을 표시
   const searchPlaces = () => {
     if (!map || !searchTerm) return; // searchTerm 이 비어있다면 종료!
     const ps = new kakao.maps.services.Places();
-
     ps.keywordSearch(searchTerm, (data, status) => {
       if (status === kakao.maps.services.Status.OK) {
         const bounds = new kakao.maps.LatLngBounds();
-
         const newMarkers = data.map((item) => {
           const marker = {
             position: {
@@ -57,7 +64,6 @@ function ScheduleMap() {
           );
           return marker;
         });
-
         setMarkers(newMarkers);
         map.setBounds(bounds);
       }
@@ -84,36 +90,6 @@ function ScheduleMap() {
 
   return (
     <div>
-      {/* 검색 input */}
-      <input
-        type="text"
-        placeholder="Search Places"
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
-      />
-
-      {/* 날짜 선택 캘린더 */}
-      <div />
-      <div
-        style={{
-          width: "400px",
-          height: "150px",
-        }}
-      >
-        <DatePicker
-          selected={selectedDate}
-          onChange={(date: Date | null) => setSelectedDate(date)}
-          minDate={today} // 오늘 날짜를 포함한 그 이후 날짜만 선택 가능
-          isClearable
-          placeholderText="해당 장소를 여행할 날짜를 선택해 주세요"
-        />
-      </div>
-
-      {/* 선택 정보 저장 버튼 */}
-      <button type="button" onClick={addSelectedInfo}>
-        Save
-      </button>
-
       {/* 지도 */}
       <Map
         center={{
@@ -121,8 +97,8 @@ function ScheduleMap() {
           lng: 126.9786567,
         }}
         style={{
-          width: "400px",
-          height: "350px",
+          width: "98%",
+          height: "300px",
         }}
         level={6}
         onCreate={setMap}
@@ -159,13 +135,38 @@ function ScheduleMap() {
             position={selectedInfo.info.position}
             onClick={() => setInfo(selectedInfo.info)}
           >
-            <div style={{ color: "#000" }}>{index + 1}</div>
+            {/* <div style={{ color: "#000" }}>{index + 1}</div> */}
           </MapMarker>
         ))}
       </Map>
 
-      {/* 선택한 정보를 화면에 표시 */}
+      <PinIcon />
 
+      {/* 검색 input */}
+      <CommonInput
+        type="text"
+        placeholder="장소를 추가해주세요."
+        value={searchTerm}
+        onChange={(event) => setSearchTerm(event.target.value)}
+      />
+
+      {/* 날짜 선택 캘린더 */}
+      <div>
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date: Date | null) => setSelectedDate(date)}
+          minDate={today} // 오늘 날짜를 포함한 그 이후 날짜만 선택 가능
+          placeholderText="출발 날짜를 알려주세요."
+          customInput={<CustomDateInput />}
+        />
+      </div>
+
+      {/* 선택 정보 저장 버튼 */}
+      <CommonButton type="button" onClick={addSelectedInfo}>
+        + 등록하기
+      </CommonButton>
+
+      {/* 선택한 정보를 화면에 표시 */}
       {selectedMapInfos.map((selectedInfo, index) => (
         <div key={selectedInfo.id}>
           <span>{index + 1}</span>
