@@ -191,7 +191,7 @@ function Chat(): JSX.Element {
   // 채팅 업로드 핸들러
   const sendMessages = (nowChatMessage: string): void => {
     if (nowChatMessage.trim() === "") {
-      console.log("내용을 입력해주세요.");
+      // console.log("내용을 입력해주세요.");
       return;
     }
 

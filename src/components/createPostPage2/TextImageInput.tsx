@@ -34,7 +34,7 @@ function TextImageInput() {
 
   // 테그들과 이미지url이 포함된 작성자가 작성한 contents
   const [quillContent, setQuillContent] = useRecoilState(tripPostContentState);
-  console.log(quillContent);
+  // console.log(quillContent);
 
   // 서버에서 전달받은 이미지 urls []
   const [returnImageUrls, setReturnImageUrls] = useRecoilState(imageUrlsState);

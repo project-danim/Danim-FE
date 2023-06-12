@@ -13,7 +13,7 @@ interface Comment {
 
 function PostComment() {
   const [postId] = useRecoilState(postIdState);
-  console.log(postId);
+  // console.log(postId);
 
   // mile 평점 state
   const [selectedScore, setSelectedScore] = useState<number>(0);

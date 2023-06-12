@@ -19,7 +19,7 @@ function PostPage() {
 
   // 서버에서 데이터를 호출
   const { data } = useQuery(["post", postId], () => getPost(postId));
-  console.log(data);
+  // console.log(data);
 
   // recoil 상태에 postId 설정
   const setPostId = useSetRecoilState(postIdState);

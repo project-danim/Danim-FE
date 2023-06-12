@@ -1,7 +1,7 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRecoilState, useRecoilValue } from "recoil";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   recruitmentEndDateState,
@@ -60,16 +60,24 @@ function RecruitmentDatePicker() {
   const postIsEditing = useRecoilValue(postIsEditingState);
 
   const today = new Date();
-  // postIsEditing 이 true이고 recruitmentStart/endDate 가 있다면 그 값을 보여주고 false라면 값을 선택하게 출력
-  const [startDate, setStartDate] = useState<Date | null>(
-    postIsEditing && recruitmentStartDate
-      ? new Date(recruitmentStartDate)
-      : today
-  );
-  const [endDate, setEndDate] = useState<Date | null>(
-    postIsEditing && recruitmentEndDate ? new Date(recruitmentEndDate) : null
-  );
 
+  // 초기값을 null로 설정
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  // recruitmentStartDate나 recruitmentEndDate가 변경되었을 때 startDate와 endDate를 업데이트
+  useEffect(() => {
+    if (postIsEditing) {
+      if (recruitmentStartDate) {
+        setStartDate(new Date(recruitmentStartDate));
+      }
+      if (recruitmentEndDate) {
+        setEndDate(new Date(recruitmentEndDate));
+      }
+    }
+  }, [postIsEditing, recruitmentStartDate, recruitmentEndDate]);
+
+  // 모집 시작 날짜) 날짜가 선택될 때 - 날짜 형식 변환, state변환, recoil state 전달
   const handleStartDateChange = (date: Date | null) => {
     if (date) {
       const formattedDate = convertDateFormat(date);
@@ -78,6 +86,7 @@ function RecruitmentDatePicker() {
     }
   };
 
+  // 모집 마지막 날짜) 날짜가 선택될 때 - 날짜 형식 변환, state변환, recoil state 전달
   const handleEndDateChange = (date: Date | null) => {
     if (date) {
       const formattedDate = convertDateFormat(date);

@@ -13,7 +13,7 @@ export const createComment = async (newComment: Comment, postId: number) => {
         withCredentials: true,
       }
     );
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

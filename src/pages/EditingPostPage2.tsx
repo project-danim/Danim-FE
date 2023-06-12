@@ -50,7 +50,7 @@ function EditingPostPage2() {
     gender,
     imageUrls,
   };
-  console.log(isEditingPostData);
+  // console.log(isEditingPostData);
 
   // 서버로 값을 전송
   const handleSubmit = async () => {
@@ -62,12 +62,12 @@ function EditingPostPage2() {
       } else {
         formData.append(key, isEditingPostData[key]);
       }
-      console.log("Content:", isEditingPostData.content);
-      console.log("Image URLs:", isEditingPostData.imageUrls);
+      // console.log("Content:", isEditingPostData.content);
+      // console.log("Image URLs:", isEditingPostData.imageUrls);
     });
 
-    console.log("Content:", isEditingPostData.content);
-    console.log("Image URLs:", isEditingPostData.imageUrls);
+    // console.log("Content:", isEditingPostData.content);
+    // console.log("Image URLs:", isEditingPostData.imageUrls);
 
     try {
       const response = await editPost(postId, formData);

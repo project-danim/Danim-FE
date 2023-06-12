@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -59,12 +59,20 @@ function TripDatePicker() {
   const postIsEditing = useRecoilValue(postIsEditingState);
 
   // DatePicker 에서 사용될 날짜 state
-  const [startDate, setStartDate] = useState<Date | null>(
-    postIsEditing && tripStartDate ? new Date(tripStartDate) : new Date()
-  );
-  const [endDate, setEndDate] = useState<Date | null>(
-    postIsEditing && tripEndDate ? new Date(tripEndDate) : null
-  );
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  // tripStartDate나 tripEndDate가 변경되었을 때 startDate와 endDate를 업데이트
+  useEffect(() => {
+    if (postIsEditing) {
+      if (tripStartDate) {
+        setStartDate(new Date(tripStartDate));
+      }
+      if (tripEndDate) {
+        setEndDate(new Date(tripEndDate));
+      }
+    }
+  }, [postIsEditing, tripStartDate, tripEndDate]);
 
   // 출발) 날짜가 선택될 때 - state변환, recoil state 전달
   const handleStartChange = (date: Date | null) => {
