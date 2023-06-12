@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useEffect } from "react";
 import {
   MapInformation,
+  PostComment,
   PostDetailContent,
   PostInformation,
   PostOperationButtonGroup,
@@ -18,6 +19,7 @@ function PostPage() {
 
   // 서버에서 데이터를 호출
   const { data } = useQuery(["post", postId], () => getPost(postId));
+  console.log(data);
 
   // recoil 상태에 postId 설정
   const setPostId = useSetRecoilState(postIdState);
@@ -29,7 +31,6 @@ function PostPage() {
   useEffect(() => {
     if (data?.data) {
       setPostData(data.data);
-      // setPostData(mockData);
       setPostId(postId);
     }
   }, [data, postId, setPostData, setPostId]);
@@ -43,6 +44,7 @@ function PostPage() {
       <br />
       <PostDetailContent />
       <br />
+      <PostComment />
     </div>
   );
 }

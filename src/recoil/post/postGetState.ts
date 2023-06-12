@@ -8,6 +8,7 @@ interface PostData {
   ageRange?: string[];
   chatRoomId?: number;
   content?: string;
+  nickName?: string;
   createdAt?: number[];
   gender?: string[];
   groupSize?: number;
@@ -19,8 +20,6 @@ interface PostData {
   tripEndDate?: string;
   tripStartDate?: string;
 }
-
-// console.log("Content:", content);
 
 export const PostGetState = atom<PostData | null>({
   key: "PostGetState",
