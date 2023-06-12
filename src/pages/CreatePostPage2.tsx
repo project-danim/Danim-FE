@@ -19,6 +19,8 @@ function CreatePostPage2() {
   // 현재까지 글을 작성하면서 recoil의 상태에 저장해 두었던 값들을 가져옴
   const postData: any = useRecoilValue(postCreateState);
 
+  console.log(`글 작성 state `, postData);
+
   const handleBeforeClick = () => {
     navigate("/create-post/step1");
   };

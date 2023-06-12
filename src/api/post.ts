@@ -12,6 +12,7 @@ export const createPost = async (data: any) => {
           "Content-Type": "multipart/form-data",
           ACCESS_KEY: getCookie("accessToken"),
         },
+        withCredentials: true,
       }
     );
     return response.data;

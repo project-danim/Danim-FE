@@ -29,9 +29,10 @@ const CountButton = styled.button`
 const CounterWrapper = styled.div``;
 
 function RecruitmentCouter() {
+  // 글 작성 - state 저장
   const [count, setCount] = useRecoilState(recruitmentCountState);
 
-  // 글 수정 - 서버에서 가져온 PostState에서 keyword 값을 추출
+  // 글 수정 - 서버에서 가져온 ate에서 keyword 값을 추출
   const getPostData = useRecoilValue(PostGetState);
   const { groupSize } = getPostData || {};
 

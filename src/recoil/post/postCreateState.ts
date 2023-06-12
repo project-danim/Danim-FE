@@ -26,6 +26,12 @@ export const selectedAgeRangeState = atom({
   default: [] as string[], // 배열의 원소는 문자열라는 것을 명시해줌
 });
 
+// 제목
+export const PostTitleState = atom({
+  key: "PostTitleState",
+  default: "",
+});
+
 // 모집 시작 날짜 - 글을 쓰는 당일로 고정
 export const recruitmentStartDateState = atom<string | null>({
   key: "recruitmentStartDateState",

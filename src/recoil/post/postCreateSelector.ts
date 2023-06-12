@@ -12,6 +12,7 @@ import {
   tripPostContentState,
   tripStartDateState,
   imageUrlsState,
+  PostTitleState,
 } from "./postCreateState";
 
 // export default selector({
@@ -19,7 +20,7 @@ const postCreateState = selector({
   key: "postCreateState",
   // 서버로 보내기 전 변수명을 맞춰줌.
   get: ({ get }) => {
-    const postTitle = "제목입니다";
+    const postTitle = get(PostTitleState);
     const keyword = get(selectedKeywordState);
     const location = get(selectedLocationState);
     const gender = get(selectedGenderState);
