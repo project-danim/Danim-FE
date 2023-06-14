@@ -28,16 +28,18 @@ export const StyledInput = styled.div`
 
 // 지도 정보 Container
 export const MapInfoContainer = styled.div`
-  width: 100%;
-  height: 450px;
-  margin-bottom: 30px;
-  border-top: solid 1px black;
+  position: relative; // 숫자 아래 선을 배치하기 위한 부모 컴포넌트 지정
+  width: 98.5%;
+  height: 500px;
+  /* margin-bottom: 30px; */
+  border-top: solid 1px #d9d9d9;
   overflow: auto; /* 스크롤 바 스타일링 */
   overflow-x: hidden;
+  margin-right: 10px;
 
   ::-webkit-scrollbar {
     width: 16px; /* 스크롤 바 너비 */
-    background-color: #f2f2f2; /* 스크롤 바 배경색 */
+    background-color: #d9d9d9; /* 스크롤 바 배경색 */
   }
 
   ::-webkit-scrollbar-thumb {
@@ -50,18 +52,36 @@ export const MapInfoContainer = styled.div`
   }
 `;
 
+// 세로선
+export const VerticalLine = styled.div`
+  position: absolute; // MapInfoContainer 를 부모로 가짐
+  width: 1px;
+  height: 100%;
+  left: 2.6%;
+  background-color: #a3bf3b;
+  /* z-index: -1; */
+`;
+
 // 지도 정보 Wrapper
 export const MapInfoWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 95%;
-  margin: 32px 5px;
+  /* margin: 32px 5px; */
+  padding: 16px 5px;
+  /* border: solid 1px black; */
 `;
 
 // input - add wrapper.
 export const InputAddWrapper = styled.div`
   width: 100%;
   margin: 10px 0 10px 0;
+`;
+
+// 숫자 선 wrapper
+export const NumberWithLineWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 // 원형 숫자
@@ -79,6 +99,7 @@ export const CircleNumbering = styled.div`
   margin-bottom: 3px;
   font-size: 16px;
   font-family: "Pridi", serif;
+  z-index: 10;
 `;
 
 // 지도 텍스트 wrapper
@@ -115,14 +136,22 @@ export const MapInfoTextWrapper = styled.div`
 // 지도 정보 삭제 버튼
 export const MapInfoDeleteButton = styled.button`
   display: flex;
+  text-align: center;
   align-items: center;
   justify-content: center;
-  margin: 12.5px;
-  background-color: #f2f2f2;
-  border: none;
-  border-radius: 7px;
-  padding: 10px 12px;
-  font-size: 16px;
-  height: 30px;
+  margin: 19px;
+  background-color: transparent;
+  border: solid 1px #d9d9d9;
+  border-radius: 50%;
+  /* padding: 10px 12px; */
+  color: #d9d9d9;
+  font-size: 12px;
+  height: 18px;
+  width: 18px;
   cursor: pointer;
+`;
+
+export const XButtonText = styled.span`
+  padding-bottom: 1.1px; /* 상단 여백 조정 */
+  padding-left: 0.9; /* 좌측 여백 조정 */
 `;
