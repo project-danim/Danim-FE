@@ -66,10 +66,14 @@ function TripDatePicker() {
   useEffect(() => {
     if (postIsEditing) {
       if (tripStartDate) {
-        setStartDate(new Date(tripStartDate));
+        const startDateObj = new Date(tripStartDate);
+        setStartDate(startDateObj);
+        setTripStartDate(convertDateFormat(startDateObj));
       }
       if (tripEndDate) {
-        setEndDate(new Date(tripEndDate));
+        const endDateObj = new Date(tripEndDate);
+        setEndDate(endDateObj);
+        setTripEndDate(convertDateFormat(endDateObj));
       }
     }
   }, [postIsEditing, tripStartDate, tripEndDate]);
