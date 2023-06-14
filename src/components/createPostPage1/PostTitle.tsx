@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { useEffect } from "react";
 import CommonInput from "../common/CommonInput";
 import { PostTitleState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
@@ -26,11 +27,18 @@ function PostTitle() {
     setTitle(e.target.value);
   };
 
+  // postIsEditing이 true일 때 초기 title 값을 postTitle로 설정
+  useEffect(() => {
+    if (postIsEditing && postTitle) {
+      setTitle(postTitle);
+    }
+  }, [postIsEditing, postTitle]);
+
   return (
     <Container>
       <CommonInput
         placeholder="게시글의 제목을 입력해 주세요."
-        value={postIsEditing ? postTitle : title} // 수정 중인 경우 postTitle을 표시하고, 아닌 경우 Recoil 상태 값을 표시
+        value={title} // 수정 중인 경우 postTitle을 표시하고, 아닌 경우 Recoil 상태 값을 표시
         onChange={handleTitleChange} // 입력 값 변경을 처리합니다
       />
     </Container>
