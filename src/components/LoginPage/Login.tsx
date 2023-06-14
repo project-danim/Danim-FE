@@ -12,13 +12,12 @@ import loginUserIdState from "../../recoil/login/userInfo";
 
 function Login() {
   // 아이디 입력값 state , 아이디 에러 메세지 state
-  const [userId] = useRecoilState(loginUserIdState);
+  const [userId, setUserId] = useRecoilState(loginUserIdState);
   const userIdRef = useRef<any>();
   const [userIdError, setUserIdError] = useState("");
   // 비밀번호 입력값 state, 비밀번호 에러 메세지 state
   const [password, handleChangePassword, , passwordRef] = useInput("");
   const [passwordError, setPasswordError] = useState("");
-
   // 네비게이트 함수 생성
   const navigate = useNavigate();
 
@@ -44,6 +43,8 @@ function Login() {
         return alert(response);
       }
       if (response.data.message === "로그인 성공") {
+        const { id } = response.data.data;
+        sessionStorage.setItem("id", id);
         return navigate("/");
       }
       return alert("로그인을 다시 시도해주세요.");
