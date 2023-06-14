@@ -3,7 +3,6 @@ import { PostGetState } from "../../recoil/post/postGetState";
 
 function PostDetailContent() {
   const [postData, setPostData] = useRecoilState(PostGetState);
-  // console.log(postData?.content);
 
   // 데이터가 없다면 로딩 표시를 보여줌
   if (!postData) {
