@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { useMutation } from "react-query";
+import loginUserIdState from "../../recoil/login/userInfo";
+import { fecthUserInfo, fetchUserNickName } from "../../api/userInfo";
 
 // 최상단 컨테이너
 const ParentContainer = styled.div`
@@ -142,7 +146,7 @@ const ImsiArea2 = styled.div`
 `;
 
 // 리뷰 데이터 타입
-interface ReviewDataType {
+interface ReviewsDataType {
   postTitle: string;
   userId: string;
   review: { review: string; score: number }[];
@@ -151,34 +155,33 @@ interface ReviewDataType {
 }
 
 function MyPage() {
-  const [reviews, setReviews] = useState<ReviewDataType[]>([]);
   const [editing, setEditing] = useState(false);
   const [intro, setIntro] = useState("");
-  //   const fetchData = async () => {
-  //     try {
-  //       const { data } = await axios.get("");
-  //       setReviews(data);
-  //     } catch (error) {
-  //       console.error("데이터 가져오기 오류 입니다", error);
-  //     }
-  //   };
-  //   useEffect(() => {
-  //     fetchData();
-  //   }, []);
+  const id = sessionStorage.getItem("id");
+  const [nickname, setNickname] = useState("");
+  const [content, setContent] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [owner, setOwner] = useState(true);
+  const [score, setScore] = useState(20);
 
-  const handleEditClick = () => {
-    setEditing(true);
-  };
+  // 유저정보 가져오는 뮤테이션 함수
+  const { mutate: mutateGetUserInfo } = useMutation(fecthUserInfo, {
+    onSuccess: (response) => {
+      const userInfo = response;
+      setNickname((prev) => userInfo.nickname);
+      setContent((prev) => userInfo.content);
+      setImgUrl((prev) => userInfo.imgUrl);
+      setOwner((prev) => userInfo.owner);
+      setScore((prev) => userInfo.score);
+    },
+    onError: (error) => {},
+  });
 
-  const handleSaveClick = () => {
-    // Axios 로직 추가
-
-    setEditing(false);
-  };
-
-  const handleIntroChange = (event: any) => {
-    setIntro(event.target.value);
-  };
+  useEffect(() => {
+    if (id) {
+      mutateGetUserInfo(id);
+    }
+  }, []);
 
   return (
     <ParentContainer>
@@ -189,29 +192,22 @@ function MyPage() {
         <UserInfoContainer>
           <UserInfo>
             <UserScore>
-              {/* {reviews?.map((item) => (
-                <div key={item.userId}>
-                  <div>10 mile</div>
-                </div>
-              ))} */}
-              <div>TEST mile</div>
+              <div>{score}mile</div>
             </UserScore>
             <NickName>
-              {/* {reviews?.map((item) => (
-                <div key={item.userId} />
-              ))} */}
-              <div style={{ fontWeight: "bold" }}>TEST님</div>
+              <div>{nickname}님</div>
+              {/* <input type="file" /> */}
             </NickName>
-            {editing ? (
-              <PixButton onClick={handleSaveClick}>저장</PixButton>
+            {owner ? <PixButton>수정하기</PixButton> : null}
+            {/* {editing ? (
+              <PixButton>저장</PixButton>
             ) : (
-              <PixButton onClick={handleEditClick}>수정하기</PixButton>
-            )}
+              <PixButton>수정하기</PixButton>
+            )} */}
           </UserInfo>
           {editing ? (
             <TextArea
               value={intro}
-              onChange={handleIntroChange}
               placeholder="간단한 자기 소개를 해주세요."
             />
           ) : (

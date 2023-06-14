@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useEffect } from "react";
 import {
   MapInformation,
+  PostComment,
   PostDetailContent,
   PostInformation,
   PostOperationButtonGroup,
@@ -29,7 +30,6 @@ function PostPage() {
   useEffect(() => {
     if (data?.data) {
       setPostData(data.data);
-      // setPostData(mockData);
       setPostId(postId);
     }
   }, [data, postId, setPostData, setPostId]);
@@ -43,6 +43,7 @@ function PostPage() {
       <br />
       <PostDetailContent />
       <br />
+      <PostComment />
     </div>
   );
 }
