@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { selectedAgeRangeState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
@@ -26,10 +26,17 @@ function AgeRange() {
   // 수정중인지 아닌지에 대한 값 true, false
   const postIsEditing = useRecoilValue(postIsEditingState);
 
-  // 글 수정 - 서버에서 가져온 PostState에서 location 값을 추출
+  // 글 수정 - 서버에서 가져온 PostState에서 ageRange 값을 추출
   const getPostData = useRecoilValue(PostGetState);
   const { ageRange } = getPostData || {};
 
+  useEffect(() => {
+    if (postIsEditing && ageRange) {
+      setSelectedValues(ageRange);
+    }
+  }, [postIsEditing, ageRange]);
+
+  // 선택된 버튼의 토글 state
   const handleOptionToggle = (ageOption: string) => {
     if (selectedValues.includes(ageOption)) {
       setSelectedValues(selectedValues.filter((value) => value !== ageOption));
