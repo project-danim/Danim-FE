@@ -4,7 +4,6 @@ import { PostGetState } from "../../recoil/post/postGetState";
 
 function MapInformation() {
   const [postData, setPostData] = useRecoilState(PostGetState);
-  // console.log(postData?.map);
 
   // 데이터가 없다면 로딩 표시를 보여줌
   if (!postData) {
@@ -16,7 +15,6 @@ function MapInformation() {
 
   // map data 중 첫번째 값 찾기
   const firstMarkerPosition = parsedMap[0]?.info.position;
-  // console.log(firstMarkerPosition);
 
   return (
     <div>
