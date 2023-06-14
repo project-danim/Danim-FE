@@ -27,13 +27,7 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "prettier"],
   rules: {
-    "@typescript-eslint/no-use-before-define": "off",
-    "react/display-name": "off",
     "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off",
-    "import/extensions": "off",
-    "no-console": "off",
-    "react/no-array-index-key": "off",
     "max-len": ["error", { code: 120 }],
     "jsx-a11y/label-has-associated-control": [
       2,
