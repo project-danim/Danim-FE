@@ -14,14 +14,14 @@ import postIsEditingState from "../../recoil/post/postIsEditingState";
 // DatePicker 스타일링 - Start
 const CustomStartInput = React.forwardRef(({ value, onClick }, ref) => (
   <StyledInput onClick={onClick} ref={ref}>
-    {value || "출발 날짜를 알려주세요."}
+    {value || "모집 일자를 알려주세요."}
   </StyledInput>
 ));
 
 // DatePicker 스타일링 - End
 const CustomEndInput = React.forwardRef(({ value, onClick }, ref) => (
   <StyledInput onClick={onClick} ref={ref}>
-    {value || "도착 날짜를 알려주세요."}
+    {value || "모집 마감 일자를 알려주세요."}
   </StyledInput>
 ));
 
@@ -69,10 +69,14 @@ function RecruitmentDatePicker() {
   useEffect(() => {
     if (postIsEditing) {
       if (recruitmentStartDate) {
-        setStartDate(new Date(recruitmentStartDate));
+        const startDateObj = new Date(recruitmentStartDate);
+        setStartDate(startDateObj);
+        setRecruitmentStartDate(convertDateFormat(startDateObj));
       }
       if (recruitmentEndDate) {
-        setEndDate(new Date(recruitmentEndDate));
+        const endDateObj = new Date(recruitmentEndDate);
+        setEndDate(endDateObj);
+        setRecruitmentEndDate(convertDateFormat(endDateObj));
       }
     }
   }, [postIsEditing, recruitmentStartDate, recruitmentEndDate]);
