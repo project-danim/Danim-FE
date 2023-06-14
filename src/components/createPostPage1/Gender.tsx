@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { selectedGenderState } from "../../recoil/post/postCreateState";
@@ -29,6 +29,14 @@ function Gender() {
   const getPostData = useRecoilValue(PostGetState);
   const { gender } = getPostData || {};
 
+  // recoil에 수정시 변경된 상태 업데이트
+  useEffect(() => {
+    if (postIsEditing && gender) {
+      setSelectedValues(gender);
+    }
+  }, [postIsEditing, gender]);
+
+  // 선택된 값들의 토글
   const handleOptionToggle = (genderOption: string) => {
     if (selectedValues.includes(genderOption)) {
       setSelectedValues(

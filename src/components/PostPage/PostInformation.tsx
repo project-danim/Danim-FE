@@ -11,7 +11,7 @@ function PostInformation() {
       {postData ? (
         <>
           <h1>제목 : {postData.postTitle}</h1>
-          <div>아직 nickname 값 없음</div>
+          <div>{postData.nickName}</div>
           <div>
             모집인원 : 아직 현재까지 모인 인원 수 없음 / {postData.groupSize}
           </div>

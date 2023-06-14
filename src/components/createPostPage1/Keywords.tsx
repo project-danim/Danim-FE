@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { selectedKeywordState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
@@ -29,6 +29,12 @@ function Keywords() {
 
   // 수정중인지 아닌지에 대한 값 true, false
   const postIsEditing = useRecoilValue(postIsEditingState);
+
+  useEffect(() => {
+    if (postIsEditing && keyword) {
+      setSelectedValue(keyword);
+    }
+  }, [postIsEditing, keyword]);
 
   // postIsEditing, keyword, selectedValue 값이 변경 될때만 사용됨.
   const buttonStyles = useMemo(

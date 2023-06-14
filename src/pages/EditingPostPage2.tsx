@@ -1,9 +1,12 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ScheduleMap, TextImageInput } from "../components/CreatePostPage2";
 import { PostGetState, postIdState } from "../recoil/post/postGetState";
 import { editPost } from "../api/post";
 import postIsEditingState from "../recoil/post/postIsEditingState";
+import postCreateState from "../recoil/post/postCreateSelector";
+import * as Styled from "./PostPageStyles";
 
 function EditingPostPage2() {
   // 글이 수정될때 postIsEditing state 를 true 로 변경
@@ -17,76 +20,67 @@ function EditingPostPage2() {
     };
   }, [setPostIsEditing]);
 
-  // 서버에서 가져왔던 state들 중 수정되어 서버로 보낼 state만 추출
-  const postData = useRecoilValue(PostGetState);
-  const {
-    postTitle,
-    recruitmentStartDate,
-    recruitmentEndDate,
-    tripStartDate,
-    tripEndDate,
-    groupSize,
-    location,
-    keyword,
-    content,
-    mapAPI,
-    ageRange,
-    gender,
-    imageUrls,
-  } = postData;
+  const postData: any = useRecoilValue(postCreateState);
 
-  const isEditingPostData = {
-    postTitle,
-    recruitmentStartDate,
-    recruitmentEndDate,
-    tripStartDate,
-    tripEndDate,
-    groupSize,
-    location,
-    keyword,
-    content,
-    mapAPI,
-    ageRange,
-    gender,
-    imageUrls,
-  };
-  console.log(isEditingPostData);
+  console.log(postData);
+  const navigate = useNavigate();
 
-  // 서버로 값을 전송
+  // 작성 완료 버튼 - 서버로 값을 전송
   const handleSubmit = async () => {
     const formData = new FormData();
+    // console.log(formData);
 
-    Object.keys(isEditingPostData).forEach((key) => {
+    Object.keys(postData).forEach((key) => {
       if (key === "MapAPI") {
-        formData.append(key, JSON.stringify(isEditingPostData[key]));
+        formData.append(key, JSON.stringify(postData[key]));
       } else {
-        formData.append(key, isEditingPostData[key]);
+        formData.append(key, postData[key]);
       }
-      console.log("Content:", isEditingPostData.content);
-      console.log("Image URLs:", isEditingPostData.imageUrls);
     });
-
-    console.log("Content:", isEditingPostData.content);
-    console.log("Image URLs:", isEditingPostData.imageUrls);
 
     try {
       const response = await editPost(postId, formData);
       console.log(response);
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
   };
 
+  // 이전 버튼
+  const handleBeforeClick = () => {
+    navigate(`/edit-post/step1/${postId}`);
+  };
+
   return (
-    <div>
-      <h3>글 작성</h3>
+    <Styled.Container>
+      <Styled.Wrapper2>
+        <Styled.TitleWrapper>
+          <Styled.CircleNumbering>2</Styled.CircleNumbering>
+          <Styled.MainInfotext>게시글을 작성해 주세요.</Styled.MainInfotext>
+        </Styled.TitleWrapper>
+      </Styled.Wrapper2>
       <TextImageInput />
-      <h3>스케줄지도</h3>
+
+      <Styled.Wrapper2>
+        <Styled.TitleWrapper>
+          <Styled.CircleNumbering>3</Styled.CircleNumbering>
+          <Styled.MainInfotext>
+            (선택)상세 일정을 등록해 주세요.
+          </Styled.MainInfotext>
+        </Styled.TitleWrapper>
+      </Styled.Wrapper2>
       <ScheduleMap />
-      <button type="button" onClick={handleSubmit}>
-        수정하기
-      </button>
-    </div>
+
+      <Styled.ButtonRouterWrapper>
+        <Styled.RouterButton onClick={handleBeforeClick}>
+          이전
+        </Styled.RouterButton>
+        <Styled.RouterButton onClick={handleSubmit}>
+          작성 완료
+        </Styled.RouterButton>
+      </Styled.ButtonRouterWrapper>
+    </Styled.Container>
   );
 }
 
