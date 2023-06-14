@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { selectedLocationState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
@@ -45,6 +45,12 @@ function Location() {
   const handleOptionToggle = (keywordOption: string) => {
     setSelectedValue(keywordOption);
   };
+
+  useEffect(() => {
+    if (postIsEditing && location) {
+      setSelectedValue(location);
+    }
+  }, [postIsEditing, location]);
 
   // postIsEditing, location, selectedValue 값이 변경 될때만 사용됨.
   const buttonStyles = useMemo(
