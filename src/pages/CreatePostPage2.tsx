@@ -40,6 +40,7 @@ function CreatePostPage2() {
     try {
       const response = await createPost(formData);
       console.log(response);
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
