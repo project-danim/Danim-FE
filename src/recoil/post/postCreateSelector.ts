@@ -11,7 +11,8 @@ import {
   tripEndDateState,
   tripPostContentState,
   tripStartDateState,
-  imageUrlsState,
+  contentsImagesState,
+  // imageUrlsState,
   PostTitleState,
 } from "./postCreateState";
 
@@ -32,7 +33,8 @@ const postCreateState = selector({
     const tripEndDate = get(tripEndDateState);
     const content = get(tripPostContentState);
     const MapAPI = get(selectedInfosState);
-    const imageUrls = get(imageUrlsState);
+    const contentsImages = get(contentsImagesState);
+    // const imageUrls = get(imageUrlsState);
 
     return {
       postTitle,
@@ -47,7 +49,8 @@ const postCreateState = selector({
       keyword,
       content,
       MapAPI,
-      imageUrls,
+      contentsImages,
+      // imageUrls,
     };
   },
 });
