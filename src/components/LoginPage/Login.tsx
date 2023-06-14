@@ -99,7 +99,7 @@ function Login() {
   };
 
   // 카카오 로그인 함수
-  const kakaoLogin = () => {
+  const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
@@ -135,13 +135,25 @@ function Login() {
 
       <st.FormExplainText pageName="loginPage">SNS로 로그인</st.FormExplainText>
       <loginSt.SocialLoginContainer>
-        <loginSt.SocialButton url="naver" type="button" onClick={kakaoLogin}>
+        <loginSt.SocialButton
+          url="naver"
+          type="button"
+          onClick={handleKakaoLogin}
+        >
           네이버 계정으로 회원가입
         </loginSt.SocialButton>
-        <loginSt.SocialButton url="kakao" type="button" onClick={kakaoLogin}>
+        <loginSt.SocialButton
+          url="kakao"
+          type="button"
+          onClick={handleKakaoLogin}
+        >
           카카오 계정으로 회원가입
         </loginSt.SocialButton>
-        <loginSt.SocialButton url="google" type="button" onClick={kakaoLogin}>
+        <loginSt.SocialButton
+          url="google"
+          type="button"
+          onClick={handleKakaoLogin}
+        >
           구글 계정으로 회원가입
         </loginSt.SocialButton>
         <loginSt.SocialExplainText>

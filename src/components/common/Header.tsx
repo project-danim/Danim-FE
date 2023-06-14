@@ -1,64 +1,11 @@
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { fetchLogout, getAccessToken, getRefreshToken } from "../../api/signUp";
 import loginUserIdState from "../../recoil/login/userInfo";
-
-// 버튼 프롭 타입 정의
-type CommonStyleButtonProps = {
-  page: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-const Container = styled.div`
-  width: 100%;
-  height: 80px;
-  padding: 0 400px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    padding: 0 20px;
-  }
-`;
-
-const DanimLogo = styled.h1`
-  text-indent: -9999px;
-  background: url("danimLogo.svg") no-repeat;
-  width: 87px;
-  height: 28px;
-  overflow: hidden;
-  cursor: pointer;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const CommonStyleButton = styled.button<CommonStyleButtonProps>`
-  width: 110px;
-  height: 34px;
-  border: 1px solid #2e5902;
-  box-sizing: border-box;
-  background-color: ${(props) =>
-    props.page === "login" ? "#2E5902" : "#FFFFFF"};
-  color: ${(props) => (props.page === "login" ? "#FFFFFF" : "#2E5902")};
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 22px;
-  width: 110px;
-  height: 34px;
-  border-radius: 50px;
-  cursor: pointer;
-  &:first-child {
-    margin-right: 16px;
-  }
-`;
+import st from "./HeaderST";
 
 function Header() {
   const accessToken = getAccessToken();
@@ -73,9 +20,18 @@ function Header() {
   // 로그아웃 뮤테이션 함수
   const { mutate: mutateLogout } = useMutation(fetchLogout, {
     onSuccess: (response) => {
-      if (response.data === "refreshToken 삭제 완료") {
+      if (response?.data.message === "로그아웃 성공") {
+        document.cookie =
+          "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // 새로 추가함 01:08
+        setLoginUserId("");
+      }
+      if (response?.data === "refreshToken 삭제 완료") {
         alert("로그아웃이 완료되었습니다.");
-
+        // 새로 추가함 01:08
+        setLoginUserId("");
         return navigate("/");
       }
       alert("로그아웃이 완료되었습니다.");
@@ -117,7 +73,8 @@ function Header() {
     mutateLogout();
     setUserAccessCookie(null);
     setUserRefreshCookie(null);
-    setLoginUserId("");
+    // 새로 주석처리함 01:08
+    // setLoginUserId("");
     navigate("/");
   };
 
@@ -126,44 +83,60 @@ function Header() {
   };
 
   return (
-    <Container>
-      <DanimLogo onClick={handleClickDanimLogo}>danim</DanimLogo>
-      <ButtonContainer>
+    <st.Container>
+      <st.DanimLogo onClick={handleClickDanimLogo}>danim</st.DanimLogo>
+      <st.ButtonContainer>
         {userAccessCookie || userRefreshCookie ? (
           <>
-            <button type="button" onClick={handleCreatePostClick}>
+            <st.CommonStyleButton
+              buttonName="post"
+              type="button"
+              onClick={handleCreatePostClick}
+            >
               동행 만들기
-            </button>
-            <button type="button" onClick={handleChatButtonClick}>
+            </st.CommonStyleButton>
+            <st.chatAndUserButton
+              buttonName="chat"
+              type="button"
+              onClick={handleChatButtonClick}
+            >
               채팅하기
-            </button>
-            <button type="button" onClick={handleMyPageButtonClick}>
+            </st.chatAndUserButton>
+            <st.chatAndUserButton
+              buttonName="user"
+              type="button"
+              onClick={handleMyPageButtonClick}
+            >
               마이 페이지
-            </button>
-            <button type="button" onClick={handleLogoutButtonClick}>
+            </st.chatAndUserButton>
+            <st.CommonStyleButton
+              buttonName="logout"
+              type="button"
+              onClick={handleLogoutButtonClick}
+            >
               로그아웃
-            </button>
+            </st.CommonStyleButton>
           </>
         ) : (
           <>
-            <CommonStyleButton
+            <st.CommonStyleButton
               type="button"
-              page="signUp"
+              buttonName="signUp"
               onClick={handleClickSignUpButton}
             >
               회원가입
-            </CommonStyleButton>
-            <CommonStyleButton
+            </st.CommonStyleButton>
+            <st.CommonStyleButton
               type="button"
-              page="login"
+              buttonName="login"
               onClick={handleClickLoginButton}
             >
               로그인
-            </CommonStyleButton>
+            </st.CommonStyleButton>
           </>
         )}
-      </ButtonContainer>
-    </Container>
+      </st.ButtonContainer>
+    </st.Container>
   );
 }
 

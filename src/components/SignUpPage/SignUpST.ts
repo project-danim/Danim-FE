@@ -26,11 +26,6 @@ const OriginalButton = styled.button`
     cursor: pointer;
     background-color: #2e5902;
   }
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 11px;
-    padding: 8px 11px;
-    line-height: 15px;
-  }
 `;
 
 // 공통 입력창

@@ -1,5 +1,6 @@
 // 키워드 리스트
 export const keywordList = ["맛집탐방", "투어", "포토스팟", "성지순례", "쇼핑"];
+export const mainKeyword = ["food", "tour", "photo", "hotspot", "shopping"];
 
 // 지역 리스트
 export const locationList = [

@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
+// 메인 키워드(맛집탐방, 포토스팟 등) 프롭 타입
+type UrlProps = "food" | "tour" | "photo" | "hotspot" | "shopping" | string;
+
 // 필터 버튼 프롭 타입
 type FilterButtonProps = {
   "data-active": boolean;
   buttonName: string;
+  url?: UrlProps;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 // 공통 width 스타일
@@ -13,29 +17,61 @@ const StyleContainer = styled.div`
 
 // 공통 버튼
 const CommonButton = styled.button<FilterButtonProps>`
+  box-sizing: border-box;
   font-size: 16px;
   border: none;
   border-radius: 20px;
   padding: ${(props) =>
-    props.buttonName === "ageButton" ? "8px 31px" : "8px 12px"};
+    props.buttonName === "ageButton" ? "0 31px" : "0 12px"};
   background-color: #ffffff;
   background-color: ${(props) =>
     props["data-active"] ? "#2E5902" : "#ffffff"};
   color: ${(props) => (props["data-active"] ? "#ffffff" : "#2E5902")};
+  color: ${(props) =>
+    props.buttonName === "ageButton" && !props["data-active"]
+      ? "#000000"
+      : null};
   transition: 0.2s all ease-in-out;
   box-sizing: border-box;
+  line-height: ${(props) =>
+    props.buttonName === "ageButton" ? "38px" : "40px"};
   border: ${(props) =>
     props.buttonName === "ageButton" ? "1px solid #E4EDC5" : "none"};
+
+  scale: ${(props) => (props["data-active"] ? "1.05" : "1")};
+
+  // 호버시 스타일링
   &:hover {
     cursor: pointer;
     background-color: #2e5902;
     color: #ffffff;
+    scale: 1.05;
+    &::before {
+      background-image: ${(props) => `url(/filterBar/active/${props.url}.svg)`};
+    }
+  }
+  // 아이콘 스타일링
+  &::before {
+    content: "";
+    display: inline-block;
+    background-image: ${(props) =>
+      props["data-active"]
+        ? `url(/filterBar/active/${props.url}.svg)`
+        : `url(/filterBar/${props.url}.svg)`};
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    margin-right: 10px;
+    position: relative;
+    top: 7px;
+    ${(props) => props.buttonName === "ageButton" && "display: none;"}
   }
   @media (max-width: 1400px) and (min-width: 320px) {
     font-size: ${(props) =>
       props.buttonName === "ageButton" ? "11px" : "14px"};
+    padding: ${(props) =>
+      props.buttonName === "ageButton" ? "0 15px" : "0 12px"};
     border-radius: 20px;
-    padding: 6px 10px;
   }
 `;
 
@@ -105,8 +141,7 @@ const KeywordFilterContainer = styled.div`
   position: relative;
   top: 60px;
   @media (max-width: 1400px) and (min-width: 320px) {
-    max-width: 470px;
-    top: 30px;
+    top: 15px;
   }
 `;
 
@@ -119,8 +154,11 @@ const DetailFilterContainer = styled.div`
   padding: 48px 96px;
   border-radius: 10px;
   margin-top: 30px;
+  margin-bottom: 18px;
+  width: 100%;
+  box-sizing: border-box;
   @media (max-width: 1400px) and (min-width: 320px) {
-    padding: 15px 30px;
+    padding: 15px 20px;
     margin-top: 7px;
   }
 `;
@@ -137,7 +175,6 @@ const TitleInput = styled.input`
   max-width: 596px;
   width: 100%;
   @media (max-width: 1400px) and (min-width: 320px) {
-    max-width: 300px;
     font-size: 14px;
   }
 `;
@@ -148,6 +185,7 @@ const LocationAndSizeContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-top: 24px;
+  gap: 24px;
 `;
 
 // 인원수 컨테이너
@@ -163,6 +201,7 @@ const AgeContainer = styled.div`
   padding: 0 12px;
   box-sizing: border-box;
   width: 100%;
+  margin-left: 12px;
 `;
 
 // 연령대 버튼 컨테이너
@@ -172,54 +211,6 @@ const AgeButtonContainer = styled.div`
   gap: 4px 24px;
   @media (max-width: 1400px) and (min-width: 320px) {
     gap: 4px 10px;
-  }
-`;
-
-// 아이디 찾기,비밀번호 찾기, 비밀번호 변경 컨테이너
-const FindUserInfoContainer = styled.div`
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 14px;
-  text-align: center;
-  margin-top: 8px;
-  color: #868686;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 10px;
-  }
-`;
-
-// 소셜 회원가입 컨테이너
-const SocialLoginContainer = styled.div`
-  max-width: 340px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    max-width: 240px;
-  }
-`;
-
-// 소셜 회원가입 버튼
-const backgroundColorMap = {
-  kakao: "#F7E317",
-  naver: "#03BE63",
-  google: "#FFFFFF",
-};
-
-const colorMap = {
-  kakao: "#000000",
-  naver: "#FFFFFF",
-  google: "#000000",
-};
-
-// 소셜 로그인 안내 문구
-const SocialExplainText = styled.p`
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 14px;
-  margin-top: 24px;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 10px;
   }
 `;
 
@@ -237,6 +228,4 @@ export default {
   AgeContainer,
   AgeButtonContainer,
   StyleContainer,
-  SocialLoginContainer,
-  SocialExplainText,
 };
