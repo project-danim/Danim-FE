@@ -15,10 +15,11 @@ interface PostData {
   keyword?: string;
   location?: string;
   map?: string;
-  imageUrls?: string[];
+  // imageUrls?: string[];
   modifiedAt?: number[];
   tripEndDate?: string;
   tripStartDate?: string;
+  contentsImages?: string;
 }
 
 export const PostGetState = atom<PostData | null>({
