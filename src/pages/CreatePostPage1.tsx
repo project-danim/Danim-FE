@@ -19,7 +19,7 @@ function CreatePostPage1() {
   const [, setPostIsEditing] = useRecoilState(postIsEditingState);
   useEffect(() => {
     setPostIsEditing(false);
-  }, [setPostIsEditing]);
+  }, []);
 
   const navigate = useNavigate();
 
