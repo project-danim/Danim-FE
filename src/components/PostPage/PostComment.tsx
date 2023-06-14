@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { IoFootstepsOutline } from "react-icons/io5";
-import { createComment } from "../../api/comment";
+import { createComment, getComment } from "../../api/comment";
 import { postIdState } from "../../recoil/post/postGetState";
 
 interface Comment {
@@ -13,22 +13,31 @@ interface Comment {
 
 function PostComment() {
   const [postId] = useRecoilState(postIdState);
-  // console.log(postId);
 
   // mile 평점 state
   const [selectedScore, setSelectedScore] = useState<number>(0);
   // 댓글 내용 state
   const [comment, setComment] = useState<string>("");
   // 댓글 목록 state, 작성된 코맨트들
-  const [comments, setComments] = useState<Comment[]>([]);
+  // const [comments, setComments] = useState<Comment[]>([]);
 
-  // 댓글 작성
-  const createCommentMutation = useMutation<Comment, Error>(
+  // 댓글 불러오기
+  const {
+    data: fetchedComments = [],
+    refetch,
+    isLoading,
+  } = useQuery(
+    ["comments", postId],
+    () => getComment(postId),
+    { enabled: !!postId } // postId가 존재할 때만 query 실행
+  );
+
+  // 댓글 작성 API 호출 (react-query의 useMutation 사용)
+  const createCommentMutation = useMutation(
     (newComment) => createComment(newComment, postId),
     {
-      onSuccess: (data) => {
-        const updatedComments = [...comments, data];
-        setComments(updatedComments);
+      onSuccess: () => {
+        refetch(); // 댓글 작성 성공 후, 댓글 목록 재요청
       },
     }
   );
@@ -54,21 +63,16 @@ function PostComment() {
       score: selectedScore,
     };
 
-    // createCommentMutation 함수로 댓글 생성 API 로 데이터를 보냄 (newComment)
+    // 댓글 생성 API 호출
     createCommentMutation.mutate(newComment);
+    // 폼 초기화
     setComment("");
     setSelectedScore(0);
   };
 
-  // 댓글 삭제 버튼 클릭 호출 함수
-  // const handleDeleteComment = (commentId: number) => {
-  //   const updatedComments = comments.filter(
-  //     (comment) => comment.id !== commentId
-  //   );
-  //   setComments(updatedComments);
-  // };
-
-  return (
+  return isLoading ? (
+    <div> 로딩중입니다. </div>
+  ) : (
     <div>
       <h2>댓글 작성</h2>
       <div>
@@ -83,25 +87,16 @@ function PostComment() {
           </button>
         ))}
       </div>
-      <textarea value={comment} onChange={handleCommentChange} />
+      <input value={comment} onChange={handleCommentChange} />
       <button type="button" onClick={handleSubmit}>
         댓글 작성
       </button>
-
       <h2>댓글 목록</h2>
       <ul>
-        {comments.map((comment) => (
+        {fetchedComments.map((comment) => (
           <li key={comment.id}>
             <p>{comment.comment}</p>
             <p>평점: {comment.score}</p>
-
-            {/* 삭제 버튼
-            <button
-              type="button"
-              onClick={() => handleDeleteComment(comment.id)}
-            >
-              삭제
-            </button> */}
           </li>
         ))}
       </ul>
