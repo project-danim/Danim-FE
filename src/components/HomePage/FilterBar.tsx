@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilState } from "recoil";
 import useInput from "../../hooks/useInput";
@@ -8,6 +8,7 @@ import {
   groupSizeList,
   keywordList,
   locationList,
+  mainKeyword,
 } from "./FilterListData";
 import { fetchSearch } from "../../api/search";
 import {
@@ -17,20 +18,22 @@ import {
   filteredAge,
   filteredGroupSize,
   filteredLocation,
+  isExpiredPostState,
   isSearchClicked,
+  searchedPageState,
 } from "../../recoil/filter/filterdPost";
 import st from "./FilterBarST";
+import common from "./PostST";
 
 function FilterBar() {
   // 사용자가 선택한 모든 검색 조건들
-  const [allKeywordAtom, setAllKeyword] = useRecoilState(allKeywordState);
+  const [allFilter, setAllKeyword] = useRecoilState<any>(allKeywordState);
   // 검색으로 받은 게시글 state
   const [filteredPosts, setFilteredPosts] =
     useRecoilState<string[]>(filterdPost);
-
   // 게시글 제목 state
   const [titleValue, handleChangeTitle, ,] = useInput("");
-  // 키워드, 지역, 인원수, 연령대 선택값 state
+  // 게시글 키워드, 지역, 인원수, 연령대 선택값 state
   const [selectedKeyword, setSelectedKeyword] =
     useRecoilState<any[]>(filterList);
   const [selectedLocation, setSelectedLocation] =
@@ -38,47 +41,67 @@ function FilterBar() {
   const [selectedGroupSize, setSelectedGroupSize] =
     useRecoilState(filteredGroupSize);
   const [selectedAge, setSelectedAge] = useRecoilState(filteredAge);
-  // 지역, 인원수 버튼 리스트 토글 state
+  // 지역, 인원수 버튼 선택 토글 state
   const [isLocationToggled, handleIsLocationToggled] = useToggle(false);
   const [isGroupSizeToggled, handleIsGroupSizeToggled] = useToggle(false);
   // 현재 검색된 상태인지 토글 state
   const [isSearched, handleSearchClicked] = useRecoilState(isSearchClicked);
+  // 마감된 게시글 포함할지 토글 state
+  const [, handleIncludeExpiredPost] = useRecoilState(isExpiredPostState);
   // 더 이상 불러올 데이터가 있는지 표시하는 상태
   const [hasMore, setHasMore] = useState(true);
-
-  // 게시글 페이지 state
-  const [page, setPage] = useState(0);
-  const size = 3;
+  // 검색 게시글 페이지 state
+  const [page, setSearchedPage] = useRecoilState(searchedPageState);
+  const size = 8;
 
   // 검색 뮤테이션 함수
   const { mutate: mutateSearch } = useMutation(fetchSearch, {
     onSuccess: (response) => {
       if (response.statusCode === 200) {
         handleSearchClicked(true);
-        // 중복된 데이터 또 렌더링 하지 않게 처리
-        console.log("여기임...");
-        setFilteredPosts((prevData) => [...response.data]);
+        // setFilteredPosts((prevPosts) => {
+        //   // 새로운 포스트만 필터링
+        //   const newPosts = response.data.filter(
+        //     (newPost: any) =>
+        //       !prevPosts.some((prevPost: any) => prevPost.id === newPost.id)
+        //   );
+        //   return [...prevPosts, ...newPosts];
+        // });
+        setFilteredPosts([...response.data]);
         // 더 이상 가져올 데이터 없음
         if (response.data.length < size) {
+          console.log("더이상 가져올 데이터없음");
           setHasMore(false);
-          console.log(page, "더 이상 가져올 데이터 없음");
         }
       }
     },
     onError: (error) => {
-      console.log("애애앵애");
       console.log(error);
       alert("요청이 실패했습니다. 다시 시도해주세요!");
     },
   });
+  // 검색된 게시글 불러오기
+  const getSearchedPosts = () => {
+    // 더 이상 불러올 데이터가 없다면 종료
+    if (!hasMore) return;
+    const allKeyword = allFilter;
+    mutateSearch({ allKeyword, page, size });
+  };
+  // page 값에 따른 전체 게시글 불러오기
+  useEffect(() => {
+    const getPosts = async () => {
+      if (isSearched) {
+        await getSearchedPosts();
+      }
+    };
+    getPosts();
+  }, [page]);
 
   // 키워드 선택 핸들러
   const handleSelectKeyword = (e: React.MouseEvent<Element, MouseEvent>) => {
     const keyword = (e.target as Element).textContent || "";
-
     // 이미 선택된 키워드인지 확인
     const isKeywordSelected = selectedKeyword.includes(keyword);
-
     if (isKeywordSelected) {
       // 이미 선택된 키워드인 경우 제거
       setSelectedKeyword((prevKeywords) =>
@@ -92,10 +115,8 @@ function FilterBar() {
   // 연령대 선택 핸들러
   const handleSelectedAge = (e: React.MouseEvent<Element, MouseEvent>) => {
     const age = (e.target as Element).textContent || "";
-
     // 이미 선택된 연령대인지 확인
     const isAgeSelected = selectedAge.includes(age);
-
     if (isAgeSelected) {
       // 이미 선택된 연령대인 경우 제거
       setSelectedAge((prevKeywords) =>
@@ -124,12 +145,12 @@ function FilterBar() {
 
   // 검색 클릭 핸들러
   const handleClickSearchButton = () => {
+    // page 값 바꾸기
     // 배열을 문자로 변환
     const keywordString = selectedKeyword.toString();
     const ageString = selectedAge.toString();
     // 문자를 숫자로 변환
     const groupSizeNumber = Number(selectedGroupSize);
-
     // 검색 키워드 생성
     const allKeyword = {
       keyword: keywordString !== "" ? keywordString : null,
@@ -137,22 +158,25 @@ function FilterBar() {
       ageRange: ageString !== "" ? ageString : null,
       groupSize: groupSizeNumber !== 0 ? groupSizeNumber : null,
       searchKeyword: titleValue !== "" ? titleValue : null,
+      exceptCompletedPost: false,
     };
     setAllKeyword({ ...allKeyword });
     mutateSearch({ allKeyword, page, size });
+    // console.log(allKeyword, page, size);
   };
 
   return (
     <st.FilterBarContainer>
       {/* 키워드 필터 박스 */}
       <st.KeywordFilterContainer>
-        {keywordList.map((keyword) => (
+        {keywordList.map((keyword, index) => (
           <st.CommonButton
             buttonName="keywordButton"
             key={keyword}
             type="button"
             onClick={handleSelectKeyword}
             data-active={selectedKeyword.includes(keyword)}
+            url={mainKeyword[index] || ""}
           >
             {keyword}
           </st.CommonButton>
@@ -253,9 +277,21 @@ function FilterBar() {
           </st.AgeButtonContainer>
         </st.AgeContainer>
       </st.DetailFilterContainer>
-      <button type="button" onClick={handleClickSearchButton}>
+      <label htmlFor="expiredPostInput">
+        <input
+          type="checkbox"
+          id="expiredPostInput"
+          onChange={() => handleIncludeExpiredPost((prev: boolean) => !prev)}
+        />
+        마감된 게시글 보지 않기
+      </label>
+      <common.CommonButton
+        buttonName="search"
+        type="button"
+        onClick={handleClickSearchButton}
+      >
         검색
-      </button>
+      </common.CommonButton>
     </st.FilterBarContainer>
   );
 }

@@ -47,3 +47,15 @@ export const allKeywordState: any = atom({
   key: "allKeywordState",
   default: {},
 });
+
+// 마감된 게시글 포함하여 검색할지 상태
+export const isExpiredPostState: any = atom({
+  key: "isExpiredPostState",
+  default: false,
+});
+
+// 검색으로 불러온 게시글 페이지 상태
+export const searchedPageState = atom({
+  key: "searchedPageState",
+  default: 0,
+});

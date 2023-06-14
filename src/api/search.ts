@@ -21,13 +21,12 @@ export const fetchSearch = async ({
         params: {
           page,
           size,
-          sort: "recruitmentEndDate",
         },
       }
     );
     return response.data;
   } catch (err: any) {
-    const errMessage = err.response.data.detail;
+    const errMessage = err || err.response.data.detail;
     return errMessage;
   }
 };

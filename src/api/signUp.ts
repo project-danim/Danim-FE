@@ -125,16 +125,14 @@ export const fetchLogout = async () => {
           ACCESS_KEY: accessToken,
         },
       });
-      document.cookie =
-        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie =
-        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       return response;
     }
-
-    document.cookie =
-      "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    return { data: "refreshToken 삭제 완료" };
+    if (refreshToken) {
+      document.cookie =
+        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      return { data: "refreshToken 삭제 완료" };
+    }
+    return null;
   } catch (err) {
     showError(err);
     throw err;

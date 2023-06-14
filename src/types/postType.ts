@@ -9,6 +9,7 @@ export interface PostType {
   location: string;
   ageRange: string;
   keyword: string;
+  isRecruitmentEnd: boolean;
 }
 
 export interface PostProps {

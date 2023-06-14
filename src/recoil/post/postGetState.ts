@@ -8,19 +8,19 @@ interface PostData {
   ageRange?: string[];
   chatRoomId?: number;
   content?: string;
+  nickName?: string;
   createdAt?: number[];
   gender?: string[];
   groupSize?: number;
   keyword?: string;
   location?: string;
   map?: string;
-  imageUrls?: string[];
+  // imageUrls?: string[];
   modifiedAt?: number[];
   tripEndDate?: string;
   tripStartDate?: string;
+  contentsImages?: string;
 }
-
-// console.log("Content:", content);
 
 export const PostGetState = atom<PostData | null>({
   key: "PostGetState",

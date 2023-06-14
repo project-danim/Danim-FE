@@ -5,10 +5,34 @@ import { recruitmentCountState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
 
+const Container = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: 0.5px solid #a3a3a3;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding: 9.5px 0;
+  padding-left: 12px;
+  width: 100%;
+  line-height: 22px;
+  border-radius: 8px;
+`;
+
+const CountButton = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+
+const CounterWrapper = styled.div``;
+
 function RecruitmentCouter() {
+  // 글 작성 - state 저장
   const [count, setCount] = useRecoilState(recruitmentCountState);
 
-  // 글 수정 - 서버에서 가져온 PostState에서 keyword 값을 추출
+  // 글 수정 - 서버에서 가져온 ate에서 keyword 값을 추출
   const getPostData = useRecoilValue(PostGetState);
   const { groupSize } = getPostData || {};
 
@@ -52,28 +76,3 @@ function RecruitmentCouter() {
 }
 
 export default RecruitmentCouter;
-
-const Container = styled.div`
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  border: 0.5px solid #a3a3a3;
-  font-size: 16px;
-  box-sizing: border-box;
-  padding: 9.5px 0;
-  padding-left: 12px;
-  width: 100%;
-  line-height: 22px;
-  border-radius: 8px;
-`;
-
-const CountButton = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
-
-const CounterWrapper = styled.div``;
-
-// const Container = styled.div``;

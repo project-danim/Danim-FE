@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import FilterBar from "./FilterBar";
-import Posts from "./Posts";
+import PostList from "./PostList";
 
 const MainPageContainer = styled.div`
   max-width: 1120px;
@@ -13,7 +13,7 @@ function Main() {
   return (
     <MainPageContainer>
       <FilterBar />
-      <Posts />
+      <PostList />
     </MainPageContainer>
   );
 }
