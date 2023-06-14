@@ -13,7 +13,6 @@ export const createComment = async (newComment: Comment, postId: number) => {
         withCredentials: true,
       }
     );
-    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -21,11 +20,10 @@ export const createComment = async (newComment: Comment, postId: number) => {
   }
 };
 
-export const getComment = async (data: any) => {
+export const getComment = async (postId: number) => {
   try {
-    const response = await axios.post(
-      //   `${import.meta.env.VITE_APP_URL}/api/post`,
-      data,
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/api/post/${postId}/review`,
       {
         headers: {
           ACCESS_KEY: getCookie("accessToken"),
@@ -33,7 +31,10 @@ export const getComment = async (data: any) => {
         withCredentials: true,
       }
     );
-    return response.data;
+    if (response.status === 200) {
+      console.log(`댓글 조회에 성공하였습니다`);
+      return response.data.data;
+    }
   } catch (error) {
     console.error(error);
     throw error;
