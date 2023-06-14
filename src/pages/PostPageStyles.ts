@@ -97,5 +97,6 @@ export const RouterButton = styled.button`
 // common : 이동 버튼
 export const ButtonRouterWrapper = styled.div`
   display: flex;
+  margin-top: 98px;
   gap: 10px;
 `;
