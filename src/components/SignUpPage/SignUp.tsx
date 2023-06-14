@@ -92,8 +92,8 @@ function SignUp() {
   // 성별 클릭 핸들러, 성별 정보 제공 핸들러
   const handleGenderClick = (gender: string) => {
     if (gender === "남") {
-      setActiveGender("male");
-    } else setActiveGender("female");
+      setActiveGender("MALE");
+    } else setActiveGender("FEMALE");
   };
   const handleAgreeForGender = () => {
     handleAgreeGender();
