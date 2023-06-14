@@ -75,7 +75,7 @@ export const selectedInfosState = atom<SelectedMapInfoType[]>({
 });
 
 // 이미지 urls
-export const imageUrlsState = atom({
-  key: "imageUrlsState",
+export const contentsImagesState = atom({
+  key: "contentsImagesState",
   default: [],
 });
