@@ -3,14 +3,30 @@ import Main from "../components/HomePage/Main";
 
 const HomeBanner = styled.div`
   width: 100%;
-  height: 383px;
-  background-image: url("/danimBanner.svg");
+  min-height: 383px;
+  background-image: url("main/danimBanner.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  // 임의로 설정한 크기입니다! - 지수 -
-  @media (max-width: 1400px) and (min-width: 320px) {
-    height: 150px;
+  // 노트북
+  @media (max-width: 1500px) and (min-width: 1025px) {
+    min-height: 270px;
+  }
+  // 태블릿
+  @media (max-width: 1024px) and (min-width: 940px) {
+    background-image: url("main/danimBanner_tablet.svg");
+    min-height: 230px;
+  }
+  @media (max-width: 941px) and (min-width: 391px) {
+    background-image: url("main/danimBanner_tablet.svg");
+    min-height: 230px;
+    background-size: contain;
+  }
+  // 모바일
+  @media (max-width: 390px) {
+    background-image: url("main/danimBanner_mobile.svg");
+    border-radius: 6px;
+    min-height: 115px;
   }
 `;
 
