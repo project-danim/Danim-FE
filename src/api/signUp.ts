@@ -125,11 +125,13 @@ export const fetchLogout = async () => {
           ACCESS_KEY: accessToken,
         },
       });
+      sessionStorage.removeItem("id");
       return response;
     }
     if (refreshToken) {
       document.cookie =
         "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      sessionStorage.removeItem("id");
       return { data: "refreshToken 삭제 완료" };
     }
     return null;
