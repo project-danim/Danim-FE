@@ -1,5 +1,6 @@
 import { useRecoilState } from "recoil";
 import { PostGetState } from "../../recoil/post/postGetState";
+import * as Styled from "./PostInformationStyle";
 
 function PostInformation() {
   // 서버에서 가져온 전체 데이터를 recoil에서 불러옴
@@ -7,35 +8,56 @@ function PostInformation() {
   // 수정 중인지 아닌지에 대한 상태를 불러옴
 
   return (
-    <div>
+    <Styled.Container>
       {postData ? (
         <>
-          <h1>제목 : {postData.postTitle}</h1>
-          <div>{postData.nickName}</div>
-          <div>
-            모집인원 : 아직 현재까지 모인 인원 수 없음 / {postData.groupSize}
-          </div>
-          <div>모집기한 : {postData.recruitmentEndDate}</div>
-          <div>
-            여행날짜 : {postData.tripStartDate} ~ {postData.tripEndDate}
-          </div>
-          <div>{postData.keyword}</div>
-          <div>{postData.location}</div>
-          <div>
-            {postData.ageRange?.map((value) => (
-              <span key={value}>{value}</span>
-            ))}
-          </div>
-          <div>
-            {postData.gender?.map((value) => (
-              <span key={value}>{value}</span>
-            ))}
-          </div>
+          <Styled.TitleWrapper>{postData.postTitle}</Styled.TitleWrapper>
+          <Styled.NicknameWrapper>
+            <div>유저 이미지</div>
+            <div>{postData.nickName}</div>
+          </Styled.NicknameWrapper>
+          <Styled.TextWapper>
+            모집인원 : 숫자 / {postData.groupSize}
+          </Styled.TextWapper>
+          <Styled.DateWrapper>
+            <Styled.TextWapper>
+              모집기한 : {postData.recruitmentEndDate}
+            </Styled.TextWapper>
+            <Styled.TextWapper>
+              출발 날짜 : {postData.tripStartDate}
+            </Styled.TextWapper>
+            <Styled.TextWapper>
+              도착 날짜 : {postData.tripEndDate}
+            </Styled.TextWapper>
+          </Styled.DateWrapper>
+
+          <Styled.KeywordWrapper>
+            <Styled.SingleKeywordWrapper>
+              {postData.keyword}
+            </Styled.SingleKeywordWrapper>
+            <Styled.SingleKeywordWrapper>
+              {postData.location}
+            </Styled.SingleKeywordWrapper>
+            <Styled.AgeGenderWrapper>
+              {postData.ageRange?.map((value) => (
+                <Styled.SingleKeywordWrapper key={value}>
+                  {value}
+                </Styled.SingleKeywordWrapper>
+              ))}
+            </Styled.AgeGenderWrapper>
+            <Styled.AgeGenderWrapper>
+              {postData.gender?.map((value) => (
+                <Styled.SingleKeywordWrapper key={value}>
+                  {value}
+                </Styled.SingleKeywordWrapper>
+              ))}
+            </Styled.AgeGenderWrapper>
+          </Styled.KeywordWrapper>
         </>
       ) : (
         <div>Loading...</div>
       )}
-    </div>
+    </Styled.Container>
   );
 }
 
