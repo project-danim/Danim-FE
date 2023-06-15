@@ -51,7 +51,7 @@ const Container = styled.div`
 // 로고
 const DanimLogo = styled.h1`
   text-indent: -9999px;
-  background: url("danimLogo.svg") no-repeat;
+  background: url("header/danimLogo.svg") no-repeat;
   width: 87px;
   height: 28px;
   overflow: hidden;
