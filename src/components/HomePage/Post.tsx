@@ -4,7 +4,6 @@ import { PostProps } from "../../types/postType";
 import st from "./PostST";
 
 const Post = React.forwardRef<any, PostProps>(({ post }, ref) => {
-  // ({ post, allFilterList }, ref) => {
   // 네비게이션 함수
   const navigate = useNavigate();
 
