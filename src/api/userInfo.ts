@@ -24,3 +24,22 @@ export const fecthUserInfo = async (id: string) => {
   }
 };
 
+// 내 정보 수정?
+export const fecthMyInfo = async (id: string ) => {
+    try {
+      const accessToken = getAccessToken();
+      const response = await axiosInstance.put(`/api/user/${id}/myInfo`, {
+      headers: {
+            ACCESS_KEY: accessToken,
+          },
+        });
+      
+      return response.data.data
+    } catch (err: any) {
+      const errMessage = err.response.data.detail || err.message;
+      return errMessage;
+    }
+  };
+  
+  
+
