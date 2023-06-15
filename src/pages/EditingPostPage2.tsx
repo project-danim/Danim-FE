@@ -6,7 +6,7 @@ import { PostGetState, postIdState } from "../recoil/post/postGetState";
 import { editPost } from "../api/post";
 import postIsEditingState from "../recoil/post/postIsEditingState";
 import postCreateState from "../recoil/post/postCreateSelector";
-import * as Styled from "./PostPageStyles";
+import * as Styled from "./CreateEditPostPageStyles";
 
 function EditingPostPage2() {
   // 글이 수정될때 postIsEditing state 를 true 로 변경
