@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { useMutation } from "react-query";
 import loginUserIdState from "../../recoil/login/userInfo";
-import { fecthUserInfo, fetchUserNickName } from "../../api/userInfo";
+import { fecthMyInfo, fecthUserInfo } from "../../api/userInfo";
 
 // 최상단 컨테이너
 const ParentContainer = styled.div`
@@ -51,6 +51,7 @@ const UserInfo = styled.div`
   width: 700px;
   height: 20px;
   padding: 10px;
+  justify-content: space-between;
 `;
 
 // 유저 스코어 영역
@@ -155,9 +156,8 @@ interface ReviewsDataType {
 }
 
 function MyPage() {
-  const [editing, setEditing] = useState(false);
-  const [intro, setIntro] = useState("");
   const id = sessionStorage.getItem("id");
+  const [editing, setEditing] = useState(false);
   const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
   const [imgUrl, setImgUrl] = useState("");
@@ -177,9 +177,25 @@ function MyPage() {
     onError: (error) => {},
   });
 
+  // 내 정보 수정
+  const { mutate: mutatePutMyInfo } = useMutation(fecthMyInfo, {
+    onSuccess: (response) => {
+      const myInfo = response;
+      setNickname((prev) => myInfo.nickname);
+      setContent((prev) => myInfo.content);
+      setImgUrl((prev) => myInfo.imgUrl);
+    },
+    onError: (error) => {},
+  });
+
+  const editHandler = () => {
+    setEditing((prevEditing) => !prevEditing);
+  };
+
   useEffect(() => {
     if (id) {
       mutateGetUserInfo(id);
+      mutatePutMyInfo(id);
     }
   }, []);
 
@@ -196,23 +212,34 @@ function MyPage() {
             </UserScore>
             <NickName>
               <div>{nickname}님</div>
-              {/* <input type="file" /> */}
             </NickName>
-            {owner ? <PixButton>수정하기</PixButton> : null}
-            {/* {editing ? (
-              <PixButton>저장</PixButton>
-            ) : (
-              <PixButton>수정하기</PixButton>
-            )} */}
+
+            {owner && !editing && (
+              <div>
+                <div>
+                  <PixButton onClick={editHandler}>수정하기</PixButton>
+                  {content === null ? (
+                    <div>수정하기를 통해 프로필을 수정할 수 있습니다.</div>
+                  ) : (
+                    <div>{content}</div>
+                  )}
+                </div>
+              </div>
+            )}
+            {editing && (
+              <div>
+                <div>
+                  <TextArea
+                    value={content}
+                    placeholder="간단한 자기 소개를 해주세요."
+                  />
+                </div>
+                <div>
+                  <PixButton>저장</PixButton>
+                </div>
+              </div>
+            )}
           </UserInfo>
-          {editing ? (
-            <TextArea
-              value={intro}
-              placeholder="간단한 자기 소개를 해주세요."
-            />
-          ) : (
-            <div>수정하기를 통해 프로필을 수정할 수 있습니다.</div>
-          )}
         </UserInfoContainer>
       </ProfileArea>
       <PostContainer>
