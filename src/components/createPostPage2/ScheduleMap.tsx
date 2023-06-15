@@ -8,7 +8,13 @@ import {
   CustomOverlayMap,
 } from "react-kakao-maps-sdk";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { selectedInfosState } from "../../recoil/post/postCreateState";
+import {
+  recruitmentEndDateState,
+  recruitmentStartDateState,
+  selectedInfosState,
+  tripEndDateState,
+  tripStartDateState,
+} from "../../recoil/post/postCreateState";
 import { CommonButton, CommonInput } from "../common";
 import * as Styled from "./ScheduleMapStyle";
 import { PostGetState } from "../../recoil/post/postGetState";
@@ -38,11 +44,16 @@ function ScheduleMap() {
   const { map: prevMapInfo } = getPostData || {};
 
   // const parsedMap = JSON.parse(prevMapInfo);
-
   let parsedMap;
   if (prevMapInfo) {
     parsedMap = JSON.parse(prevMapInfo);
   }
+
+  // Date Picker에서 여행 날짜에 따라 선택 가능한 날짜의 범위
+  const [tripStartDate] = useRecoilState(tripStartDateState);
+  const [tripEndDate] = useRecoilState(tripEndDateState);
+  const tripStartDateObj = tripStartDate ? new Date(tripStartDate) : null;
+  const tripEndDateObj = tripEndDate ? new Date(tripEndDate) : null;
 
   // 수정 중인지 아닌지에 대한 값 true, false
   const postIsEditing = useRecoilValue(postIsEditingState);
@@ -51,8 +62,7 @@ function ScheduleMap() {
   const [selectedMapInfos, setSelectedMapInfos] =
     useRecoilState(selectedInfosState);
 
-  console.log(selectedMapInfos);
-
+  // recoil의 state 값 저장
   useEffect(() => {
     if (postIsEditing && parsedMap) {
       const convertedMap = parsedMap.map((item) => ({
@@ -81,7 +91,7 @@ function ScheduleMap() {
 
   // 사용자가 장소별 선택한 날짜
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const today = new Date(); // datePicker에서 오늘의 날짜 이후를 선택 가능하게 하기 위한 today
+  // const today = new Date(); // datePicker에서 오늘의 날짜 이후를 선택 가능하게 하기 위한 today
 
   // 지도 검색과 그 마커들을 표시
   const searchPlaces = () => {
@@ -132,6 +142,7 @@ function ScheduleMap() {
   const containerRef = useRef(null);
   const lineRef = useRef(null);
 
+  // map 세로선에 대한 css 처리
   useEffect(() => {
     if (containerRef.current && lineRef.current) {
       const observer = new MutationObserver(() => {
@@ -241,7 +252,8 @@ function ScheduleMap() {
           <DatePicker
             selected={selectedDate}
             onChange={(date: Date | null) => setSelectedDate(date)}
-            minDate={today} // 오늘 날짜를 포함한 그 이후 날짜만 선택 가능
+            minDate={tripStartDateObj} // 오늘 날짜를 포함한 그 이후 날짜만 선택 가능
+            maxDate={tripEndDateObj} // 오늘 날짜를 포함한 그 이후 날짜만 선택 가능
             placeholderText="출발 날짜를 알려주세요."
             customInput={<CustomDateInput />}
           />

@@ -11,6 +11,7 @@ import {
 } from "../components/PostPage";
 import { postIdState, PostGetState } from "../recoil/post/postGetState";
 import { getPost } from "../api/post";
+import * as Styled from "./PostPageStyles";
 
 function PostPage() {
   // param 값 추출
@@ -35,16 +36,24 @@ function PostPage() {
   }, [data, postId, setPostData, setPostId]);
 
   return (
-    <div>
-      <PostInformation />
-      <PostOperationButtonGroup />
-      <br />
-      <MapInformation />
-      <br />
-      <PostDetailContent />
-      <br />
-      <PostComment />
-    </div>
+    <Styled.Container>
+      <Styled.PostInfoAndButtonGroupWrapper>
+        <PostInformation />
+        <PostOperationButtonGroup />
+      </Styled.PostInfoAndButtonGroupWrapper>
+
+      <Styled.MapInfoWrapper>
+        <MapInformation />
+      </Styled.MapInfoWrapper>
+
+      <Styled.PostContentWrapper>
+        <PostDetailContent />
+      </Styled.PostContentWrapper>
+
+      <Styled.PostCommentWrapper>
+        <PostComment />
+      </Styled.PostCommentWrapper>
+    </Styled.Container>
   );
 }
 

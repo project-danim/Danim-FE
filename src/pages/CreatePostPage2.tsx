@@ -5,7 +5,7 @@ import { createPost } from "../api/post";
 import { ScheduleMap, TextImageInput } from "../components/CreatePostPage2";
 import postCreateState from "../recoil/post/postCreateSelector";
 import postIsEditingState from "../recoil/post/postIsEditingState";
-import * as Styled from "./PostPageStyles";
+import * as Styled from "./CreateEditPostPageStyles";
 
 function CreatePostPage2() {
   // 컴포넌트가 랜더링 될때 수정 중이 아니라는것을 알려주기 위해 postIsEditing 속성을 false로
