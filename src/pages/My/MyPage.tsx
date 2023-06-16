@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import {
   fecthPosts,
@@ -6,7 +6,6 @@ import {
   fecthUserInfo,
   fetchMyInfo,
 } from "../../api/userInfo";
-import profileIconEditing from "../../../public/myPage/profileIconEditing.svg";
 import {
   CreatedTime,
   ImageArea,
@@ -35,45 +34,49 @@ function MyPage() {
   const [editing, setEditing] = useState(false);
   const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
+  // const [imgUrl, setImgUrl] = useState("");
   const [owner, setOwner] = useState(true);
   const [score, setScore] = useState(20);
   // 유저 리뷰 상태
   const [reviews, setReviews] = useState<any[]>([]);
-  const [posts, setPosts] = useState<any[]>([]);
+  const [, setPosts] = useState<any[]>([]);
+  // const [posts, setPosts] = useState<any[]>([]);
   // 유저정보 가져오는 뮤테이션 함수
   const { mutate: mutateGetUserInfo } = useMutation(fecthUserInfo, {
     onSuccess: (response) => {
       const userInfo = response;
-      setNickname((prev) => userInfo.nickname);
-      setContent((prev) => userInfo.content);
-      setImgUrl((prev) => userInfo.imgUrl);
-      setOwner((prev) => userInfo.owner);
-      setScore((prev) => userInfo.score);
+      setNickname(() => userInfo.nickname);
+      setContent(() => userInfo.content);
+      // setImgUrl((prev) => userInfo.imgUrl);
+      setOwner(() => userInfo.owner);
+      setScore(() => userInfo.score);
     },
-    onError: (error) => {},
+    onError: (error) => {
+      console.error(error);
+    },
   });
 
   // 리뷰 가져오는 뮤테이션 함수
   const { mutate: mutateGetReviews } = useMutation(fecthReviews, {
     onSuccess: (response) => {
-      setReviews((prev: any) => [...reviews, ...response]);
+      setReviews((prev: any[]) => [...prev, ...response]);
       // reviews.map((review)=>review.title)
     },
-    onError: (error) => {},
+    onError: (error) => {
+      console.error(error);
+    },
   });
 
   // 게시글 가져오는 뮤테이션 함수
   const { mutate: mutateGetPosts } = useMutation(fecthPosts, {
     onSuccess: (response) => {
-      setPosts((prev: any) => [...posts, ...response]);
+      setPosts((prev: any[]) => [...prev, ...response]);
     },
-    onError: (error) => {},
+    onError: (error) => {
+      console.error(error);
+    },
   });
 
-  const editHandler = () => {
-    setEditing((prevEditing) => !prevEditing);
-  };
   // 컴포넌트 렌더링 시 유저정보, 리뷰 가져오기
   useEffect(() => {
     if (id) {
@@ -81,7 +84,6 @@ function MyPage() {
       // mutatePutMyInfo(id);
       mutateGetReviews(id);
       mutateGetPosts(id);
-      console.log(fecthPosts);
       // const post = fecthPosts(id);
     }
   }, []);
