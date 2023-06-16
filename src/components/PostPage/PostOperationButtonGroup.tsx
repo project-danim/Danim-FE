@@ -54,7 +54,8 @@ function PostOperationButtonGroup() {
   };
 
   // 게시물 삭제
-  const deletePostMutation = useMutation(() => deletePost(postId), {
+  // 함수 타입 any 좀 넣어놓겠습니다. . .
+  const deletePostMutation: any = useMutation(() => deletePost(postId), {
     onSuccess: () => {
       console.log(`게시물 ${postId}를 삭제했습니다.`);
       navigate("/home");

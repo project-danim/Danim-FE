@@ -1,7 +1,11 @@
 import axios from "axios";
 import { getCookie } from "./signUp";
+import { UserComment } from "../types/commentType";
 
-export const createComment = async (newComment: Comment, postId: number) => {
+export const createComment = async (
+  newComment: UserComment,
+  postId: number
+) => {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_APP_URL}/api/post/${postId}/review`,

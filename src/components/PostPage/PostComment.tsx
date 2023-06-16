@@ -5,17 +5,15 @@ import { IoFootsteps } from "react-icons/io5";
 import { createComment, getComment } from "../../api/comment";
 import { postIdState } from "../../recoil/post/postGetState";
 import * as Styled from "./PostCommentStyle";
-
-interface Comment {
-  comment: string;
-  score: number;
-}
+import { UserComment } from "../../types/commentType";
 
 interface FetchedComment extends Comment {
   id: number;
   userImageUrl: string;
   nickname: string;
   createdAt: string;
+  score: number;
+  comment: string;
 }
 
 function PostComment() {
@@ -48,7 +46,7 @@ function PostComment() {
 
   // 댓글 작성 API 호출 (react-query의 useMutation 사용)
   const createCommentMutation = useMutation(
-    (newComment: Comment) =>
+    (newComment: UserComment) =>
       createComment(
         { comment: newComment.comment, score: newComment.score },
         postId
@@ -75,7 +73,7 @@ function PostComment() {
   // 댓글 작성 버튼 클릭시 호출 함수
   const handleSubmit = () => {
     // api로 전달할 코멘트 객체 생성
-    const newComment: Comment = {
+    const newComment: UserComment = {
       // id: Date.now(),
       comment,
       score: selectedScore,
