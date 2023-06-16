@@ -1,6 +1,12 @@
 import axios from "axios";
 import { getCookie } from "./signUp";
 
+interface UploadResponse {
+  data: string;
+  success: boolean;
+  message: string;
+}
+
 // 게시글 작성
 export const createPost = async (data: any) => {
   try {
@@ -23,7 +29,9 @@ export const createPost = async (data: any) => {
 };
 
 // 게시글 작성 - 이미지 업로드
-export const uploadImage = async (formData: FormData): Promise<string> => {
+export const uploadImage = async (
+  formData: FormData
+): Promise<UploadResponse> => {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_APP_URL}/api/post/image`,
