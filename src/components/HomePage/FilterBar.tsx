@@ -44,7 +44,7 @@ function FilterBar() {
   const [isLocationToggled, handleIsLocationToggled] = useToggle(false);
   const [isGroupSizeToggled, handleIsGroupSizeToggled] = useToggle(false);
   // 현재 검색된 상태인지 토글 state
-  const [, handleSearchClicked] = useRecoilState(isSearchClicked);
+  const [searchClicked, handleSearchClicked] = useRecoilState(isSearchClicked);
   // 더 이상 불러올 데이터가 있는지 표시하는 상태
   const [hasMore, setHasMore] = useState(true);
   // 검색 게시글 페이지 state
@@ -94,10 +94,13 @@ function FilterBar() {
 
   // page 값에 따른 전체 게시글 불러오기
   useEffect(() => {
-    const getPosts = async () => {
-      await getSearchedPosts();
-    };
-    getPosts();
+    // 검색된 상태일때만 게시글 받아오는 함수 실행
+    if (searchClicked) {
+      const getPosts = async () => {
+        await getSearchedPosts();
+      };
+      getPosts();
+    }
   }, [page]);
 
   // 옵저버 객체 생성
