@@ -96,8 +96,14 @@ function CreatePostPage1() {
           키워드로 글을 작성하면 같이 다닐 확률이 높아져요!
         </Styled.SubInfotext>
         <PostTitle />
-        <RecruitmentDatePicker />
-        <RecruitmentCouter />
+        <Styled.RecruitmentAndCouterContainer>
+          <Styled.RecruitmentAndCouterWrapper>
+            <RecruitmentDatePicker />
+          </Styled.RecruitmentAndCouterWrapper>
+          <Styled.RecruitmentAndCouterWrapper>
+            <RecruitmentCouter />
+          </Styled.RecruitmentAndCouterWrapper>
+        </Styled.RecruitmentAndCouterContainer>
       </Styled.Wrapper1>
 
       <Styled.ButtonRouterWrapper>

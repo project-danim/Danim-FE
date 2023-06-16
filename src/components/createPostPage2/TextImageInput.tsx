@@ -48,6 +48,8 @@ function TextImageInput() {
   // 파일 업로드 후 에디터 삽입 로직
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log(file);
+
     if (!file) return;
 
     const formData = new FormData();

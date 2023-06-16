@@ -1,14 +1,21 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { useMutation, useQuery } from "react-query";
-import { IoFootstepsOutline } from "react-icons/io5";
+import { IoFootsteps } from "react-icons/io5";
 import { createComment, getComment } from "../../api/comment";
 import { postIdState } from "../../recoil/post/postGetState";
+import * as Styled from "./PostCommentStyle";
 
 interface Comment {
-  id: number;
   comment: string;
   score: number;
+}
+
+interface FetchedComment extends Comment {
+  id: number;
+  userImageUrl: string;
+  nickname: string;
+  createdAt: string;
 }
 
 function PostComment() {
@@ -21,6 +28,12 @@ function PostComment() {
   // 댓글 목록 state, 작성된 코맨트들
   // const [comments, setComments] = useState<Comment[]>([]);
 
+  // 현재 로그인 중인 유저의 nickname, profileURL
+  const userNickname = sessionStorage.getItem("nickname");
+  const userprofileUrl = sessionStorage.getItem("profileUrl");
+
+  console.log(userNickname, userprofileUrl);
+
   // 댓글 불러오기
   const {
     data: fetchedComments = [],
@@ -29,15 +42,20 @@ function PostComment() {
   } = useQuery(
     ["comments", postId],
     () => getComment(postId),
-    { enabled: !!postId } // postId가 존재할 때만 query 실행
+    { enabled: !!postId }
+    // postId가 존재할 때만 query 실행
   );
 
   // 댓글 작성 API 호출 (react-query의 useMutation 사용)
   const createCommentMutation = useMutation(
-    (newComment) => createComment(newComment, postId),
+    (newComment: Comment) =>
+      createComment(
+        { comment: newComment.comment, score: newComment.score },
+        postId
+      ),
     {
       onSuccess: () => {
-        refetch(); // 댓글 작성 성공 후, 댓글 목록 재요청
+        refetch();
       },
     }
   );
@@ -70,37 +88,72 @@ function PostComment() {
     setSelectedScore(0);
   };
 
+  // 댓글 평점
+  const commentFootprintRating = (score: number) => {
+    const icons = [];
+    for (let i = 0; i < score; i += 1) {
+      icons.push(<IoFootsteps size={14} key={i} />);
+    }
+    return icons;
+  };
+
+  // 댓글 작성 날짜 변환
+  const commentFormatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear().toString().slice(2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}. ${month}. ${day}`;
+  };
+
   return isLoading ? (
     <div> 로딩중입니다. </div>
   ) : (
-    <div>
-      <h2>댓글 작성</h2>
-      <div>
+    <Styled.Container>
+      <Styled.UserInFoAndButtonWrapper>
+        <Styled.UserProfile src={`${userprofileUrl}`} />
+        <Styled.UserNickname>{userNickname}</Styled.UserNickname>
         {[1, 2, 3, 4, 5].map((score) => (
-          <button
-            type="button"
+          <Styled.FootButton
             key={score}
             onClick={() => handleScoreSelect(score)}
             style={{ color: score <= selectedScore ? "black" : "gray" }}
           >
-            <IoFootstepsOutline />
-          </button>
+            <IoFootsteps size={20} />
+          </Styled.FootButton>
         ))}
-      </div>
-      <input value={comment} onChange={handleCommentChange} />
-      <button type="button" onClick={handleSubmit}>
-        댓글 작성
-      </button>
-      <h2>댓글 목록</h2>
-      <ul>
-        {fetchedComments.map((comment) => (
-          <li key={comment.id}>
-            <p>{comment.comment}</p>
-            <p>평점: {comment.score}</p>
-          </li>
+      </Styled.UserInFoAndButtonWrapper>
+      <Styled.AddInputButtonWrapper>
+        <Styled.CommentInput
+          placeholder="발자국 개수로 여행을 평가해주세요."
+          value={comment}
+          onChange={handleCommentChange}
+        />
+        <Styled.AddCommentButton type="button" onClick={handleSubmit}>
+          후기 올리기
+        </Styled.AddCommentButton>
+      </Styled.AddInputButtonWrapper>
+      <Styled.CommentContainer>
+        {fetchedComments.map((userComment: FetchedComment) => (
+          <Styled.CommnetWrapper key={userComment.id}>
+            <Styled.CommentWriterWrapper>
+              <Styled.CommentUserProfile
+                src={`${userComment.userImageUrl}`}
+                alt={`${userComment.userImageUrl}`}
+              />
+              <Styled.CommentUserNickname>
+                {userComment.nickname}
+              </Styled.CommentUserNickname>
+              <Styled.FootprintRating>
+                {commentFootprintRating(userComment.score)}
+              </Styled.FootprintRating>
+              <p> 작성일 ㅣ {commentFormatDate(userComment.createdAt)}</p>
+            </Styled.CommentWriterWrapper>
+            <Styled.CommentContent>{userComment.comment}</Styled.CommentContent>
+          </Styled.CommnetWrapper>
         ))}
-      </ul>
-    </div>
+      </Styled.CommentContainer>
+    </Styled.Container>
   );
 }
 

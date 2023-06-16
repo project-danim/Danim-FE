@@ -44,6 +44,11 @@ function Login() {
       }
       if (response.data.message === "로그인 성공") {
         const { id } = response.data.data;
+        const { nickName: nickname } = response.data.data;
+        const { myPageImageUrl: profileUrl } = response.data.data;
+        sessionStorage.setItem("id", id);
+        sessionStorage.setItem("nickname", nickname);
+        sessionStorage.setItem("profileUrl", profileUrl);
         localStorage.setItem("id", id);
         return navigate("/");
       }

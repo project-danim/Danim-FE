@@ -13,17 +13,20 @@ function PostInformation() {
         <>
           <Styled.TitleWrapper>{postData.postTitle}</Styled.TitleWrapper>
           <Styled.NicknameWrapper>
-            <div>유저 이미지</div>
+            <Styled.ProfileImage src={`${postData.myPageImageUrl}`} />
             <div>{postData.nickName}</div>
           </Styled.NicknameWrapper>
           <Styled.TextWapper>
-            모집인원 : 숫자 / {postData.groupSize}
+            모집인원 : {postData.numberOfParticipants} / {postData.groupSize}
           </Styled.TextWapper>
           <Styled.DateWrapper>
             <Styled.TextWapper>
               모집기한 : {postData.recruitmentEndDate}
             </Styled.TextWapper>
+            <Styled.TextWapper />
+
             <Styled.TextWapper>
+              <Styled.DateVerticalLine />
               출발 날짜 : {postData.tripStartDate}
             </Styled.TextWapper>
             <Styled.TextWapper>
