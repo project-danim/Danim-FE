@@ -1,10 +1,11 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { useMutation } from "react-query";
 import loginUserIdState from "../../recoil/login/userInfo";
-import { fecthMyInfo, fecthUserInfo } from "../../api/userInfo";
+import { fecthReviews, fecthUserInfo, fetchMyInfo } from "../../api/userInfo";
+import profileIconEditing from "../../../public/myPage/profileIconEditing.svg";
+import UserId from "../../components/SignUpPage/UserId";
 
 // 최상단 컨테이너
 const ParentContainer = styled.div`
@@ -93,7 +94,7 @@ const TextArea = styled.textarea`
   width: 809px;
   height: 184px;
   font-size: 15px;
-  margin-bottom: 100px;
+  /* margin-bottom: 100px; */
   padding: 20px;
   gap: 10px;
   border: 1px solid #d6d6d6;
@@ -146,14 +147,44 @@ const ImsiArea2 = styled.div`
   border-bottom: 1px solid #d6d6d6;
 `;
 
-// 리뷰 데이터 타입
-interface ReviewsDataType {
-  postTitle: string;
-  userId: string;
-  review: { review: string; score: number }[];
-  score: number;
-  date: string;
-}
+const CreatedTime = styled.div`
+  color: rgba(133, 133, 133, 1);
+  width: 74px;
+  height: 34px;
+`;
+
+const Mile = styled.div`
+  width: 75px;
+  height: 14px;
+  color: rgba(0, 0, 0, 0.5);
+`;
+
+const ReviewNickName = styled.div`
+  width: 118px;
+  height: 36px;
+  color: rgba(0, 0, 0, 0.5);
+`;
+
+const ReviewContents = styled.div`
+  width: 458px;
+  height: 59px;
+  color: rgba(0, 0, 0, 1);
+`;
+
+const ReviewContainer = styled.div`
+  width: 1119px;
+  height: 254px;
+  margin-top: 150px;
+`;
+
+// // 리뷰 데이터 타입
+// interface ReviewsDataType {
+//   postTitle: string;
+//   userId: string;
+//   review: { review: string; score: number }[];
+//   score: number;
+//   date: string;
+// }
 
 function MyPage() {
   const id = sessionStorage.getItem("id");
@@ -163,6 +194,8 @@ function MyPage() {
   const [imgUrl, setImgUrl] = useState("");
   const [owner, setOwner] = useState(true);
   const [score, setScore] = useState(20);
+  // 유저 리뷰 상태
+  const [reviews, setReviews] = useState<any[]>([]);
 
   // 유저정보 가져오는 뮤테이션 함수
   const { mutate: mutateGetUserInfo } = useMutation(fecthUserInfo, {
@@ -177,32 +210,47 @@ function MyPage() {
     onError: (error) => {},
   });
 
-  // 내 정보 수정
-  const { mutate: mutatePutMyInfo } = useMutation(fecthMyInfo, {
+  // 리뷰 가져오는 뮤테이션 함수
+  const { mutate: mutateGetReviews } = useMutation(fecthReviews, {
     onSuccess: (response) => {
-      const myInfo = response;
-      setNickname((prev) => myInfo.nickname);
-      setContent((prev) => myInfo.content);
-      setImgUrl((prev) => myInfo.imgUrl);
+      setReviews((prev: any) => [...reviews, ...response]);
+      // reviews.map((review)=>review.title)
     },
     onError: (error) => {},
   });
 
+  // 변경된 유저 정보 저장하는 함수?
+  // const { mutate: mutatePutMyInfo } = useMutation(fetchMyInfo, {
+  //   onSuccess: (response) => {},
+  //   onError: (error) => {},
+  // });
+
   const editHandler = () => {
     setEditing((prevEditing) => !prevEditing);
   };
-
+  // 컴포넌트 렌더링 시 유저정보, 리뷰 가져오기
   useEffect(() => {
     if (id) {
       mutateGetUserInfo(id);
-      mutatePutMyInfo(id);
+      // mutatePutMyInfo(id);
+      mutateGetReviews(id);
     }
   }, []);
+
+  // 이미지 버튼 클릭시
+  const clickFileInput = () => {
+    const fileInput = document.getElementById("fileInput");
+    fileInput?.click();
+  };
 
   return (
     <ParentContainer>
       <ProfileArea>
         <ImageBox>
+          <input type="file" style={{ display: "none" }} id="fileInput" />
+          <button type="button" onClick={clickFileInput}>
+            이미지 수정
+          </button>
           <ImageArea />
         </ImageBox>
         <UserInfoContainer>
@@ -214,28 +262,25 @@ function MyPage() {
               <div>{nickname}님</div>
             </NickName>
 
-            {owner && !editing && (
-              <div>
-                <div>
-                  <PixButton onClick={editHandler}>수정하기</PixButton>
-                  {content === null ? (
-                    <div>수정하기를 통해 프로필을 수정할 수 있습니다.</div>
-                  ) : (
-                    <div>{content}</div>
-                  )}
-                </div>
-              </div>
-            )}
-            {editing && (
+            {owner && (
               <div>
                 <div>
                   <TextArea
+                    readOnly={!editing}
                     value={content}
                     placeholder="간단한 자기 소개를 해주세요."
+                    onChange={(e) => setContent(e.target.value)}
                   />
-                </div>
-                <div>
-                  <PixButton>저장</PixButton>
+
+                  <PixButton onClick={() => setEditing(!editing)}>
+                    {editing ? "저장" : "수정하기"}
+                  </PixButton>
+
+                  {/* {content === null ? (
+                    <div>수정하기를 통해 프로필을 수정할 수 있습니다.</div>
+                  ) : (
+                    <div>{content}</div>
+                  )} */}
                 </div>
               </div>
             )}
@@ -244,19 +289,36 @@ function MyPage() {
       </ProfileArea>
       <PostContainer>
         <ImsiArea>
-          <ReviewArea>후기</ReviewArea>
+          {/* 게시글 상 하단 실선 추가 */}
+          <ReviewArea>리뷰</ReviewArea>
           <PostArea>게시글</PostArea>
         </ImsiArea>
         <ImsiArea2>
-          <div style={{ fontWeight: "bold" }}>
-            강남역에서 삼겹살 같이 드실 분!
-          </div>
-          <div style={{ fontSize: "16px", color: "gray", margin: "10px" }}>
-            23.06.07 ★★★★★ 클레오파트라
-          </div>
-          <div>
-            대중교통 이용해서 같이 강남 구경 잘 하고 맛있는 고기 먹고 갑니다!
-          </div>
+          <ReviewContainer>
+            {reviews.map((review) => {
+              const formattedDate = new Date(review.createdAt)
+                .toLocaleString("ko-KR", {
+                  year: "2-digit",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour12: false,
+                })
+                .slice(0, -1);
+
+              return (
+                <div key={`${review.userId}-${review.createdAt}`}>
+                  <div>
+                    <div style={{ display: "flex" }}>
+                      <CreatedTime>{formattedDate}</CreatedTime>
+                      <Mile>{review.point}mile</Mile>
+                      <ReviewNickName>{review.userId}</ReviewNickName>
+                    </div>
+                    <ReviewContents> {review.review}</ReviewContents>
+                  </div>
+                </div>
+              );
+            })}
+          </ReviewContainer>
         </ImsiArea2>
       </PostContainer>
     </ParentContainer>
