@@ -24,6 +24,7 @@ export const fetchSearch = async ({
         },
       }
     );
+    console.log("받아온 값", response.data);
     return response.data;
   } catch (err: any) {
     const errMessage = err || err.response.data.detail;

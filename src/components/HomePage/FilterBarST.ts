@@ -17,38 +17,36 @@ const StyleContainer = styled.div`
 
 // 공통 버튼
 const CommonButton = styled.button<FilterButtonProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   font-size: 16px;
-  border: none;
   border-radius: 20px;
   padding: ${(props) =>
     props.buttonName === "ageButton" ? "0 31px" : "0 12px"};
   background-color: #ffffff;
   background-color: ${(props) =>
     props["data-active"] ? "#2E5902" : "#ffffff"};
-  color: ${(props) => (props["data-active"] ? "#ffffff" : "#2E5902")};
-  color: ${(props) =>
-    props.buttonName === "ageButton" && !props["data-active"]
-      ? "#000000"
-      : null};
-  transition: 0.2s all ease-in-out;
-  box-sizing: border-box;
+  color: ${(props) => (props["data-active"] ? "#ffffff" : "#000000")};
   line-height: ${(props) =>
     props.buttonName === "ageButton" ? "38px" : "40px"};
   border: ${(props) =>
     props.buttonName === "ageButton" ? "1px solid #E4EDC5" : "none"};
-
-  scale: ${(props) => (props["data-active"] ? "1.05" : "1")};
+  border: ${(props) => (props["data-active"] ? "none" : null)};
+  transition: transform 0.2s ease-in-out;
+  transform: ${(props) => (props["data-active"] ? "scale(1.05)" : "scale(1)")};
+  box-sizing: border-box;
 
   // 호버시 스타일링
   &:hover {
     cursor: pointer;
-    background-color: #2e5902;
-    color: #ffffff;
-    scale: 1.05;
-    &::before {
-      background-image: ${(props) => `url(/filterBar/active/${props.url}.svg)`};
-    }
+    border: 2px solid #2e5902;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    padding: ${(props) =>
+      props.buttonName === "ageButton" ? "0 30px" : "0 10px"};
+    line-height: ${(props) =>
+      props.buttonName === "ageButton" ? "36px" : "36px"};
   }
   // 아이콘 스타일링
   &::before {
@@ -59,11 +57,10 @@ const CommonButton = styled.button<FilterButtonProps>`
         ? `url(/filterBar/active/${props.url}.svg)`
         : `url(/filterBar/${props.url}.svg)`};
     width: 24px;
-    height: 24px;
+    height: 24.5px;
     background-repeat: no-repeat;
     margin-right: 10px;
     position: relative;
-    top: 7px;
     ${(props) => props.buttonName === "ageButton" && "display: none;"}
   }
   @media (max-width: 1400px) and (min-width: 320px) {
@@ -71,7 +68,6 @@ const CommonButton = styled.button<FilterButtonProps>`
       props.buttonName === "ageButton" ? "11px" : "14px"};
     padding: ${(props) =>
       props.buttonName === "ageButton" ? "0 15px" : "0 12px"};
-    border-radius: 20px;
   }
 `;
 

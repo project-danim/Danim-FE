@@ -7,7 +7,7 @@ export function showError(error: any) {
 }
 
 
-// 유저 정보 가져오기
+// 유저 정보 가져오기(비동기 통신함수)
 export const fecthUserInfo = async (id: string) => {
   try {
     const accessToken = getAccessToken();
@@ -24,11 +24,11 @@ export const fecthUserInfo = async (id: string) => {
   }
 };
 
-// 내 정보 수정?
-export const fecthMyInfo = async (id: string ) => {
+// 리뷰 가져오기
+export const fecthReviews = async (id: string) => {
     try {
       const accessToken = getAccessToken();
-      const response = await axiosInstance.put(`/api/user/${id}/myInfo`, {
+      const response = await axiosInstance.get(`/api/user/${id}/review`, {
       headers: {
             ACCESS_KEY: accessToken,
           },
@@ -41,5 +41,43 @@ export const fecthMyInfo = async (id: string ) => {
     }
   };
   
+// 게시글 가져오기
+export const fecthPosts = async (id: string) => {
+    try {
+      const accessToken = getAccessToken();
+      const response = await axiosInstance.get(`/api/user/${id}/posts`, {
+      headers: {
+            ACCESS_KEY: accessToken,
+          },
+        });
+      
+      return response.data.data
+    } catch (err: any) {
+      const errMessage = err.response.data.detail || err.message;
+      return errMessage;
+    }
+  };
   
 
+  
+
+
+// 내 정보 수정?
+export const fetchMyInfo = async (id: any, userInfo: any) => {
+    try {
+      const accessToken = getAccessToken();
+      const response = await axiosInstance.put(`/api/user/${id}/myInfo`, userInfo, {
+        headers: {
+          ACCESS_KEY: accessToken,
+        },
+      });
+      
+      return response.data;
+      console.log(response.data)
+  
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.detail || error.message;
+      return errorMessage;
+    }
+  };
+  

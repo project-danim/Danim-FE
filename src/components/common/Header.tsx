@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation } from "react-query";
 import { fetchLogout, getAccessToken, getRefreshToken } from "../../api/signUp";
 import loginUserIdState from "../../recoil/login/userInfo";
@@ -12,29 +11,16 @@ function Header() {
   const refreshToken = getRefreshToken();
   const [userAccessCookie, setUserAccessCookie] = useState(accessToken);
   const [userRefreshCookie, setUserRefreshCookie] = useState(refreshToken);
-  const [loginUserId, setLoginUserId] = useRecoilState(loginUserIdState);
+  const [, setLoginUserId] = useRecoilState(loginUserIdState);
 
   // 네비게이트 함수 생성
   const navigate = useNavigate();
 
   // 로그아웃 뮤테이션 함수
   const { mutate: mutateLogout } = useMutation(fetchLogout, {
-    onSuccess: (response) => {
-      if (response?.data.message === "로그아웃 성공") {
-        document.cookie =
-          "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie =
-          "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        // 새로 추가함 01:08
-        setLoginUserId("");
-      }
-      if (response?.data === "refreshToken 삭제 완료") {
-        alert("로그아웃이 완료되었습니다.");
-        // 새로 추가함 01:08
-        setLoginUserId("");
-        return navigate("/");
-      }
+    onSuccess: () => {
       alert("로그아웃이 완료되었습니다.");
+      setLoginUserId("");
       return navigate("/");
     },
     onError: (error: any) => {
@@ -73,8 +59,6 @@ function Header() {
     mutateLogout();
     setUserAccessCookie(null);
     setUserRefreshCookie(null);
-    // 새로 주석처리함 01:08
-    // setLoginUserId("");
     navigate("/");
   };
 
@@ -83,60 +67,62 @@ function Header() {
   };
 
   return (
-    <st.Container>
-      <st.DanimLogo onClick={handleClickDanimLogo}>danim</st.DanimLogo>
-      <st.ButtonContainer>
-        {userAccessCookie || userRefreshCookie ? (
-          <>
-            <st.CommonStyleButton
-              buttonName="post"
-              type="button"
-              onClick={handleCreatePostClick}
-            >
-              동행 만들기
-            </st.CommonStyleButton>
-            <st.chatAndUserButton
-              buttonName="chat"
-              type="button"
-              onClick={handleChatButtonClick}
-            >
-              채팅하기
-            </st.chatAndUserButton>
-            <st.chatAndUserButton
-              buttonName="user"
-              type="button"
-              onClick={handleMyPageButtonClick}
-            >
-              마이 페이지
-            </st.chatAndUserButton>
-            <st.CommonStyleButton
-              buttonName="logout"
-              type="button"
-              onClick={handleLogoutButtonClick}
-            >
-              로그아웃
-            </st.CommonStyleButton>
-          </>
-        ) : (
-          <>
-            <st.CommonStyleButton
-              type="button"
-              buttonName="signUp"
-              onClick={handleClickSignUpButton}
-            >
-              회원가입
-            </st.CommonStyleButton>
-            <st.CommonStyleButton
-              type="button"
-              buttonName="login"
-              onClick={handleClickLoginButton}
-            >
-              로그인
-            </st.CommonStyleButton>
-          </>
-        )}
-      </st.ButtonContainer>
-    </st.Container>
+    <st.headerAria>
+      <st.Container>
+        <st.DanimLogo onClick={handleClickDanimLogo}>danim</st.DanimLogo>
+        <st.ButtonContainer>
+          {userAccessCookie || userRefreshCookie ? (
+            <>
+              <st.CommonStyleButton
+                buttonName="post"
+                type="button"
+                onClick={handleCreatePostClick}
+              >
+                동행 만들기
+              </st.CommonStyleButton>
+              <st.chatAndUserButton
+                buttonName="chat"
+                type="button"
+                onClick={handleChatButtonClick}
+              >
+                채팅하기
+              </st.chatAndUserButton>
+              <st.chatAndUserButton
+                buttonName="user"
+                type="button"
+                onClick={handleMyPageButtonClick}
+              >
+                마이 페이지
+              </st.chatAndUserButton>
+              <st.CommonStyleButton
+                buttonName="logout"
+                type="button"
+                onClick={handleLogoutButtonClick}
+              >
+                로그아웃
+              </st.CommonStyleButton>
+            </>
+          ) : (
+            <>
+              <st.CommonStyleButton
+                type="button"
+                buttonName="signUp"
+                onClick={handleClickSignUpButton}
+              >
+                회원가입
+              </st.CommonStyleButton>
+              <st.CommonStyleButton
+                type="button"
+                buttonName="login"
+                onClick={handleClickLoginButton}
+              >
+                로그인
+              </st.CommonStyleButton>
+            </>
+          )}
+        </st.ButtonContainer>
+      </st.Container>
+    </st.headerAria>
   );
 }
 

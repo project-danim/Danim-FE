@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilState } from "recoil";
 import useInput from "../../hooks/useInput";
@@ -18,12 +18,11 @@ import {
   filteredAge,
   filteredGroupSize,
   filteredLocation,
-  isExpiredPostState,
   isSearchClicked,
-  searchedPageState,
 } from "../../recoil/filter/filterdPost";
 import st from "./FilterBarST";
 import common from "./PostST";
+import { lastRefState } from "../../recoil/scroll/scroll";
 
 function FilterBar() {
   // 사용자가 선택한 모든 검색 조건들
@@ -45,29 +44,31 @@ function FilterBar() {
   const [isLocationToggled, handleIsLocationToggled] = useToggle(false);
   const [isGroupSizeToggled, handleIsGroupSizeToggled] = useToggle(false);
   // 현재 검색된 상태인지 토글 state
-  const [isSearched, handleSearchClicked] = useRecoilState(isSearchClicked);
-  // 마감된 게시글 포함할지 토글 state
-  const [, handleIncludeExpiredPost] = useRecoilState(isExpiredPostState);
+  const [, handleSearchClicked] = useRecoilState(isSearchClicked);
   // 더 이상 불러올 데이터가 있는지 표시하는 상태
   const [hasMore, setHasMore] = useState(true);
   // 검색 게시글 페이지 state
-  const [page, setSearchedPage] = useRecoilState(searchedPageState);
-  const size = 8;
+  const [page, setPage] = useState(0);
+  // 검색 게시글들의 마지막 게시글 ref
+  const [searchedLastRef] = useRecoilState<any>(lastRefState);
+
+  // 옵저버 객체가 참조할 값 생성
+  const observer = useRef<any>();
+  const size = 3;
 
   // 검색 뮤테이션 함수
   const { mutate: mutateSearch } = useMutation(fetchSearch, {
     onSuccess: (response) => {
       if (response.statusCode === 200) {
-        handleSearchClicked(true);
-        // setFilteredPosts((prevPosts) => {
-        //   // 새로운 포스트만 필터링
-        //   const newPosts = response.data.filter(
-        //     (newPost: any) =>
-        //       !prevPosts.some((prevPost: any) => prevPost.id === newPost.id)
-        //   );
-        //   return [...prevPosts, ...newPosts];
-        // });
-        setFilteredPosts([...response.data]);
+        handleSearchClicked(() => true);
+        // 새로운 포스트만 필터링
+        setFilteredPosts((prevPosts) => {
+          const newPosts = response.data.filter(
+            (newPost: any) =>
+              !prevPosts.some((prevPost: any) => prevPost.id === newPost.id)
+          );
+          return [...prevPosts, ...newPosts];
+        });
         // 더 이상 가져올 데이터 없음
         if (response.data.length < size) {
           console.log("더이상 가져올 데이터없음");
@@ -75,11 +76,11 @@ function FilterBar() {
         }
       }
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
       alert("요청이 실패했습니다. 다시 시도해주세요!");
     },
   });
+
   // 검색된 게시글 불러오기
   const getSearchedPosts = () => {
     // 더 이상 불러올 데이터가 없다면 종료
@@ -87,15 +88,31 @@ function FilterBar() {
     const allKeyword = allFilter;
     mutateSearch({ allKeyword, page, size });
   };
+
   // page 값에 따른 전체 게시글 불러오기
   useEffect(() => {
     const getPosts = async () => {
-      if (isSearched) {
-        await getSearchedPosts();
-      }
+      await getSearchedPosts();
     };
     getPosts();
   }, [page]);
+
+  // 옵저버 객체 생성
+  useEffect(() => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && entries[0].intersectionRatio >= 1) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      },
+      { threshold: 1 }
+    );
+    if (searchedLastRef) {
+      // 데이터가 불러와지기 전에 실행하면 안되니까 lastPostRef.current가 있을때로 조건 생성
+      observer.current.observe(searchedLastRef);
+    }
+  }, [filteredPosts, searchedLastRef]);
 
   // 키워드 선택 핸들러
   const handleSelectKeyword = (e: React.MouseEvent<Element, MouseEvent>) => {
@@ -162,7 +179,6 @@ function FilterBar() {
     };
     setAllKeyword({ ...allKeyword });
     mutateSearch({ allKeyword, page, size });
-    // console.log(allKeyword, page, size);
   };
 
   return (
@@ -278,11 +294,7 @@ function FilterBar() {
         </st.AgeContainer>
       </st.DetailFilterContainer>
       <label htmlFor="expiredPostInput">
-        <input
-          type="checkbox"
-          id="expiredPostInput"
-          onChange={() => handleIncludeExpiredPost((prev: boolean) => !prev)}
-        />
+        <input type="checkbox" id="expiredPostInput" />
         마감된 게시글 보지 않기
       </label>
       <common.CommonButton
