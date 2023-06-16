@@ -36,6 +36,12 @@ const CommonStyleButton = styled.button<CommonStyleButtonProps>`
   box-sizing: border-box;
 `;
 
+// 헤더 영역 전체
+const headerAria = styled.div`
+  width: 100%;
+  background-color: #ffffff;
+`;
+
 // 헤더 컨테이너
 const Container = styled.div`
   width: 100%;
@@ -46,13 +52,14 @@ const Container = styled.div`
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
+  margin: 0 auto;
 `;
 
 // 로고
 const DanimLogo = styled.h1`
   text-indent: -9999px;
   background: url("header/danimLogo.svg") no-repeat;
-  width: 87px;
+  width: 92px;
   height: 28px;
   overflow: hidden;
   cursor: pointer;
@@ -81,6 +88,7 @@ const chatAndUserButton = styled.button<CommonStyleButtonProps>`
 `;
 
 export default {
+  headerAria,
   Container,
   DanimLogo,
   ButtonContainer,
