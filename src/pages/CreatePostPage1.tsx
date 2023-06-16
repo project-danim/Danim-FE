@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   AgeRange,
   Gender,
@@ -12,21 +12,44 @@ import {
   PostTitle,
 } from "../components/CreatePostPage1";
 import postIsEditingState from "../recoil/post/postIsEditingState";
-import * as Styled from "./PostPageStyles";
+import * as Styled from "./CreateEditPostPageStyles";
+import useResetAllPostStates from "../hooks/useResetAllPostStates";
 
 function CreatePostPage1() {
-  // 컴포넌트가 랜더링 될때 수정 중이 아니도록 하기 위해 postIsEditing 속성을 false로 설정
   const [, setPostIsEditing] = useRecoilState(postIsEditingState);
+  // 컴포넌트가 랜더링 될때 수정 중이 아니도록 하기 위해 postIsEditing 속성을 false로 설정
   useEffect(() => {
     setPostIsEditing(false);
   }, []);
 
+  // 페이지 이동에 따른 recoil state reset
+  const resetAllStates = useResetAllPostStates();
+  const location = useLocation();
+  useEffect(() => {
+    const currentPath = location.pathname;
+
+    // "/create-post/step1"에서 다른 페이지로 이동할 때
+    if (currentPath === "/create-post/step1") {
+      resetAllStates();
+    }
+
+    // 다른 페이지에서 "/create-post/step1" 또는 "/create-post/step2"로 이동할 때
+    if (
+      currentPath !== "/create-post/step1" &&
+      currentPath !== "/create-post/step2"
+    ) {
+      resetAllStates();
+    }
+  }, [location]); // 페이지가 변경될 때마다 useEffect 실행
+
   const navigate = useNavigate();
 
+  // 다음 버튼
   const handleNextClick = () => {
     navigate("/create-post/step2");
   };
 
+  // 이전 버튼
   const handleBeforeClick = () => {
     navigate("/");
   };
@@ -73,8 +96,14 @@ function CreatePostPage1() {
           키워드로 글을 작성하면 같이 다닐 확률이 높아져요!
         </Styled.SubInfotext>
         <PostTitle />
-        <RecruitmentDatePicker />
-        <RecruitmentCouter />
+        <Styled.RecruitmentAndCouterContainer>
+          <Styled.RecruitmentAndCouterWrapper>
+            <RecruitmentDatePicker />
+          </Styled.RecruitmentAndCouterWrapper>
+          <Styled.RecruitmentAndCouterWrapper>
+            <RecruitmentCouter />
+          </Styled.RecruitmentAndCouterWrapper>
+        </Styled.RecruitmentAndCouterContainer>
       </Styled.Wrapper1>
 
       <Styled.ButtonRouterWrapper>

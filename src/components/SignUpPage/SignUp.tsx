@@ -122,8 +122,6 @@ function SignUp() {
   function handleApiResponse<T>(response: ApiResponse<T>) {
     if (response.status === 200) {
       alert("회원가입이 완료되었습니다!");
-    } else {
-      console.log("여기서 출력", response);
     }
   }
 

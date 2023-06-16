@@ -74,7 +74,6 @@ export const MapInfoWrapper = styled.div`
 
 // input - add wrapper.
 export const InputAddWrapper = styled.div`
-  width: 100%;
   margin: 10px 0 10px 0;
 `;
 

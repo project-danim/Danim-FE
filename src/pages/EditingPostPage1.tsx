@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
@@ -14,7 +14,8 @@ import {
 } from "../components/CreatePostPage1";
 import { postIdState } from "../recoil/post/postGetState";
 import postIsEditingState from "../recoil/post/postIsEditingState";
-import * as Styled from "./PostPageStyles";
+import * as Styled from "./CreateEditPostPageStyles";
+import useResetAllPostStates from "../hooks/useResetAllPostStates";
 
 function EditingPostPage1() {
   // 글이 수정될때 postIsEditing state 를 true 로 변경
@@ -28,13 +29,35 @@ function EditingPostPage1() {
 
   const navigate = useNavigate();
 
+  // 이전 버튼
   const handleBeforeClick = () => {
     navigate("/");
   };
 
+  // 다음 버튼
   const handleNextClick = () => {
     navigate(`/edit-post/step2/${postId}`);
   };
+
+  // 페이지 이동에 따른 recoil state reset
+  const resetAllStates = useResetAllPostStates();
+  const location = useLocation();
+  useEffect(() => {
+    const currentPath = location.pathname;
+
+    // "/create-post/step1"에서 다른 페이지로 이동할 때
+    if (currentPath === `/edit-post/step1/${postId}`) {
+      resetAllStates();
+    }
+
+    // 다른 페이지에서 "/create-post/step1" 또는 "/create-post/step2"로 이동할 때
+    if (
+      currentPath !== `/edit-post/step1/${postId}` &&
+      currentPath !== `/edit-post/step2/${postId}`
+    ) {
+      resetAllStates();
+    }
+  }, [location]); // 페이지가 변경될 때마다 useEffect 실행
 
   return (
     <Styled.Container>

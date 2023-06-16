@@ -4,6 +4,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
 import {
+  recruitmentEndDateState,
+  recruitmentStartDateState,
   tripEndDateState,
   tripStartDateState,
 } from "../../recoil/post/postCreateState";
