@@ -12,20 +12,6 @@ import convertDateFormat from "../../utils/convertDateFormat";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
 
-// DatePicker 스타일링 - Start
-const CustomStartInput = React.forwardRef(({ value, onClick }, ref) => (
-  <StyledInput onClick={onClick} ref={ref}>
-    {value || "모집 일자를 알려주세요."}
-  </StyledInput>
-));
-
-// DatePicker 스타일링 - End
-const CustomEndInput = React.forwardRef(({ value, onClick }, ref) => (
-  <StyledInput onClick={onClick} ref={ref}>
-    {value || "모집 마감 일자를 알려주세요."}
-  </StyledInput>
-));
-
 const StyledInput = styled.div`
   border: 0.5px solid #a3a3a3;
   font-size: 16px;
@@ -46,6 +32,38 @@ const Container = styled.div`
 const DatePickerWrapper = styled.div`
   width: 100%;
 `;
+
+type Props = {
+  value?: string;
+  onClick?: () => void;
+};
+
+const defaultProps: Props = {
+  value: "",
+  onClick: () => {},
+};
+
+// // DatePicker 스타일링 - Start
+// const CustomStartInput = React.forwardRef<HTMLDivElement, Props>(
+//   ({ value, onClick }, ref) => (
+//     <StyledInput onClick={onClick} ref={ref}>
+//       {value || "모집 일자를 알려주세요."}
+//     </StyledInput>
+//   )
+// );
+// CustomStartInput.displayName = "CustomStartInput";
+// CustomStartInput.defaultProps = defaultProps;
+
+// DatePicker 스타일링 - End
+const CustomEndInput = React.forwardRef<HTMLDivElement, Props>(
+  ({ value, onClick }, ref) => (
+    <StyledInput onClick={onClick} ref={ref}>
+      {value || "모집 마감 일자를 알려주세요."}
+    </StyledInput>
+  )
+);
+CustomEndInput.displayName = "CustomEndInput";
+CustomEndInput.defaultProps = defaultProps;
 
 function RecruitmentDatePicker() {
   // recoil state
@@ -102,7 +120,6 @@ function RecruitmentDatePicker() {
           dateFormat="yyyy년 MM월 dd일"
           minDate={today} // 시작 날짜 이전의 날짜는 선택 불가능
           maxDate={tripEndDateObj} // 여행 종료일 이후는 모집이 불가능
-          isClearable
           placeholderText="종료 날짜 선택"
           customInput={<CustomEndInput />}
         />

@@ -2,7 +2,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ScheduleMap, TextImageInput } from "../components/CreatePostPage2";
-import { PostGetState, postIdState } from "../recoil/post/postGetState";
+import { postIdState } from "../recoil/post/postGetState";
 import { editPost } from "../api/post";
 import postIsEditingState from "../recoil/post/postIsEditingState";
 import postCreateState from "../recoil/post/postCreateSelector";

@@ -1,5 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import {
@@ -19,7 +18,7 @@ import useResetAllPostStates from "../hooks/useResetAllPostStates";
 
 function EditingPostPage1() {
   // 글이 수정될때 postIsEditing state 를 true 로 변경
-  const [postIsEditing, setPostIsEditing] = useRecoilState(postIsEditingState);
+  const [, setPostIsEditing] = useRecoilState(postIsEditingState);
   useEffect(() => {
     setPostIsEditing(true);
   }, [setPostIsEditing]);
