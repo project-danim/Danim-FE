@@ -1,14 +1,9 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 // 공통 버튼 프롭 타입
-type FilterButtonProps = {
-  buttonName: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-// 게시글 컨테이너 프롭 타입
-type PostContainerProps = {
-  expired: boolean;
-} & React.HTMLProps<HTMLDivElement>;
+// type FilterButtonProps = {
+//   buttonName: string;
+// } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 // 채팅 배경화면
 const ChatPageBackground = styled.div`

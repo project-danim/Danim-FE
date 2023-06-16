@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { axiosInstance, setCookie, showError } from "../../api/signUp";
 import SignUpForSocial from "../SignUpPage/SignUpForSocial";
@@ -33,7 +33,7 @@ function Redirection() {
         setCookie("accessToken", accessToken, 1);
         setCookie("refreshToken", refreshToken, 30);
         const userIdResponse = response.data.data.toString();
-        setUserId((prev) => userIdResponse);
+        setUserId(() => userIdResponse);
       } catch (err) {
         showError(err);
       }

@@ -4,7 +4,7 @@ import { PostGetState } from "../../recoil/post/postGetState";
 
 export const Container = styled.div`
   /* width: 100%;
-  height: 100%; */
+height: 100%; */
   img {
     max-width: 1120px;
     min-width: 25%;

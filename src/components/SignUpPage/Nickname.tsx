@@ -24,7 +24,7 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
 
   // 닉네임 입력값 입력 핸들러
   const handleChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserNickname((prev) => e.target.value);
+    setUserNickname(() => e.target.value);
   };
 
   // 닉네임 중복검사 뮤테이션 함수

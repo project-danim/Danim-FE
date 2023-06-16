@@ -9,20 +9,20 @@ import { UserInfoForKakao } from "../../types/userType";
 import userIdState from "../../recoil/login/userInfo";
 
 function SignUpForSocial() {
-  const [userIdAtom, setUserId] = useRecoilState(userIdState);
+  const [userIdAtom] = useRecoilState(userIdState);
 
   // 성별, 나이 입력값 state
   const [activeGender, setActiveGender] = useState("");
   const userGenderRef = useRef<HTMLButtonElement>(null);
-  const [agreeGender, handleAgreeGender, setAgreeGender] = useToggle(false);
+  const [agreeGender, handleAgreeGender] = useToggle(false);
   const [activeAge, setActiveAge] = useState("");
-  const [agreeForAge, handleIsAgreeForAge, setIsAgreeForAge] = useToggle(false);
+  const [agreeForAge, handleIsAgreeForAge] = useToggle(false);
 
   // 성별, 연령대 에러 메세지 상태
   const [genderError, setGenderError] = useState("");
   const [agreeForGenderError, setAgreeForGenderError] = useState("");
   const [ageError, setAgeError] = useState("");
-  const [agreeForAgeError, setAgreeForAgeError] = useState("");
+  // const [agreeForAgeError, setAgreeForAgeError] = useState("");
 
   // 네비게이트 생성
   const navigate = useNavigate();
