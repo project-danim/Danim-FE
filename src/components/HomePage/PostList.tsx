@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { filterdPost, isSearchClicked } from "../../recoil/filter/filterdPost";
 import { fetchAllPosts } from "../../api/search";
-import Posts from "./Posts";
+import PostContainer from "./PostContainer";
 
 function PostList() {
   // 전체 게시글 state
@@ -11,7 +11,7 @@ function PostList() {
   // 검색으로 받은 게시글 state
   const [filteredPosts] = useRecoilState<any[]>(filterdPost);
   // 검색 토글 state
-  const [isSearched, handleSearchClicked] = useRecoilState(isSearchClicked);
+  const [isSearched] = useRecoilState(isSearchClicked);
   // 더 이상 불러올 데이터가 있는지 표시하는 상태
   const [hasMore, setHasMore] = useState(true);
   // 전체 게시글 페이지 state
@@ -35,7 +35,6 @@ function PostList() {
         });
         if (response.data.length < size) {
           setHasMore(false);
-          console.log("더 이상 불러올 데이터 없음!");
         }
       }
     },
@@ -80,13 +79,17 @@ function PostList() {
   return (
     <div>
       {isSearched ? (
-        <Posts
+        <PostContainer
           postName="searchedPost"
           posts={filteredPosts}
           lastPostRef={lastPostRef}
         />
       ) : (
-        <Posts postName="allPost" posts={allPosts} lastPostRef={lastPostRef} />
+        <PostContainer
+          postName="allPost"
+          posts={allPosts}
+          lastPostRef={lastPostRef}
+        />
       )}
     </div>
   );
