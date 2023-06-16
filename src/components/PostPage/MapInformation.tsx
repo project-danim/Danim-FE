@@ -35,7 +35,7 @@ function MapInformation() {
         level={6}
       >
         {/* 마커들의 정보를 표시 */}
-        {parsedMap.map((markerInfo, index) => (
+        {parsedMap.map((markerInfo) => (
           <MapMarker
             key={`marker-${markerInfo}`}
             position={markerInfo.info.position}

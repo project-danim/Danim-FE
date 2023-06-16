@@ -22,7 +22,7 @@ function HomeLayout() {
       <OutletWrapper>
         <Outlet />
       </OutletWrapper>
-      {/* <Footer /> */}
+      <Footer />
     </Container>
   );
 }
