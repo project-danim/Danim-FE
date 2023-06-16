@@ -11,8 +11,9 @@
     ],
 
     /* Bundler mode */
-    // "moduleResolution": "bundler",
     "moduleResolution": "node",
+    // 16번 라인은 기본값으로 가져온 모듈을 허용하는 옵션으로, React를 기본값으로 가져오기 위해 추가
+    "allowSyntheticDefaultImports": true,
     // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -27,6 +28,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "vite.config.ts", ".eslintrc.cjs"], // module.export 오류 해결- ".eslintrc.cjs" 추가
+  "include": ["src", "vite.config.ts", ".eslintrc.cjs"], // module.export 오류 해결- ".eslintrc.cjs" 추가, "vite.config.ts" 추가
   "references": [{ "path": "./tsconfig.node.json" }]
 }
