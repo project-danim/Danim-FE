@@ -7,14 +7,14 @@ export const Container = styled.div`
   margin: 0 auto;
 `;
 
-// post page 1 : wrapper
+// post step 1 : wrapper
 export const Wrapper1 = styled.div`
   width: 100%;
   margin: 64px 0 64px 0;
   border-color: black;
 `;
 
-// post page 2 : wrapper
+// post step 2 : wrapper
 export const Wrapper2 = styled.div`
   width: 100%;
   margin: 20px 0 20px 0;
@@ -99,4 +99,15 @@ export const ButtonRouterWrapper = styled.div`
   display: flex;
   margin-top: 98px;
   gap: 10px;
+`;
+
+// 모집 마감 일자 / 모집 인원
+export const RecruitmentAndCouterContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+`;
+
+export const RecruitmentAndCouterWrapper = styled.div`
+  flex: 1;
 `;
