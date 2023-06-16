@@ -43,17 +43,6 @@ const defaultProps: Props = {
   onClick: () => {},
 };
 
-// // DatePicker 스타일링 - Start
-// const CustomStartInput = React.forwardRef<HTMLDivElement, Props>(
-//   ({ value, onClick }, ref) => (
-//     <StyledInput onClick={onClick} ref={ref}>
-//       {value || "모집 일자를 알려주세요."}
-//     </StyledInput>
-//   )
-// );
-// CustomStartInput.displayName = "CustomStartInput";
-// CustomStartInput.defaultProps = defaultProps;
-
 // DatePicker 스타일링 - End
 const CustomEndInput = React.forwardRef<HTMLDivElement, Props>(
   ({ value, onClick }, ref) => (
@@ -83,7 +72,7 @@ function RecruitmentDatePicker() {
   const tripEndDateObj = tripEndDate ? new Date(tripEndDate) : null;
 
   // 초기값을 null로 설정
-  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
   // recruitmentStartDate나 recruitmentEndDate가 변경되었을 때 startDate와 endDate를 업데이트

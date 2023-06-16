@@ -14,9 +14,9 @@ height: 100%; */
 
 // 임의로 프롭에 대한 타입 지정 코드 넣어놓음 -지수-
 // interface PostDetailContentProps {
-// postData: {
-// content?: string;
-// };
+//   postData: {
+//     content?: string;
+//   };
 // }
 
 // 원래 코드
