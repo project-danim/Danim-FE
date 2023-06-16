@@ -50,7 +50,6 @@ export const fecthPosts = async (id: string) => {
             ACCESS_KEY: accessToken,
           },
         });
-      
       return response.data.data
     } catch (err: any) {
       const errMessage = err.response.data.detail || err.message;
