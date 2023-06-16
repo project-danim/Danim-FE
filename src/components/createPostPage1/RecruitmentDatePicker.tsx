@@ -45,7 +45,6 @@ const Container = styled.div`
 
 const DatePickerWrapper = styled.div`
   width: 100%;
-  /* margin: 5px; */
 `;
 
 function RecruitmentDatePicker() {
@@ -85,15 +84,6 @@ function RecruitmentDatePicker() {
     }
   }, [postIsEditing, recruitmentStartDate, recruitmentEndDate]);
 
-  // 모집 시작 날짜) 날짜가 선택될 때 - 날짜 형식 변환, state변환, recoil state 전달
-  // const handleStartDateChange = (date: Date | null) => {
-  //   if (date) {
-  //     const formattedDate = convertDateFormat(date);
-  //     setStartDate(date);
-  //     setRecruitmentStartDate(formattedDate);
-  //   }
-  // };
-
   // 모집 마지막 날짜) 날짜가 선택될 때 - 날짜 형식 변환, state변환, recoil state 전달
   const handleEndDateChange = (date: Date | null) => {
     if (date) {
@@ -105,16 +95,6 @@ function RecruitmentDatePicker() {
 
   return (
     <Container>
-      {/* <DatePickerWrapper>
-        <DatePicker
-          selected={startDate}
-          onChange={handleStartDateChange}
-          dateFormat="yyyy년 MM월 dd일"
-          minDate={today} // 오늘 날짜를 포함한 그 이후 날짜만 선택 가능
-          placeholderText="시작 날짜 선택"
-          customInput={<CustomStartInput />}
-        />
-      </DatePickerWrapper> */}
       <DatePickerWrapper>
         <DatePicker
           selected={endDate}
