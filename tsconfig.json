@@ -6,8 +6,8 @@
     "skipLibCheck": true,
 
     "types": [
-      "kakao.maps.d.ts",
-      "sockjs-client" // kakaoMap typescript
+      "kakao.maps.d.ts", // kakaoMap typescript
+      "sockjs-client"
     ],
 
     /* Bundler mode */
