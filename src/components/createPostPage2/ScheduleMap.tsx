@@ -9,8 +9,6 @@ import {
 } from "react-kakao-maps-sdk";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  recruitmentEndDateState,
-  recruitmentStartDateState,
   selectedInfosState,
   tripEndDateState,
   tripStartDateState,
@@ -20,12 +18,26 @@ import * as Styled from "./ScheduleMapStyle";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
 
+type Props = {
+  value?: string;
+  onClick?: () => void;
+};
+
+const defaultProps: Props = {
+  value: "",
+  onClick: () => {},
+};
+
 // DatePicker 스타일링 - Start
-const CustomDateInput = React.forwardRef(({ value, onClick }, ref) => (
-  <Styled.StyledInput onClick={onClick} ref={ref}>
-    {value || "출발 날짜를 알려주세요."}
-  </Styled.StyledInput>
-));
+const CustomDateInput = React.forwardRef<HTMLDivElement, Props>(
+  ({ value, onClick }, ref) => (
+    <Styled.StyledInput onClick={onClick} ref={ref}>
+      {value || "출발 날짜를 알려주세요."}
+    </Styled.StyledInput>
+  )
+);
+CustomDateInput.displayName = "CustomStartInput";
+CustomDateInput.defaultProps = defaultProps;
 
 interface MarkerType {
   position: {
@@ -44,7 +56,7 @@ function ScheduleMap() {
   const { map: prevMapInfo } = getPostData || {};
 
   // const parsedMap = JSON.parse(prevMapInfo);
-  let parsedMap;
+  let parsedMap: unknown;
   if (prevMapInfo) {
     parsedMap = JSON.parse(prevMapInfo);
   }
@@ -64,8 +76,8 @@ function ScheduleMap() {
 
   // recoil의 state 값 저장
   useEffect(() => {
-    if (postIsEditing && parsedMap) {
-      const convertedMap = parsedMap.map((item) => ({
+    if (postIsEditing && Array.isArray(parsedMap)) {
+      const convertedMap = parsedMap.map((item: any) => ({
         info: {
           address: item.info.address,
           content: item.info.content,
@@ -138,25 +150,33 @@ function ScheduleMap() {
     }
   };
 
-  // ⭐️ 지도 정보의 세로선
-  const containerRef = useRef(null);
-  const lineRef = useRef(null);
+  // 지도 정보의 세로선
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
 
   // map 세로선에 대한 css 처리
   useEffect(() => {
-    if (containerRef.current && lineRef.current) {
+    if (lineRef.current !== null) {
       const observer = new MutationObserver(() => {
-        lineRef.current.style.height = `${containerRef.current.scrollHeight}px`;
+        if (containerRef.current !== null && lineRef.current !== null) {
+          lineRef.current.style.height = `${containerRef.current.scrollHeight}px`;
+        }
       });
 
-      observer.observe(containerRef.current, {
-        childList: true,
-        subtree: true,
-      });
+      if (containerRef.current !== null) {
+        observer.observe(containerRef.current, {
+          attributes: true,
+          childList: true,
+          subtree: true,
+        });
+      }
 
       // Clean up
       return () => observer.disconnect();
     }
+
+    // If refs are not defined, return an empty cleanup function
+    return () => {};
   }, []);
 
   return (

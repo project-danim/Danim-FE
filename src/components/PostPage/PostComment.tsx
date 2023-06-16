@@ -7,9 +7,15 @@ import { postIdState } from "../../recoil/post/postGetState";
 import * as Styled from "./PostCommentStyle";
 
 interface Comment {
-  id: number;
   comment: string;
   score: number;
+}
+
+interface FetchedComment extends Comment {
+  id: number;
+  userImageUrl: string;
+  nickname: string;
+  createdAt: string;
 }
 
 function PostComment() {
@@ -36,15 +42,20 @@ function PostComment() {
   } = useQuery(
     ["comments", postId],
     () => getComment(postId),
-    { enabled: !!postId } // postId가 존재할 때만 query 실행
+    { enabled: !!postId }
+    // postId가 존재할 때만 query 실행
   );
 
   // 댓글 작성 API 호출 (react-query의 useMutation 사용)
   const createCommentMutation = useMutation(
-    (newComment) => createComment(newComment, postId),
+    (newComment: Comment) =>
+      createComment(
+        { comment: newComment.comment, score: newComment.score },
+        postId
+      ),
     {
       onSuccess: () => {
-        refetch(); // 댓글 작성 성공 후, 댓글 목록 재요청
+        refetch();
       },
     }
   );
@@ -80,7 +91,7 @@ function PostComment() {
   // 댓글 평점
   const commentFootprintRating = (score: number) => {
     const icons = [];
-    for (let i = 0; i < score; i++) {
+    for (let i = 0; i < score; i += 1) {
       icons.push(<IoFootsteps size={14} key={i} />);
     }
     return icons;
@@ -123,22 +134,22 @@ function PostComment() {
         </Styled.AddCommentButton>
       </Styled.AddInputButtonWrapper>
       <Styled.CommentContainer>
-        {fetchedComments.map((comment) => (
-          <Styled.CommnetWrapper key={comment.id}>
+        {fetchedComments.map((userComment: FetchedComment) => (
+          <Styled.CommnetWrapper key={userComment.id}>
             <Styled.CommentWriterWrapper>
               <Styled.CommentUserProfile
-                src={`${comment.userImageUrl}`}
-                alt={`${comment.userImageUrl}`}
+                src={`${userComment.userImageUrl}`}
+                alt={`${userComment.userImageUrl}`}
               />
               <Styled.CommentUserNickname>
-                {comment.nickname}
+                {userComment.nickname}
               </Styled.CommentUserNickname>
               <Styled.FootprintRating>
-                {commentFootprintRating(comment.score)}
+                {commentFootprintRating(userComment.score)}
               </Styled.FootprintRating>
-              <p> 작성일 ㅣ {commentFormatDate(comment.createdAt)}</p>
+              <p> 작성일 ㅣ {commentFormatDate(userComment.createdAt)}</p>
             </Styled.CommentWriterWrapper>
-            <Styled.CommentContent>{comment.comment}</Styled.CommentContent>
+            <Styled.CommentContent>{userComment.comment}</Styled.CommentContent>
           </Styled.CommnetWrapper>
         ))}
       </Styled.CommentContainer>
