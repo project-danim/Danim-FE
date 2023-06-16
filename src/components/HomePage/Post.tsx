@@ -1,9 +1,8 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import { PostProps } from "../../types/postType";
 import st from "./PostST";
 
-const Post = React.forwardRef<any, PostProps>(({ post }, ref) => {
+// const Post = React.forwardRef<any, PostProps>(({ post }, ref) => {
+function Post({ post, lastPostRef }: any, ref: any) {
   // 네비게이션 함수
   const navigate = useNavigate();
 
@@ -31,7 +30,7 @@ const Post = React.forwardRef<any, PostProps>(({ post }, ref) => {
 
   return (
     <st.expiredPostContainer expired={post.isRecruitmentEnd}>
-      <st.postContainer key={post.id} ref={ref}>
+      <st.postContainer key={post.id} ref={lastPostRef}>
         <st.postTitle>{post.title}</st.postTitle>
         <st.postNickname>{post.nickname}</st.postNickname>
         <st.postImage src={post.imageUrl} alt="게시글 이미지" />
@@ -61,9 +60,7 @@ const Post = React.forwardRef<any, PostProps>(({ post }, ref) => {
       </st.postContainer>
     </st.expiredPostContainer>
   );
-});
-
+}
 // React.forwardRef와 같이 고차 컴포넌트(HOC)를 사용하는 경우, 자동으로 컴포넌트 이름을 추정할 수 없으므로, displayName을 직접 설정하는 것이 좋다.
-Post.displayName = "Post";
-
+// Post.displayName = "Post";
 export default Post;
