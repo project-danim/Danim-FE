@@ -14,6 +14,12 @@ import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
 import extractImageUrls from "./extractImageUrls";
 
+interface UploadResponse {
+  data: string;
+  success: boolean;
+  message: string;
+}
+
 const StyledReactQuill = styled(ReactQuill)`
   width: 100%;
   height: 400px;
@@ -36,14 +42,18 @@ function TextImageInput() {
 
   // 텍스트 및 이미지url : 작성자가 작성한 contents 관리 state
   const [quillContent, setQuillContent] = useRecoilState(tripPostContentState);
-  const [contentsImages, setContentsImages] =
-    useRecoilState(contentsImagesState);
+  const [, setContentsImages] = useRecoilState(contentsImagesState);
 
   // 이미지를 업로드 했을 때 서버에서 전달받은 이미지 urls 관리 state
   // const [returnImageUrls, setReturnImageUrls] = useRecoilState(imageUrlsState);
 
   // 서버에 이미지 업로드 mutation
-  const uploadImageMutation = useMutation(uploadImage);
+  const uploadImageMutation = useMutation<UploadResponse, Error, FormData>(
+    uploadImage,
+    {
+      mutationKey: "uploadImage",
+    }
+  );
 
   // 파일 업로드 후 에디터 삽입 로직
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,9 +66,7 @@ function TextImageInput() {
     formData.append("image", file);
 
     try {
-      const { data: imageUrl } = await uploadImageMutation.mutateAsync(
-        formData
-      );
+      const imageUrl = (await uploadImageMutation.mutateAsync(formData)).data;
       // 서버에서 전달받은 이미지 urls 업데이트
       // --- setReturnImageUrls((prevUrls) => [...prevUrls, imageUrl]);
       const quill = quillRef.current?.getEditor();

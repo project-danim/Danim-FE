@@ -225,7 +225,7 @@ function ScheduleMap() {
               key={`marker-${selectedInfo.info.content}-${selectedInfo.info.position.lat},
             ${selectedInfo.info.position.lng}`}
               position={selectedInfo.info.position}
-              onClick={() => setInfo(selectedInfo.info)}
+              // onClick={() => setInfo(selectedInfo.info)}
             >
               {/* 지도 pin - svg */}
               <svg
@@ -234,6 +234,10 @@ function ScheduleMap() {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                onClick={(e) => {
+                  e.stopPropagation(); // 클릭 이벤트가 CustomOverlayMap의 onClick 이벤트와 충돌하지 않도록 이벤트 전파 중단
+                  setInfo(selectedInfo.info);
+                }}
               >
                 {/* 지도 pin - svg */}
                 <path
