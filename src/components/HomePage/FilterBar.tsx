@@ -44,7 +44,7 @@ function FilterBar() {
   const [isLocationToggled, handleIsLocationToggled] = useToggle(false);
   const [isGroupSizeToggled, handleIsGroupSizeToggled] = useToggle(false);
   // 현재 검색된 상태인지 토글 state
-  const [isSearched, handleSearchClicked] = useRecoilState(isSearchClicked);
+  const [, handleSearchClicked] = useRecoilState(isSearchClicked);
   // 더 이상 불러올 데이터가 있는지 표시하는 상태
   const [hasMore, setHasMore] = useState(true);
   // 검색 게시글 페이지 state
@@ -60,7 +60,7 @@ function FilterBar() {
   const { mutate: mutateSearch } = useMutation(fetchSearch, {
     onSuccess: (response) => {
       if (response.statusCode === 200) {
-        handleSearchClicked((prev: boolean) => true);
+        handleSearchClicked(() => true);
         // 새로운 포스트만 필터링
         setFilteredPosts((prevPosts) => {
           const newPosts = response.data.filter(
@@ -94,9 +94,6 @@ function FilterBar() {
     const getPosts = async () => {
       await getSearchedPosts();
     };
-    // if (isSearched) {
-    //   getPosts();
-    // }
     getPosts();
   }, [page]);
 

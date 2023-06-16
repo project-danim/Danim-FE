@@ -84,7 +84,7 @@ const postTitle = styled.p`
   line-height: 16px;
   letter-spacing: 0em;
   text-align: left;
-  margin-bottom: 33px;
+  padding: 20px 0;
   /* 말 줄임 스타일링 */
   white-space: nowrap;
   overflow: hidden;
@@ -94,32 +94,33 @@ const postTitle = styled.p`
 
 // 게시글 닉네임
 const postNickname = styled.p`
-  margin-top: 0;
-  font-size: 12px;
+  padding: 10px 0;
+  font-size: 14px;
   font-weight: 400;
   line-height: 16px;
-  letter-spacing: 0em;
   text-align: left;
   color: #858585;
+  display: flex;
+  align-items: center;
   &::before {
     content: "";
     display: inline-block;
     background-image: url("/avatar.svg");
-    width: 17.2px;
-    height: 17.2px;
+    width: 24px;
+    height: 24px;
+    background-position: center;
+    background-size: cover;
     margin-right: 8px;
-    position: relative;
-    top: 4px;
   }
 `;
 
 // 게시글 이미지
 const postImage = styled.img`
-  display: block;
+  display: inline-block;
   width: 100%;
+  max-width: 242px;
   height: 150px;
   // 게시글 사진 확인을 위해 임의로 넣은 border
-  border: 0.5px solid #858585;
   border-radius: 5px;
 `;
 
