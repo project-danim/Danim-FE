@@ -54,14 +54,15 @@ function FilterBar() {
 
   // 옵저버 객체가 참조할 값 생성
   const observer = useRef<any>();
-  const size = 3;
+  const size = 8;
 
   // 검색 뮤테이션 함수
   const { mutate: mutateSearch } = useMutation(fetchSearch, {
     onSuccess: (response) => {
       if (response.statusCode === 200) {
+        // 검색 됐는지에 대한 boolean 값 true로 변경
         handleSearchClicked(() => true);
-        // 새로운 포스트만 필터링
+        // 중복된 데이터 제거해서 보여주기
         setFilteredPosts((prevPosts) => {
           const newPosts = response.data.filter(
             (newPost: any) =>
@@ -69,6 +70,8 @@ function FilterBar() {
           );
           return [...prevPosts, ...newPosts];
         });
+        // 새롭게 받아온 데이터만 보여주기
+        // setFilteredPosts([...response.data]);
         // 더 이상 가져올 데이터 없음
         if (response.data.length < size) {
           console.log("더이상 가져올 데이터없음");
@@ -163,6 +166,7 @@ function FilterBar() {
   // 검색 클릭 핸들러
   const handleClickSearchButton = () => {
     // page 값 바꾸기
+    // setPage(() => 0);
     // 배열을 문자로 변환
     const keywordString = selectedKeyword.toString();
     const ageString = selectedAge.toString();
@@ -175,7 +179,7 @@ function FilterBar() {
       ageRange: ageString !== "" ? ageString : null,
       groupSize: groupSizeNumber !== 0 ? groupSizeNumber : null,
       searchKeyword: titleValue !== "" ? titleValue : null,
-      exceptCompletedPost: false,
+      exceptCompletedPost: true,
     };
     setAllKeyword({ ...allKeyword });
     mutateSearch({ allKeyword, page, size });

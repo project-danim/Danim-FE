@@ -5,7 +5,7 @@ import Post from "./Post";
 import st from "./PostsST";
 import { lastRefState } from "../../recoil/scroll/scroll";
 
-function Posts({ posts, lastPostRef, postName }: any) {
+function PostContainer({ posts, lastPostRef, postName }: any) {
   // 키워드(맛집탐방,투어 등) state
   const [allFilterList] = useRecoilState(filterList);
   // 검색 게시글들의 마지막 게시글 ref
@@ -21,7 +21,7 @@ function Posts({ posts, lastPostRef, postName }: any) {
     <st.postsContainer>
       {posts.map((post: any, index: number) => (
         <Post
-          ref={index === posts.length - 1 ? lastPostRef : undefined}
+          lastPostRef={index === posts.length - 1 ? lastPostRef : undefined}
           key={post.id}
           post={post}
           allFilterList={allFilterList}
@@ -37,4 +37,4 @@ function Posts({ posts, lastPostRef, postName }: any) {
   );
 }
 
-export default Posts;
+export default PostContainer;
