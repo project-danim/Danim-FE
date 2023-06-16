@@ -14,5 +14,5 @@ export interface PostType {
 
 export interface PostProps {
   post: PostType;
-  allFilterList: any;
+  lastPostRef: any;
 }
