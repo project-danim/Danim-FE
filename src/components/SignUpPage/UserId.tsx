@@ -55,7 +55,7 @@ function UserId({
       }
     },
     onError: (error) => {
-      console.log("실패", error);
+      throw error;
     },
   });
 
@@ -73,7 +73,7 @@ function UserId({
   useEffect(() => {
     const idPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!!signUpUserId && !idPattern.test(signUpUserId)) {
-      setUserIdError((prevError) => "올바르지 않은 아이디 형식입니다.");
+      setUserIdError(() => "올바르지 않은 아이디 형식입니다.");
       setIsIdUnique(false); // 입력값이 변경될 때마다 중복검사를 초기화
       return;
     }
@@ -84,7 +84,7 @@ function UserId({
       return;
     }
     if (!!signUpUserId && !!isIdUnique) {
-      setUserIdError((prevError) => "사용 가능한 아이디입니다.");
+      setUserIdError(() => "사용 가능한 아이디입니다.");
     }
   }, [signUpUserId]);
   return (
