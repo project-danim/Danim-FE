@@ -2,16 +2,23 @@ import { Map, MapMarker, Polyline } from "react-kakao-maps-sdk";
 import { useRecoilState } from "recoil";
 import { PostGetState } from "../../recoil/post/postGetState";
 
+type MarkerInfo = {
+  info: {
+    position: { lat: number; lng: number };
+    content: string;
+  };
+};
+
 function MapInformation() {
-  const [postData, setPostData] = useRecoilState(PostGetState);
+  const [postData] = useRecoilState(PostGetState);
 
   // 데이터가 없다면 로딩 표시를 보여줌
-  if (!postData) {
+  if (!postData || !postData.map) {
     return <div>Loading...</div>;
   }
 
   // 서버에서 가져온 map data를 parsing
-  const parsedMap = JSON.parse(postData.map);
+  const parsedMap: MarkerInfo[] = JSON.parse(postData.map);
 
   // map data 중 첫번째 값 찾기
   const firstMarkerPosition = parsedMap[0]?.info.position;
@@ -30,7 +37,7 @@ function MapInformation() {
         {/* 마커들의 정보를 표시 */}
         {parsedMap.map((markerInfo, index) => (
           <MapMarker
-            key={`marker-${index}`}
+            key={`marker-${markerInfo}`}
             position={markerInfo.info.position}
           >
             <div>{markerInfo.info.content}</div>
