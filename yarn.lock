@@ -3165,7 +3165,7 @@ react-is@^16.13.1, react-is@^16.7.0:
 
 react-kakao-maps-sdk@^1.1.9:
   version "1.1.9"
-  resolved "https://registry.npmjs.org/react-kakao-maps-sdk/-/react-kakao-maps-sdk-1.1.9.tgz"
+  resolved "https://registry.yarnpkg.com/react-kakao-maps-sdk/-/react-kakao-maps-sdk-1.1.9.tgz#08c9d8d9645faa5c86794a3d321e2eebdfd57223"
   integrity sha512-9bm4mS7eCRpIQ5tRdd0U0fN9XC10sdkr1Fbh4/y+Eik8eQVPVkguRPwmd8Cn7IuJZyaF4gyjOILdDeDrqcbveg==
   dependencies:
     kakao.maps.d.ts "^0.1.38"

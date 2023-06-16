@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 import CommonInput from "../common/CommonInput";
 import { PostTitleState } from "../../recoil/post/postCreateState";
 import { PostGetState } from "../../recoil/post/postGetState";
@@ -23,7 +23,7 @@ function PostTitle() {
   const postIsEditing = useRecoilValue(postIsEditingState);
 
   // 입력 값이 변경될 때 selectePostTitleState의 상태 업데이트
-  const handleTitleChange = (e) => {
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
