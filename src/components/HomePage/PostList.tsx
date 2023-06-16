@@ -60,18 +60,20 @@ function PostList() {
 
   // 옵저버 객체 생성
   useEffect(() => {
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && entries[0].intersectionRatio >= 1) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      },
-      { threshold: 1 }
-    );
-    if (lastPostRef.current) {
-      // 데이터가 불러와지기 전에 실행하면 안되니까 lastPostRef.current가 있을때로 조건 생성
-      observer.current.observe(lastPostRef.current);
+    if (!isSearched) {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && entries[0].intersectionRatio >= 1) {
+            setPage((prevPage) => prevPage + 1);
+          }
+        },
+        { threshold: 1 }
+      );
+      if (lastPostRef.current) {
+        // 데이터가 불러와지기 전에 실행하면 안되니까 lastPostRef.current가 있을때로 조건 생성
+        observer.current.observe(lastPostRef.current);
+      }
     }
     // }, [allPosts, filteredPosts]);
   }, [allPosts]);
