@@ -11,8 +11,9 @@
     ],
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    // "moduleResolution": "bundler",
+    "moduleResolution": "node",
+    // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -26,6 +27,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", ".eslintrc.cjs"], // module.export 오류 해결- ".eslintrc.cjs" 추가
+  "include": ["src", "vite.config.ts", ".eslintrc.cjs"], // module.export 오류 해결- ".eslintrc.cjs" 추가
   "references": [{ "path": "./tsconfig.node.json" }]
 }
