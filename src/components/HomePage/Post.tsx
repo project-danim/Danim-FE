@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import st from "./PostST";
 
 // const Post = React.forwardRef<any, PostProps>(({ post }, ref) => {
-function Post({ post, lastPostRef }: any, ref: any) {
+function Post({ post, lastPostRef }: any) {
   // 네비게이션 함수
   const navigate = useNavigate();
 

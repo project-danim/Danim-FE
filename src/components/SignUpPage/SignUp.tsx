@@ -38,7 +38,7 @@ function SignUp() {
   const [userIdError, setUserIdError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordCheckError, setPasswordCheckError] = useState("");
-  const [nicknameError, setNicknameError] = useState("");
+  const [nicknameError] = useState("");
   const [genderError, setGenderError] = useState("");
   const [ageError, setAgeError] = useState("");
 
