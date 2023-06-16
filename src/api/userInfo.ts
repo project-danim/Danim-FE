@@ -65,19 +65,23 @@ export const fecthPosts = async (id: string) => {
 // 내 정보 수정?
 export const fetchMyInfo = async (id: any, userInfo: any) => {
     try {
+      const user = new FormData();
+      Object.keys(userInfo).forEach(key=>user.append(key, userInfo[key]))
       const accessToken = getAccessToken();
-      const response = await axiosInstance.put(`/api/user/${id}/myInfo`, userInfo, {
+      const response = await axiosInstance.put(`/api/user/${id}/myInfo`, user, {
         headers: {
           ACCESS_KEY: accessToken,
         },
       });
-      
-      return response.data;
       console.log(response.data)
+      return response.data;
   
     } catch (error: any) {
+        console.log(error)
       const errorMessage = error.response?.data?.detail || error.message;
       return errorMessage;
     }
   };
+
+  
   
