@@ -3,7 +3,12 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { useMutation } from "react-query";
 import loginUserIdState from "../../recoil/login/userInfo";
-import { fecthReviews, fecthUserInfo, fetchMyInfo } from "../../api/userInfo";
+import {
+  fecthPosts,
+  fecthReviews,
+  fecthUserInfo,
+  fetchMyInfo,
+} from "../../api/userInfo";
 import profileIconEditing from "../../../public/myPage/profileIconEditing.svg";
 import UserId from "../../components/SignUpPage/UserId";
 
@@ -194,9 +199,10 @@ function MyPage() {
   const [imgUrl, setImgUrl] = useState("");
   const [owner, setOwner] = useState(true);
   const [score, setScore] = useState(20);
+  const [post, setPost] = useState("");
   // 유저 리뷰 상태
   const [reviews, setReviews] = useState<any[]>([]);
-
+  const [posts, setPosts] = useState<any[]>([]);
   // 유저정보 가져오는 뮤테이션 함수
   const { mutate: mutateGetUserInfo } = useMutation(fecthUserInfo, {
     onSuccess: (response) => {
@@ -219,6 +225,14 @@ function MyPage() {
     onError: (error) => {},
   });
 
+  // 게시글 가져오는 뮤테이션 함수
+  const { mutate: mutateGetPosts } = useMutation(fecthPosts, {
+    onSuccess: (response) => {
+      setPosts((prev: any) => [...posts, ...response]);
+    },
+    onError: (error) => {},
+  });
+
   // 변경된 유저 정보 저장하는 함수?
   // const { mutate: mutatePutMyInfo } = useMutation(fetchMyInfo, {
   //   onSuccess: (response) => {},
@@ -234,6 +248,8 @@ function MyPage() {
       mutateGetUserInfo(id);
       // mutatePutMyInfo(id);
       mutateGetReviews(id);
+      mutateGetPosts(id);
+      // const post = fecthPosts(id);
     }
   }, []);
 
@@ -241,6 +257,19 @@ function MyPage() {
   const clickFileInput = () => {
     const fileInput = document.getElementById("fileInput");
     fileInput?.click();
+  };
+
+  // 수정하기 버튼 클릭함수
+  const clickButton = () => {
+    if (editing) {
+      const userInfo = {
+        nickname,
+        image: null,
+        content,
+      };
+      fetchMyInfo(id, userInfo);
+    }
+    setEditing(() => !editing);
   };
 
   return (
@@ -261,7 +290,6 @@ function MyPage() {
             <NickName>
               <div>{nickname}님</div>
             </NickName>
-
             {owner && (
               <div>
                 <div>
@@ -272,7 +300,8 @@ function MyPage() {
                     onChange={(e) => setContent(e.target.value)}
                   />
 
-                  <PixButton onClick={() => setEditing(!editing)}>
+                  {/* <PixButton onClick={() => setEditing(!editing)}> */}
+                  <PixButton onClick={clickButton}>
                     {editing ? "저장" : "수정하기"}
                   </PixButton>
 
@@ -295,6 +324,29 @@ function MyPage() {
         </ImsiArea>
         <ImsiArea2>
           <ReviewContainer>
+            {reviews.map((review) => {
+              const formattedDate = new Date(review.createdAt)
+                .toLocaleString("ko-KR", {
+                  year: "2-digit",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour12: false,
+                })
+                .slice(0, -1);
+
+              return (
+                <div key={`${review.userId}-${review.createdAt}`}>
+                  <div>
+                    <div style={{ display: "flex" }}>
+                      <CreatedTime>{formattedDate}</CreatedTime>
+                      <Mile>{review.point}mile</Mile>
+                      <ReviewNickName>{review.userId}</ReviewNickName>
+                    </div>
+                    <ReviewContents> {review.review}</ReviewContents>
+                  </div>
+                </div>
+              );
+            })}
             {reviews.map((review) => {
               const formattedDate = new Date(review.createdAt)
                 .toLocaleString("ko-KR", {
