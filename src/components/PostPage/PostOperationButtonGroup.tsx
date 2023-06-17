@@ -1,8 +1,8 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { postIdState } from "../../recoil/post/postGetState";
+import { PostGetState, postIdState } from "../../recoil/post/postGetState";
 import { deletePost } from "../../api/post";
 
 export const Container = styled.div`
@@ -46,6 +46,13 @@ export const DeleteAddButtonWrapper = styled.div`
 
 function PostOperationButtonGroup() {
   const [postId] = useRecoilState(postIdState);
+
+  // 글을 작성한 사람의 닉네임
+  const getPostData = useRecoilValue(PostGetState);
+  const { nickName } = getPostData || {};
+
+  const CurrentUser = localStorage.getItem("nickname");
+
   const navigate = useNavigate();
 
   // 게시물 수정
@@ -77,16 +84,17 @@ function PostOperationButtonGroup() {
       <ApplyButton type="button" onClick={handleApply}>
         신청하기
       </ApplyButton>
-      <DeleteAddButtonWrapper>
-        {" "}
-        <DeleteAddButton type="button" onClick={handleEdit}>
-          수정
-        </DeleteAddButton>
-        <DeleteAddButtonVertical />
-        <DeleteAddButton type="button" onClick={handleDelete}>
-          삭제
-        </DeleteAddButton>
-      </DeleteAddButtonWrapper>
+      {nickName === CurrentUser ? (
+        <DeleteAddButtonWrapper>
+          <DeleteAddButton type="button" onClick={handleEdit}>
+            수정
+          </DeleteAddButton>
+          <DeleteAddButtonVertical />
+          <DeleteAddButton type="button" onClick={handleDelete}>
+            삭제
+          </DeleteAddButton>
+        </DeleteAddButtonWrapper>
+      ) : null}
     </Container>
   );
 }

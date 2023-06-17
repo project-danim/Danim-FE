@@ -46,10 +46,10 @@ function Login() {
         const { id } = response.data.data;
         const { nickName: nickname } = response.data.data;
         const { myPageImageUrl: profileUrl } = response.data.data;
-        sessionStorage.setItem("id", id);
-        sessionStorage.setItem("nickname", nickname);
-        sessionStorage.setItem("profileUrl", profileUrl);
+        localStorage.setItem("nickname", nickname);
+        localStorage.setItem("profileUrl", profileUrl);
         localStorage.setItem("id", id);
+        sessionStorage.setItem("id", id);
         return navigate("/");
       }
       return alert("로그인을 다시 시도해주세요.");
