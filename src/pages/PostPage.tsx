@@ -41,6 +41,7 @@ function PostPage() {
         <PostInformation />
         <PostOperationButtonGroup />
       </Styled.PostInfoAndButtonGroupWrapper>
+      <Styled.HorizontalLine />
 
       <Styled.MapInfoWrapper>
         <MapInformation />

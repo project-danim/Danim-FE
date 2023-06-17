@@ -27,10 +27,8 @@ function PostComment() {
   // const [comments, setComments] = useState<Comment[]>([]);
 
   // 현재 로그인 중인 유저의 nickname, profileURL
-  const userNickname = sessionStorage.getItem("nickname");
-  const userprofileUrl = sessionStorage.getItem("profileUrl");
-
-  console.log(userNickname, userprofileUrl);
+  const userNickname = localStorage.getItem("nickname");
+  const userprofileUrl = localStorage.getItem("profileUrl");
 
   // 댓글 불러오기
   const {
@@ -109,21 +107,29 @@ function PostComment() {
   ) : (
     <Styled.Container>
       <Styled.UserInFoAndButtonWrapper>
-        <Styled.UserProfile src={`${userprofileUrl}`} />
-        <Styled.UserNickname>{userNickname}</Styled.UserNickname>
-        {[1, 2, 3, 4, 5].map((score) => (
-          <Styled.FootButton
-            key={score}
-            onClick={() => handleScoreSelect(score)}
-            style={{ color: score <= selectedScore ? "black" : "gray" }}
-          >
-            <IoFootsteps size={20} />
-          </Styled.FootButton>
-        ))}
+        {userprofileUrl ? (
+          <>
+            <Styled.UserProfile src={`${userprofileUrl}`} />
+            <Styled.UserNickname>{userNickname}</Styled.UserNickname>
+            {[1, 2, 3, 4, 5].map((score) => (
+              <Styled.FootButton
+                key={score}
+                onClick={() => handleScoreSelect(score)}
+                style={{ color: score <= selectedScore ? "black" : "gray" }}
+              >
+                <IoFootsteps size={20} />
+              </Styled.FootButton>
+            ))}
+          </>
+        ) : null}
       </Styled.UserInFoAndButtonWrapper>
       <Styled.AddInputButtonWrapper>
         <Styled.CommentInput
-          placeholder="발자국 개수로 여행을 평가해주세요."
+          placeholder={
+            userprofileUrl
+              ? "발자국 개수로 여행을 평가해주세요."
+              : "로그인이 필요합니다."
+          }
           value={comment}
           onChange={handleCommentChange}
         />
@@ -139,6 +145,7 @@ function PostComment() {
                 src={`${userComment.userImageUrl}`}
                 alt={`${userComment.userImageUrl}`}
               />
+
               <Styled.CommentUserNickname>
                 {userComment.nickname}
               </Styled.CommentUserNickname>

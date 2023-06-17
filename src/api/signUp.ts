@@ -130,6 +130,8 @@ export const fetchLogout = async () => {
       document.cookie =
         "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       localStorage.removeItem("id");
+      localStorage.removeItem("nickname");
+      localStorage.removeItem("profileUrl");
       return response;
     }
     if (refreshToken) {
