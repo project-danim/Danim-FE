@@ -12,7 +12,7 @@ import loginUserIdState from "../../recoil/login/userInfo";
 
 function Login() {
   // 아이디 입력값 state , 아이디 에러 메세지 state
-  const [userId, setUserId] = useRecoilState(loginUserIdState);
+  const [userId] = useRecoilState(loginUserIdState);
   const userIdRef = useRef<any>();
   const [userIdError, setUserIdError] = useState("");
   // 비밀번호 입력값 state, 비밀번호 에러 메세지 state

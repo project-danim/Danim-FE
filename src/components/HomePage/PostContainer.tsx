@@ -13,7 +13,7 @@ function PostContainer({ posts, lastPostRef, postName }: any) {
 
   useEffect(() => {
     if (postName === "searchedPost") {
-      setSearchedLastRef((prev: any) => lastPostRef.current);
+      setSearchedLastRef(() => lastPostRef.current);
     }
   }, [postName, lastPostRef, searchedLastRef]);
 
