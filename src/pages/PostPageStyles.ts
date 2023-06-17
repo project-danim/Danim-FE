@@ -33,11 +33,8 @@ export const MapInfoWrapper = styled.div`
 
 export const PostContentWrapper = styled.div`
   display: flex;
-  /* align-items: center; */
   justify-content: center;
-  /* width: 100%; */
-  margin: 50px 0;
-  /* 체크 필요 ! min-height: 500px; */
+  margin: 50px 20px;
   min-height: 200px;
 `;
 
