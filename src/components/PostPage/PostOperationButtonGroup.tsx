@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PostGetState, postIdState } from "../../recoil/post/postGetState";
 import { deletePost } from "../../api/post";
-import chatStart from "../../api/chat";
+import { chatStart } from "../../api/chat";
 import {
   chatEnteredUsersNicknameState,
   roomNameState,
