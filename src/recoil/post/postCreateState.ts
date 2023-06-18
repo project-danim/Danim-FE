@@ -47,7 +47,7 @@ export const recruitmentEndDateState = atom<string | null>({
 // 모집인원 - 항상 2인 이상 10인 이하
 export const recruitmentCountState = atom({
   key: "recruitmentCountState",
-  default: 2,
+  default: 1,
 });
 
 // 여행 시작 날짜
