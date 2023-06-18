@@ -53,11 +53,16 @@ function PostOperationButtonGroup() {
   const [postId] = useRecoilState(postIdState);
   console.log(postId);
 
-  // 글을 작성한 사람의 닉네임
+  // get 메소드를 사용해 저장된 현재 글의 recoil state
   const getPostData = useRecoilValue(PostGetState);
+  // 글을 작성한 사람의 닉네임
   const { nickName } = getPostData || {};
+  // 현재 글에 모임을 신청한 참여자
+  const { participants } = getPostData || {};
 
-  const CurrentUser = localStorage.getItem("nickname");
+  // 현재 접속중인 유저의 닉네임, 아이디
+  const currentUserNickname = localStorage.getItem("nickname");
+  const currentUserId = localStorage.getItem("id");
 
   const navigate = useNavigate();
 
@@ -98,12 +103,21 @@ function PostOperationButtonGroup() {
     }
   };
 
+  const handleCancel = () => {};
+
   return (
     <Container>
-      <ApplyButton type="button" onClick={handleApply}>
-        신청하기
-      </ApplyButton>
-      {nickName === CurrentUser ? (
+      {participants && currentUserId && participants.includes(currentUserId) ? (
+        <ApplyButton type="button" onClick={handleCancel}>
+          취소하기
+        </ApplyButton>
+      ) : (
+        <ApplyButton type="button" onClick={handleApply}>
+          신청하기
+        </ApplyButton>
+      )}
+
+      {nickName === currentUserNickname ? (
         <DeleteAddButtonWrapper>
           <DeleteAddButton type="button" onClick={handleEdit}>
             수정
