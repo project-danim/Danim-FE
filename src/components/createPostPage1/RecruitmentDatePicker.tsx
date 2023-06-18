@@ -21,7 +21,7 @@ const StyledInput = styled.div`
   width: 100%;
   line-height: 22px;
   border-radius: 8px;
-  color: #a3a3a3;
+  color: #5c5c5c;
 `;
 
 const Container = styled.div`
@@ -31,6 +31,12 @@ const Container = styled.div`
 
 const DatePickerWrapper = styled.div`
   width: 100%;
+`;
+
+const NoticeTextWrapper = styled.div`
+  font-size: 10px;
+  color: #858585;
+  margin: 3px;
 `;
 
 type Props = {
@@ -103,6 +109,9 @@ function RecruitmentDatePicker() {
   return (
     <Container>
       <DatePickerWrapper>
+        {postIsEditing ? (
+          <NoticeTextWrapper>모집 마감 일자를 알려주세요.</NoticeTextWrapper>
+        ) : null}
         <DatePicker
           selected={endDate}
           onChange={handleEndDateChange}
