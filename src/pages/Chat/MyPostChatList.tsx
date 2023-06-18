@@ -1,14 +1,14 @@
 import { useQuery } from "react-query";
 import { getMyPostChatRoomList } from "../../api/chat";
-import * as Styled from "./ChatListTapComponentStyle";
+// import * as Styled from "./ChatListTapComponentStyle";
 
-interface Post {
-  id: string;
-  title: string;
-  date: string;
-  author: string;
-  content: string;
-}
+// interface Post {
+//   id: string;
+//   title: string;
+//   date: string;
+//   author: string;
+//   content: string;
+// }
 
 function MyPostChatList() {
   const {
@@ -16,11 +16,12 @@ function MyPostChatList() {
     isLoading,
     isError,
   } = useQuery("myPostChatRoomList", getMyPostChatRoomList);
+  console.log(chatLists);
 
   // 대화하기 버튼 - 채팅창으로 이동
-  const handleClick = (postId: string) => {
-    window.location.href = `api/${postId}`;
-  };
+  // const handleClick = (postId: string) => {
+  //   window.location.href = `api/${postId}`;
+  // };
 
   if (isLoading) {
     return <div>로딩중 입니다</div>;
