@@ -1,3 +1,4 @@
+import axios from "axios";
 import { axiosInstance, getCookie, showError } from "./signUp";
 
 // 채팅방 입장
@@ -19,8 +20,8 @@ export const chatStart = async (postId: number) => {
 
 export const getMyPostChatRoomList = async () => {
   try {
-    const response = await axiosInstance.get(
-      `${import.meta.env.VITE_APP_URL}/api/post/myChatRoom`,
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/api/chat/myChatRoom`,
       {
         headers: {
           ACCESS_KEY: getCookie("accessToken"),

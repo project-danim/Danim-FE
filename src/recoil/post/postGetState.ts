@@ -17,7 +17,7 @@ interface PostData {
   map?: string;
   numberOfParticipants?: number;
   modifiedAt?: string[];
-  participants?: string[];
+  participants?: number[];
   tripEndDate?: string;
   tripStartDate?: string;
   contentsImages?: string;

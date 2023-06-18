@@ -59,7 +59,7 @@ function CreatePostPage1() {
   const selectedLocation = useRecoilValue(selectedLocationState);
   const selectedGender = useRecoilValue(selectedGenderState);
   const selectedAgeRange = useRecoilValue(selectedAgeRangeState);
-  const RecoilPostTitle = useRecoilValue(PostTitleState);
+  const recoilPostTitle = useRecoilValue(PostTitleState);
   const recruitmentStartDate = useRecoilValue(recruitmentStartDateState);
   const recruitmentEndDate = useRecoilValue(recruitmentEndDateState);
   const recruitmentCount = useRecoilValue(recruitmentCountState);
@@ -75,7 +75,7 @@ function CreatePostPage1() {
       selectedLocation,
       selectedGender.length,
       selectedAgeRange.length,
-      PostTitle,
+      recoilPostTitle,
       recruitmentStartDate,
       recruitmentEndDate,
       recruitmentCount,
