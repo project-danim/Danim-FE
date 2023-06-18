@@ -46,7 +46,7 @@ function Header() {
 
   // 채팅하기 버튼 클릭시
   const handleChatButtonClick = () => {
-    navigate("/chat");
+    navigate("/chat-list");
   };
 
   // 마이페이지 버튼 클릭시
