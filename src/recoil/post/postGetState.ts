@@ -9,14 +9,15 @@ interface PostData {
   chatRoomId?: number;
   content?: string;
   nickName?: string;
-  createdAt?: number[];
+  createdAt?: string[];
   gender?: string[];
   groupSize?: number;
   keyword?: string;
   location?: string;
   map?: string;
   numberOfParticipants?: number;
-  modifiedAt?: number[];
+  modifiedAt?: string[];
+  participants?: string[];
   tripEndDate?: string;
   tripStartDate?: string;
   contentsImages?: string;

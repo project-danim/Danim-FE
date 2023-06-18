@@ -24,7 +24,6 @@ function PostInformation() {
               모집기한 : {postData.recruitmentEndDate}
             </Styled.TextWapper>
             <Styled.TextWapper />
-
             <Styled.TextWapper>
               <Styled.DateVerticalLine />
               출발 날짜 : {postData.tripStartDate}
@@ -33,7 +32,6 @@ function PostInformation() {
               도착 날짜 : {postData.tripEndDate}
             </Styled.TextWapper>
           </Styled.DateWrapper>
-
           <Styled.KeywordWrapper>
             <Styled.SingleKeywordWrapper>
               {postData.keyword}

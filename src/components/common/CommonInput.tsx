@@ -10,6 +10,7 @@ const CommonInput = styled.input`
   width: 100%;
   line-height: 22px;
   border-radius: 8px;
+  color: #5c5c5c;
   /* @media (max-width: 1400px) and (min-width: 320px) {
     font-size: 11px;
     padding: 8px 0;

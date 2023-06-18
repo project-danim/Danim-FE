@@ -1,9 +1,14 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PostGetState, postIdState } from "../../recoil/post/postGetState";
 import { deletePost } from "../../api/post";
+import chatStart from "../../api/chat";
+import {
+  chatEnteredUsersNicknameState,
+  roomNameState,
+} from "../../recoil/chat/chatState";
 
 export const Container = styled.div`
   display: flex;
@@ -46,12 +51,18 @@ export const DeleteAddButtonWrapper = styled.div`
 
 function PostOperationButtonGroup() {
   const [postId] = useRecoilState(postIdState);
+  console.log(postId);
 
-  // 글을 작성한 사람의 닉네임
+  // get 메소드를 사용해 저장된 현재 글의 recoil state
   const getPostData = useRecoilValue(PostGetState);
+  // 글을 작성한 사람의 닉네임
   const { nickName } = getPostData || {};
+  // 현재 글에 모임을 신청한 참여자
+  const { participants } = getPostData || {};
 
-  const CurrentUser = localStorage.getItem("nickname");
+  // 현재 접속중인 유저의 닉네임, 아이디
+  const currentUserNickname = localStorage.getItem("nickname");
+  const currentUserId = localStorage.getItem("id");
 
   const navigate = useNavigate();
 
@@ -72,19 +83,41 @@ function PostOperationButtonGroup() {
     },
   });
 
+  // 삭제 버튼 핸들러
   const handleDelete = () => {
     deletePostMutation.mutate(postId);
   };
 
-  // 모임 신청
-  const handleApply = () => {};
+  const setChatEnteredUsersNickname = useSetRecoilState(
+    chatEnteredUsersNicknameState
+  );
+  const setRoomName = useSetRecoilState(roomNameState);
+
+  // 모임 신청, 채팅방 이동
+  const handleApply = async () => {
+    const response = await chatStart(postId); // postId로 변환 줬을때 받아온 roomname
+    if (response.statusCode === 200) {
+      setChatEnteredUsersNickname(response.data.nickName); // 현재 참여 중인 전체 참여자 모든 유저 닉네임 받아오기
+      setRoomName(response.data.roomName); // postID 를 줬을 때 받아오는 room name
+      navigate(`/chat/${postId}`);
+    }
+  };
+
+  const handleCancel = () => {};
 
   return (
     <Container>
-      <ApplyButton type="button" onClick={handleApply}>
-        신청하기
-      </ApplyButton>
-      {nickName === CurrentUser ? (
+      {participants && currentUserId && participants.includes(currentUserId) ? (
+        <ApplyButton type="button" onClick={handleCancel}>
+          취소하기
+        </ApplyButton>
+      ) : (
+        <ApplyButton type="button" onClick={handleApply}>
+          신청하기
+        </ApplyButton>
+      )}
+
+      {nickName === currentUserNickname ? (
         <DeleteAddButtonWrapper>
           <DeleteAddButton type="button" onClick={handleEdit}>
             수정

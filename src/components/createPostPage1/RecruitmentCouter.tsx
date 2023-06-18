@@ -9,7 +9,6 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* width: 100%; */
   border: 0.5px solid #a3a3a3;
   font-size: 16px;
   box-sizing: border-box;
@@ -23,6 +22,13 @@ const CountButton = styled.button`
   border: none;
   background: none;
   cursor: pointer;
+  color: #5c5c5c;
+`;
+
+const NoticeTextWrapper = styled.div`
+  font-size: 10px;
+  color: #858585;
+  margin: 3px;
 `;
 
 const CounterWrapper = styled.div``;
@@ -43,7 +49,7 @@ function RecruitmentCouter() {
   };
 
   const decrementCount = () => {
-    setCount((prevCount) => (prevCount > 2 ? prevCount - 1 : prevCount));
+    setCount((prevCount) => (prevCount > 1 ? prevCount - 1 : prevCount));
   };
 
   // postIsEditing이 true일 때 초기 count 값을 groupSize로 설정
@@ -54,23 +60,28 @@ function RecruitmentCouter() {
   }, [postIsEditing, groupSize]);
 
   useEffect(() => {
-    if (count < 2) {
-      setCount(2);
+    if (count < 1) {
+      setCount(1);
     } else if (count > 10) {
       setCount(10);
     }
   }, [count]);
 
   return (
-    <Container>
-      <CountButton type="button" onClick={decrementCount}>
-        {"<"}
-      </CountButton>
-      <CounterWrapper>{count}</CounterWrapper>
-      <CountButton type="button" onClick={incrementCount}>
-        {">"}
-      </CountButton>
-    </Container>
+    <>
+      <NoticeTextWrapper>
+        모집 인원을 알려주세요. 글 작성자는 모집 인원에 포함되지 않습니다.
+      </NoticeTextWrapper>
+      <Container>
+        <CountButton type="button" onClick={decrementCount}>
+          {"<"}
+        </CountButton>
+        <CounterWrapper>{count}</CounterWrapper>
+        <CountButton type="button" onClick={incrementCount}>
+          {">"}
+        </CountButton>
+      </Container>
+    </>
   );
 }
 

@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef } from "react";
+import { useRecoilValue } from "recoil";
 import SockJs from "sockjs-client";
 import StompJs from "stompjs";
 import chatStart from "../../api/chat";
 import Message from "./Message";
 import st from "./ChatST";
+import {
+  chatEnteredUsersNicknameState,
+  roomNameState,
+} from "../../recoil/chat/chatState";
 
 let stomp: any;
 
@@ -12,6 +17,12 @@ function Chat() {
   const [messageInput, setMessageInput] = useState("");
   // 게시글 아이디랑 게시글 제목을 가져와야함
 
+  // 상세 게시글 페이지에서 입장하기를 눌렀을때 저장된 recoil state 호출 - 참여자, 방이름
+  const chatEnteredUsersNickname = useRecoilValue(
+    chatEnteredUsersNicknameState
+  );
+  const chatEnteredRoomName = useRecoilValue(roomNameState);
+
   // 룸 네임 ( "260c4214-6e7a-402a-af6d-96550179f6d4" 이런 형식)
   const [roomName, setRoomName] = useState("");
   // 채팅에 참여하고 있는 모든 사용자 닉네임
@@ -19,17 +30,23 @@ function Chat() {
   // 현재의 통신 객체 ref
   const stompClientRef = useRef<any>(null);
   // 유저 아이디 세션 스토리지 저장한 값으로 가져오는걸로 바꾸기
-  // const userId = sessionStorage.getItem("nickname");
-  const userId = "test01";
+  const userId = localStorage.getItem("nickname");
 
-  // 입장하기 버튼 클릭했을때
-  const handleEnterButtonClick = async () => {
-    const response = await chatStart(1);
-    if (response.statusCode === 200) {
-      setAllUserNickname(() => [...response.data.nickName]);
-      setRoomName(() => response.data.roomName);
-    }
-  };
+  // 컴포넌트가 랜더링 될 때 recoil 에서 받아온 state update
+  useEffect(() => {
+    setAllUserNickname(chatEnteredUsersNickname);
+    setRoomName(chatEnteredRoomName);
+  }, []);
+
+  // 입장하기 버튼 클릭했을때 - 상세게시글 조회에 신청하기로 이동 / 목록에서 입장하기는 추가 필요 / 목록에서도 chatState.ts recoil state 로 전달해야함
+  // const handleEnterButtonClick = async () => {
+  //   //
+  //   const response = await chatStart(2); // postId로 변환 줬을때 받아온 roomname
+  //   if (response.statusCode === 200) {
+  //     setAllUserNickname(() => [...response.data.nickName]); // 현재 참여 중인 전체 참여자 모든 유저 닉네임 받아오기
+  //     setRoomName(() => response.data.roomName); // postID 를 줬을 때 받아오는 room name
+  //   }
+  // };
 
   // 웹소켓 연결
   const connect = () => {
@@ -40,6 +57,7 @@ function Chat() {
       () => {
         stompClientRef.current = stomp;
         stomp.subscribe(`/sub/chat/room/${roomName}`, (data: any) => {
+          // 구독할때 룸네임 넣어서 sub 하고
           const newMessage = JSON.parse(data.body);
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         });
@@ -116,16 +134,19 @@ function Chat() {
 
   return (
     <st.ChatPageBackground>
+      {/* 상세 게시글에서 입장으로 바뀜
       <button type="button" onClick={handleEnterButtonClick}>
         입장하기
-      </button>
+      </button> */}
       <header>
         <button type="button">뒤로가기</button>
+        {/* 신청해서 받아온 게시글 제목이 있어야함  */}
         <h2>강남역에서 삼결살 같이 드실 분</h2>
         <st.AllUserContainer>
           <p>대화 상대</p>
           <p>{userId}</p>
           {allUserNickname.map(
+            // 메세지를 map 을 돌려서 받아옴
             (nickname) =>
               nickname !== userId && <p key={nickname}>{nickname}</p>
           )}

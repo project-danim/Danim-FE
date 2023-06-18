@@ -43,9 +43,15 @@ export const uploadImage = async (
         },
       }
     );
+    if (response.status === 200) {
+      console.log(`이미지 업로드에 성공하였습니다`);
+    }
     return response.data;
-  } catch (error) {
-    console.error("Failed to upload image: ", error);
+  } catch (error: any) {
+    console.log("에러 발생:", error);
+    if (error.response.status === 400) {
+      alert(`jpg, jpeg, png, gif의 형식만 업로드 가능합니다.`);
+    }
     throw error;
   }
 };

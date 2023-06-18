@@ -3,8 +3,29 @@ import styled from "styled-components";
 // common : container
 export const Container = styled.div`
   width: 100%;
+  /* max-width: 591px; */
+  margin: 0 auto;
+`;
+
+// common : VerticalLineWrapper
+export const VerticalLineWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+// common : VerticalLineStyle
+export const VerticalLineStyle = styled.div`
+  width: 50%;
+  height: 10px;
+  background-color: #a3bf3b;
+`;
+
+// common : contents container
+export const ContentsContainer = styled.div`
+  width: 100%;
   max-width: 591px;
   margin: 0 auto;
+  margin-bottom: 100px;
 `;
 
 // post step 1 : wrapper
@@ -17,7 +38,7 @@ export const Wrapper1 = styled.div`
 // post step 2 : wrapper
 export const Wrapper2 = styled.div`
   width: 100%;
-  margin: 20px 0 20px 0;
+  margin: 64px 0 20px 0;
   border-color: black;
 `;
 
@@ -104,6 +125,8 @@ export const ButtonRouterWrapper = styled.div`
 // 모집 마감 일자 / 모집 인원
 export const RecruitmentAndCouterContainer = styled.div`
   display: flex;
+  flex-direction: row;
+  align-items: flex-end;
   gap: 10px;
   justify-content: space-between;
 `;
