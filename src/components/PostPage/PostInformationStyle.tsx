@@ -14,6 +14,7 @@ export const TitleWrapper = styled.div`
 // 유저 닉네임
 export const NicknameWrapper = styled.div`
   display: flex;
+  align-items: center;
   width: 100%;
   color: grey;
   margin: 10px 0;
@@ -21,8 +22,8 @@ export const NicknameWrapper = styled.div`
 
 // 프로필 사진
 export const ProfileImage = styled.img`
-  width: 16.5px;
-  height: 16.5px;
+  width: 24px;
+  height: 24px;
   margin-right: 8px;
   border-radius: 50%;
 `;
