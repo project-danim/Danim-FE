@@ -15,7 +15,6 @@ import postIsEditingState from "../recoil/post/postIsEditingState";
 import * as Styled from "./CreateEditPostPageStyles";
 import useResetAllPostStates from "../hooks/useResetAllPostStates";
 import {
-  PostTitleState,
   recruitmentCountState,
   recruitmentEndDateState,
   recruitmentStartDateState,
@@ -59,7 +58,7 @@ function CreatePostPage1() {
   const selectedLocation = useRecoilValue(selectedLocationState);
   const selectedGender = useRecoilValue(selectedGenderState);
   const selectedAgeRange = useRecoilValue(selectedAgeRangeState);
-  const RecoilPostTitle = useRecoilValue(PostTitleState);
+  // const RecoilPostTitle = useRecoilValue(PostTitleState);
   const recruitmentStartDate = useRecoilValue(recruitmentStartDateState);
   const recruitmentEndDate = useRecoilValue(recruitmentEndDateState);
   const recruitmentCount = useRecoilValue(recruitmentCountState);
