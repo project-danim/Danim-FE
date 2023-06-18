@@ -9,9 +9,16 @@ import postIsEditingState from "../../recoil/post/postIsEditingState";
 const Container = styled.div`
   width: 100%;
   margin-bottom: 10px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  font-size: 14px;
+  color: #949494;
 `;
 
 function PostTitle() {
+  const MAX_TITLE_LENGTH = 50;
+
   // 글 작성 - state 저장
   const [title, setTitle] = useRecoilState(PostTitleState);
 
@@ -24,7 +31,8 @@ function PostTitle() {
 
   // 입력 값이 변경될 때 selectePostTitleState의 상태 업데이트
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    const inputTitle = e.target.value.slice(0, MAX_TITLE_LENGTH);
+    setTitle(inputTitle);
   };
 
   // postIsEditing이 true일 때 초기 title 값을 postTitle로 설정
@@ -41,6 +49,7 @@ function PostTitle() {
         value={title} // 수정 중인 경우 postTitle을 표시하고, 아닌 경우 Recoil 상태 값을 표시
         onChange={handleTitleChange} // 입력 값 변경을 처리합니다
       />
+      <div>{`${title.length}/${MAX_TITLE_LENGTH}`}</div>
     </Container>
   );
 }
