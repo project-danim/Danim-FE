@@ -1,5 +1,6 @@
 import { useState } from "react";
 import * as Styled from "./ChatRoomListStyle";
+import MyPostChatList from "./MyPostChatList";
 
 function ChatRoomListPage() {
   const [activeTab, setActiveTab] = useState(0);
@@ -15,17 +16,21 @@ function ChatRoomListPage() {
           active={activeTab === 0}
           onClick={() => handleTabClick(0)}
         >
-          Tab 1
+          내 게시물 대화
         </Styled.TabButton>
         <Styled.TabButton
           active={activeTab === 1}
           onClick={() => handleTabClick(1)}
         >
-          Tab 2
+          내가 신청한 대화
         </Styled.TabButton>
       </Styled.TabContainer>
       <Styled.TabContent>
-        {activeTab === 0 && <div>Content for Tab 1</div>}
+        {activeTab === 0 && (
+          <div>
+            <MyPostChatList />
+          </div>
+        )}
         {activeTab === 1 && <div>Content for Tab 2</div>}
       </Styled.TabContent>
     </div>
