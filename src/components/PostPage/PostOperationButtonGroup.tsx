@@ -1,9 +1,14 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PostGetState, postIdState } from "../../recoil/post/postGetState";
 import { deletePost } from "../../api/post";
+import chatStart from "../../api/chat";
+import {
+  chatEnteredUsersNicknameState,
+  roomNameState,
+} from "../../recoil/chat/chatState";
 
 export const Container = styled.div`
   display: flex;
@@ -46,6 +51,7 @@ export const DeleteAddButtonWrapper = styled.div`
 
 function PostOperationButtonGroup() {
   const [postId] = useRecoilState(postIdState);
+  console.log(postId);
 
   // 글을 작성한 사람의 닉네임
   const getPostData = useRecoilValue(PostGetState);
@@ -72,12 +78,25 @@ function PostOperationButtonGroup() {
     },
   });
 
+  // 삭제 버튼 핸들러
   const handleDelete = () => {
     deletePostMutation.mutate(postId);
   };
 
-  // 모임 신청
-  const handleApply = () => {};
+  const setChatEnteredUsersNickname = useSetRecoilState(
+    chatEnteredUsersNicknameState
+  );
+  const setRoomName = useSetRecoilState(roomNameState);
+
+  // 모임 신청, 채팅방 이동
+  const handleApply = async () => {
+    const response = await chatStart(postId); // postId로 변환 줬을때 받아온 roomname
+    if (response.statusCode === 200) {
+      setChatEnteredUsersNickname(response.data.nickName); // 현재 참여 중인 전체 참여자 모든 유저 닉네임 받아오기
+      setRoomName(response.data.roomName); // postID 를 줬을 때 받아오는 room name
+      navigate(`/chat/${postId}`);
+    }
+  };
 
   return (
     <Container>
