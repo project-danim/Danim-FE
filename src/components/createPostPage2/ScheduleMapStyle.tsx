@@ -23,7 +23,7 @@ export const StyledInput = styled.div`
   line-height: 22px;
   border-radius: 8px;
   background-color: #ffffff;
-  color: #a3a3a3;
+  color: #5c5c5c;
 `;
 
 // 지도 정보 Container

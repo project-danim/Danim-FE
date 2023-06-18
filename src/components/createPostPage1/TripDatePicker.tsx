@@ -20,7 +20,7 @@ const StyledInput = styled.div`
   width: 100%;
   line-height: 22px;
   border-radius: 8px;
-  color: #a3a3a3;
+  color: #5c5c5c;
 `;
 
 const Container = styled.div`
@@ -30,6 +30,12 @@ const Container = styled.div`
 const DatePickerWrapper = styled.div`
   width: 100%;
   margin: 5px;
+`;
+
+const NoticeTextWrapper = styled.div`
+  font-size: 10px;
+  color: #858585;
+  margin: 3px;
 `;
 
 type Props = {
@@ -117,6 +123,9 @@ function TripDatePicker() {
   return (
     <Container>
       <DatePickerWrapper>
+        {postIsEditing ? (
+          <NoticeTextWrapper>출발 날짜를 알려주세요.</NoticeTextWrapper>
+        ) : null}
         <DatePicker
           selected={startDate}
           onChange={handleStartChange}
@@ -130,6 +139,9 @@ function TripDatePicker() {
         />
       </DatePickerWrapper>
       <DatePickerWrapper>
+        {postIsEditing ? (
+          <NoticeTextWrapper>도착 날짜를 알려주세요.</NoticeTextWrapper>
+        ) : null}
         <DatePicker
           selected={endDate}
           onChange={handleEndChange}
