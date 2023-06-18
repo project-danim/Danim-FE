@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
+import { IoFootsteps } from "react-icons/io5";
 import {
   fecthPosts,
   fecthReviews,
@@ -12,21 +13,21 @@ import {
   ImageBox,
   ImsiArea,
   ImsiArea2,
-  Mile,
-  NickName,
-  ParentContainer,
+  ReviewMile,
+  UserNickName,
   PixButton,
   PostArea,
   PostContainer,
   ProfileArea,
+  ProfileMile,
   ReviewArea,
   ReviewContainer,
   ReviewContents,
   ReviewNickName,
   TextArea,
   UserInfo,
-  UserInfoContainer,
-  UserScore,
+  ProfileMileContainer,
+  ProfileMileBox,
 } from "./ReviewAreaStyles";
 
 function MyPage() {
@@ -39,8 +40,7 @@ function MyPage() {
   const [score, setScore] = useState(20);
   // 유저 리뷰 상태
   const [reviews, setReviews] = useState<any[]>([]);
-  const [, setPosts] = useState<any[]>([]);
-  // const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   // 유저정보 가져오는 뮤테이션 함수
   const { mutate: mutateGetUserInfo } = useMutation(fecthUserInfo, {
     onSuccess: (response) => {
@@ -59,7 +59,7 @@ function MyPage() {
   // 리뷰 가져오는 뮤테이션 함수
   const { mutate: mutateGetReviews } = useMutation(fecthReviews, {
     onSuccess: (response) => {
-      setReviews((prev: any[]) => [...prev, ...response]);
+      setReviews(() => [...reviews, ...response]);
       // reviews.map((review)=>review.title)
     },
     onError: (error) => {
@@ -70,7 +70,7 @@ function MyPage() {
   // 게시글 가져오는 뮤테이션 함수
   const { mutate: mutateGetPosts } = useMutation(fecthPosts, {
     onSuccess: (response) => {
-      setPosts((prev: any[]) => [...prev, ...response]);
+      setPosts(() => [...posts, ...response]);
     },
     onError: (error) => {
       console.error(error);
@@ -84,7 +84,6 @@ function MyPage() {
       // mutatePutMyInfo(id);
       mutateGetReviews(id);
       mutateGetPosts(id);
-      // const post = fecthPosts(id);
     }
   }, []);
 
@@ -107,46 +106,55 @@ function MyPage() {
     setEditing(() => !editing);
   };
 
+  // 작성 게시글 3줄로 줄이기
   // const htmlString = 서버에서 받아오는 값
   // const numSentences = 3;
   // const extractedSentences = extractTextFromHTML(htmlString, numSentences);
 
+  // review.point = 발자국 아이콘으로 변경
+  // const commentFootprintRating = (reviews.point) => {
+  //   const icons = [];
+  //   for (let i = 0; i < (reviews.point); i += 1) {
+  //     icons.push(<IoFootsteps size={14} key={i} />);
+  //   }
+  //   return icons;
+  // };
+
   return (
-    <ParentContainer>
+    <>
       <ProfileArea>
         <ImageBox>
-          <input type="file" style={{ display: "none" }} id="fileInput" />
+          {/* <input type="file" style={{ display: "none" }} id="fileInput" />
           <button type="button" onClick={clickFileInput}>
             이미지 수정
-          </button>
+          </button> */}
           <ImageArea />
         </ImageBox>
-        <UserInfoContainer>
-          <UserInfo>
-            <UserScore>
-              <div>{score}mile</div>
-            </UserScore>
-            <NickName>
-              <div>{nickname}님</div>
-            </NickName>
-            {owner && (
-              <div>
-                <div>
-                  <PixButton onClick={clickButton}>
-                    {editing ? "저장" : "수정하기"}
-                  </PixButton>
-                  <TextArea
-                    readOnly={!editing}
-                    value={content}
-                    placeholder="간단한 자기 소개를 해주세요."
-                    onChange={(e) => setContent(e.target.value)}
-                  />
-                </div>
-              </div>
-            )}
-          </UserInfo>
-        </UserInfoContainer>
+
+        <UserInfo>
+          <ProfileMileContainer>
+            {score}
+            <ProfileMileBox>
+              <ProfileMile>mile</ProfileMile>
+            </ProfileMileBox>
+          </ProfileMileContainer>
+          <UserNickName>{nickname}님</UserNickName>
+          {owner && (
+            <div>
+              <PixButton onClick={clickButton}>
+                {editing ? "저장" : "수정하기"}
+              </PixButton>
+              <TextArea
+                readOnly={!editing}
+                value={content}
+                placeholder="간단한 자기 소개를 해주세요."
+                onChange={(e) => setContent(e.target.value)}
+              />
+            </div>
+          )}
+        </UserInfo>
       </ProfileArea>
+
       <PostContainer>
         <ImsiArea>
           {/* 게시글 상 하단 실선 추가 */}
@@ -170,7 +178,8 @@ function MyPage() {
                   <div>
                     <div style={{ display: "flex" }}>
                       <CreatedTime>{formattedReviewDate}</CreatedTime>
-                      <Mile>{review.point}mile</Mile>
+                      <ReviewMile>{review.point}</ReviewMile>
+
                       <ReviewNickName>{review.userId}</ReviewNickName>
                     </div>
                     <ReviewContents> {review.review}</ReviewContents>
@@ -179,7 +188,7 @@ function MyPage() {
               );
             })}
             <div>
-              {/* {posts.map((post) => {
+              {posts.map((post) => {
                 const formattedPostDate = new Date(post.tripEndDate)
                   .toLocaleString("ko-KR", {
                     year: "2-digit",
@@ -199,12 +208,12 @@ function MyPage() {
                     </div>
                   </div>
                 );
-              })} */}
+              })}
             </div>
           </ReviewContainer>
         </ImsiArea2>
       </PostContainer>
-    </ParentContainer>
+    </>
   );
 }
 
