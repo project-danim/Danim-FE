@@ -19,8 +19,6 @@ function CreatePostPage2() {
   // 현재까지 글을 작성하면서 recoil의 상태에 저장해 두었던 값들을 가져옴
   const postData: any = useRecoilValue(postCreateState);
 
-  console.log(`글 작성 state `, postData);
-
   const handleBeforeClick = () => {
     navigate("/create-post/step1");
   };
@@ -48,32 +46,38 @@ function CreatePostPage2() {
 
   return (
     <Styled.Container>
-      <Styled.Wrapper2>
-        <Styled.TitleWrapper>
-          <Styled.CircleNumbering>2</Styled.CircleNumbering>
-          <Styled.MainInfotext>게시글을 작성해 주세요.</Styled.MainInfotext>
-        </Styled.TitleWrapper>
-      </Styled.Wrapper2>
-      <TextImageInput />
+      <Styled.VerticalLineWrapper>
+        <Styled.VerticalLineStyle />
+        <Styled.VerticalLineStyle />
+      </Styled.VerticalLineWrapper>
+      <Styled.ContentsContainer>
+        <Styled.Wrapper2>
+          <Styled.TitleWrapper>
+            <Styled.CircleNumbering>2</Styled.CircleNumbering>
+            <Styled.MainInfotext>게시글을 작성해 주세요.</Styled.MainInfotext>
+          </Styled.TitleWrapper>
+        </Styled.Wrapper2>
+        <TextImageInput />
 
-      <Styled.Wrapper2>
-        <Styled.TitleWrapper>
-          <Styled.CircleNumbering>3</Styled.CircleNumbering>
-          <Styled.MainInfotext>
-            (선택)상세 일정을 등록해 주세요.
-          </Styled.MainInfotext>
-        </Styled.TitleWrapper>
-      </Styled.Wrapper2>
-      <ScheduleMap />
+        <Styled.Wrapper2>
+          <Styled.TitleWrapper>
+            <Styled.CircleNumbering>3</Styled.CircleNumbering>
+            <Styled.MainInfotext>
+              (선택)상세 일정을 등록해 주세요.
+            </Styled.MainInfotext>
+          </Styled.TitleWrapper>
+        </Styled.Wrapper2>
+        <ScheduleMap />
 
-      <Styled.ButtonRouterWrapper>
-        <Styled.RouterButton onClick={handleBeforeClick}>
-          이전
-        </Styled.RouterButton>
-        <Styled.RouterButton onClick={handleSubmit}>
-          작성 완료
-        </Styled.RouterButton>
-      </Styled.ButtonRouterWrapper>
+        <Styled.ButtonRouterWrapper>
+          <Styled.RouterButton onClick={handleBeforeClick}>
+            이전
+          </Styled.RouterButton>
+          <Styled.RouterButton onClick={handleSubmit}>
+            작성 완료
+          </Styled.RouterButton>
+        </Styled.ButtonRouterWrapper>
+      </Styled.ContentsContainer>
     </Styled.Container>
   );
 }

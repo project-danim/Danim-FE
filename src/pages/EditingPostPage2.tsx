@@ -54,32 +54,38 @@ function EditingPostPage2() {
 
   return (
     <Styled.Container>
-      <Styled.Wrapper2>
-        <Styled.TitleWrapper>
-          <Styled.CircleNumbering>2</Styled.CircleNumbering>
-          <Styled.MainInfotext>게시글을 작성해 주세요.</Styled.MainInfotext>
-        </Styled.TitleWrapper>
-      </Styled.Wrapper2>
-      <TextImageInput />
+      <Styled.VerticalLineWrapper>
+        <Styled.VerticalLineStyle />
+        <Styled.VerticalLineStyle />
+      </Styled.VerticalLineWrapper>
+      <Styled.ContentsContainer>
+        <Styled.Wrapper2>
+          <Styled.TitleWrapper>
+            <Styled.CircleNumbering>2</Styled.CircleNumbering>
+            <Styled.MainInfotext>게시글을 작성해 주세요.</Styled.MainInfotext>
+          </Styled.TitleWrapper>
+        </Styled.Wrapper2>
+        <TextImageInput />
 
-      <Styled.Wrapper2>
-        <Styled.TitleWrapper>
-          <Styled.CircleNumbering>3</Styled.CircleNumbering>
-          <Styled.MainInfotext>
-            (선택)상세 일정을 등록해 주세요.
-          </Styled.MainInfotext>
-        </Styled.TitleWrapper>
-      </Styled.Wrapper2>
-      <ScheduleMap />
+        <Styled.Wrapper2>
+          <Styled.TitleWrapper>
+            <Styled.CircleNumbering>3</Styled.CircleNumbering>
+            <Styled.MainInfotext>
+              (선택)상세 일정을 등록해 주세요.
+            </Styled.MainInfotext>
+          </Styled.TitleWrapper>
+        </Styled.Wrapper2>
+        <ScheduleMap />
 
-      <Styled.ButtonRouterWrapper>
-        <Styled.RouterButton onClick={handleBeforeClick}>
-          이전
-        </Styled.RouterButton>
-        <Styled.RouterButton onClick={handleSubmit}>
-          작성 완료
-        </Styled.RouterButton>
-      </Styled.ButtonRouterWrapper>
+        <Styled.ButtonRouterWrapper>
+          <Styled.RouterButton onClick={handleBeforeClick}>
+            이전
+          </Styled.RouterButton>
+          <Styled.RouterButton onClick={handleSubmit}>
+            작성 완료
+          </Styled.RouterButton>
+        </Styled.ButtonRouterWrapper>
+      </Styled.ContentsContainer>
     </Styled.Container>
   );
 }
