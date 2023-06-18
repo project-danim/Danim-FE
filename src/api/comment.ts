@@ -17,9 +17,18 @@ export const createComment = async (
         withCredentials: true,
       }
     );
+    if (response.status === 200) {
+      console.log(`댓글 조회에 성공하였습니다`);
+    } else if (response.status === 208) {
+      alert(`이미 후기를 남겼습니다. 다음 여행을 기대해 주세요!`);
+    }
     return response.data;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    if (error.response.status === 401) {
+      alert(`여행에 참여한 사람만 작성할 수 있습니다.`);
+    } else if (error.response.status === 400) {
+      alert(`여행이 종료되어야 작성할 수 있습니다.`);
+    }
     throw error;
   }
 };
