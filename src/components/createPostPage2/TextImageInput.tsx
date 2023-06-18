@@ -58,9 +58,16 @@ function TextImageInput() {
   // 파일 업로드 후 에디터 삽입 로직
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
 
     if (!file) return;
+
+    // 사진 크기 제한 (10mb)
+    const maxSize = 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      alert("10MB 이하의 사진만 첨부 가능합니다.");
+      // 에러 처리 로직 추가
+      return;
+    }
 
     const formData = new FormData();
     formData.append("image", file);
@@ -87,7 +94,12 @@ function TextImageInput() {
 
   // Quill editor 에서 사용 가능한 툴바 설정
   const modules = {
-    toolbar: [[{ header: [1, 2, false] }], ["link"]],
+    toolbar: [
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ color: [] }, { background: [] }],
+    ],
   };
 
   // Quill editor의 내용이 변경될때 업데이트 되는 함수 state
