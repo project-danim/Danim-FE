@@ -41,7 +41,8 @@ function AgeRange() {
     if (selectedValues.includes(ageOption)) {
       setSelectedValues(selectedValues.filter((value) => value !== ageOption));
     } else {
-      setSelectedValues([...selectedValues, ageOption]);
+      // setSelectedValues([...selectedValues, ageOption]);
+      setSelectedValues((prevValues) => [...prevValues, ageOption]);
     }
   };
 

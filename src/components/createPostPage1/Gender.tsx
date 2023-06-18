@@ -43,7 +43,7 @@ function Gender() {
         selectedValues.filter((value) => value !== genderOption)
       );
     } else {
-      setSelectedValues([...selectedValues, genderOption]);
+      setSelectedValues((prevValues) => [...prevValues, genderOption]);
     }
   };
 
