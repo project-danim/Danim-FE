@@ -41,3 +41,9 @@ export const allKeywordState: any = atom({
   key: "allKeywordState",
   default: {},
 });
+
+// 마감된 게시글을 포함할지에 대한 상태
+export const isRecruitmentEndState = atom({
+  key: "isRecruitmentEndState",
+  default: true,
+});
