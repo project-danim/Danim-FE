@@ -30,8 +30,22 @@ const Container = styled.div`
   margin-bottom: 100px;
 `;
 
+const UploadImageButton = styled.button`
+  margin-top: 65px;
+  width: 100%;
+  background-color: #a3bf3b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 10px 12px;
+  height: 42px;
+`;
+
 function TextImageInput() {
   const quillRef = useRef<ReactQuill | null>(null);
+  // 파일 입력 요소에 대한 참조 생성
+  const inputFileRef = useRef<HTMLInputElement | null>(null);
 
   // 글 수정 - 서버에서 가져온 PostState에서 content와 imageUrls 값을 추출
   const getPostData = useRecoilValue(PostGetState);
@@ -121,9 +135,19 @@ function TextImageInput() {
     }
   }, [quillContent]);
 
+  // UploadImageButton 클릭 이벤트 핸들러
+  const handleUploadButtonClick = () => {
+    inputFileRef.current?.click(); // 파일 입력 요소 클릭 이벤트 트리거
+  };
+
   return (
     <Container>
-      <input type="file" onChange={handleFileChange} />
+      <input
+        type="file"
+        onChange={handleFileChange}
+        ref={inputFileRef}
+        style={{ display: "none" }}
+      />
       <StyledReactQuill
         ref={quillRef}
         theme="snow"
@@ -132,6 +156,9 @@ function TextImageInput() {
         preserveWhitespace={false}
         onChange={handleQuillChange}
       />
+      <UploadImageButton onClick={handleUploadButtonClick}>
+        이미지 추가
+      </UploadImageButton>
     </Container>
   );
 }
