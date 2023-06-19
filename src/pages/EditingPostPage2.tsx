@@ -59,12 +59,12 @@ function EditingPostPage2() {
         <Styled.VerticalLineStyle />
       </Styled.VerticalLineWrapper>
       <Styled.ContentsContainer>
-        <Styled.Wrapper2>
+        <Styled.MainInfotextWrapper>
           <Styled.TitleWrapper>
             <Styled.CircleNumbering>2</Styled.CircleNumbering>
             <Styled.MainInfotext>게시글을 작성해 주세요.</Styled.MainInfotext>
           </Styled.TitleWrapper>
-        </Styled.Wrapper2>
+        </Styled.MainInfotextWrapper>
         <TextImageInput />
 
         <Styled.Wrapper2>
