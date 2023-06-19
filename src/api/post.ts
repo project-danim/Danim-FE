@@ -69,7 +69,10 @@ export const getPost = async (postId: number) => {
       }
     );
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response.status === 404) {
+      alert(`게시글을 찾을 수 없습니다.`);
+    }
     console.error(error);
     throw error;
   }
@@ -90,7 +93,12 @@ export const editPost = async (postId: number, formData: FormData) => {
       }
     );
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response.status === 404) {
+      alert(`게시글을 찾을 수 없습니다.`);
+    } else if (error.response.status === 401) {
+      alert(`글 작성자만 수정할 수 있습니다`);
+    }
     console.error(error);
     throw error;
   }
