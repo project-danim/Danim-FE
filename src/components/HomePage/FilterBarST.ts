@@ -28,7 +28,15 @@ const CommonButton = styled.button<FilterButtonProps>`
   background-color: #ffffff;
   background-color: ${(props) =>
     props["data-active"] ? "#2E5902" : "#ffffff"};
-  color: ${(props) => (props["data-active"] ? "#ffffff" : "#000000")};
+  color: ${(props) => {
+    if (props["data-active"]) {
+      return "#ffffff";
+    }
+    if (props.buttonName === "ageButton") {
+      return "#5C5C5C";
+    }
+    return "#000000";
+  }};
   line-height: ${(props) =>
     props.buttonName === "ageButton" ? "38px" : "40px"};
   border: ${(props) =>
