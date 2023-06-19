@@ -15,6 +15,7 @@ import postIsEditingState from "../recoil/post/postIsEditingState";
 import * as Styled from "./CreateEditPostPageStyles";
 import useResetAllPostStates from "../hooks/useResetAllPostStates";
 import {
+  PostTitleState,
   recruitmentCountState,
   recruitmentEndDateState,
   recruitmentStartDateState,
