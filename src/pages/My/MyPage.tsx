@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
-import { IoFootsteps } from "react-icons/io5";
+// import { IoFootsteps } from "react-icons/io5";
 import {
   fecthPosts,
   fecthReviews,
@@ -88,10 +88,10 @@ function MyPage() {
   }, []);
 
   // 이미지 버튼 클릭시
-  const clickFileInput = () => {
-    const fileInput = document.getElementById("fileInput");
-    fileInput?.click();
-  };
+  // const clickFileInput = () => {
+  //   const fileInput = document.getElementById("fileInput");
+  //   fileInput?.click();
+  // };
 
   // 수정하기 버튼 클릭함수
   const clickButton = () => {
