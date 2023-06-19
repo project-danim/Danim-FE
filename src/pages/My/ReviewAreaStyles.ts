@@ -68,11 +68,11 @@ export const UserNickName = styled.div`
   width: 70px;
   height: 24px;
   font-style: normal;
-font-weight: 700;
-font-size: 20px;
-line-height: 24px;
-margin-left: 8px;
-margin-top: 2px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  margin-left: 8px;
+  margin-top: 2px;
 
 `;
 
