@@ -9,7 +9,12 @@ export const fetchKakaoToken = async (code: string) => {
   const response = await axiosInstance.get(
     `/api/user/kakao/callback?code=${code}`
   );
-  return response;
+  // 푸쉬하고 확인해보기
+  console.log("여기가 카카오 응답에 대한 response", response);
+  if (response.data.statusCode === 200) {
+    return response.data;
+  }
+  return alert("다시 시도해주세요!");
 };
 
 function Redirection() {
@@ -32,8 +37,15 @@ function Redirection() {
         const refreshToken = response.headers.refresh_key;
         setCookie("accessToken", accessToken, 1);
         setCookie("refreshToken", refreshToken, 30);
-        const userIdResponse = response.data.data.toString();
+
+        const userIdResponse = response.data.id.toString();
+        const userNickname = response.data.nickName;
+        const userImageUrl = response.data.myPageImageUrl;
         setUserId(() => userIdResponse);
+        // 사용자 아이디, 닉네임, 프로필 이미지 로컬 스토리지에 저장
+        localStorage.setItem("id", userIdResponse);
+        localStorage.setItem("nickname", userNickname);
+        localStorage.setItem("userImageUrl", userImageUrl);
       } catch (err) {
         showError(err);
       }
