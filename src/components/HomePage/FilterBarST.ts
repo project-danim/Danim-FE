@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 // 메인 키워드(맛집탐방, 포토스팟 등) 프롭 타입
 type UrlProps = "food" | "tour" | "photo" | "hotspot" | "shopping" | string;
@@ -8,6 +8,11 @@ type FilterButtonProps = {
   "data-active": boolean;
   buttonName: string;
   url?: UrlProps;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+// 마감된 게시글 포함 여부 토글 버튼 프롭 타입
+type IsRecruitEndButtonProps = {
+  "data-active": boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 // 공통 width 스타일
@@ -67,7 +72,7 @@ const CommonButton = styled.button<FilterButtonProps>`
     width: 24px;
     height: 24.5px;
     background-repeat: no-repeat;
-    margin-right: 10px;
+    margin-right: 6px;
     position: relative;
     ${(props) => props.buttonName === "ageButton" && "display: none;"}
   }
@@ -126,6 +131,7 @@ const FilterBarContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 // 키워드 필터 컨테이너
@@ -135,7 +141,7 @@ const KeywordFilterContainer = styled.div`
   line-height: 19px;
   border-radius: 30px;
   padding: 10px;
-  width: 587px;
+  width: 550px;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -149,16 +155,78 @@ const KeywordFilterContainer = styled.div`
   }
 `;
 
-// 상세 필터 컨테이너
-const DetailFilterContainer = styled.div`
+// 모집 마감 토글 버튼 포함 컨테이너
+const RecruitEndAndDetailContainer = styled.div`
   border: 2px solid #eaedd4;
   box-shadow: 0px 1px 2px 0px #00000040;
+`;
+
+// 모집 마감 토글 버튼
+const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  color: #5c5c5c;
+  padding: 5px;
+  border: 1px solid #eef4db;
+  width: 71px;
+  border-radius: 30px;
+  text-indent: -57px;
+  display: flex;
+  align-items: center;
+  right: 110px;
+  bottom: 65px;
+  position: absolute;
+  background-color: ${(props) =>
+    props["data-active"] ? "#FFFFFF" : "#f5f5f5"};
+  cursor: pointer;
+  &::after {
+    content: "";
+    display: inline-block;
+    position: relative;
+    left: ${(props) => (props["data-active"] ? "34px" : "0px")};
+    animation-name: ${(props) =>
+      props["data-active"] ? "move-right" : "move-left"};
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #b5bf69;
+  }
+  @keyframes move-left {
+    0% {
+      left: 34px;
+    }
+    50% {
+      left: 15px;
+    }
+    100% {
+      left: 0;
+    }
+  }
+  @keyframes move-right {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: 34px;
+    }
+  }
+`;
+
+// 상세 필터 컨테이너
+const DetailFilterContainer = styled.div`
+  /* border: 2px solid #eaedd4;
+  box-shadow: 0px 1px 2px 0px #00000040; */
   display: flex;
   flex-direction: row;
-  padding: 48px 96px;
+  padding: 48px 96px 28px;
   border-radius: 10px;
   margin-top: 30px;
-  margin-bottom: 18px;
+  margin-bottom: 36px;
   width: 100%;
   box-sizing: border-box;
   @media (max-width: 1400px) and (min-width: 320px) {
@@ -225,6 +293,8 @@ export default {
   CommonUnderButton,
   FilterBarContainer,
   KeywordFilterContainer,
+  IsRecruitButton,
+  RecruitEndAndDetailContainer,
   DetailFilterContainer,
   TitleInput,
   LocationAndSizeContainer,
