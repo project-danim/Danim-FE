@@ -91,9 +91,7 @@ function SignUp() {
 
   // 성별 클릭 핸들러, 성별 정보 제공 핸들러
   const handleGenderClick = (gender: string) => {
-    if (gender === "남") {
-      setActiveGender("MALE");
-    } else setActiveGender("FEMALE");
+    setActiveGender(() => gender);
   };
   const handleAgreeForGender = () => {
     handleAgreeGender();
@@ -264,7 +262,7 @@ function SignUp() {
                 key={gender}
                 type="button"
                 onClick={() => handleGenderClick(gender)}
-                active={activeGender === (gender === "남" ? "male" : "female")}
+                active={activeGender === gender}
               >
                 {gender}
               </st.GenderButton>

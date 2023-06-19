@@ -11,3 +11,9 @@ export const isSearchClicked: any = atom({
   key: "isSearchClickedStatae",
   default: false,
 });
+
+// 검색 게시글 page 상태
+export const searchedPageState: any = atom({
+  key: "searchedPageState",
+  default: 0,
+});

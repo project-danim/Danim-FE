@@ -177,6 +177,7 @@ const GenderAriaContainer = styled.div`
   margin-bottom: 29px;
 `;
 
+// 성별 선택 버튼
 const GenderButton = styled.button<GenderButtonProps>`
   box-shadow: 0px 1px 2px 0px #0000001a;
   color: #ffffff;
@@ -211,6 +212,7 @@ const AgeAriaContainer = styled.label`
   }
 `;
 
+// 연령대 선택 버튼
 const AgeButton = styled.button<GenderButtonProps>`
   max-width: 110px;
   height: 42px;

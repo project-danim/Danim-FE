@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilState } from "recoil";
 import useInput from "../../hooks/useInput";
@@ -22,14 +22,13 @@ import {
 } from "../../recoil/filter/filterdPost";
 import st from "./FilterBarST";
 import common from "./PostST";
-import { lastRefState } from "../../recoil/scroll/scroll";
+import { searchedPageState } from "../../recoil/scroll/scroll";
 
 function FilterBar() {
   // 사용자가 선택한 모든 검색 조건들
   const [allFilter, setAllKeyword] = useRecoilState<any>(allKeywordState);
   // 검색으로 받은 게시글 state
-  const [filteredPosts, setFilteredPosts] =
-    useRecoilState<string[]>(filterdPost);
+  const [, setFilteredPosts] = useRecoilState<any[]>(filterdPost);
   // 게시글 제목 state
   const [titleValue, handleChangeTitle, ,] = useInput("");
   // 게시글 키워드, 지역, 인원수, 연령대 선택값 state
@@ -44,16 +43,16 @@ function FilterBar() {
   const [isLocationToggled, handleIsLocationToggled] = useToggle(false);
   const [isGroupSizeToggled, handleIsGroupSizeToggled] = useToggle(false);
   // 현재 검색된 상태인지 토글 state
-  const [, handleSearchClicked] = useRecoilState(isSearchClicked);
+  const [searchClicked, handleSearchClicked] = useRecoilState(isSearchClicked);
   // 더 이상 불러올 데이터가 있는지 표시하는 상태
   const [hasMore, setHasMore] = useState(true);
   // 검색 게시글 페이지 state
-  const [page, setPage] = useState(0);
+  const [searchedPage, setSearchedPage] =
+    useRecoilState<any>(searchedPageState);
   // 검색 게시글들의 마지막 게시글 ref
-  const [searchedLastRef] = useRecoilState<any>(lastRefState);
+  // const [searchedLastRef] = useRecoilState<any>(lastRefState);
 
   // 옵저버 객체가 참조할 값 생성
-  const observer = useRef<any>();
   const size = 8;
 
   // 검색 뮤테이션 함수
@@ -62,16 +61,20 @@ function FilterBar() {
       if (response.statusCode === 200) {
         // 검색 됐는지에 대한 boolean 값 true로 변경
         handleSearchClicked(() => true);
+        if (searchedPage === 0) {
+          setFilteredPosts([...response.data]);
+        }
         // 중복된 데이터 제거해서 보여주기
-        setFilteredPosts((prevPosts) => {
-          const newPosts = response.data.filter(
-            (newPost: any) =>
-              !prevPosts.some((prevPost: any) => prevPost.id === newPost.id)
-          );
-          return [...prevPosts, ...newPosts];
-        });
-        // 새롭게 받아온 데이터만 보여주기
-        // setFilteredPosts([...response.data]);
+        if (searchedPage !== 0) {
+          setFilteredPosts((prevPosts) => {
+            const newPosts = response.data.filter(
+              (newPost: any) =>
+                !prevPosts.some((prevPost: any) => prevPost.id === newPost.id)
+            );
+            return [...prevPosts, ...newPosts];
+          });
+        }
+
         // 더 이상 가져올 데이터 없음
         if (response.data.length < size) {
           console.log("더이상 가져올 데이터없음");
@@ -85,37 +88,28 @@ function FilterBar() {
   });
 
   // 검색된 게시글 불러오기
-  const getSearchedPosts = () => {
+  const getSearchedPosts = (keyword: any) => {
     // 더 이상 불러올 데이터가 없다면 종료
     if (!hasMore) return;
-    const allKeyword = allFilter;
-    mutateSearch({ allKeyword, page, size });
+    if (searchClicked) {
+      mutateSearch({ allKeyword: keyword, page: searchedPage, size });
+    }
   };
 
-  // page 값에 따른 전체 게시글 불러오기
+  // searchClicked 상태가 변경되면 페이지를 재설정합니다.
   useEffect(() => {
-    const getPosts = async () => {
-      await getSearchedPosts();
-    };
-    getPosts();
-  }, [page]);
+    setSearchedPage(0);
+  }, [searchClicked]);
 
-  // 옵저버 객체 생성
+  // page 상태가 변경되면 검색을 실행합니다.
   useEffect(() => {
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && entries[0].intersectionRatio >= 1) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      },
-      { threshold: 1 }
-    );
-    if (searchedLastRef) {
-      // 데이터가 불러와지기 전에 실행하면 안되니까 lastPostRef.current가 있을때로 조건 생성
-      observer.current.observe(searchedLastRef);
+    if (searchClicked) {
+      const getPosts = async () => {
+        await getSearchedPosts(allFilter);
+      };
+      getPosts();
     }
-  }, [filteredPosts, searchedLastRef]);
+  }, [searchedPage, searchClicked]);
 
   // 키워드 선택 핸들러
   const handleSelectKeyword = (e: React.MouseEvent<Element, MouseEvent>) => {
@@ -134,7 +128,10 @@ function FilterBar() {
 
   // 연령대 선택 핸들러
   const handleSelectedAge = (e: React.MouseEvent<Element, MouseEvent>) => {
-    const age = (e.target as Element).textContent || "";
+    let age = (e.target as Element).textContent || "";
+    if (age === "60대 이상") {
+      age = "60대이상";
+    }
     // 이미 선택된 연령대인지 확인
     const isAgeSelected = selectedAge.includes(age);
     if (isAgeSelected) {
@@ -165,14 +162,15 @@ function FilterBar() {
 
   // 검색 클릭 핸들러
   const handleClickSearchButton = () => {
-    // page 값 바꾸기
-    // setPage(() => 0);
-    // 배열을 문자로 변환
+    // 페이지를 초기화합니다.
+    setSearchedPage(0);
+    // 기존의 값을 토글해서 페이지 재설정을 트리거합니다.
+    handleSearchClicked(() => true);
+    setHasMore(() => true);
+
     const keywordString = selectedKeyword.toString();
     const ageString = selectedAge.toString();
-    // 문자를 숫자로 변환
     const groupSizeNumber = Number(selectedGroupSize);
-    // 검색 키워드 생성
     const allKeyword = {
       keyword: keywordString !== "" ? keywordString : null,
       location: selectedLocation !== "" ? selectedLocation : null,
@@ -182,7 +180,8 @@ function FilterBar() {
       exceptCompletedPost: true,
     };
     setAllKeyword({ ...allKeyword });
-    mutateSearch({ allKeyword, page, size });
+    // 검색 실행
+    getSearchedPosts(allKeyword);
   };
 
   return (
@@ -289,7 +288,11 @@ function FilterBar() {
                 key={age}
                 type="button"
                 onClick={handleSelectedAge}
-                data-active={selectedAge.includes(age)}
+                data-active={
+                  age !== "60대 이상"
+                    ? selectedAge.includes(age)
+                    : selectedAge.includes("60대이상")
+                }
               >
                 {age}
               </st.CommonButton>

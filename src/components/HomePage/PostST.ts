@@ -23,6 +23,7 @@ const CommonButton = styled.button<FilterButtonProps>`
   color: #ffffff;
   border: none;
   margin: 0 auto;
+  width: ${({ buttonName }) => (buttonName === "postDetail" ? "100%" : "auto")};
   cursor: pointer;
 `;
 
@@ -33,9 +34,10 @@ const CommonKeywordButton = styled.button`
   border: none;
   border-radius: 6px;
   padding: 8px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   line-height: 20px;
+  max-height: 36px;
 `;
 
 // 마감된 게시글 컨테이너
@@ -93,7 +95,7 @@ const postTitle = styled.p`
 `;
 
 // 게시글 닉네임
-const postNickname = styled.p`
+const postNickname: any = styled.p`
   padding: 10px 0;
   font-size: 14px;
   font-weight: 400;
@@ -105,6 +107,7 @@ const postNickname = styled.p`
   &::before {
     content: "";
     display: inline-block;
+    /* 유저프로필 이미지 링크 값 들어오면 수정해야함 */
     background-image: url("/avatar.svg");
     width: 24px;
     height: 24px;
@@ -134,7 +137,7 @@ const groupSizeAndDateContainer = styled.div`
   letter-spacing: 0em;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   & > p {
     margin: 10px 0;
   }
@@ -142,25 +145,18 @@ const groupSizeAndDateContainer = styled.div`
 
 // 게시글 키워드 모음 컨테이너
 const keywordContainer = styled.div`
-  overflow-x: scroll;
-  white-space: nowrap;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 10px 8px;
   max-width: 240px;
-  column-gap: 10px;
-  margin-bottom: 18px;
-  padding-bottom: 10px;
-  padding-left: 1px;
   box-sizing: border-box;
-  &::-webkit-scrollbar {
-    height: 3px; /* 스크롤 바 높이 */
-  }
-  &::-webkit-scrollbar-thumb {
-    width: 1px;
-    /* 스크롤 바 색상 */
-    background-color: #f5f5f5;
-    border-radius: 20px;
-  }
+  padding: 10px 0;
+  margin-bottom: 10px;
+  padding-left: 1px;
+  /* border-bottom: 1px solid #c2c2c2; */
+  height: 102px;
 `;
 
 export default {
