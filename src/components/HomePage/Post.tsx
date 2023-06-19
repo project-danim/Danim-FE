@@ -32,7 +32,9 @@ function Post({ post, lastPostRef }: any) {
     <st.expiredPostContainer expired={post.isRecruitmentEnd}>
       <st.postContainer key={post.id} ref={lastPostRef}>
         <st.postTitle>{post.title}</st.postTitle>
-        <st.postNickname>{post.nickname}</st.postNickname>
+        <st.postNickname profile={post.userImage}>
+          {post.nickname}
+        </st.postNickname>
         <st.postImage src={post.imageUrl} alt="게시글 이미지" />
         <st.groupSizeAndDateContainer>
           <p>
@@ -43,7 +45,6 @@ function Post({ post, lastPostRef }: any) {
         <st.keywordContainer>
           <st.CommonKeywordButton>{post.keyword}</st.CommonKeywordButton>
           <st.CommonKeywordButton>{post.location}</st.CommonKeywordButton>
-          <st.CommonKeywordButton>{post.groupSize}명</st.CommonKeywordButton>
           {getAgeKeyword(post.ageRange).map((age) => (
             <div key={age}>
               <st.CommonKeywordButton>{age}</st.CommonKeywordButton>
