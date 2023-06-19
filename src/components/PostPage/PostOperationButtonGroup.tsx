@@ -91,6 +91,7 @@ function PostOperationButtonGroup() {
     deletePostMutation.mutate(postId);
   };
 
+  // 현재 채팅방에 접근한 유저들의 닉네임
   const setChatEnteredUsersNickname = useSetRecoilState(
     chatEnteredUsersNicknameState
   );

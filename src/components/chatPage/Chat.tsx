@@ -32,9 +32,12 @@ function Chat() {
   // 유저 아이디 세션 스토리지 저장한 값으로 가져오는걸로 바꾸기
   const userId = localStorage.getItem("nickname");
 
+  // 메세지 끝 값 참조
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
   // 컴포넌트가 랜더링 될 때 recoil 에서 받아온 state update
   useEffect(() => {
-    setAllUserNickname(chatEnteredUsersNickname);
+    setAllUserNickname(chatEnteredUsersNickname || []);
     setRoomName(chatEnteredRoomName);
   }, []);
 
@@ -92,7 +95,6 @@ function Chat() {
   const sendMessage = (event: any) => {
     event.preventDefault();
     if (messageInput.trim() === "") {
-      // console.log("내용을 입력해주세요.");
       return;
     }
     const sendList = {
@@ -131,6 +133,13 @@ function Chat() {
       document.body.style.backgroundColor = "";
     };
   }, []);
+
+  // 메세지의 가장 끝으로 내려보내기
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <st.ChatPageBackground>
@@ -180,7 +189,8 @@ function Chat() {
           />
         );
       })}
-
+      {/* 가장 아래를 참조하게 하는 ref */}
+      <div ref={messagesEndRef} />
       <st.MessageInputForm onSubmit={sendMessage}>
         <st.MessageInput
           type="text"

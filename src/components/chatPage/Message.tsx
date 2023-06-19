@@ -37,11 +37,13 @@ function Message({ msg, prevMsg, userNickname }: any) {
           ) : (
             <>
               {/* 다른 사용자가 보낸 메시지인 경우 */}
-              {isDisplayNickname && <div>{msg.sender}</div>}
-              <div className="yourChat">
-                <div>{msg.message}</div>
-              </div>
-              <div className="nowTime2">{msg.time}</div>
+              {isDisplayNickname && (
+                <st.ParticipantsNickname>{msg.sender}</st.ParticipantsNickname>
+              )}
+              <st.ParticipantsChatAndTimeContainer>
+                <st.ParticipantsChatBox>{msg.message}</st.ParticipantsChatBox>
+                <st.ChatTimeStamp>{getTime(msg.time)}</st.ChatTimeStamp>
+              </st.ParticipantsChatAndTimeContainer>
             </>
           )}
         </st.ChatArticleContainer>
