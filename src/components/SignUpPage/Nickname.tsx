@@ -76,6 +76,12 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
     }
   }, [nickname]);
 
+  // 컴포넌트 렌더링시 닉네임 초기화
+  useEffect(() => {
+    setUserNickname("");
+    setNicknameError("");
+  }, []);
+
   return (
     <>
       <label htmlFor="userNickname">
