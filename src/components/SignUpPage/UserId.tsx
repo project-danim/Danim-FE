@@ -87,6 +87,12 @@ function UserId({
       setUserIdError(() => "사용 가능한 아이디입니다.");
     }
   }, [signUpUserId]);
+
+  // 컴포넌트 렌더링 시 아이디 입력값 초기화
+  useEffect(() => {
+    setSignUpUserId(() => "");
+    setUserIdError("");
+  }, []);
   return (
     <div>
       {pageName === "loginPage" ? (
