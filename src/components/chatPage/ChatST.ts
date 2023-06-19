@@ -17,6 +17,11 @@ const ChatArticleContainer = styled.article`
   margin: 0 auto;
 `;
 
+// const MessageContainer = styled.div`
+//   height: calc(100vh - 60px);
+//   overflow-y: auto;
+// `;
+
 // 대화 상대 컨테이너 (자신 포함)
 const AllUserContainer = styled.div`
   padding: 29px 25px;
@@ -103,6 +108,55 @@ const ChatTimeStamp = styled.time`
   line-height: 16px;
 `;
 
+// 참여자 닉네임
+const ParticipantsNickname = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #5c5c5c;
+  padding: 16px 12px;
+  padding-right: 12px;
+
+  // 아이콘 스타일링
+  &::before {
+    content: "";
+    display: inline-block;
+    /* 임의로 사용자 이미지 넣어놓겠습니다 -지수- */
+    background-image: url("/header/user.svg");
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-right: 8px;
+    position: relative;
+  }
+`;
+
+// 참여자 메세지 창
+const ParticipantsChatBox = styled.p`
+  font-family: Pretendard;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+  background: #ffffff;
+  padding: 20px 44px;
+  margin: 0;
+  border-radius: 30px;
+`;
+
+// 참여자 메세지 창과 시간 컨테이너
+const ParticipantsChatAndTimeContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-bottom: 16px;
+`;
+
 // 메세지 입력 컨테이너
 const MessageInputForm = styled.form`
   display: flex;
@@ -156,4 +210,8 @@ export default {
   MessageInputForm,
   MessageInput,
   MessageSendButton,
+  ParticipantsNickname,
+  ParticipantsChatBox,
+  ParticipantsChatAndTimeContainer,
+  // MessageContainer,
 };
