@@ -39,7 +39,7 @@ function Redirection() {
         const response = await fetchKakaoToken(userCode);
         // 확인하고 삭제하기
         console.log(response);
-        const userIdResponse = response.id.toString();
+        const userIdResponse = response.id;
         const userNickname = response.nickName;
         const userImageUrl = response.myPageImageUrl;
         setUserId(() => userIdResponse);
