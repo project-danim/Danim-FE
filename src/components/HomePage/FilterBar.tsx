@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilState } from "recoil";
 import useInput from "../../hooks/useInput";
-import useToggle from "../../hooks/useToggle";
-import {
-  ageList,
-  groupSizeList,
-  keywordList,
-  locationList,
-  mainKeyword,
-} from "./FilterListData";
+import { ageList, keywordList, mainKeyword } from "./FilterListData";
 import { fetchSearch } from "../../api/search";
 import {
   allKeywordState,
@@ -25,6 +18,8 @@ import st from "./FilterBarST";
 import common from "./PostST";
 import { searchedPageState } from "../../recoil/scroll/scroll";
 import RecruitmentEndButton from "./RecruitmentEndButton";
+import LocationFilter from "./Location";
+import GroupSize from "./GroupSize";
 
 function FilterBar() {
   // 사용자가 선택한 모든 검색 조건들
@@ -36,14 +31,10 @@ function FilterBar() {
   // 게시글 키워드, 지역, 인원수, 연령대 선택값 state
   const [selectedKeyword, setSelectedKeyword] =
     useRecoilState<any[]>(filterList);
-  const [selectedLocation, setSelectedLocation] =
-    useRecoilState(filteredLocation);
+  const [selectedLocation] = useRecoilState(filteredLocation);
   const [selectedGroupSize, setSelectedGroupSize] =
     useRecoilState(filteredGroupSize);
   const [selectedAge, setSelectedAge] = useRecoilState(filteredAge);
-  // 지역, 인원수 버튼 선택 토글 state
-  const [isLocationToggled, handleIsLocationToggled] = useToggle(false);
-  const [isGroupSizeToggled, handleIsGroupSizeToggled] = useToggle(false);
   // 현재 검색된 상태인지 토글 state
   const [searchClicked, handleSearchClicked] = useRecoilState(isSearchClicked);
   // 더 이상 불러올 데이터가 있는지 표시하는 상태
@@ -145,22 +136,6 @@ function FilterBar() {
     }
   };
 
-  // 지역 선택 핸들러
-  const handleSelectLocation = (e: React.MouseEvent<Element, MouseEvent>) => {
-    // location 기본값을 빈 문자열로 설정
-    const location = (e.target as Element).textContent || "";
-    setSelectedLocation(location);
-    handleIsLocationToggled();
-  };
-
-  // 인원수 선택 핸들러
-  const handleSelectGroupSize = (e: React.MouseEvent<Element, MouseEvent>) => {
-    // groupSize 기본값을 빈 문자열로 설정
-    const groupSize = (e.target as Element).textContent || "";
-    setSelectedGroupSize(groupSize);
-    handleIsGroupSizeToggled();
-  };
-
   // 검색 클릭 핸들러
   const handleClickSearchButton = () => {
     // 페이지를 초기화합니다.
@@ -219,66 +194,10 @@ function FilterBar() {
               />
             </label>
             <st.LocationAndSizeContainer>
-              {/* 지역 필터 박스 */}
-              <st.StyleContainer>
-                <st.CommonLableNameText>지역</st.CommonLableNameText>
-                <st.CommonDropDownButton
-                  type="button"
-                  onClick={handleIsLocationToggled}
-                >
-                  <div>{selectedLocation}</div>
-                  <st.CommonUnderButton>지역 선택하기</st.CommonUnderButton>
-                </st.CommonDropDownButton>
-                <ul>
-                  {isLocationToggled
-                    ? locationList.map((location) => (
-                        <div
-                          key={location}
-                          role="button"
-                          tabIndex={0}
-                          onClick={handleSelectLocation}
-                          onKeyDown={(e: any) => {
-                            if (e.key === "Enter") {
-                              handleSelectLocation(e);
-                            }
-                          }}
-                        >
-                          <li>{location}</li>
-                        </div>
-                      ))
-                    : null}
-                </ul>
-              </st.StyleContainer>
+              {/* 지역 선택 필터 */}
+              <LocationFilter />
               {/* 인원수 필터 박스 */}
-              <st.StyleContainer>
-                <st.CommonLableNameText>인원수</st.CommonLableNameText>
-                <st.CommonDropDownButton
-                  type="button"
-                  onClick={handleIsGroupSizeToggled}
-                >
-                  <div>{selectedGroupSize}</div>
-                  <st.CommonUnderButton>인원수 선택하기</st.CommonUnderButton>
-                </st.CommonDropDownButton>
-                <ul>
-                  {isGroupSizeToggled
-                    ? groupSizeList.map((groupSize) => (
-                        <div
-                          key={groupSize}
-                          role="button"
-                          tabIndex={0}
-                          onClick={handleSelectGroupSize}
-                          onKeyDown={(e: any) => {
-                            if (e.key === "Enter") {
-                              handleSelectGroupSize(e);
-                            }
-                          }}
-                        >
-                          <li>{groupSize}</li>
-                        </div>
-                      ))
-                    : null}
-                </ul>
-              </st.StyleContainer>
+              <GroupSize />
             </st.LocationAndSizeContainer>
           </st.StyleContainer>
           {/* 연령대 필터 박스 */}
