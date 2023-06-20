@@ -228,7 +228,7 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
 const DetailFilterContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 60px 96px 28px;
+  padding: 60px 96px 37px;
   border-radius: 10px;
   /* margin-top: 30px; */
   margin-bottom: 36px;
