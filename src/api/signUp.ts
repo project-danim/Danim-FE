@@ -166,6 +166,8 @@ export const withdrawalUser = async () => {
           ACCESS_KEY: accessToken,
         },
       });
+      document.cookie = `ACCESS_KEY=; expires=${ 
+       new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })  }; path=/;`;
       return response;
     }
     return null;
