@@ -1,30 +1,45 @@
 import styled from "styled-components";
 
-// 버튼 프롭 타입
-type GenderButtonProps = {
-  active: boolean;
+// 공통 사용 버튼 프롭 타입
+type OriginalButtonProps = {
+  buttonName?: string;
+  active?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+// 성별 버튼 프롭 타입
+// type GenderButtonProps = {
+//   active: boolean;
+// } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 type FormExplainTextProps = {
   pageName: string;
 };
 
 // 공통 사용 버튼
-const OriginalButton = styled.button`
+const OriginalButton = styled.button<OriginalButtonProps>`
   font-size: 14px;
   line-height: 22px;
   padding: 10px 17.5px;
-  box-sizing: border-box;
   width: 100%;
   color: #ffffff;
-  background-color: #a3bf3b;
+  background-color: ${({ buttonName }) =>
+    buttonName === "signUp" ? "#2E5902" : "#A3BF3B"};
+  background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
   border: none;
   border-radius: 8px;
   font-weight: 400;
-  transition: 0.1s all ease-in-out;
+  font-family: "Pretendard-Regular";
+  cursor: pointer;
   &:hover {
+    box-shadow: 0px 1px 2px 0px #0000001a;
     cursor: pointer;
-    background-color: #2e5902;
+    border: 2px solid #eaedd4;
+    padding: 8px 15.5px;
+  }
+  @media (max-width: 1400px) and (min-width: 320px) {
+    font-size: 12px;
+    height: 32px;
+    padding: 0 13px;
   }
 `;
 
@@ -38,6 +53,7 @@ const CommonInput = styled.input`
   width: 100%;
   line-height: 22px;
   border-radius: 8px;
+  font-family: "Pretendard-Regular";
   @media (max-width: 1400px) and (min-width: 320px) {
     font-size: 11px;
     padding: 8px 0;
@@ -86,6 +102,8 @@ const ContainerForm = styled.form`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  margin-top: 106px;
+  margin-bottom: 144px;
   @media (max-width: 1400px) and (min-width: 320px) {
     font-size: 10px;
     max-width: 270px;
@@ -135,11 +153,8 @@ const FormExplainText = styled.p<FormExplainTextProps>`
 `;
 
 const SignUpExplainText = styled.p`
-  /* position: relative;
-  left: -110px;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    left: 0px;
-  } */
+  font-family: "Noto Sans KR";
+  font-weight: 400;
 `;
 
 // 회원가입 정보 입력창 컨테이너
@@ -178,26 +193,27 @@ const GenderAriaContainer = styled.div`
 `;
 
 // 성별 선택 버튼
-const GenderButton = styled.button<GenderButtonProps>`
-  box-shadow: 0px 1px 2px 0px #0000001a;
-  color: #ffffff;
-  border: none;
-  font-size: 16px;
-  padding: 10px 78px;
-  font-weight: 500;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
-  transition: 0.1s all ease-in-out;
-  &:hover {
-    cursor: pointer;
-    background-color: #2e5902;
-  }
-  @media (max-width: 1400px) and (min-width: 320px) {
-    padding: 10px 40px;
-    font-size: 12px;
-  }
-`;
+// const GenderButton = styled.button<GenderButtonProps>`
+//   font-family: "Pretendard-Regular";
+//   box-shadow: 0px 1px 2px 0px #0000001a;
+//   color: #ffffff;
+//   border: none;
+//   font-size: 16px;
+//   padding: 10px 78px;
+//   font-weight: 500;
+//   border-radius: 8px;
+//   cursor: pointer;
+//   background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
+//   transition: 0.1s all ease-in-out;
+//   &:hover {
+//     cursor: pointer;
+//     background-color: #2e5902;
+//   }
+//   @media (max-width: 1400px) and (min-width: 320px) {
+//     padding: 10px 40px;
+//     font-size: 12px;
+//   }
+// `;
 
 // 연령
 const AgeAriaContainer = styled.label`
@@ -209,30 +225,6 @@ const AgeAriaContainer = styled.label`
   margin-bottom: 8px;
   @media (max-width: 1400px) and (min-width: 320px) {
     gap: 10px 13px;
-  }
-`;
-
-// 연령대 선택 버튼
-const AgeButton = styled.button<GenderButtonProps>`
-  max-width: 110px;
-  height: 42px;
-  box-shadow: 0px 1px 2px 0px #0000001a;
-  color: #ffffff;
-  border: none;
-  font-size: 16px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
-  transition: 0.1s all ease-in-out;
-  &:hover {
-    cursor: pointer;
-    background-color: #2e5902;
-  }
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 12px;
-    height: 32px;
-    padding: 0 13px;
   }
 `;
 
@@ -250,7 +242,6 @@ export default {
   CommonInput,
   GenderLabelContainer,
   GenderAriaContainer,
-  GenderButton,
+  // GenderButton,
   AgeAriaContainer,
-  AgeButton,
 };
