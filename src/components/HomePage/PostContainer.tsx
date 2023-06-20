@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
-import { filterList } from "../../recoil/filter/filterdPost";
+import { filterList, isSearchClicked } from "../../recoil/filter/filterdPost";
 import Post from "./Post";
 import st from "./PostsST";
 import { lastRefState } from "../../recoil/scroll/scroll";
@@ -10,6 +10,8 @@ function PostContainer({ posts, lastPostRef, postName }: any) {
   const [allFilterList] = useRecoilState(filterList);
   // 검색 게시글들의 마지막 게시글 ref
   const [searchedLastRef, setSearchedLastRef] = useRecoilState(lastRefState);
+  // 검색을 누른 상태인지에 대한 토글 state
+  const [isSearched] = useRecoilState(isSearchClicked);
 
   useEffect(() => {
     if (postName === "searchedPost") {
@@ -30,9 +32,9 @@ function PostContainer({ posts, lastPostRef, postName }: any) {
     </st.postsContainer>
   ) : (
     <st.noPostContainer>
-      {posts === "allPosts"
-        ? "게시글이 존재하지 않습니다."
-        : "조건에 맞는 게시글이 존재하지 않습니다."}
+      {isSearched
+        ? "조건에 맞는 게시글이 존재하지 않습니다."
+        : "게시글이 존재하지 않습니다."}
     </st.noPostContainer>
   );
 }
