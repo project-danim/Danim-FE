@@ -77,8 +77,17 @@ export const fetchSignUp = async (user: User) => {
     const response = await axiosInstance.post("/api/user/signup", user);
     return response.data;
   } catch (err) {
-    showError(err);
-    throw err;
+    return showError(err);
+  }
+};
+
+// 회원가입 - 랜덤 닉네임 받아오기
+export const fetchRandomNickname = async () => {
+  try {
+    const response = await axiosInstance.get("api/user/randomNickname");
+    return response.data.data;
+  } catch (err) {
+    return showError(err);
   }
 };
 
@@ -88,8 +97,7 @@ export const fetchSignUpForSocial = async (userInfo: UserInfoForKakao) => {
     const response = await axiosInstance.post("/api/user/userInfo", userInfo);
     return response.data;
   } catch (err) {
-    showError(err);
-    throw err;
+    return showError(err);
   }
 };
 
@@ -114,6 +122,7 @@ export const fetchLogin = async (user: {
     return errMessage;
   }
 };
+
 // 로그아웃
 export const fetchLogout = async () => {
   try {
@@ -144,5 +153,23 @@ export const fetchLogout = async () => {
   } catch (err) {
     showError(err);
     throw err;
+  }
+};
+
+// 탈퇴하기
+export const withdrawalUser = async () => {
+  try {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      const response = await axiosInstance.delete("/api/user/delete ", {
+        headers: {
+          ACCESS_KEY: accessToken,
+        },
+      });
+      return response;
+    }
+    return null;
+  } catch (err) {
+    return showError(err);
   }
 };
