@@ -19,15 +19,15 @@ const ButtonWrapper = styled.div`
 function Location() {
   const keywordOptions = [
     "서울",
-    "경기도",
-    "인천",
-    "대전",
-    "대구",
     "부산",
-    "울산",
-    "광주",
-    "제주",
+    "여수",
+    "강릉",
+    "경기도",
+    "전라도",
+    "충청도",
+    "경상도",
     "강원도",
+    "제주도",
   ];
   // 글 작성 - recoil state 저장, 수정일때도 해당 state를 변경함.
   const [selectedValue, setSelectedValue] = useRecoilState(
