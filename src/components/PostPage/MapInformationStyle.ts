@@ -81,7 +81,7 @@ export const CircleNumbering = styled.div`
   margin-bottom: 3px;
   font-size: 16px;
   font-family: "Pridi", serif;
-  z-index: 10;
+  z-index: 3;
 `;
 
 // 지도 텍스트 wrapper

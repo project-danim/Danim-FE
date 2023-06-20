@@ -133,7 +133,7 @@ export const ButtonRouterWrapper = styled.div`
 export const RecruitmentAndCouterContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   gap: 10px;
   justify-content: space-between;
 `;
