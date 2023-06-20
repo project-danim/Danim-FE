@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-export const Space = styled.div`
-
-  height: 114px;
+export const Margin = styled.div`
+  width:1920px;
+  height: 93px;
 `
 
 // 프로필 박스 영역
@@ -13,6 +13,8 @@ export const ProfileArea = styled.div`
   justify-content: center;
   background-color: white;
   margin: 0 auto;
+  margin-left: 480px;
+
 `;
 
 // 프로필 박스 내 이미지 박스 영역

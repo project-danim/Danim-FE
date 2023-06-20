@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import st from "./SignUpST";
 import { fetchCheckNickname, fetchRandomNickname } from "../../api/signUp";

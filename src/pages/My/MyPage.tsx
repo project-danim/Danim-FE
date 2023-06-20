@@ -23,13 +23,12 @@ import {
   ReviewContainer,
   ReviewContents,
   ReviewNickName,
-  // TextArea,
+  TextArea,
   UserInfo,
   ProfileMileContainer,
   ProfileMileBox,
   FlexBox,
-  // TextArea,
-  Space,
+  Margin,
 } from "./ReviewAreaStyles";
 
 function MyPage() {
@@ -124,7 +123,7 @@ function MyPage() {
 
   return (
     <>
-      <Space />
+      <Margin />
       <ProfileArea>
         <ImageBox>
           {/* <input type="file" style={{ display: "none" }} id="fileInput" />
