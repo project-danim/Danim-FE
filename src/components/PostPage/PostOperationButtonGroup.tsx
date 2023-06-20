@@ -7,6 +7,8 @@ import { deletePost } from "../../api/post";
 import { chatStart } from "../../api/chat";
 import {
   chatEnteredUsersNicknameState,
+  chatRoomChatRecordState,
+  chatRoomPostTitleState,
   roomNameState,
 } from "../../recoil/chat/chatState";
 
@@ -58,14 +60,11 @@ function PostOperationButtonGroup() {
   const { nickName } = getPostData || {};
   // 현재 글에 모임을 신청한 참여자
   const { participants } = getPostData || {};
-  console.log(`참여자`, participants);
-
   const { chatRoomId } = getPostData || {};
 
   // 현재 접속중인 유저의 닉네임, 아이디
   const currentUserNickname = localStorage.getItem("nickname");
   const currentUserId = Number(localStorage.getItem("id"));
-  console.log(`현재 유저 아이디`, currentUserId);
 
   const navigate = useNavigate();
 
@@ -90,12 +89,19 @@ function PostOperationButtonGroup() {
   const handleDelete = () => {
     deletePostMutation.mutate(postId);
   };
+  // 게시글 제목을 꺼내오기 위한 recoil state
+  const postData = useRecoilValue(PostGetState);
+  const postTitle = postData?.postTitle;
 
-  // 현재 채팅방에 접근한 유저들의 닉네임
+  // [채팅 방으로 보내기 위한 recoil state - 참여한 유저 닉네임, 채팅방 이름, 게시글 제목]
+  // 현재 채팅방에 참여한 유저들의 닉네임
   const setChatEnteredUsersNickname = useSetRecoilState(
     chatEnteredUsersNicknameState
   );
+  // 버튼을 통해 접근하게 되는 채팅방 이름
   const setRoomName = useSetRecoilState(roomNameState);
+  const setChatRoomPostTitle = useSetRecoilState(chatRoomPostTitleState);
+  const setChatRoomChatRecordState = useSetRecoilState(chatRoomChatRecordState);
 
   // 모임 신청, 채팅방 이동
   const handleApply = async () => {
@@ -105,8 +111,10 @@ function PostOperationButtonGroup() {
     }
     const response = await chatStart(chatRoomId); // postId로 변환 줬을때 받아온 roomname
     if (response.statusCode === 200) {
-      setChatEnteredUsersNickname(response.data.nickName); // 현재 참여 중인 전체 참여자 모든 유저 닉네임 받아오기
+      setChatEnteredUsersNickname(response.data.userInfo); // 현재 참여 중인 전체 참여자 모든 유저 닉네임 받아오기
       setRoomName(response.data.roomName); // postID 를 줬을 때 받아오는 room name
+      setChatRoomPostTitle(postTitle || "");
+      setChatRoomChatRecordState(response.data.chatRecord);
       navigate(`/chat/${postId}`);
     }
   };

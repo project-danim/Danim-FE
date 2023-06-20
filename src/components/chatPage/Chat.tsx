@@ -7,8 +7,15 @@ import Message from "./Message";
 import st from "./ChatST";
 import {
   chatEnteredUsersNicknameState,
+  chatRoomChatRecordState,
+  chatRoomPostTitleState,
   roomNameState,
 } from "../../recoil/chat/chatState";
+
+interface User {
+  imageUrl: string;
+  nickname: string;
+}
 
 let stomp: any;
 
@@ -22,6 +29,14 @@ function Chat() {
     chatEnteredUsersNicknameState
   );
   const chatEnteredRoomName = useRecoilValue(roomNameState);
+  const chatRoomPostTitle = useRecoilValue(chatRoomPostTitleState);
+  const chatRecord = useRecoilValue(chatRoomChatRecordState);
+  console.log(chatRecord);
+
+  // 현재 대화중인 사람 목록
+  const conversationPeople: string[] = chatEnteredUsersNickname.map(
+    (user: User) => user.nickname
+  );
 
   // 룸 네임 ( "260c4214-6e7a-402a-af6d-96550179f6d4" 이런 형식)
   const [roomName, setRoomName] = useState("");
@@ -37,9 +52,13 @@ function Chat() {
 
   // 컴포넌트가 랜더링 될 때 recoil 에서 받아온 state update
   useEffect(() => {
-    setAllUserNickname(chatEnteredUsersNickname || []);
+    setAllUserNickname(conversationPeople || []);
     setRoomName(chatEnteredRoomName);
   }, []);
+
+  console.log(allUserNickname);
+
+  // console.log();
 
   // 입장하기 버튼 클릭했을때 - 상세게시글 조회에 신청하기로 이동 / 목록에서 입장하기는 추가 필요 / 목록에서도 chatState.ts recoil state 로 전달해야함
   // const handleEnterButtonClick = async () => {
@@ -150,7 +169,7 @@ function Chat() {
       <header>
         <button type="button">뒤로가기</button>
         {/* 신청해서 받아온 게시글 제목이 있어야함  */}
-        <h2>강남역에서 삼결살 같이 드실 분</h2>
+        <h2>{`${chatRoomPostTitle}`}</h2>
         <st.AllUserContainer>
           <p>대화 상대</p>
           <p>{userId}</p>
@@ -191,6 +210,7 @@ function Chat() {
       })}
       {/* 가장 아래를 참조하게 하는 ref */}
       <div ref={messagesEndRef} />
+
       <st.MessageInputForm onSubmit={sendMessage}>
         <st.MessageInput
           type="text"

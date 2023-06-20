@@ -1,8 +1,15 @@
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { getMyjoinChatRoomList } from "../../api/chat";
+import { useSetRecoilState } from "recoil";
+import { chatStart, getMyjoinChatRoomList } from "../../api/chat";
 import * as Styled from "./ChatListTapComponentStyle";
 import convertDateFormat from "../../utils/convertDateFormat";
+import {
+  chatEnteredUsersNicknameState,
+  chatRoomChatRecordState,
+  chatRoomPostTitleState,
+  roomNameState,
+} from "../../recoil/chat/chatState";
 
 function AppliedChatList() {
   const navigate = useNavigate();
@@ -13,9 +20,36 @@ function AppliedChatList() {
   } = useQuery("AppliedChatList", getMyjoinChatRoomList);
   console.log(chatLists);
 
-  // 대화하기 버튼 - 채팅창으로 이동
-  const handleClick = (room: { roomName: string; roomId: string }) => {
-    navigate(`/chat/${room.roomId}`);
+  // 현재 채팅방에 참여한 유저들의 닉네임
+  const setChatEnteredUsersNickname = useSetRecoilState(
+    chatEnteredUsersNicknameState
+  );
+  // 현재 참여한 채팅방 이름
+  const setRoomName = useSetRecoilState(roomNameState);
+  // 게시글 제목
+  const setPostTitle = useSetRecoilState(chatRoomPostTitleState);
+  const setChatRoomChatRecordState = useSetRecoilState(chatRoomChatRecordState);
+
+  // 대화하기 버튼 클릭시 입장
+  const handleClick = async ({
+    chatRoomId,
+    postTitle,
+  }: {
+    chatRoomId: number;
+    postTitle: string;
+  }) => {
+    if (chatRoomId === undefined) {
+      console.error("채팅방이 존재하지 않습니다.");
+      return;
+    }
+    const response = await chatStart(chatRoomId); // postId로 변환 줬을때 받아온 roomname
+    if (response.statusCode === 200) {
+      setChatEnteredUsersNickname(response.data.userInfo); // 현재 참여 중인 전체 참여자 모든 유저 닉네임 받아오기
+      setRoomName(response.data.roomName); // postID 를 줬을 때 받아오는 room name
+      setPostTitle(postTitle);
+      setChatRoomChatRecordState(response.data.chatRecord);
+      navigate(`/chat/${chatRoomId}`);
+    }
   };
 
   if (isLoading) {
@@ -25,6 +59,8 @@ function AppliedChatList() {
   if (isError) {
     return <div>데이터를 불러오는 도중 문제가 발생했습니다.</div>;
   }
+
+  console.log(chatLists);
 
   return (
     <div>
@@ -54,12 +90,11 @@ function AppliedChatList() {
                     대화가 시작되지 않았습니다.
                   </Styled.MessageWrapper>
                 )}
-                {/* <Styled.Button onClick={() => handleClick(chat.id)}>버튼</Styled.Button> */}
                 <Styled.ChatButton
                   onClick={() =>
                     handleClick({
-                      roomName: chat.roomName,
-                      roomId: chat.roomId,
+                      chatRoomId: chat.roomId,
+                      postTitle: chat.postTitle,
                     })
                   }
                 >
