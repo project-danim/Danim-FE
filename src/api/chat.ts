@@ -17,11 +17,33 @@ export const chatStart = async (postId: number) => {
 };
 
 // 내가 작성한 게시물 채팅방 리스트 조회
-
 export const getMyPostChatRoomList = async () => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_APP_URL}/api/chat/myChatRoom`,
+      {
+        headers: {
+          ACCESS_KEY: getCookie("accessToken"),
+        },
+        withCredentials: true,
+      }
+    );
+    return response.data;
+    // if (response.status === 200) {
+    //   console.log(`댓글 조회에 성공하였습니다`);
+    // }
+    // return response.data.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+// 내가 참여한 게시물 채팅방 리스트 조회
+export const getMyjoinChatRoomList = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/api/chat/joinChatRoom`,
       {
         headers: {
           ACCESS_KEY: getCookie("accessToken"),

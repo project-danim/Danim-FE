@@ -35,10 +35,17 @@ export const Wrapper1 = styled.div`
   border-color: black;
 `;
 
-// post step 2 : wrapper
+// post step 2 : 게시글 제목 Wrapper
+export const MainInfotextWrapper = styled.div`
+  width: 100%;
+  margin-top: 100px;
+  border-color: black;
+`;
+
+// post step 2 : 게시글 제목 Wrapper
 export const Wrapper2 = styled.div`
   width: 100%;
-  margin: 64px 0 20px 0;
+  margin: 50px 0 20px 0;
   border-color: black;
 `;
 
@@ -126,7 +133,7 @@ export const ButtonRouterWrapper = styled.div`
 export const RecruitmentAndCouterContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   gap: 10px;
   justify-content: space-between;
 `;

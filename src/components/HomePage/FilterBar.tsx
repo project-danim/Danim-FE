@@ -18,11 +18,13 @@ import {
   filteredAge,
   filteredGroupSize,
   filteredLocation,
+  isRecruitmentEndState,
   isSearchClicked,
 } from "../../recoil/filter/filterdPost";
 import st from "./FilterBarST";
 import common from "./PostST";
 import { searchedPageState } from "../../recoil/scroll/scroll";
+import RecruitmentEndButton from "./RecruitmentEndButton";
 
 function FilterBar() {
   // 사용자가 선택한 모든 검색 조건들
@@ -49,11 +51,10 @@ function FilterBar() {
   // 검색 게시글 페이지 state
   const [searchedPage, setSearchedPage] =
     useRecoilState<any>(searchedPageState);
-  // 검색 게시글들의 마지막 게시글 ref
-  // const [searchedLastRef] = useRecoilState<any>(lastRefState);
-
   // 옵저버 객체가 참조할 값 생성
   const size = 8;
+  // 모집 마감 게시글을 포함할지 상태 (기본값 false)
+  const [isRecruitmentEnd] = useRecoilState(isRecruitmentEndState);
 
   // 검색 뮤테이션 함수
   const { mutate: mutateSearch } = useMutation(fetchSearch, {
@@ -96,12 +97,12 @@ function FilterBar() {
     }
   };
 
-  // searchClicked 상태가 변경되면 페이지를 재설정합니다.
+  // searchClicked 상태가 변경되면 페이지 0으로 초기화
   useEffect(() => {
     setSearchedPage(0);
   }, [searchClicked]);
 
-  // page 상태가 변경되면 검색을 실행합니다.
+  // searchedPage 상태가 변경되면 검색을 실행
   useEffect(() => {
     if (searchClicked) {
       const getPosts = async () => {
@@ -177,7 +178,7 @@ function FilterBar() {
       ageRange: ageString !== "" ? ageString : null,
       groupSize: groupSizeNumber !== 0 ? groupSizeNumber : null,
       searchKeyword: titleValue !== "" ? titleValue : null,
-      exceptCompletedPost: true,
+      exceptCompletedPost: isRecruitmentEnd,
     };
     setAllKeyword({ ...allKeyword });
     // 검색 실행
@@ -201,109 +202,109 @@ function FilterBar() {
           </st.CommonButton>
         ))}
       </st.KeywordFilterContainer>
-      {/* 제목, 지역, 인원수, 연령대 필터 박스 */}
-      <st.DetailFilterContainer>
-        <st.StyleContainer>
-          {/* 제목 검색창 */}
-          <label htmlFor="searchTitle">
-            <st.CommonLableNameText>제목</st.CommonLableNameText>
-            <st.TitleInput
-              type="text"
-              id="searchTitle"
-              placeholder="게시글의 제목, 내용을 입력해주세요."
-              value={titleValue}
-              onChange={handleChangeTitle}
-            />
-          </label>
-          <st.LocationAndSizeContainer>
-            {/* 지역 필터 박스 */}
-            <st.StyleContainer>
-              <st.CommonLableNameText>지역</st.CommonLableNameText>
-              <st.CommonDropDownButton
-                type="button"
-                onClick={handleIsLocationToggled}
-              >
-                <div>{selectedLocation}</div>
-                <st.CommonUnderButton>지역 선택하기</st.CommonUnderButton>
-              </st.CommonDropDownButton>
-              <ul>
-                {isLocationToggled
-                  ? locationList.map((location) => (
-                      <div
-                        key={location}
-                        role="button"
-                        tabIndex={0}
-                        onClick={handleSelectLocation}
-                        onKeyDown={(e: any) => {
-                          if (e.key === "Enter") {
-                            handleSelectLocation(e);
-                          }
-                        }}
-                      >
-                        <li>{location}</li>
-                      </div>
-                    ))
-                  : null}
-              </ul>
-            </st.StyleContainer>
-            {/* 인원수 필터 박스 */}
-            <st.StyleContainer>
-              <st.CommonLableNameText>인원수</st.CommonLableNameText>
-              <st.CommonDropDownButton
-                type="button"
-                onClick={handleIsGroupSizeToggled}
-              >
-                <div>{selectedGroupSize}</div>
-                <st.CommonUnderButton>인원수 선택하기</st.CommonUnderButton>
-              </st.CommonDropDownButton>
-              <ul>
-                {isGroupSizeToggled
-                  ? groupSizeList.map((groupSize) => (
-                      <div
-                        key={groupSize}
-                        role="button"
-                        tabIndex={0}
-                        onClick={handleSelectGroupSize}
-                        onKeyDown={(e: any) => {
-                          if (e.key === "Enter") {
-                            handleSelectGroupSize(e);
-                          }
-                        }}
-                      >
-                        <li>{groupSize}</li>
-                      </div>
-                    ))
-                  : null}
-              </ul>
-            </st.StyleContainer>
-          </st.LocationAndSizeContainer>
-        </st.StyleContainer>
-        {/* 연령대 필터 박스 */}
-        <st.AgeContainer>
-          <st.CommonLableNameText>연령대</st.CommonLableNameText>
-          <st.AgeButtonContainer>
-            {ageList.map((age) => (
-              <st.CommonButton
-                buttonName="ageButton"
-                key={age}
-                type="button"
-                onClick={handleSelectedAge}
-                data-active={
-                  age !== "60대 이상"
-                    ? selectedAge.includes(age)
-                    : selectedAge.includes("60대이상")
-                }
-              >
-                {age}
-              </st.CommonButton>
-            ))}
-          </st.AgeButtonContainer>
-        </st.AgeContainer>
-      </st.DetailFilterContainer>
-      <label htmlFor="expiredPostInput">
-        <input type="checkbox" id="expiredPostInput" />
-        마감된 게시글 보지 않기
-      </label>
+      {/* 제목, 지역, 인원수, 연령대, 모집 마감 박스 */}
+      <st.RecruitEndAndDetailContainer>
+        {/* 제목, 지역, 인원수, 연령대 필터 박스 */}
+        <st.DetailFilterContainer>
+          <st.StyleContainer>
+            {/* 제목 검색창 */}
+            <label htmlFor="searchTitle">
+              <st.CommonLableNameText>제목</st.CommonLableNameText>
+              <st.TitleInput
+                type="text"
+                id="searchTitle"
+                placeholder="게시글의 제목, 내용을 입력해주세요."
+                value={titleValue}
+                onChange={handleChangeTitle}
+              />
+            </label>
+            <st.LocationAndSizeContainer>
+              {/* 지역 필터 박스 */}
+              <st.StyleContainer>
+                <st.CommonLableNameText>지역</st.CommonLableNameText>
+                <st.CommonDropDownButton
+                  type="button"
+                  onClick={handleIsLocationToggled}
+                >
+                  <div>{selectedLocation}</div>
+                  <st.CommonUnderButton>지역 선택하기</st.CommonUnderButton>
+                </st.CommonDropDownButton>
+                <ul>
+                  {isLocationToggled
+                    ? locationList.map((location) => (
+                        <div
+                          key={location}
+                          role="button"
+                          tabIndex={0}
+                          onClick={handleSelectLocation}
+                          onKeyDown={(e: any) => {
+                            if (e.key === "Enter") {
+                              handleSelectLocation(e);
+                            }
+                          }}
+                        >
+                          <li>{location}</li>
+                        </div>
+                      ))
+                    : null}
+                </ul>
+              </st.StyleContainer>
+              {/* 인원수 필터 박스 */}
+              <st.StyleContainer>
+                <st.CommonLableNameText>인원수</st.CommonLableNameText>
+                <st.CommonDropDownButton
+                  type="button"
+                  onClick={handleIsGroupSizeToggled}
+                >
+                  <div>{selectedGroupSize}</div>
+                  <st.CommonUnderButton>인원수 선택하기</st.CommonUnderButton>
+                </st.CommonDropDownButton>
+                <ul>
+                  {isGroupSizeToggled
+                    ? groupSizeList.map((groupSize) => (
+                        <div
+                          key={groupSize}
+                          role="button"
+                          tabIndex={0}
+                          onClick={handleSelectGroupSize}
+                          onKeyDown={(e: any) => {
+                            if (e.key === "Enter") {
+                              handleSelectGroupSize(e);
+                            }
+                          }}
+                        >
+                          <li>{groupSize}</li>
+                        </div>
+                      ))
+                    : null}
+                </ul>
+              </st.StyleContainer>
+            </st.LocationAndSizeContainer>
+          </st.StyleContainer>
+          {/* 연령대 필터 박스 */}
+          <st.AgeContainer>
+            <st.CommonLableNameText>연령대</st.CommonLableNameText>
+            <st.AgeButtonContainer>
+              {ageList.map((age) => (
+                <st.CommonButton
+                  buttonName="ageButton"
+                  key={age}
+                  type="button"
+                  onClick={handleSelectedAge}
+                  data-active={
+                    age !== "60대 이상"
+                      ? selectedAge.includes(age)
+                      : selectedAge.includes("60대이상")
+                  }
+                >
+                  {age}
+                </st.CommonButton>
+              ))}
+            </st.AgeButtonContainer>
+          </st.AgeContainer>
+        </st.DetailFilterContainer>
+        <RecruitmentEndButton />
+      </st.RecruitEndAndDetailContainer>
       <common.CommonButton
         buttonName="search"
         type="button"

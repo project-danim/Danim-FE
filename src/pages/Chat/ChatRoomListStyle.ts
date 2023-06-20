@@ -3,10 +3,19 @@ import styled from "styled-components";
 export const TabContainer = styled.div`
   display: flex;
   width: 100%;
+  margin-top: 120px;
 `;
 
+// 버튼 Wrapper
+export const TabButtonWrapper = styled.div`
+  width: 100%;
+  border-bottom: 0.25px solid #c2c2c2;
+`;
+
+// 탭 버튼
 export const TabButton = styled.button<{ active: boolean }>`
-  padding: 10px 20px;
+  font-size: 16px;
+  padding: 30px 10px;
   width: 50%;
   background-color: transparent;
   color: ${({ active }) => (active ? "#5C5C5C" : "#C2C2C2")};
