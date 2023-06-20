@@ -7,17 +7,12 @@ import PostContainer from "./PostContainer";
 import { searchedPageState } from "../../recoil/scroll/scroll";
 
 function PostList() {
-  // 사용자가 선택한 모든 검색 조건들
-  // const [allFilter] = useRecoilState<any>(allKeywordState);
-
   // 전체 게시글 state
   const [allPosts, setAllPosts] = useState<any[]>([]);
-  // 검색으로 받은 게시글 state
-  // const [filteredPosts, setFilteredPosts] = useRecoilState<any[]>(filterdPost);
   const [filteredPosts] = useRecoilState<any[]>(filterdPost);
   // 검색 게시글 페이지 state
   const [, setSearchedPage] = useRecoilState<any>(searchedPageState);
-  // 검색 토글 state
+  // 검색을 누른 상태인지에 대한 토글 state
   const [isSearched] = useRecoilState(isSearchClicked);
   // 더 이상 불러올 데이터가 있는지 표시하는 상태
   const [hasMore, setHasMore] = useState(true);
@@ -27,38 +22,6 @@ function PostList() {
   const observer = useRef<any>();
   const lastPostRef = useRef();
   const size = 8;
-
-  // 검색 뮤테이션 함수
-  // const { mutate: mutateSearch } = useMutation(fetchSearch, {
-  //   onSuccess: (response) => {
-  //     if (response.statusCode === 200) {
-  //       // 검색 됐는지에 대한 boolean 값 true로 변경
-  //       handleSearchClicked(() => true);
-  //       if (searchedPage === 0) {
-  //         setFilteredPosts([...response.data]);
-  //       }
-  //       // 중복된 데이터 제거해서 보여주기
-  //       if (searchedPage !== 0) {
-  //         setFilteredPosts((prevPosts) => {
-  //           const newPosts = response.data.filter(
-  //             (newPost: any) =>
-  //               !prevPosts.some((prevPost: any) => prevPost.id === newPost.id)
-  //           );
-  //           return [...prevPosts, ...newPosts];
-  //         });
-  //       }
-
-  //       // 더 이상 가져올 데이터 없음
-  //       if (response.data.length < size) {
-  //         // console.log("더이상 가져올 데이터없음");
-  //         setHasMore(false);
-  //       }
-  //     }
-  //   },
-  //   onError: () => {
-  //     alert("요청이 실패했습니다. 다시 시도해주세요!");
-  //   },
-  // });
 
   // 전체 게시글 조회 뮤테이션 함수
   const { mutate: mutateAllPosts } = useMutation(fetchAllPosts, {
@@ -97,13 +60,6 @@ function PostList() {
       };
       getPosts();
     }
-    // if (isSearched) {
-    //   const getSearchedPosts = () => {
-    //     const allKeyword = allFilter;
-    //     mutateSearch({ allKeyword, page: searchedPage, size });
-    //   };
-    //   getSearchedPosts();
-    // }
   }, [page]);
 
   useEffect(() => {
