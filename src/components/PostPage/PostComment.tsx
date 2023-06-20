@@ -107,7 +107,7 @@ function PostComment() {
   ) : (
     <Styled.Container>
       <Styled.UserInFoAndButtonWrapper>
-        {userprofileUrl ? (
+        {userNickname ? (
           <>
             <Styled.UserProfile src={`${userprofileUrl}`} />
             <Styled.UserNickname>{userNickname}</Styled.UserNickname>
@@ -126,12 +126,13 @@ function PostComment() {
       <Styled.AddInputButtonWrapper>
         <Styled.CommentInput
           placeholder={
-            userprofileUrl
+            userNickname
               ? "발자국 개수로 여행을 평가해주세요."
               : "로그인이 필요합니다."
           }
           value={comment}
           onChange={handleCommentChange}
+          readOnly={!userNickname}
         />
         <Styled.AddCommentButton type="button" onClick={handleSubmit}>
           후기 올리기

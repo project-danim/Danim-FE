@@ -8,6 +8,7 @@ import {
   CustomOverlayMap,
 } from "react-kakao-maps-sdk";
 import { useRecoilState, useRecoilValue } from "recoil";
+import styled from "styled-components";
 import {
   selectedInfosState,
   tripEndDateState,
@@ -28,7 +29,7 @@ const defaultProps: Props = {
   onClick: () => {},
 };
 
-// DatePicker 스타일링 - Start
+// DatePicker 스타일링
 const CustomDateInput = React.forwardRef<HTMLDivElement, Props>(
   ({ value, onClick }, ref) => (
     <Styled.StyledInput onClick={onClick} ref={ref}>
@@ -196,16 +197,41 @@ function ScheduleMap() {
           onCreate={setMapInfo}
         >
           {/* 검색된 마커들의 정보를 표시 */}
-          {markers.map((marker) => (
+          {/* {markers.map((marker) => (
             <MapMarker
               key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
               position={marker.position}
               onClick={() => setInfo(marker)}
             >
               {info && info.content === marker.content && (
-                <div style={{ color: "#000" }}>{marker.content}</div>
+                <Styled.MarkerContent>{marker.content}</Styled.MarkerContent>
               )}
             </MapMarker>
+          ))} */}
+          {markers.map((marker) => (
+            <React.Fragment
+              key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+            >
+              <MapMarker
+                position={marker.position}
+                onClick={() => setInfo(marker)}
+              />
+
+              {info && info.content === marker.content && (
+                <CustomOverlayMap position={marker.position}>
+                  <Styled.StyledOverlay>
+                    <div className="wrap">
+                      <div className="title">이름 : {marker.content}</div>
+                      <div className="body">
+                        <div className="desc">
+                          <div className="address">주소 : {marker.address}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </Styled.StyledOverlay>
+                </CustomOverlayMap>
+              )}
+            </React.Fragment>
           ))}
 
           {/* 선택된 장소 연결선 */}
