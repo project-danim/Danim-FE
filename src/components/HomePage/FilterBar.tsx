@@ -32,8 +32,7 @@ function FilterBar() {
   const [selectedKeyword, setSelectedKeyword] =
     useRecoilState<any[]>(filterList);
   const [selectedLocation] = useRecoilState(filteredLocation);
-  const [selectedGroupSize, setSelectedGroupSize] =
-    useRecoilState(filteredGroupSize);
+  const [selectedGroupSize] = useRecoilState(filteredGroupSize);
   const [selectedAge, setSelectedAge] = useRecoilState(filteredAge);
   // 현재 검색된 상태인지 토글 state
   const [searchClicked, handleSearchClicked] = useRecoilState(isSearchClicked);
