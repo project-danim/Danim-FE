@@ -29,9 +29,10 @@ function Post({ post, lastPostRef }: any) {
   };
 
   return (
-    <st.expiredPostContainer expired={post.isRecruitmentEnd}>
-      <st.postContainer key={post.id} ref={lastPostRef}>
-        <st.postTitle>{post.title}</st.postTitle>
+    // <st.expiredPostContainer expired={post.isRecruitmentEnd}>
+    <st.postContainer key={post.id} ref={lastPostRef}>
+      <st.postTitle>{post.title}</st.postTitle>
+      <st.expiredPostContainer expired={post.isRecruitmentEnd}>
         <st.postNickname profile={post.userImage}>
           {post.nickname}
         </st.postNickname>
@@ -51,15 +52,16 @@ function Post({ post, lastPostRef }: any) {
             </div>
           ))}
         </st.keywordContainer>
-        <st.CommonButton
-          buttonName="postDetail"
-          type="button"
-          onClick={() => handleDetailButtonClick(post.id)}
-        >
-          자세히 보기
-        </st.CommonButton>
-      </st.postContainer>
-    </st.expiredPostContainer>
+      </st.expiredPostContainer>
+      <st.CommonButton
+        buttonName="postDetail"
+        type="button"
+        onClick={() => handleDetailButtonClick(post.id)}
+      >
+        자세히 보기
+      </st.CommonButton>
+    </st.postContainer>
+    // </st.expiredPostContainer>
   );
 }
 // React.forwardRef와 같이 고차 컴포넌트(HOC)를 사용하는 경우, 자동으로 컴포넌트 이름을 추정할 수 없으므로, displayName을 직접 설정하는 것이 좋다.
