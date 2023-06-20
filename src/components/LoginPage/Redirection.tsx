@@ -37,11 +37,9 @@ function Redirection() {
       // userCode가 null이 아닐 때만 실행
       try {
         const response = await fetchKakaoToken(userCode);
-        // 확인하고 삭제하기
-        console.log(response);
-        const userIdResponse = response.id;
-        const userNickname = response.nickName;
-        const userImageUrl = response.myPageImageUrl;
+        const userIdResponse = response.data.id;
+        const userNickname = response.data.nickName;
+        const userImageUrl = response.data.myPageImageUrl;
         setUserId(() => userIdResponse);
         // 사용자 아이디, 닉네임, 프로필 이미지 로컬 스토리지에 저장
         localStorage.setItem("id", userIdResponse);
