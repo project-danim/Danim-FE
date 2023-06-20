@@ -101,3 +101,26 @@ export const getMyjoinChatRoomList = async () => {
     throw error;
   }
 };
+
+// 취소하기 버튼
+export const cancelApply = async (chatRoomId: any) => {
+  try {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_APP_URL}/api/chat/room/${chatRoomId}`,
+      {
+        headers: {
+          ACCESS_KEY: getCookie("accessToken"),
+        },
+        withCredentials: true,
+      }
+    );
+    return response.data;
+    // if (response.status === 200) {
+    //   console.log(`댓글 조회에 성공하였습니다`);
+    // }
+    // return response.data.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

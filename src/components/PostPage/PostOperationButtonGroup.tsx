@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PostGetState, postIdState } from "../../recoil/post/postGetState";
 import { deletePost } from "../../api/post";
-import { chatStart } from "../../api/chat";
+import { cancelApply, chatStart } from "../../api/chat";
 import {
   chatEnteredUsersNicknameState,
   chatRoomChatRecordState,
@@ -78,7 +78,7 @@ function PostOperationButtonGroup() {
   const deletePostMutation: any = useMutation(() => deletePost(postId), {
     onSuccess: () => {
       console.log(`게시물 ${postId}를 삭제했습니다.`);
-      navigate("/home");
+      navigate("/");
     },
     onError: (error) => {
       console.error(`게시물 삭제에 실패했습니다: ${error}`);
@@ -87,7 +87,10 @@ function PostOperationButtonGroup() {
 
   // 삭제 버튼 핸들러
   const handleDelete = () => {
-    deletePostMutation.mutate(postId);
+    const confirmDelete = window.confirm("게시물을 삭제하시겠습니까?");
+    if (confirmDelete) {
+      deletePostMutation.mutate(postId);
+    }
   };
   // 게시글 제목을 꺼내오기 위한 recoil state
   const postData = useRecoilValue(PostGetState);
@@ -119,7 +122,20 @@ function PostOperationButtonGroup() {
     }
   };
 
-  const handleCancel = () => {};
+  const handleCancel = async () => {
+    try {
+      if (chatRoomId === undefined) {
+        console.error("채팅방이 존재하지 않습니다.");
+        return;
+      }
+
+      const response = await cancelApply(chatRoomId);
+
+      console.log(response);
+    } catch (error) {
+      console.error("취소하기에 실패했습니다:", error);
+    }
+  };
 
   return (
     <Container>
