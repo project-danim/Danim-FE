@@ -108,6 +108,14 @@ function Login() {
     window.location.href = KAKAO_AUTH_URL;
   };
 
+  // 구글 로그인 함수
+  const handleGoogleLogin = () => alert("아직 준비중인 서비스입니다!");
+
+  // 네이버 로그인 함수
+  const handleNaverLogin = () => {
+    alert("아직 준비중인 서비스입니다!");
+  };
+
   return (
     <st.ContainerForm>
       <UserId
@@ -143,7 +151,7 @@ function Login() {
         <loginSt.SocialButton
           url="naver"
           type="button"
-          onClick={handleKakaoLogin}
+          onClick={handleNaverLogin}
         >
           네이버 계정으로 회원가입
         </loginSt.SocialButton>
@@ -157,7 +165,7 @@ function Login() {
         <loginSt.SocialButton
           url="google"
           type="button"
-          onClick={handleKakaoLogin}
+          onClick={handleGoogleLogin}
         >
           구글 계정으로 회원가입
         </loginSt.SocialButton>
