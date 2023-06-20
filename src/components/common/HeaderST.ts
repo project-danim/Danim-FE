@@ -72,6 +72,8 @@ const ButtonContainer = styled.div`
   align-items: center;
   & > button {
     margin-right: 16px;
+    font-weight: 500;
+    font-family: "Pretendard-Regular";
   }
 `;
 

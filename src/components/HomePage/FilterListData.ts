@@ -5,15 +5,15 @@ export const mainKeyword = ["food", "tour", "photo", "hotspot", "shopping"];
 // 지역 리스트
 export const locationList = [
   "서울",
-  "경기도",
-  "인천",
   "부산",
-  "대전",
-  "대구",
-  "광주",
-  "울산",
-  "제주",
+  "여수",
+  "강릉",
+  "경기도",
+  "전라도",
+  "충청도",
+  "경상도",
   "강원도",
+  "제주도",
 ];
 
 // 인원수 리스트

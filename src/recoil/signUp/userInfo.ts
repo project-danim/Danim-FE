@@ -15,7 +15,7 @@ export const isUserIdUniqueState = atom({
 // 닉네임 입력값 state
 export const nicknameState = atom({
   key: "nicknameState",
-  default: "",
+  default: null || "",
 });
 
 // 닉네임 값 중복 여부 state

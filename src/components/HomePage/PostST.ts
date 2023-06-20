@@ -17,18 +17,22 @@ const CommonButton = styled.button<FilterButtonProps>`
     buttonName === "search" ? "#A3BF3B" : "#2E5902"};
   padding: ${({ buttonName }) =>
     buttonName === "search" ? "10px 66px" : "10px 46px"};
-  font-weight: 500;
+  font-weight: ${({ buttonName }) =>
+    buttonName === "postDetail" ? "500" : "400"};
   line-height: 22px;
   border-radius: 8px;
   color: #ffffff;
   border: none;
   margin: 0 auto;
   width: ${({ buttonName }) => (buttonName === "postDetail" ? "100%" : "auto")};
+  font-family: ${({ buttonName }) =>
+    buttonName === "postDetail" ? "Roboto" : "Pretendard-Regular"};
   cursor: pointer;
 `;
 
 // 공통 키워드 버튼
 const CommonKeywordButton = styled.button`
+  font-family: "Pretendard-Regular";
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
   border: none;
@@ -42,26 +46,34 @@ const CommonKeywordButton = styled.button`
 
 // 마감된 게시글 컨테이너
 const expiredPostContainer = styled.div<PostContainerProps>`
+  width: 100%;
+  margin-bottom: 10px;
   position: relative;
-  background-color: ${({ expired }) =>
-    expired ? "rgba(0, 0, 0, 0.1)" : "transparent"};
+  /* background-color: ${({ expired }) =>
+    expired ? "rgba(0, 0, 0, 0.1)" : "transparent"}; */
   z-index: ${({ expired }) => (expired ? 999 : "auto")};
-  border-radius: 20px;
   ${({ expired }) =>
     expired &&
     css`
       &::after {
-        content: "마감된 게시글";
+        content: "모집 마감";
+        background-color: #b5bf69;
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: gray;
-        font-weight: 600;
-        font-size: 20px;
+        width: 100%;
+        height: 150px;
+        border-radius: 8px;
+        color: #ffffff;
+        top: 43px;
+        left: 0;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 22px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       > * {
-        filter: blur(0.5px);
+        filter: blur(1.6px);
       }
     `};
 `;
@@ -77,6 +89,7 @@ const postContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  font-family: "Pretendard-Regular";
 `;
 
 // 게시글 제목
@@ -123,21 +136,20 @@ const postImage = styled.img`
   width: 100%;
   max-width: 242px;
   height: 150px;
-  // 게시글 사진 확인을 위해 임의로 넣은 border
-  border-radius: 5px;
+  border-radius: 8px;
 `;
 
 // 게시글 모집인원 모집기한 컨테이너
 const groupSizeAndDateContainer = styled.div`
   display: flex;
   flex-direction: row;
+  padding-left: 1px;
   font-size: 12px;
   font-weight: 400;
   line-height: 14px;
   letter-spacing: 0em;
   justify-content: space-between;
   width: 100%;
-  /* margin-bottom: 10px; */
   & > p {
     margin: 10px 0;
   }
@@ -153,7 +165,6 @@ const keywordContainer = styled.div`
   max-width: 240px;
   box-sizing: border-box;
   padding: 10px 0;
-  margin-bottom: 10px;
   padding-left: 1px;
   /* border-bottom: 1px solid #c2c2c2; */
   height: 102px;

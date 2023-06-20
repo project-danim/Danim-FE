@@ -1,8 +1,8 @@
 import { useRecoilState } from "recoil";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import st from "./SignUpST";
-import { fetchCheckNickname } from "../../api/signUp";
+import { fetchCheckNickname, fetchRandomNickname } from "../../api/signUp";
 import {
   isNicknameUniqueState,
   nicknameState,
@@ -21,6 +21,16 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
   );
   // 닉네임 에러 메세지 state
   const [nicknameError, setNicknameError] = useState("");
+  // 랜덤 닉네임 값 state
+  const [RandomNickname, setRandomNickname] = useState("");
+  // 컴포넌트 렌더링시 랜덤 닉네임 받아오기
+  useEffect(() => {
+    const getRandomNickname = async () => {
+      const response = await fetchRandomNickname();
+      setRandomNickname(() => response);
+    };
+    getRandomNickname();
+  }, []);
 
   // 닉네임 입력값 입력 핸들러
   const handleChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +57,12 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
 
   // 닉네임 중복 검사
   const handleCheckNicknameBtnClick = () => {
-    mutateCheckNickname(nickname);
+    // 값이 없는 상태로 중복검사 요청시
+    if (nickname === "") {
+      nicknameRef.current.focus();
+      return setNicknameError("닉네임을 입력하세요.");
+    }
+    return mutateCheckNickname(nickname);
   };
 
   // 닉네임 유효성 검사
@@ -71,10 +86,16 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
       setNicknameError("닉네임 중복을 확인하세요.");
       return;
     }
-    if (nickname && isNicknameUnique) {
+    if (nickname !== "" && isNicknameUnique) {
       setNicknameError("사용 가능한 닉네임입니다.");
     }
   }, [nickname]);
+
+  // 컴포넌트 렌더링시 닉네임 초기화
+  useEffect(() => {
+    setUserNickname("");
+    setNicknameError("");
+  }, []);
 
   return (
     <>
@@ -87,7 +108,9 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
             onChange={handleChangeNickname}
             ref={nicknameRef}
             id="userNickname"
-            placeholder="닉네임은 8자 이내로 입력해 주세요."
+            placeholder={
+              RandomNickname !== "" ? RandomNickname : "닉네임을 입력해주세요."
+            }
             aria-describedby="userNicknameError"
             maxLength={8}
             size={28}
