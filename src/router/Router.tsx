@@ -37,7 +37,7 @@ function Router() {
           <Route path="/api/user/kakao/callback" element={<Redirection />} />
           <Route path="/chat/:postId" element={<ChatPage />} />
           <Route path="/chat-list" element={<ChatRoomListPage />} />
-          <Route path="MyPage" element={<MyPage />} />
+          <Route path="myPage" element={<MyPage />} />
           {/* 👇 존재하지 않는 페이지에 대한 처리 */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
