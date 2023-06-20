@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 // 메인 키워드(맛집탐방, 포토스팟 등) 프롭 타입
 type UrlProps = "food" | "tour" | "photo" | "hotspot" | "shopping" | string;
@@ -22,6 +22,7 @@ const StyleContainer = styled.div`
 
 // 공통 버튼
 const CommonButton = styled.button<FilterButtonProps>`
+  font-family: "Pretendard-Regular";
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,6 +133,9 @@ const FilterBarContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  & > * {
+    font-family: "Pretendard-Regular";
+  }
 `;
 
 // 키워드 필터 컨테이너
@@ -149,7 +153,7 @@ const KeywordFilterContainer = styled.div`
   align-items: center;
   margin: 0 auto;
   position: relative;
-  top: 60px;
+  top: 30px;
   @media (max-width: 1400px) and (min-width: 320px) {
     top: 15px;
   }
@@ -159,6 +163,8 @@ const KeywordFilterContainer = styled.div`
 const RecruitEndAndDetailContainer = styled.div`
   border: 2px solid #eaedd4;
   box-shadow: 0px 1px 2px 0px #00000040;
+  margin-bottom: 10px;
+  border-radius: 10px;
 `;
 
 // 모집 마감 토글 버튼
@@ -181,6 +187,7 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
   position: absolute;
   background-color: ${(props) =>
     props["data-active"] ? "#FFFFFF" : "#f5f5f5"};
+  margin-bottom: 8px;
   cursor: pointer;
   &::after {
     content: "";
@@ -219,13 +226,11 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
 
 // 상세 필터 컨테이너
 const DetailFilterContainer = styled.div`
-  /* border: 2px solid #eaedd4;
-  box-shadow: 0px 1px 2px 0px #00000040; */
   display: flex;
   flex-direction: row;
-  padding: 48px 96px 28px;
+  padding: 60px 96px 28px;
   border-radius: 10px;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   margin-bottom: 36px;
   width: 100%;
   box-sizing: border-box;
@@ -258,6 +263,19 @@ const LocationAndSizeContainer = styled.div`
   justify-content: space-between;
   margin-top: 24px;
   gap: 24px;
+`;
+
+// 지역 리스트 ul
+const LocationListUl = styled.ul`
+  padding: 0 24px 0 16px;
+  overflow: visible;
+  & > div > li {
+    padding-left: 16px;
+    list-style: none;
+    text-align: left;
+    padding: 8px 0;
+    overflow: visible;
+  }
 `;
 
 // 인원수 컨테이너
@@ -298,6 +316,7 @@ export default {
   DetailFilterContainer,
   TitleInput,
   LocationAndSizeContainer,
+  LocationListUl,
   GroupSizeContainer,
   AgeContainer,
   AgeButtonContainer,
