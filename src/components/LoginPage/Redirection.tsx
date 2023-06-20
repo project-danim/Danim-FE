@@ -10,11 +10,15 @@ export const fetchKakaoToken = async (code: string) => {
     `/api/user/kakao/callback?code=${code}`
   );
   // 푸쉬하고 확인해보기
-  console.log("여기가 카카오 응답에 대한 response", response);
-  if (response.data.statusCode === 200) {
-    return response.data;
+  if (response.data.message === "로그인 성공") {
+    const accessToken = response.headers.access_key;
+    const refreshToken = response.headers.refresh_key;
+    if (accessToken && refreshToken) {
+      setCookie("accessToken", accessToken, 1);
+      setCookie("refreshToken", refreshToken, 30);
+    }
   }
-  return alert("다시 시도해주세요!");
+  return response.data;
 };
 
 function Redirection() {
@@ -33,14 +37,11 @@ function Redirection() {
       // userCode가 null이 아닐 때만 실행
       try {
         const response = await fetchKakaoToken(userCode);
-        const accessToken = response.headers.access_key;
-        const refreshToken = response.headers.refresh_key;
-        setCookie("accessToken", accessToken, 1);
-        setCookie("refreshToken", refreshToken, 30);
-
-        const userIdResponse = response.data.id.toString();
-        const userNickname = response.data.nickName;
-        const userImageUrl = response.data.myPageImageUrl;
+        // 확인하고 삭제하기
+        console.log(response);
+        const userIdResponse = response.id.toString();
+        const userNickname = response.nickName;
+        const userImageUrl = response.myPageImageUrl;
         setUserId(() => userIdResponse);
         // 사용자 아이디, 닉네임, 프로필 이미지 로컬 스토리지에 저장
         localStorage.setItem("id", userIdResponse);
