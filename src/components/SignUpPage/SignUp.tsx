@@ -18,6 +18,8 @@ import {
 import Nickname from "./Nickname";
 
 function SignUp() {
+  // 네비게이트 생성
+  const navigate = useNavigate();
   // 아이디, 비밀번호, 닉네임, 성별, 나이 입력값 state
   const [userId] = useRecoilState(signUpUserIdState);
   const userIdRef = useRef<any>();
@@ -34,16 +36,13 @@ function SignUp() {
   const [activeAge, setActiveAge] = useState("");
   const [agreeForAge, handleIsAgreeForAge] = useToggle(false);
 
-  // 아이디, 비밀번호, 닉네임, 성별, 연령대 에러 메세지 상태
+  // 아이디, 비밀번호, 닉네임, 성별, 연령대 에러 메세지 state
   const [userIdError, setUserIdError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordCheckError, setPasswordCheckError] = useState("");
   const [nicknameError] = useState("");
   const [genderError, setGenderError] = useState("");
   const [ageError, setAgeError] = useState("");
-
-  // 네비게이트 생성
-  const navigate = useNavigate();
 
   // 성별과 연령대 정보 배열
   const genders = ["남", "여"];
@@ -257,7 +256,7 @@ function SignUp() {
           <st.IdAreaExplainText>*성별</st.IdAreaExplainText>
           <st.GenderLabelContainer htmlFor="isAgreeForGender">
             {genders.map((gender) => (
-              <st.GenderButton
+              <st.OriginalButton
                 ref={userGenderRef}
                 key={gender}
                 type="button"
@@ -265,7 +264,7 @@ function SignUp() {
                 active={activeGender === gender}
               >
                 {gender}
-              </st.GenderButton>
+              </st.OriginalButton>
             ))}
           </st.GenderLabelContainer>
           <label>
@@ -287,14 +286,14 @@ function SignUp() {
           <st.IdAreaExplainText>*연령</st.IdAreaExplainText>
           <st.AgeAriaContainer htmlFor="isAgreeForAge">
             {ages.map((age) => (
-              <st.AgeButton
+              <st.OriginalButton
                 key={age}
                 type="button"
                 onClick={() => handleAgeClick(age)}
                 active={activeAge === age}
               >
                 {age}
-              </st.AgeButton>
+              </st.OriginalButton>
             ))}
           </st.AgeAriaContainer>
           <label>
@@ -313,7 +312,11 @@ function SignUp() {
           </label>
         </div>
       </st.UserInfoContainer>
-      <st.OriginalButton type="submit" onClick={handleSignUpBtnClick}>
+      <st.OriginalButton
+        type="submit"
+        buttonName="signUp"
+        onClick={handleSignUpBtnClick}
+      >
         가입하기
       </st.OriginalButton>
     </st.ContainerForm>
