@@ -1,12 +1,19 @@
 import styled from "styled-components";
 
+export const Margin = styled.div`
+  width:1920px;
+  height: 93px;
+`
+
 // 프로필 박스 영역
 export const ProfileArea = styled.div`
   width: 1120px;
   height: 315px;
-  display: flex;
-  justify-content: center; 
+  display: flex; 
+  justify-content: center;
   background-color: white;
+  margin: 0 auto;
+  margin-left: 480px;
 
 `;
 
@@ -23,6 +30,11 @@ export const ImageArea = styled.div`
   border-radius: 200px;
   background-color: rgba(181, 191, 105, 1);
 `;
+
+export const FlexBox = styled.div`
+display: flex;
+`
+
 
 // 유저인포(스코어, 닉네임, 수정)영역
 export const UserInfo = styled.div`
@@ -45,7 +57,7 @@ export const ProfileMileContainer = styled.div`
   line-height: 17px;
 
 `;
-// 마일(review.point) 노출 영역
+// mile 텍스트가 들어간 파란색 박스 영역
 export const ProfileMileBox = styled.div`
   width: 34px;
   height: 21px;
@@ -54,14 +66,10 @@ export const ProfileMileBox = styled.div`
   background-color: rgba(126, 168, 227, 1);
   color: rgba(255, 255, 255, 1);
   margin-left: 4px;
-  
-`;
-// mile 텍스트가 들어간 파란색 박스 영역
-export const ProfileMile = styled.div`
-text-align: center;
-margin-top: 2px;
-`;
+  text-align: center;
+  margin-top: 2px;
 
+`;
 // 유저 닉네임 영역
 
 export const UserNickName = styled.div`
@@ -77,29 +85,25 @@ export const UserNickName = styled.div`
 `;
 
 // 수정 버튼 영역
-export const PixButton = styled.button`
+export const FixButton = styled.button`
   width: 107px;
   height: 42px;
   border: 1px solid rgba(213, 213, 213, 1);
   border-radius: 8px;
   background-color: white;
   color: rgba(133, 133, 133, 1);
-  margin-left: 632px;
+  margin-left: 623px;
 `;
 
 // 텍스트 입력 영역
 export const TextArea = styled.textarea`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
   width: 809px;
   height: 184px;
   font-size: 15px;
-  /* margin-bottom: 100px; */
-  padding: 20px;
   border: 1px solid #d6d6d6;
   border-radius: 5px;
   resize: none;
+  flex: 1 1 auto;
 `;
 
 

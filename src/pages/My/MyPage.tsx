@@ -15,11 +15,10 @@ import {
   ImsiArea2,
   ReviewMile,
   UserNickName,
-  PixButton,
+  FixButton,
   PostArea,
   PostContainer,
   ProfileArea,
-  ProfileMile,
   ReviewArea,
   ReviewContainer,
   ReviewContents,
@@ -28,6 +27,8 @@ import {
   UserInfo,
   ProfileMileContainer,
   ProfileMileBox,
+  FlexBox,
+  Margin,
 } from "./ReviewAreaStyles";
 
 function MyPage() {
@@ -122,6 +123,7 @@ function MyPage() {
 
   return (
     <>
+      <Margin />
       <ProfileArea>
         <ImageBox>
           {/* <input type="file" style={{ display: "none" }} id="fileInput" />
@@ -131,28 +133,28 @@ function MyPage() {
           <ImageArea />
         </ImageBox>
 
-        <UserInfo>
-          <ProfileMileContainer>
-            {score}
-            <ProfileMileBox>
-              <ProfileMile>mile</ProfileMile>
-            </ProfileMileBox>
-          </ProfileMileContainer>
-          <UserNickName>{nickname}님</UserNickName>
-          {owner && (
-            <div>
-              <PixButton onClick={clickButton}>
-                {editing ? "저장" : "수정하기"}
-              </PixButton>
-              <TextArea
-                readOnly={!editing}
-                value={content}
-                placeholder="간단한 자기 소개를 해주세요."
-                onChange={(e) => setContent(e.target.value)}
-              />
-            </div>
-          )}
-        </UserInfo>
+        <FlexBox>
+          <UserInfo>
+            <ProfileMileContainer>
+              {score}
+              <ProfileMileBox>mile</ProfileMileBox>
+            </ProfileMileContainer>
+            <UserNickName>{nickname}님</UserNickName>
+            {owner && (
+              <div>
+                <FixButton onClick={clickButton}>
+                  {editing ? "저장" : "수정하기"}
+                </FixButton>
+                {/* <TextArea
+                  readOnly={!editing}
+                  value={content}
+                  placeholder="간단한 자기 소개를 해주세요."
+                  onChange={(e) => setContent(e.target.value)}
+                /> */}
+              </div>
+            )}
+          </UserInfo>
+        </FlexBox>
       </ProfileArea>
 
       <PostContainer>
