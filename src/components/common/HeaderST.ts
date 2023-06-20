@@ -75,6 +75,13 @@ const ButtonContainer = styled.div`
     font-weight: 500;
     font-family: "Pretendard-Regular";
   }
+  & > button :last-child {
+    margin-right: 0;
+    border: 1px solid red;
+  }
+  & > button:first-child {
+    margin-right: 64px;
+  }
 `;
 
 // 채팅 버튼과 마이페이지 버튼

@@ -70,57 +70,55 @@ function Header() {
     <st.headerAria>
       <st.Container>
         <st.DanimLogo onClick={handleClickDanimLogo}>danim</st.DanimLogo>
-        <st.ButtonContainer>
-          {userAccessCookie || userRefreshCookie ? (
-            <>
-              <st.CommonStyleButton
-                buttonName="post"
-                type="button"
-                onClick={handleCreatePostClick}
-              >
-                동행 만들기
-              </st.CommonStyleButton>
-              <st.chatAndUserButton
-                buttonName="chat"
-                type="button"
-                onClick={handleChatButtonClick}
-              >
-                채팅하기
-              </st.chatAndUserButton>
-              <st.chatAndUserButton
-                buttonName="user"
-                type="button"
-                onClick={handleMyPageButtonClick}
-              >
-                마이 페이지
-              </st.chatAndUserButton>
-              <st.CommonStyleButton
-                buttonName="logout"
-                type="button"
-                onClick={handleLogoutButtonClick}
-              >
-                로그아웃
-              </st.CommonStyleButton>
-            </>
-          ) : (
-            <>
-              <st.CommonStyleButton
-                type="button"
-                buttonName="signUp"
-                onClick={handleClickSignUpButton}
-              >
-                회원가입
-              </st.CommonStyleButton>
-              <st.CommonStyleButton
-                type="button"
-                buttonName="login"
-                onClick={handleClickLoginButton}
-              >
-                로그인
-              </st.CommonStyleButton>
-            </>
-          )}
-        </st.ButtonContainer>
+        {userAccessCookie || userRefreshCookie ? (
+          <st.ButtonContainer>
+            <st.CommonStyleButton
+              buttonName="post"
+              type="button"
+              onClick={handleCreatePostClick}
+            >
+              동행 만들기
+            </st.CommonStyleButton>
+            <st.chatAndUserButton
+              buttonName="chat"
+              type="button"
+              onClick={handleChatButtonClick}
+            >
+              채팅하기
+            </st.chatAndUserButton>
+            <st.chatAndUserButton
+              buttonName="user"
+              type="button"
+              onClick={handleMyPageButtonClick}
+            >
+              마이 페이지
+            </st.chatAndUserButton>
+            <st.CommonStyleButton
+              buttonName="logout"
+              type="button"
+              onClick={handleLogoutButtonClick}
+            >
+              로그아웃
+            </st.CommonStyleButton>
+          </st.ButtonContainer>
+        ) : (
+          <st.ButtonContainer>
+            <st.CommonStyleButton
+              type="button"
+              buttonName="signUp"
+              onClick={handleClickSignUpButton}
+            >
+              회원가입
+            </st.CommonStyleButton>
+            <st.CommonStyleButton
+              type="button"
+              buttonName="login"
+              onClick={handleClickLoginButton}
+            >
+              로그인
+            </st.CommonStyleButton>
+          </st.ButtonContainer>
+        )}
       </st.Container>
     </st.headerAria>
   );
