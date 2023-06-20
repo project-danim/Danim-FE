@@ -10,6 +10,11 @@ type PostContainerProps = {
   expired: boolean;
 } & React.HTMLProps<HTMLDivElement>;
 
+// 닉네임 프롭 타입
+type NickNameProps = {
+  profile: string;
+};
+
 // 공통 버튼
 const CommonButton = styled.button<FilterButtonProps>`
   font-size: ${({ buttonName }) => (buttonName === "search" ? "16px" : "14px")};
@@ -108,7 +113,7 @@ const postTitle = styled.p`
 `;
 
 // 게시글 닉네임
-const postNickname: any = styled.p`
+const postNickname = styled.p<NickNameProps>`
   padding: 10px 0;
   font-size: 14px;
   font-weight: 400;
@@ -120,8 +125,8 @@ const postNickname: any = styled.p`
   &::before {
     content: "";
     display: inline-block;
-    /* 유저프로필 이미지 링크 값 들어오면 수정해야함 */
-    background-image: url("/avatar.svg");
+    background-image: ${(props) =>
+      props.profile ? `url(${props.profile})` : `url(/avatar.svg)`};
     width: 24px;
     height: 24px;
     background-position: center;
