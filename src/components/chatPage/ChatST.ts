@@ -8,6 +8,7 @@ import styled from "styled-components";
 // 채팅 배경화면
 const ChatPageBackground = styled.div`
   margin: 0 auto;
+  margin-bottom: 90px;
 `;
 
 // 채팅 내용 아티클 컨테이너 (입장 메세지 제외)
