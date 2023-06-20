@@ -34,6 +34,7 @@ const CommonStyleButton = styled.button<CommonStyleButtonProps>`
   border-radius: 50px;
   cursor: pointer;
   box-sizing: border-box;
+  margin-right: ${(props) => (props.buttonName === "post" ? "48px" : null)};
 `;
 
 // 헤더 영역 전체
@@ -70,18 +71,7 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  & > button {
-    margin-right: 16px;
-    font-weight: 500;
-    font-family: "Pretendard-Regular";
-  }
-  & > button :last-child {
-    margin-right: 0;
-    border: 1px solid red;
-  }
-  & > button:first-child {
-    margin-right: 64px;
-  }
+  gap: 16px;
 `;
 
 // 채팅 버튼과 마이페이지 버튼
