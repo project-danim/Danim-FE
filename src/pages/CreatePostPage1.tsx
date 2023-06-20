@@ -139,9 +139,6 @@ function CreatePostPage1() {
         </Styled.Wrapper1>
 
         <Styled.Wrapper1>
-          <Styled.SubInfotext>
-            키워드로 글을 작성하면 같이 다닐 확률이 높아져요!
-          </Styled.SubInfotext>
           <PostTitle />
           <Styled.RecruitmentAndCouterContainer>
             <Styled.RecruitmentAndCouterWrapper>

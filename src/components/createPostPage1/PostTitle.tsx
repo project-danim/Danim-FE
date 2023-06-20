@@ -8,12 +8,31 @@ import postIsEditingState from "../../recoil/post/postIsEditingState";
 
 const Container = styled.div`
   width: 100%;
+`;
+
+// input wrapper
+const InputWrapper = styled.div`
+  width: 100%;
   margin-bottom: 10px;
   display: flex;
   align-items: flex-end;
   gap: 8px;
   font-size: 14px;
   color: #949494;
+`;
+
+// common : 서브제목
+export const SubInfotext = styled.div`
+  font-size: 16px;
+  color: #858585;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+
+  & > p {
+    margin-left: 10px;
+    font-size: 12px;
+  }
 `;
 
 function PostTitle() {
@@ -44,12 +63,18 @@ function PostTitle() {
 
   return (
     <Container>
-      <CommonInput
-        placeholder="게시글의 제목을 입력해 주세요."
-        value={title} // 수정 중인 경우 postTitle을 표시하고, 아닌 경우 Recoil 상태 값을 표시
-        onChange={handleTitleChange} // 입력 값 변경을 처리합니다
-      />
-      <div>{`${title.length}/${MAX_TITLE_LENGTH}`}</div>
+      <SubInfotext>
+        키워드로 글을 작성하면 같이 다닐 확률이 높아져요!
+        <p>[{`${title.length}/${MAX_TITLE_LENGTH}`}]</p>
+      </SubInfotext>
+
+      <InputWrapper>
+        <CommonInput
+          placeholder="게시글의 제목을 입력해 주세요."
+          value={title} // 수정 중인 경우 postTitle을 표시하고, 아닌 경우 Recoil 상태 값을 표시
+          onChange={handleTitleChange} // 입력 값 변경을 처리합니다
+        />
+      </InputWrapper>
     </Container>
   );
 }

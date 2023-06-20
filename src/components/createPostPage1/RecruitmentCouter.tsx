@@ -29,8 +29,12 @@ const NoticeTextWrapper = styled.div`
   font-size: 10px;
   color: #858585;
   margin: 3px;
+  p {
+    color: #7ea8e3;
+  }
 `;
 
+//
 const CounterWrapper = styled.div``;
 
 function RecruitmentCouter() {
@@ -69,9 +73,7 @@ function RecruitmentCouter() {
 
   return (
     <>
-      <NoticeTextWrapper>
-        모집 인원을 알려주세요. 글 작성자는 모집 인원에 포함되지 않습니다.
-      </NoticeTextWrapper>
+      <NoticeTextWrapper>모집 인원을 알려주세요.</NoticeTextWrapper>
       <Container>
         <CountButton type="button" onClick={decrementCount}>
           {"<"}
@@ -81,6 +83,10 @@ function RecruitmentCouter() {
           {">"}
         </CountButton>
       </Container>
+
+      <NoticeTextWrapper>
+        <p>글 작성자는 모집 인원에 포함되지 않습니다.</p>
+      </NoticeTextWrapper>
     </>
   );
 }

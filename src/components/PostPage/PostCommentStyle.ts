@@ -54,6 +54,7 @@ export const CommentInput = styled.textarea`
   margin: 10px;
   height: 100px;
   resize: none;
+  ${({ readOnly }) => readOnly && `pointer-events: none;`}
 `;
 
 // 후기 추가 버튼
@@ -65,6 +66,14 @@ export const AddCommentButton = styled.button`
   color: white;
   border-radius: 8px;
   border: none;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #3f7f04;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    transform: scale(1.025);
+  }
 `;
 
 // 댓글 container

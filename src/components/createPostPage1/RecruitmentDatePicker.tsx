@@ -26,7 +26,7 @@ const StyledInput = styled.div`
 
 const Container = styled.div`
   display: flex;
-  gap: 10px;
+  /* margin: 17px 0; */
 `;
 
 const DatePickerWrapper = styled.div`

@@ -98,7 +98,7 @@ export const CircleNumbering = styled.div`
   margin-bottom: 3px;
   font-size: 16px;
   font-family: "Pridi", serif;
-  z-index: 10;
+  z-index: 1;
 `;
 
 // 지도 텍스트 wrapper
@@ -107,6 +107,37 @@ export const MapTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+`;
+
+export const StyledOverlay = styled.div`
+  .wrap {
+    border: 2px solid #2e5902;
+    position: relative;
+    z-index: 10px;
+    background-color: white;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+  .body {
+    // 여기에 'info' 클래스에 대한 CSS 스타일을 적용합니다.
+  }
+  .desc {
+    // 여기에 'info' 클래스에 대한 CSS 스타일을 적용합니다.
+  }
+
+  .address {
+    font-size: 13px;
+  }
+  // 다른 클래스들에 대해서도 동일하게 적용할 수 있습니다.
+`;
+
+export const MarkerContent = styled.div`
+  color: #000;
+  font-size: 14px; // 원하는 폰트 크기
+  border-radius: 5px;
+  width: 100px;
 `;
 
 // 방문 장소
