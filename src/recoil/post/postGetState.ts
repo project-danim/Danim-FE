@@ -4,7 +4,7 @@ interface PostData {
   postId?: number;
   postTitle?: string;
   recruitmentStartDate?: string;
-  recruitmentEndDate?: string;
+  recruitmentEndDate?: any;
   ageRange?: string[];
   chatRoomId?: number;
   content?: string;
