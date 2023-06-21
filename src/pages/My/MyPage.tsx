@@ -186,80 +186,88 @@ function MyPage() {
       <Styled.TabContent>
         {activeTab === 0 && (
           <div>
-            {reviews.map((review) => {
-              const formattedReviewDate = new Date(review.createdAt)
-                .toLocaleString("ko-KR", {
-                  year: "2-digit",
-                  month: "2-digit",
-                  day: "2-digit",
-                  hour12: false,
-                })
-                .slice(0, -1);
-              return (
-                <Styled.ReviewContainer
-                  key={`${review.userId}-${review.createdAt}`}
-                >
-                  <div style={{ display: "flex" }}>
-                    <Styled.CreatedTime>
-                      {formattedReviewDate}
-                    </Styled.CreatedTime>
-                    <Styled.ReviewMile>
-                      {commentFootprintRating(review.point)}
-                    </Styled.ReviewMile>
-                    <Styled.ReviewNickName>
-                      {review.nickName}
-                    </Styled.ReviewNickName>
-                  </div>
+            {reviews.length === 0 ? (
+              <div>아직 남겨진 리뷰가 없어요..같이 다녀 볼까요?</div>
+            ) : (
+              reviews.map((review) => {
+                const formattedReviewDate = new Date(review.createdAt)
+                  .toLocaleString("ko-KR", {
+                    year: "2-digit",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour12: false,
+                  })
+                  .slice(0, -1);
+                return (
+                  <Styled.ReviewContainer
+                    key={`${review.userId}-${review.createdAt}`}
+                  >
+                    <div style={{ display: "flex" }}>
+                      <Styled.CreatedTime>
+                        {formattedReviewDate}
+                      </Styled.CreatedTime>
+                      <Styled.ReviewMile>
+                        {commentFootprintRating(review.point)}
+                      </Styled.ReviewMile>
+                      <Styled.ReviewNickName>
+                        {review.nickName}
+                      </Styled.ReviewNickName>
+                    </div>
 
-                  <Styled.ReviewContents>
-                    {review.comment}
-                  </Styled.ReviewContents>
-                </Styled.ReviewContainer>
-              );
-            })}
+                    <Styled.ReviewContents>
+                      {review.comment}
+                    </Styled.ReviewContents>
+                  </Styled.ReviewContainer>
+                );
+              })
+            )}
           </div>
         )}
+
         {activeTab === 1 && (
           <div>
-            {posts.map((post) => {
-              const formattedPostDate = new Date(post.tripEndDate)
-                .toLocaleString("ko-KR", {
-                  year: "2-digit",
-                  month: "2-digit",
-                  day: "2-digit",
-                  hour12: false,
-                })
-                .slice(0, -1);
+            {posts.length === 0 ? (
+              <div>아직 남기신 게시글이 없어요..같이 다녀 볼까요?</div>
+            ) : (
+              posts.map((post) => {
+                const formattedPostDate = new Date(post.tripEndDate)
+                  .toLocaleString("ko-KR", {
+                    year: "2-digit",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour12: false,
+                  })
+                  .slice(0, -1);
 
-              const formattedPostContent = post.content.replace(
-                /<[^>]*>?/g,
-                ""
-              );
+                const formattedPostContent = post.content.replace(
+                  /<[^>]*>?/g,
+                  ""
+                );
 
-              return (
-                <Styled.PostContainer key={`${post.id}-${post.tripEndDate}`}>
-                  <Styled.TextContainer>
-                    {/* <Styled.PostTitle>{post.postTitle}</Styled.PostTitle> */}
-                    <Styled.PostTitle
-                      href={`https://www.da-nim.com/post/${post.id}`}
-                    >
-                      {post.postTitle}
-                    </Styled.PostTitle>
-                    <Styled.PostDate>{formattedPostDate}</Styled.PostDate>
-                    <Styled.PostContent>
-                      {formattedPostContent}
-                    </Styled.PostContent>
-                  </Styled.TextContainer>
-                  <Styled.ImageContainer>
-                    <img
-                      src={post.imageUrl}
-                      alt="이미지"
-                      style={{ width: 205, height: 205, objectFit: "cover" }}
-                    />
-                  </Styled.ImageContainer>
-                </Styled.PostContainer>
-              );
-            })}
+                return (
+                  <Styled.PostContainer key={`${post.id}-${post.tripEndDate}`}>
+                    <Styled.TextContainer>
+                      <Styled.PostTitle
+                        href={`https://www.da-nim.com/post/${post.id}`}
+                      >
+                        {post.postTitle}
+                      </Styled.PostTitle>
+                      <Styled.PostDate>{formattedPostDate}</Styled.PostDate>
+                      <Styled.PostContent>
+                        {formattedPostContent}
+                      </Styled.PostContent>
+                    </Styled.TextContainer>
+                    <Styled.ImageContainer>
+                      <img
+                        src={post.imageUrl}
+                        alt="이미지"
+                        style={{ width: 205, height: 205, objectFit: "cover" }}
+                      />
+                    </Styled.ImageContainer>
+                  </Styled.PostContainer>
+                );
+              })
+            )}
           </div>
         )}
       </Styled.TabContent>
