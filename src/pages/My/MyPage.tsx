@@ -133,9 +133,8 @@ function MyPage() {
     return icons;
   };
 
-  interface ImageProps {
-    imageUrl: string;
-  }
+  // 리뷰 0점을 주게될 경우 평균값이 소숫점으로 떨어지는 이슈 -> 소숫점 반올림
+  const fomattedScore = Math.round(score * 10) / 10;
 
   return (
     <Styled.MyPageContainer>
@@ -148,7 +147,7 @@ function MyPage() {
         <Styled.UserInfo>
           <Styled.ProfileMileContainer>
             <Styled.ScoreAndNicknameContainer>
-              <Styled.Score>{score}</Styled.Score>
+              <Styled.Score>{fomattedScore}</Styled.Score>
               <Styled.UserNickName>
                 {nickname}
                 <span>님</span>
