@@ -317,4 +317,43 @@ font-size: 20px;
 line-height: 24px;
 `
 
+export const NoneReviewsMessage = styled.div`
+display: flex;
+width: 100%;
+height: 70px;
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 24px;
+color: black;
+white-space: pre-wrap; 
+justify-content: flex-start;
+border-bottom:0.5px solid #A3BF3B;
+margin-top: 40px;
+;
+`;
 
+export const NonePostsMessage = styled.div`
+display: flex;
+width: 100%;
+height: 70px;
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 24px;
+color: black;
+white-space: pre-wrap; 
+justify-content: flex-end;
+border-bottom:0.5px solid #A3BF3B;
+margin-top: 40px;
+
+
+`;
+
+export const Highlight = styled.a`
+  color: #A3BF3B;
+  text-decoration:none;
+
+`;
