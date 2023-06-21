@@ -38,6 +38,7 @@ function Redirection() {
         localStorage.setItem("id", response.data.id);
         localStorage.setItem("nickname", response.data.nickName);
         localStorage.setItem("userImageUrl", response.data.myPageImageUrl);
+        localStorage.setItem("isAuthenticated", "true");
         setIsExistUser(response.data.isExistMember);
         setUserId(response.data.id);
       } catch (err) {
