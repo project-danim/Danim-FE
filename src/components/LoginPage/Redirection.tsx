@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
 import { axiosInstance, setCookie, showError } from "../../api/signUp";
-// import SignUpForSocial from "../SignUpPage/SignUpForSocial";
-import userIdState from "../../recoil/login/userInfo";
 
 export const fetchKakaoToken = async (code: string) => {
   const response = await axiosInstance.get(
@@ -25,7 +22,7 @@ function Redirection() {
   const url = new URL(window.location.href);
   const userCode: string | null = url.searchParams.get("code");
   const navigate = useNavigate();
-  const [userId, setUserId] = useRecoilState(userIdState);
+  const [userId, setUserId] = useState("");
   // 이미 카카오로 가입한 회원인지 확인하는 state
   const [isExistUser, setIsExistUser] = useState(false);
 
@@ -36,16 +33,13 @@ function Redirection() {
   }, [userId]);
   const fetchKakaoLogin = async () => {
     if (userCode !== null) {
-      // userCode가 null이 아닐 때만 실행
       try {
         const response = await fetchKakaoToken(userCode);
-        // 사용자 아이디, 닉네임, 프로필 이미지 로컬 스토리지에 저장
         localStorage.setItem("id", response.data.id);
         localStorage.setItem("nickname", response.data.nickName);
         localStorage.setItem("userImageUrl", response.data.myPageImageUrl);
-        setIsExistUser(() => response.data.isExistMember);
-        setUserId(() => response.data.id);
-        console.log("여기!!!", isExistUser);
+        setIsExistUser(response.data.isExistMember);
+        setUserId(response.data.id);
       } catch (err) {
         showError(err);
       }
@@ -66,7 +60,7 @@ function Redirection() {
     if (!isExistUser && userId && userId !== "") {
       navigate("/signup/social");
     }
-  }, [userId, isExistUser]);
+  }, [isExistUser, userId]);
 
   return <div>카카오 로그인 중입니다.</div>;
 }
