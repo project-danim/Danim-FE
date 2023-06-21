@@ -58,6 +58,9 @@ function PostButton() {
   const { postTitle } = getPostData || {};
   const [postId] = useRecoilState(postIdState);
 
+  // 신청하려는 모임이 다 찼을 때
+  const { isComplete } = getPostData || {};
+
   // 일반 유저 : 모임 신청 -> 채팅방 이동 / 게시글 작성자 : 채팅방 이동
   const handleApplyAndChat = async () => {
     try {
@@ -100,7 +103,9 @@ function PostButton() {
   let buttonText = "";
   let buttonAction = () => {};
 
-  if (isAuthor) {
+  if (isComplete) {
+    buttonText = "모집완료";
+  } else if (isAuthor) {
     buttonText = "대화하기";
     buttonAction = handleApplyAndChat;
   } else if (isApplicant) {
@@ -110,7 +115,7 @@ function PostButton() {
     buttonText = "신청하기";
     buttonAction = handleApplyAndChat;
   } else {
-    buttonText = "모집완료";
+    buttonText = "기간만료";
   }
 
   return (
