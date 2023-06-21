@@ -3,6 +3,7 @@ import styled from "styled-components";
 // 버튼 프롭 타입 정의
 type CommonStyleButtonProps = {
   buttonName: string;
+  profile?: string | null;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 // 공통 버튼 배경 색상, 글자 색상 맵
@@ -76,7 +77,10 @@ const ButtonContainer = styled.div`
 
 // 채팅 버튼과 마이페이지 버튼
 const chatAndUserButton = styled.button<CommonStyleButtonProps>`
-  background-image: ${(props) => `url(/header/${props.buttonName}.svg)`};
+  background-image: ${(props) =>
+    props.buttonName === "user"
+      ? `url(${props.profile})`
+      : `url(header/${props.buttonName}.svg)`};
   background-size: cover;
   border: none;
   background-color: transparent;
