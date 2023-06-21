@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import { axiosInstance, setCookie, showError } from "../../api/signUp";
+import loginUserIdState from "../../recoil/login/userInfo";
 
 export const fetchKakaoToken = async (code: string) => {
   const response = await axiosInstance.get(
@@ -22,7 +24,7 @@ function Redirection() {
   const url = new URL(window.location.href);
   const userCode: string | null = url.searchParams.get("code");
   const navigate = useNavigate();
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useRecoilState(loginUserIdState);
   // 이미 카카오로 가입한 회원인지 확인하는 state
   const [isExistUser, setIsExistUser] = useState(false);
 
