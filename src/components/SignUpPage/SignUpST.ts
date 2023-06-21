@@ -6,11 +6,6 @@ type OriginalButtonProps = {
   active?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-// 성별 버튼 프롭 타입
-// type GenderButtonProps = {
-//   active: boolean;
-// } & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
 type FormExplainTextProps = {
   pageName: string;
 };
@@ -22,16 +17,16 @@ const OriginalButton = styled.button<OriginalButtonProps>`
   padding: 10px 17.5px;
   width: 100%;
   color: #ffffff;
+  background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
   background-color: ${({ buttonName }) =>
     buttonName === "signUp" ? "#2E5902" : "#A3BF3B"};
-  background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
   border: none;
   border-radius: 8px;
   font-weight: 400;
   font-family: "Pretendard-Regular";
   cursor: pointer;
   &:hover {
-    box-shadow: 0px 1px 2px 0px #0000001a;
+    box-shadow: 0px 2px 2px 0px #0000001a;
     cursor: pointer;
     border: 2px solid #eaedd4;
     padding: 8px 15.5px;
@@ -54,6 +49,9 @@ const CommonInput = styled.input`
   line-height: 22px;
   border-radius: 8px;
   font-family: "Pretendard-Regular";
+  &:focus {
+    outline: 1px solid #a3bf3b;
+  }
   @media (max-width: 1400px) and (min-width: 320px) {
     font-size: 11px;
     padding: 8px 0;
@@ -110,6 +108,7 @@ const ContainerForm = styled.form`
   }
 `;
 
+// 소셜 로그인 텍스트 ("SNS로 로그인")
 const FormExplainText = styled.p<FormExplainTextProps>`
   font-size: 12px;
   text-align: center;
@@ -121,7 +120,7 @@ const FormExplainText = styled.p<FormExplainTextProps>`
     content: "";
     width: ${(props) => (props.pageName === "loginPage" ? "108px" : "59px")};
     border: none;
-    border: 0.5px solid #868686;
+    border-top: 0.5px solid #868686;
     display: block;
     position: absolute;
     top: 6px;
@@ -131,7 +130,7 @@ const FormExplainText = styled.p<FormExplainTextProps>`
     content: "";
     width: ${(props) => (props.pageName === "loginPage" ? "108px" : "59px")};
     border: none;
-    border: 0.5px solid #868686;
+    border-top: 0.5px solid #868686;
     display: block;
     position: absolute;
     top: 6px;
@@ -192,29 +191,6 @@ const GenderAriaContainer = styled.div`
   margin-bottom: 29px;
 `;
 
-// 성별 선택 버튼
-// const GenderButton = styled.button<GenderButtonProps>`
-//   font-family: "Pretendard-Regular";
-//   box-shadow: 0px 1px 2px 0px #0000001a;
-//   color: #ffffff;
-//   border: none;
-//   font-size: 16px;
-//   padding: 10px 78px;
-//   font-weight: 500;
-//   border-radius: 8px;
-//   cursor: pointer;
-//   background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
-//   transition: 0.1s all ease-in-out;
-//   &:hover {
-//     cursor: pointer;
-//     background-color: #2e5902;
-//   }
-//   @media (max-width: 1400px) and (min-width: 320px) {
-//     padding: 10px 40px;
-//     font-size: 12px;
-//   }
-// `;
-
 // 연령
 const AgeAriaContainer = styled.label`
   display: grid;
@@ -242,6 +218,5 @@ export default {
   CommonInput,
   GenderLabelContainer,
   GenderAriaContainer,
-  // GenderButton,
   AgeAriaContainer,
 };
