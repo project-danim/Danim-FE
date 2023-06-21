@@ -11,6 +11,9 @@ const CommonInput = styled.input`
   line-height: 22px;
   border-radius: 8px;
   color: #5c5c5c;
+  &:focus {
+    outline: 1px solid #a3bf3b;
+  }
   /* @media (max-width: 1400px) and (min-width: 320px) {
     font-size: 11px;
     padding: 8px 0;
