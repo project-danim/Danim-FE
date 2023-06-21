@@ -57,12 +57,20 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-// 로고
-const DanimLogo = styled.h1`
+// 페이지 제목
+const DanimTitle = styled.h1`
   text-indent: -9999px;
-  background: url("header/danimLogo.svg") no-repeat;
-  width: 92px;
-  height: 28px;
+  position: absolute;
+  height: 0;
+`;
+
+// 로고
+const DanimLogo = styled.img`
+  /* text-indent: -9999px;
+  background: url(https://danimdata.s3.ap-northeast-2.amazonaws.com/%EB%8B%A4%EB%8B%98+%EB%A1%9C%EA%B3%A0.png)
+    no-repeat; */
+  width: 74px;
+  height: 59px;
   overflow: hidden;
   cursor: pointer;
 `;
@@ -93,6 +101,7 @@ const chatAndUserButton = styled.button<CommonStyleButtonProps>`
 export default {
   headerAria,
   Container,
+  DanimTitle,
   DanimLogo,
   ButtonContainer,
   CommonStyleButton,
