@@ -298,6 +298,9 @@ export const TabButton = styled.button<{ active: boolean }>`
   cursor: pointer;
   border-bottom: ${({ active }) =>
     active ? "11px solid #A3BF3B" : "11px solid transparent"};
+
+  overflow: hidden;
+  transition: all 0.4s ease;
 `;
 
 export const TabContent = styled.div`
