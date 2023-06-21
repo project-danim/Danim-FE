@@ -115,8 +115,14 @@ function Login() {
     alert("아직 준비중인 서비스입니다!");
   };
 
+  // 로그인 폼 제출 핸들러
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleLoginBtnClick();
+  };
+
   return (
-    <st.ContainerForm>
+    <st.ContainerForm onSubmit={(event) => handleSubmit(event)}>
       <UserId
         pageName="loginPage"
         idRef={userIdRef}
@@ -137,7 +143,7 @@ function Login() {
         </st.CommonErrorText>
       </label>
       <div>
-        <loginSt.LoginButton type="button" onClick={handleLoginBtnClick}>
+        <loginSt.LoginButton type="submit" onClick={handleLoginBtnClick}>
           로그인
         </loginSt.LoginButton>
         <loginSt.FindUserInfoContainer>
