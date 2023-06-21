@@ -141,17 +141,29 @@ export const fetchLogout = async () => {
       localStorage.removeItem("id");
       localStorage.removeItem("nickname");
       localStorage.removeItem("profileUrl");
+      localStorage.removeItem("showAlert");
+      localStorage.setItem("isAuthenticated", "false");
       return response;
     }
     if (refreshToken) {
       document.cookie =
         "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      sessionStorage.removeItem("id");
+      localStorage.removeItem("id");
+      localStorage.removeItem("nickname");
+      localStorage.removeItem("profileUrl");
+      localStorage.removeItem("showAlert");
+      localStorage.setItem("isAuthenticated", "false");
       return { data: "refreshToken 삭제 완료" };
     }
     return null;
-  } catch (err) {
-    return console.error("An error occurred:", err);
+  } catch (err: any) {
+    if (err) {
+      if (err.response.status === 404) {
+        // 찾을 수 없는 회원일때
+        return "찾을 수 없는 회원입니다.";
+      }
+    }
+    return err;
   }
 };
 
@@ -172,7 +184,7 @@ export const withdrawalUser = async () => {
       localStorage.removeItem("id");
       localStorage.removeItem("nickname");
       localStorage.removeItem("profileUrl");
-       return response;
+      return response;
     }
     return null;
   } catch (err) {
