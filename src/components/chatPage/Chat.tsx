@@ -20,18 +20,42 @@ interface User {
 let stomp: any;
 
 function Chat() {
-  const [messages, setMessages] = useState<any[]>([]);
-  const [messageInput, setMessageInput] = useState("");
-  // 게시글 아이디랑 게시글 제목을 가져와야함
-
-  // 상세 게시글 페이지에서 입장하기를 눌렀을때 저장된 recoil state 호출 - 참여자, 방이름
+  // 상세 게시글 페이지에서 입장하기를 눌렀을때 저장된 recoil state 호출 - 참여자, 방이름, 게시글 제목, 과거 채팅 기록
   const chatEnteredUsersNickname = useRecoilValue(
     chatEnteredUsersNicknameState
   );
   const chatEnteredRoomName = useRecoilValue(roomNameState);
   const chatRoomPostTitle = useRecoilValue(chatRoomPostTitleState);
   const chatRecord = useRecoilValue(chatRoomChatRecordState);
+
   console.log(chatRecord);
+
+  // 👇 서버에서 받은 채팅 기록을 사용할 수 있는 형태로 가공
+  let flattenedChatRecord = [];
+  if (Array.isArray(chatRecord)) {
+    if (chatRecord.some(Array.isArray)) {
+      flattenedChatRecord = chatRecord.flat();
+    } else {
+      flattenedChatRecord = chatRecord;
+    }
+  }
+  const formattedMessages = flattenedChatRecord.map((record) => {
+    const formattedTime = `${record.createdAt.replace(" ", "T")}.000Z`;
+    return {
+      type: record.type,
+      roomName: record.chatRoomName,
+      sender: record.sender,
+      imposter: null, // <-- 아직은 처리 안되어있음으로 null 값
+      message: record.message,
+      time: formattedTime,
+    };
+  });
+
+  // 현재 메세지 / record 메세지 (formattedMessages)
+  const [messages, setMessages] = useState<any[]>(formattedMessages);
+  const [messageInput, setMessageInput] = useState("");
+
+  console.log(messages);
 
   // 현재 대화중인 사람 목록
   const conversationPeople: string[] = chatEnteredUsersNickname.map(
@@ -55,20 +79,6 @@ function Chat() {
     setAllUserNickname(conversationPeople || []);
     setRoomName(chatEnteredRoomName);
   }, []);
-
-  console.log(allUserNickname);
-
-  // console.log();
-
-  // 입장하기 버튼 클릭했을때 - 상세게시글 조회에 신청하기로 이동 / 목록에서 입장하기는 추가 필요 / 목록에서도 chatState.ts recoil state 로 전달해야함
-  // const handleEnterButtonClick = async () => {
-  //   //
-  //   const response = await chatStart(2); // postId로 변환 줬을때 받아온 roomname
-  //   if (response.statusCode === 200) {
-  //     setAllUserNickname(() => [...response.data.nickName]); // 현재 참여 중인 전체 참여자 모든 유저 닉네임 받아오기
-  //     setRoomName(() => response.data.roomName); // postID 를 줬을 때 받아오는 room name
-  //   }
-  // };
 
   // 웹소켓 연결
   const connect = () => {
@@ -167,7 +177,7 @@ function Chat() {
         입장하기
       </button> */}
       <header>
-        <button type="button">뒤로가기</button>
+        {/* <button type="button">뒤로가기</button> */}
         {/* 신청해서 받아온 게시글 제목이 있어야함  */}
         <h2>{`${chatRoomPostTitle}`}</h2>
         <st.AllUserContainer>

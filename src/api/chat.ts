@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useNavigation } from "react-router-dom";
 import { axiosInstance, getCookie, showError } from "./signUp";
 
 // 채팅방 입장
@@ -36,6 +35,8 @@ export const chatStart = async (postId: number) => {
     } else if (error.response.status === 403) {
       // 로그인이 필요한 경우 처리 코드
       alert("로그인이 필요합니다.");
+      // throw new Error("로그인이 필요합니다.");
+      throw error;
     } else if (error.response.status === 400) {
       const { detail } = error.response.data;
       if (detail === "존재하지 않는 채팅방 입니다.") {
