@@ -91,6 +91,7 @@ function MyPage() {
     return setEditing(() => !editing);
   };
 
+  // 탈퇴 메세지 분기, 서버 내 에러 경우의 수가 많아서 "탈퇴에 실패했습니다." 로 통일
   const handleWithDrawalClick = () => {
     const confirmed = window.confirm("정말로 탈퇴하시겠습니까?");
 
@@ -100,11 +101,13 @@ function MyPage() {
           alert("회원 탈퇴가 완료되었습니다.");
           window.location.href = "https://www.da-nim.com/";
         })
-        .catch(() => {
-          alert("회원 탈퇴 중 오류가 발생했습니다.");
+        .catch((err) => {
+          if (err.response.status === 400 || err.response.status === 500) {
+            alert("탈퇴에 실패했습니다.");
+          } else {
+            alert("회원 탈퇴가 취소되었습니다.");
+          }
         });
-    } else {
-      alert("회원 탈퇴가 취소되었습니다.");
     }
   };
 
@@ -193,7 +196,7 @@ function MyPage() {
                   {" "}
                   다녀{" "}
                 </Styled.Highlight>
-                볼까요?
+                볼까요?🌱
               </Styled.NoneReviewsMessage>
             ) : (
               reviews.map((review) => {
@@ -240,7 +243,7 @@ function MyPage() {
                   {" "}
                   다녀{" "}
                 </Styled.Highlight>
-                볼까요?
+                볼까요?🌱
               </Styled.NonePostsMessage>
             ) : (
               posts.map((post) => {
