@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilState } from "recoil";
-import useInput from "../../hooks/useInput";
 import { ageList, keywordList, mainKeyword } from "./FilterListData";
 import { fetchSearch } from "../../api/search";
 import {
@@ -13,6 +12,7 @@ import {
   filteredLocation,
   isRecruitmentEndState,
   isSearchClicked,
+  searchedTitleState,
 } from "../../recoil/filter/filterdPost";
 import st from "./FilterBarST";
 import common from "./PostST";
@@ -26,13 +26,14 @@ function FilterBar() {
   const [allFilter, setAllKeyword] = useRecoilState<any>(allKeywordState);
   // 검색으로 받은 게시글 state
   const [, setFilteredPosts] = useRecoilState<any[]>(filterdPost);
-  // 게시글 제목 state
-  const [titleValue, handleChangeTitle, ,] = useInput("");
-  // 게시글 키워드, 지역, 인원수, 연령대 선택값 state
+  // 게시글 제목, 키워드, 지역, 인원수, 연령대 선택값 state
+  const [titleValue, handleChangeTitle] = useRecoilState(searchedTitleState);
   const [selectedKeyword, setSelectedKeyword] =
     useRecoilState<any[]>(filterList);
-  const [selectedLocation] = useRecoilState(filteredLocation);
-  const [selectedGroupSize] = useRecoilState(filteredGroupSize);
+  const [selectedLocation, setSelectedLocation] =
+    useRecoilState(filteredLocation);
+  const [selectedGroupSize, setSelectedGroupSize] =
+    useRecoilState(filteredGroupSize);
   const [selectedAge, setSelectedAge] = useRecoilState(filteredAge);
   // 현재 검색된 상태인지 토글 state
   const [searchClicked, handleSearchClicked] = useRecoilState(isSearchClicked);
@@ -102,6 +103,19 @@ function FilterBar() {
     }
   }, [searchedPage, searchClicked]);
 
+  useEffect(
+    () =>
+      // 컴포넌트가 언마운트 될 때 실행되는 로직
+      () => {
+        handleChangeTitle("");
+        setSelectedKeyword([]);
+        setSelectedLocation("");
+        setSelectedGroupSize("");
+        setSelectedAge([]);
+        handleSearchClicked(() => false);
+      },
+    []
+  );
   // 키워드 선택 핸들러
   const handleSelectKeyword = (e: React.MouseEvent<Element, MouseEvent>) => {
     const keyword = (e.target as Element).textContent || "";
@@ -189,7 +203,7 @@ function FilterBar() {
                 id="searchTitle"
                 placeholder="게시글의 제목, 내용을 입력해주세요."
                 value={titleValue}
-                onChange={handleChangeTitle}
+                onChange={(e) => handleChangeTitle(e.target.value)}
               />
             </label>
             <st.LocationAndSizeContainer>
