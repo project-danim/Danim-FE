@@ -99,6 +99,7 @@ const SocialButton = styled.button<SocialLoginButtonProps>`
   font-weight: 400;
   line-height: 17px;
   margin-bottom: 8px;
+  font-family: "Pretendard-Regular";
   cursor: pointer;
   @media (max-width: 1400px) and (min-width: 320px) {
     font-size: 11px;

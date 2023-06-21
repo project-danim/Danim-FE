@@ -2,6 +2,7 @@ import { useRecoilState } from "recoil";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import st from "./SignUpST";
+import loginSt from "../LoginPage/LoginST";
 import { fetchCheckId } from "../../api/signUp";
 import {
   isUserIdUniqueState,
@@ -61,13 +62,17 @@ function UserId({
 
   // 아이디 중복 검사
   const handleCheckIdBtnClick = () => {
+    // 유효하지 않은 입력값으로 중복검사 요청시
+    if (userIdError) {
+      return idRef.current?.focus();
+    }
+
     // 아이디 값이 없는 상태로 중복검사 요청시
     if (!signUpUserId) {
       idRef.current?.focus();
-      setUserIdError("아이디를 입력하세요.");
-      return;
+      return setUserIdError("아이디를 입력하세요.");
     }
-    mutateCheckId(signUpUserId);
+    return mutateCheckId(signUpUserId);
   };
 
   useEffect(() => {
@@ -99,7 +104,7 @@ function UserId({
         <>
           <label htmlFor="userId">
             <st.IdAreaExplainText>아이디</st.IdAreaExplainText>
-            <st.CommonInput
+            <loginSt.CommonInput
               ref={idRef}
               type="text"
               value={loginUserId}

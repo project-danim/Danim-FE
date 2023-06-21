@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle`
   p,ul,li {
     padding: 0;
     margin: 0;
+    list-style: none;
   } 
   // react-datepicker 다른 요소에 가려지는것 방지
   .react-datepicker-popper {

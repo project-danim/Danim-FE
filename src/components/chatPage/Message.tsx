@@ -1,5 +1,6 @@
 import st from "./ChatST";
 
+
 function Message({ msg, prevMsg, userNickname }: any) {
   //  닉네임을 표시할지에 대한 값으로 !prevMsg가 true면 이전 메세지가 없으므로 닉네임 표시 true
   //    prevMsg.sender !== msg.sender가 true면 이전 메세지와 현재 메세지의 유저가 다르므로 닉네임 표시 true

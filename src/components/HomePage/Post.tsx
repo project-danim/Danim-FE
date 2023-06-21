@@ -31,7 +31,7 @@ function Post({ post, lastPostRef }: any) {
   return (
     // <st.expiredPostContainer expired={post.isRecruitmentEnd}>
     <st.postContainer key={post.id} ref={lastPostRef}>
-      <st.postTitle>{post.title}</st.postTitle>
+      <st.postTitle>{post.postTitle}</st.postTitle>
       <st.expiredPostContainer expired={post.isRecruitmentEnd}>
         <st.postNickname profile={post.userImage}>
           {post.nickname}

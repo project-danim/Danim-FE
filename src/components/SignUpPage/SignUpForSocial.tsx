@@ -128,7 +128,7 @@ function SignUpForSocial() {
           <st.IdAreaExplainText>*성별</st.IdAreaExplainText>
           <st.GenderLabelContainer htmlFor="gender">
             {genders.map((gender) => (
-              <st.GenderButton
+              <st.OriginalButton
                 ref={userGenderRef}
                 key={gender}
                 type="button"
@@ -137,7 +137,7 @@ function SignUpForSocial() {
                 aria-describedby="genderError"
               >
                 {gender}
-              </st.GenderButton>
+              </st.OriginalButton>
             ))}
             <st.CommonErrorText role="alert" id="genderError">
               {genderError}
@@ -148,7 +148,7 @@ function SignUpForSocial() {
           <st.IdAreaExplainText>*연령</st.IdAreaExplainText>
           <st.AgeAriaContainer htmlFor="age">
             {ages.map((age) => (
-              <st.AgeButton
+              <st.OriginalButton
                 key={age}
                 type="button"
                 onClick={() => handleAgeClick(age)}
@@ -156,7 +156,7 @@ function SignUpForSocial() {
                 aria-describedby="ageError"
               >
                 {age}
-              </st.AgeButton>
+              </st.OriginalButton>
             ))}
             <st.CommonErrorText role="alert" id="ageError">
               {ageError}

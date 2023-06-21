@@ -18,6 +18,9 @@ type IsRecruitEndButtonProps = {
 // 공통 width 스타일
 const StyleContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 // 공통 버튼
@@ -61,6 +64,11 @@ const CommonButton = styled.button<FilterButtonProps>`
       props.buttonName === "ageButton" ? "0 30px" : "0 10px"};
     line-height: ${(props) =>
       props.buttonName === "ageButton" ? "36px" : "36px"};
+    // 태블릿
+    @media (max-width: 1024px) and (min-width: 391px) {
+      padding: ${(props) =>
+        props.buttonName === "ageButton" ? "0 18px" : "0 10px"};
+    }
   }
   // 아이콘 스타일링
   &::before {
@@ -77,11 +85,23 @@ const CommonButton = styled.button<FilterButtonProps>`
     position: relative;
     ${(props) => props.buttonName === "ageButton" && "display: none;"}
   }
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: ${(props) =>
-      props.buttonName === "ageButton" ? "11px" : "14px"};
+  // 태블릿
+  @media (max-width: 1024px) {
+    font-size: 14px;
     padding: ${(props) =>
-      props.buttonName === "ageButton" ? "0 15px" : "0 12px"};
+      props.buttonName === "ageButton" ? "0 18px" : "0 12px"};
+  }
+  @media (max-width: 650px) and (min-width: 391px) {
+    font-size: 12px;
+    line-height: ${(props) =>
+      props.buttonName === "ageButton" ? "30px" : "36px"};
+    padding: ${(props) =>
+      props.buttonName === "ageButton" ? "0 5px" : "0 8px"};
+  }
+  // 모바일
+  @media (max-width: 390px) {
+    padding: ${(props) =>
+      props.buttonName === "ageButton" ? "0 18px" : "0 12px"};
   }
 `;
 
@@ -94,9 +114,6 @@ const CommonLableNameText = styled.p`
   color: #858585;
   margin-bottom: 0px;
   margin-top: 0;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 12px;
-  }
 `;
 
 // 공통 드롭다운 버튼
@@ -105,6 +122,7 @@ const CommonDropDownButton = styled.button`
   width: 100%;
   border-radius: 6px;
   padding: 8px;
+  padding-left: 16px;
   line-height: 20px;
   border: 1px solid #e4edc5;
   display: flex;
@@ -112,9 +130,24 @@ const CommonDropDownButton = styled.button`
   justify-content: space-between;
   background-color: transparent;
   box-sizing: border-box;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    min-width: 80px;
+  font-size: 16px;
+  position: relative;
+  // 태블릿
+  @media (max-width: 1200px) and (min-width: 840px) {
+    min-width: 220px;
   }
+  @media (max-width: 839px) {
+    min-width: 140px;
+  }
+  @media (max-width: 650px) and (min-width: 391px) {
+    font-size: 12px;
+  }
+  @media (max-width: 650px) and (min-width: 391px) {
+    min-width: 100px;
+  }
+  // 모바일
+  /* @media (max-width: 390px) {
+  } */
 `;
 
 // 공통 드롭다운 펼치기 버튼
@@ -126,15 +159,33 @@ const CommonUnderButton = styled.div`
   background-repeat: no-repeat;
 `;
 
+// 공통 드롭다운으로 선택된 값
+const CommonSelectedValue = styled.div`
+  // 태블릿
+  @media (max-width: 1024px) and (min-width: 391px) {
+    font-size: 14px;
+  }
+  @media (max-width: 650px) and (min-width: 391px) {
+    font-size: 12px;
+  }
+  // 모바일
+  @media (max-width: 390px) {
+  }
+`;
+
 // 필터바 컨테이너
 const FilterBarContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
-  & > * {
-    font-family: "Pretendard-Regular";
+
+  // 태블릿
+  @media (max-width: 1024px) and (min-width: 391px) {
+    padding: 0 20px;
+  }
+  // 모바일
+  @media (max-width: 390px) {
   }
 `;
 
@@ -145,7 +196,8 @@ const KeywordFilterContainer = styled.div`
   line-height: 19px;
   border-radius: 30px;
   padding: 10px;
-  width: 550px;
+  max-width: 550px;
+  width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -154,9 +206,7 @@ const KeywordFilterContainer = styled.div`
   margin: 0 auto;
   position: relative;
   top: 30px;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    top: 15px;
-  }
+  z-index: 1;
 `;
 
 // 모집 마감 토글 버튼 포함 컨테이너
@@ -165,6 +215,7 @@ const RecruitEndAndDetailContainer = styled.div`
   box-shadow: 0px 1px 2px 0px #00000040;
   margin-bottom: 10px;
   border-radius: 10px;
+  position: relative;
 `;
 
 // 모집 마감 토글 버튼
@@ -182,8 +233,8 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
   text-indent: -57px;
   display: flex;
   align-items: center;
-  right: 110px;
-  bottom: 65px;
+  right: 94px;
+  bottom: 20px;
   position: absolute;
   background-color: ${(props) =>
     props["data-active"] ? "#FFFFFF" : "#f5f5f5"};
@@ -201,8 +252,13 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background-color: #b5bf69;
+    background-color: ${(props) =>
+      props["data-active"] ? "#b5bf69" : "#2E5902"};
   }
+  @media (max-width: 1024px) and (min-width: 391px) {
+    right: 38px;
+  }
+
   @keyframes move-left {
     0% {
       left: 34px;
@@ -228,15 +284,23 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
 const DetailFilterContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 60px 96px 28px;
+  padding: 60px 94px 37px 108px;
   border-radius: 10px;
-  /* margin-top: 30px; */
   margin-bottom: 36px;
   width: 100%;
   box-sizing: border-box;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    padding: 15px 20px;
-    margin-top: 7px;
+  // 태블릿
+  @media (max-width: 1024px) and (min-width: 840px) {
+    padding: 48px 38px 40px 40px;
+  }
+  @media (max-width: 839px) {
+    padding: 48px 38px 40px 40px;
+  }
+  @media (max-width: 650px) and (min-width: 391px) {
+    padding: 48px 20px 40px 20px;
+  }
+  // 모바일
+  @media (max-width: 390px) {
   }
 `;
 
@@ -251,8 +315,9 @@ const TitleInput = styled.input`
   border-radius: 6px;
   max-width: 596px;
   width: 100%;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 14px;
+  // 태블릿
+  @media (max-width: 839px) and (min-width: 391px) {
+    font-size: 12px;
   }
 `;
 
@@ -261,37 +326,56 @@ const LocationAndSizeContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 24px;
   gap: 24px;
+  @media (max-width: 839px) {
+    gap: 12px;
+  }
 `;
 
 // 지역 리스트 ul
 const LocationListUl = styled.ul`
-  padding: 0 24px 0 16px;
   overflow: visible;
-  & > div > li {
-    padding-left: 16px;
-    list-style: none;
+  height: 100px;
+  position: absolute;
+  top: 206px;
+  width: 286px;
+  box-sizing: border-box;
+  & > div {
+    z-index: 1;
+    position: relative;
+    padding: 8px 16px;
+    border-left: 1px solid #e4edc4;
+    border-right: 1px solid #e4edc4;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
     text-align: left;
-    padding: 8px 0;
-    overflow: visible;
+  }
+  & > div:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  }
+  // 태블릿
+  @media (max-width: 1024px) {
+    font-size: 14px;
+  }
+  @media (max-width: 650px) and (min-width: 391px) {
+    font-size: 12px;
   }
 `;
 
 // 인원수 컨테이너
 const GroupSizeContainer = styled.div`
   margin-left: 24px;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    margin-left: 10px;
-  }
 `;
 
 // 연령대 컨테이너
 const AgeContainer = styled.div`
-  padding: 0 12px;
+  padding-left: 24px;
   box-sizing: border-box;
   width: 100%;
-  margin-left: 12px;
 `;
 
 // 연령대 버튼 컨테이너
@@ -299,8 +383,15 @@ const AgeButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px 24px;
-  @media (max-width: 1400px) and (min-width: 320px) {
+  // 태블릿
+  @media (max-width: 1024px) and (min-width: 840px) {
     gap: 4px 10px;
+  }
+  @media (max-width: 839px) {
+    gap: 4px 4px;
+  }
+  // 모바일
+  @media (max-width: 390px) {
   }
 `;
 
@@ -309,6 +400,7 @@ export default {
   CommonLableNameText,
   CommonDropDownButton,
   CommonUnderButton,
+  CommonSelectedValue,
   FilterBarContainer,
   KeywordFilterContainer,
   IsRecruitButton,

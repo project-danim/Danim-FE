@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import st from "./SignUpST";
 import { fetchCheckNickname, fetchRandomNickname } from "../../api/signUp";
@@ -23,6 +23,7 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
   const [nicknameError, setNicknameError] = useState("");
   // 랜덤 닉네임 값 state
   const [RandomNickname, setRandomNickname] = useState("");
+
   // 컴포넌트 렌더링시 랜덤 닉네임 받아오기
   useEffect(() => {
     const getRandomNickname = async () => {
@@ -31,6 +32,10 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
     };
     getRandomNickname();
   }, []);
+  // 랜덤 닉네임 받아오면 닉네임 입력값 업데이트하기
+  useEffect(() => {
+    setUserNickname(() => RandomNickname);
+  }, [RandomNickname]);
 
   // 닉네임 입력값 입력 핸들러
   const handleChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {

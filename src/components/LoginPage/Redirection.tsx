@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { axiosInstance, setCookie, showError } from "../../api/signUp";
-import SignUpForSocial from "../SignUpPage/SignUpForSocial";
+// import SignUpForSocial from "../SignUpPage/SignUpForSocial";
 import userIdState from "../../recoil/login/userInfo";
 
 export const fetchKakaoToken = async (code: string) => {
@@ -10,11 +10,15 @@ export const fetchKakaoToken = async (code: string) => {
     `/api/user/kakao/callback?code=${code}`
   );
   // 푸쉬하고 확인해보기
-  console.log("여기가 카카오 응답에 대한 response", response);
-  if (response.data.statusCode === 200) {
-    return response.data;
+  if (response.data.message === "로그인 성공") {
+    const accessToken = response.headers.access_key;
+    const refreshToken = response.headers.refresh_key;
+    if (accessToken && refreshToken) {
+      setCookie("accessToken", accessToken, 1);
+      setCookie("refreshToken", refreshToken, 30);
+    }
   }
-  return alert("다시 시도해주세요!");
+  return response.data;
 };
 
 function Redirection() {
@@ -22,6 +26,8 @@ function Redirection() {
   const userCode: string | null = url.searchParams.get("code");
   const navigate = useNavigate();
   const [userId, setUserId] = useRecoilState(userIdState);
+  // 이미 카카오로 가입한 회원인지 확인하는 state
+  const [isExistUser, setIsExistUser] = useState(false);
 
   useEffect(() => {
     if (userId !== undefined && userId !== null) {
@@ -33,19 +39,13 @@ function Redirection() {
       // userCode가 null이 아닐 때만 실행
       try {
         const response = await fetchKakaoToken(userCode);
-        const accessToken = response.headers.access_key;
-        const refreshToken = response.headers.refresh_key;
-        setCookie("accessToken", accessToken, 1);
-        setCookie("refreshToken", refreshToken, 30);
-
-        const userIdResponse = response.data.id.toString();
-        const userNickname = response.data.nickName;
-        const userImageUrl = response.data.myPageImageUrl;
-        setUserId(() => userIdResponse);
         // 사용자 아이디, 닉네임, 프로필 이미지 로컬 스토리지에 저장
-        localStorage.setItem("id", userIdResponse);
-        localStorage.setItem("nickname", userNickname);
-        localStorage.setItem("userImageUrl", userImageUrl);
+        localStorage.setItem("id", response.data.id);
+        localStorage.setItem("nickname", response.data.nickName);
+        localStorage.setItem("userImageUrl", response.data.myPageImageUrl);
+        setIsExistUser(() => response.data.isExistMember);
+        setUserId(() => response.data.id);
+        console.log("여기!!!", isExistUser);
       } catch (err) {
         showError(err);
       }
@@ -59,19 +59,16 @@ function Redirection() {
   }, []);
 
   useEffect(() => {
-    if (userId && userId !== "") {
+    if (isExistUser) {
+      console.log("여기!!!");
+      navigate("/");
+    }
+    if (!isExistUser && userId && userId !== "") {
       navigate("/signup/social");
     }
-  }, [userId]);
-  return (
-    <div>
-      {userId && userId !== null ? (
-        <SignUpForSocial />
-      ) : (
-        <>카카오 로그인 중입니다.</>
-      )}
-    </div>
-  );
+  }, [userId, isExistUser]);
+
+  return <div>카카오 로그인 중입니다.</div>;
 }
 
 export default Redirection;

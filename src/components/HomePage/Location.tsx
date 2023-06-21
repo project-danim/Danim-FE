@@ -21,7 +21,7 @@ function LocationFilter() {
     <st.StyleContainer>
       <st.CommonLableNameText>지역</st.CommonLableNameText>
       <st.CommonDropDownButton type="button" onClick={handleIsLocationToggled}>
-        <div>{selectedLocation}</div>
+        <st.CommonSelectedValue>{selectedLocation}</st.CommonSelectedValue>
         <st.CommonUnderButton>지역 선택하기</st.CommonUnderButton>
       </st.CommonDropDownButton>
       {isLocationToggled ? (
@@ -38,7 +38,7 @@ function LocationFilter() {
                 }
               }}
             >
-              <li>{location}</li>
+              {location}
             </div>
           ))}
         </st.LocationListUl>
