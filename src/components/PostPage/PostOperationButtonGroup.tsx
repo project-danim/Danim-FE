@@ -74,7 +74,6 @@ function PostOperationButtonGroup() {
   };
 
   // 게시물 삭제
-  // 함수 타입 any 좀 넣어놓겠습니다. . .
   const deletePostMutation: any = useMutation(() => deletePost(postId), {
     onSuccess: () => {
       console.log(`게시물 ${postId}를 삭제했습니다.`);
@@ -92,6 +91,7 @@ function PostOperationButtonGroup() {
       deletePostMutation.mutate(postId);
     }
   };
+
   // 게시글 제목을 꺼내오기 위한 recoil state
   const postData = useRecoilValue(PostGetState);
   const postTitle = postData?.postTitle;
@@ -106,22 +106,32 @@ function PostOperationButtonGroup() {
   const setChatRoomPostTitle = useSetRecoilState(chatRoomPostTitleState);
   const setChatRoomChatRecordState = useSetRecoilState(chatRoomChatRecordState);
 
-  // 모임 신청, 채팅방 이동
+  // 모임 신청 -> 채팅방 이동
   const handleApply = async () => {
-    if (chatRoomId === undefined) {
-      console.error("채팅방이 존재하지 않습니다.");
-      return;
-    }
-    const response = await chatStart(chatRoomId); // postId로 변환 줬을때 받아온 roomname
-    if (response.statusCode === 200) {
-      setChatEnteredUsersNickname(response.data.userInfo); // 현재 참여 중인 전체 참여자 모든 유저 닉네임 받아오기
-      setRoomName(response.data.roomName); // postID 를 줬을 때 받아오는 room name
-      setChatRoomPostTitle(postTitle || "");
-      setChatRoomChatRecordState(response.data.chatRecord);
-      navigate(`/chat/${postId}`);
+    try {
+      if (chatRoomId === undefined) {
+        console.error("채팅방이 존재하지 않습니다.");
+        return;
+      }
+      const response = await chatStart(chatRoomId); // postId로 변환 줬을때 받아온 roomname
+      if (response.statusCode === 200) {
+        setChatEnteredUsersNickname(response.data.userInfo); // 현재 참여 중인 전체 참여자 모든 유저 닉네임 받아오기
+        setRoomName(response.data.roomName); // postID 를 줬을 때 받아오는 room name
+        setChatRoomPostTitle(postTitle || "");
+        setChatRoomChatRecordState(response.data.chatRecord);
+        navigate(`/chat/${postId}`);
+      }
+    } catch (error: any) {
+      // 유저가 로그인 하지 않았을때 처리
+      if (error.response.status === 403) {
+        navigate("/");
+      } else {
+        console.error(error);
+      }
     }
   };
 
+  // 모임 참여 취소
   const handleCancel = async () => {
     try {
       if (chatRoomId === undefined) {
