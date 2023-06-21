@@ -65,27 +65,10 @@ function HomePage() {
     }
   }, []);
 
-  const showNotification = () => {
-    if ("Notification" in window && Notification.permission === "granted") {
-      // 브라우저가 Notification API를 지원하고 알림 권한이 부여된 경우
-      const notification = new Notification("팝업 차단 안내", {
-        body: "팝업 차단이 감지되었습니다. 팝업 차단 설정을 변경하고 페이지를 새로고침해주세요.",
-      });
-
-      notification.onclick = () => {
-        // 알림 클릭 시 브라우저 설정 페이지로 이동
-        window.open("about:preferences#privacy", "_blank");
-      };
-    }
-  };
-
   return (
     <>
       <HomeBanner />
       <Main />
-      <button type="button" onClick={showNotification}>
-        알림 보내기
-      </button>
     </>
   );
 }
