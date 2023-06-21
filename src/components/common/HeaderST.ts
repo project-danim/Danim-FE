@@ -23,12 +23,13 @@ const colorMap: any = {
 // 공통 버튼
 const CommonStyleButton = styled.button<CommonStyleButtonProps>`
   border: none;
+  font-family: inherit;
   border: ${(props) =>
     props.buttonName === "post" ? "1px solid #A3BF3B" : "1px solid #2E5902"};
   background-color: ${(props) => backgroundColorMap[props.buttonName]};
   color: ${(props) => colorMap[props.buttonName]};
-  padding: ${(props) =>
-    props.buttonName === "post" ? "6px 43px" : "6px 30.5px"};
+  padding: ${(props) => (props.buttonName === "post" ? "5px 48px" : "5px 0")};
+  min-width: ${(props) => (props.buttonName === "post" ? "auto" : "110px")};
   font-size: 14px;
   font-weight: 500;
   line-height: 22px;
@@ -48,7 +49,7 @@ const headerAria = styled.div`
 const Container = styled.div`
   width: 100%;
   max-width: 1120px;
-  height: 80px;
+  height: 70px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -66,9 +67,6 @@ const DanimTitle = styled.h1`
 
 // 로고
 const DanimLogo = styled.img`
-  /* text-indent: -9999px;
-  background: url(https://danimdata.s3.ap-northeast-2.amazonaws.com/%EB%8B%A4%EB%8B%98+%EB%A1%9C%EA%B3%A0.png)
-    no-repeat; */
   width: 74px;
   height: 59px;
   overflow: hidden;
@@ -85,16 +83,11 @@ const ButtonContainer = styled.div`
 
 // 채팅 버튼과 마이페이지 버튼
 const chatAndUserButton = styled.button<CommonStyleButtonProps>`
-  background-image: ${(props) =>
-    props.buttonName === "user"
-      ? `url(${props.profile})`
-      : `url(header/${props.buttonName}.svg)`};
-  background-size: cover;
   border: none;
-  background-color: transparent;
-  text-indent: -9999px;
   width: 34px;
   height: 34px;
+  padding: 0;
+  background-color: transparent;
   cursor: pointer;
 `;
 
