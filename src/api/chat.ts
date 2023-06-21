@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useNavigation } from "react-router-dom";
+// import { useNavigation } from "react-router-dom";
 import { axiosInstance, getCookie, showError } from "./signUp";
 
 // 채팅방 입장

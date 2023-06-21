@@ -92,12 +92,27 @@ function MyPage() {
     return setEditing(() => !editing);
   };
   // 탈퇴하기 버튼 클릭시
+  // const handleWithDrawalClick = () => {
+  //   const response = withdrawalUser();
+  // };
+
   const handleWithDrawalClick = () => {
-    const response = withdrawalUser();
-    // 이런 에러가 나옵니다
-    // 500 ,"detail": "java.lang.IllegalArgumentException: URI is not absolute"
-    console.log(response);
+    const confirmed = window.confirm("정말로 탈퇴하시겠습니까?");
+
+    if (confirmed) {
+      withdrawalUser()
+        .then(() => {
+          alert("회원 탈퇴가 완료되었습니다.");
+          window.location.href = "https://www.da-nim.com/";
+        })
+        .catch(() => {
+          alert("회원 탈퇴 중 오류가 발생했습니다.");
+        });
+    } else {
+      alert("회원 탈퇴가 취소되었습니다.");
+    }
   };
+
   // 뒤로가기 버튼 클릭시
   const handleMoveBackClick = () => {
     window.history.back();

@@ -165,7 +165,14 @@ export const withdrawalUser = async () => {
           ACCESS_KEY: accessToken,
         },
       });
-      return response;
+      document.cookie =
+        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      localStorage.removeItem("id");
+      localStorage.removeItem("nickname");
+      localStorage.removeItem("profileUrl");
+       return response;
     }
     return null;
   } catch (err) {
