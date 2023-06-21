@@ -56,8 +56,6 @@ function MyPage() {
   // 게시글 가져오는 뮤테이션 함수
   const { mutate: mutateGetPosts } = useMutation(fecthPosts, {
     onSuccess: (response) => {
-      console.log(response); // 리뷰 데이터 출력
-
       setPosts(() => [...posts, ...response]);
     },
     onError: (error) => {
@@ -92,10 +90,6 @@ function MyPage() {
     fetchMyInfo(id, userInfo);
     return setEditing(() => !editing);
   };
-  // 탈퇴하기 버튼 클릭시
-  // const handleWithDrawalClick = () => {
-  //   const response = withdrawalUser();
-  // };
 
   const handleWithDrawalClick = () => {
     const confirmed = window.confirm("정말로 탈퇴하시겠습니까?");
