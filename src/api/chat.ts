@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { useNavigation } from "react-router-dom";
 import { axiosInstance, getCookie, showError } from "./signUp";
 
 // 채팅방 입장
@@ -36,6 +35,8 @@ export const chatStart = async (postId: number) => {
     } else if (error.response.status === 403) {
       // 로그인이 필요한 경우 처리 코드
       alert("로그인이 필요합니다.");
+      // throw new Error("로그인이 필요합니다.");
+      throw error;
     } else if (error.response.status === 400) {
       const { detail } = error.response.data;
       if (detail === "존재하지 않는 채팅방 입니다.") {
@@ -84,6 +85,29 @@ export const getMyjoinChatRoomList = async () => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_APP_URL}/api/chat/joinChatRoom`,
+      {
+        headers: {
+          ACCESS_KEY: getCookie("accessToken"),
+        },
+        withCredentials: true,
+      }
+    );
+    return response.data;
+    // if (response.status === 200) {
+    //   console.log(`댓글 조회에 성공하였습니다`);
+    // }
+    // return response.data.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+// 취소하기 버튼
+export const cancelApply = async (chatRoomId: any) => {
+  try {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_APP_URL}/api/chat/room/${chatRoomId}`,
       {
         headers: {
           ACCESS_KEY: getCookie("accessToken"),
