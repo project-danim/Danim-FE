@@ -220,14 +220,14 @@ const RecruitEndAndDetailContainer = styled.div`
 
 // 모집 마감 토글 버튼
 const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
-  font-family: Pretendard;
+  font-family: inherit;
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
   text-align: left;
   color: #5c5c5c;
   padding: 5px;
-  border: 1px solid #eef4db;
+  border: 1px solid #b5bf69;
   width: 71px;
   border-radius: 30px;
   text-indent: -57px;
@@ -237,7 +237,7 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
   bottom: 20px;
   position: absolute;
   background-color: ${(props) =>
-    props["data-active"] ? "#FFFFFF" : "#f5f5f5"};
+    props["data-active"] ? "#FFFFFF" : "#E6E6E6"};
   margin-bottom: 8px;
   cursor: pointer;
   &::after {
@@ -315,6 +315,9 @@ const TitleInput = styled.input`
   border-radius: 6px;
   max-width: 596px;
   width: 100%;
+  &:focus {
+    outline: 1px solid #a3bf3b;
+  }
   // 태블릿
   @media (max-width: 839px) and (min-width: 391px) {
     font-size: 12px;
