@@ -48,7 +48,6 @@ function MyPage() {
   const { mutate: mutateGetReviews } = useMutation(fecthReviews, {
     onSuccess: (response) => {
       setReviews(() => [...reviews, ...response]);
-      // reviews.map((review)=>review.title)
     },
     onError: (error) => {
       console.error(error);
@@ -57,6 +56,8 @@ function MyPage() {
   // 게시글 가져오는 뮤테이션 함수
   const { mutate: mutateGetPosts } = useMutation(fecthPosts, {
     onSuccess: (response) => {
+      console.log(response); // 리뷰 데이터 출력
+
       setPosts(() => [...posts, ...response]);
     },
     onError: (error) => {
@@ -132,6 +133,10 @@ function MyPage() {
     return icons;
   };
 
+  interface ImageProps {
+    imageUrl: string;
+  }
+
   return (
     <Styled.MyPageContainer>
       <Styled.ProfileArea>
@@ -198,24 +203,24 @@ function MyPage() {
                 })
                 .slice(0, -1);
               return (
-                <div key={`${review.userId}-${review.createdAt}`}>
-                  <div>
-                    <div style={{ display: "flex" }}>
-                      <Styled.CreatedTime>
-                        {formattedReviewDate}
-                      </Styled.CreatedTime>
-                      <Styled.ReviewMile>
-                        {commentFootprintRating(review.point)}
-                      </Styled.ReviewMile>
-                      <Styled.ReviewNickName>
-                        {review.userId}
-                      </Styled.ReviewNickName>
-                    </div>
-                    <Styled.ReviewContents>
-                      {review.review}
-                    </Styled.ReviewContents>
+                <Styled.ReviewContainer
+                  key={`${review.userId}-${review.createdAt}`}
+                >
+                  <div style={{ display: "flex" }}>
+                    <Styled.CreatedTime>
+                      {formattedReviewDate}
+                    </Styled.CreatedTime>
+                    <Styled.ReviewMile>
+                      {commentFootprintRating(review.point)}
+                    </Styled.ReviewMile>
+                    <Styled.ReviewNickName>
+                      {review.nickName}
+                    </Styled.ReviewNickName>
                   </div>
-                </div>
+                  <Styled.ReviewContents>
+                    {review.comment}
+                  </Styled.ReviewContents>
+                </Styled.ReviewContainer>
               );
             })}
           </div>
@@ -232,20 +237,28 @@ function MyPage() {
                 })
                 .slice(0, -1);
 
-              const formattedPostTitle = post.title.replace(/<[^>]*>?/g, "");
               const formattedPostContent = post.content.replace(
                 /<[^>]*>?/g,
                 ""
               );
+
               return (
-                <div key={`${post.id}-${post.tripEndDate}`}>
-                  <div>
-                    <div>{formattedPostTitle}</div>
-                    <Styled.CreatedTime>{formattedPostDate}</Styled.CreatedTime>
-                    <div>{formattedPostContent}</div>
-                    {/* <div>{post.imageUrl}</div> */}
-                  </div>
-                </div>
+                <Styled.PostContainer key={`${post.id}-${post.tripEndDate}`}>
+                  <Styled.TextContainer>
+                    <Styled.PostTitle>{post.postTitle}</Styled.PostTitle>
+                    <Styled.PostDate>{formattedPostDate}</Styled.PostDate>
+                    <Styled.PostContent>
+                      {formattedPostContent}
+                    </Styled.PostContent>
+                  </Styled.TextContainer>
+                  <Styled.ImageContainer>
+                    <img
+                      src={post.imageUrl}
+                      alt="이미지"
+                      style={{ width: 205, height: 205, objectFit: "cover" }}
+                    />
+                  </Styled.ImageContainer>
+                </Styled.PostContainer>
               );
             })}
           </div>
