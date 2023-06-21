@@ -111,7 +111,6 @@ function Login() {
   // 로그인 폼 제출 핸들러
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleLoginBtnClick();
   };
 
   return (
