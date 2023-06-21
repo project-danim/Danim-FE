@@ -54,7 +54,7 @@ function Login() {
       }
       return alert("로그인을 다시 시도해주세요.");
     },
-    onError: (error: any) => {
+    onError: () => {
       alert("요청 실패 : 로그인을 다시 시도해 주세요.");
     },
   });
