@@ -38,7 +38,7 @@ function LocationFilter() {
                 }
               }}
             >
-              <li>{location}</li>
+              {location}
             </div>
           ))}
         </st.LocationListUl>

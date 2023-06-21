@@ -1,17 +1,38 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { fetchLogout, getAccessToken, getRefreshToken } from "../../api/signUp";
 import loginUserIdState from "../../recoil/login/userInfo";
 import st from "./HeaderST";
+import {
+  filterList,
+  filteredAge,
+  filteredGroupSize,
+  filteredLocation,
+  isSearchClicked,
+  searchedTitleState,
+} from "../../recoil/filter/filterdPost";
 
 function Header() {
+  // 토큰 state
   const accessToken = getAccessToken();
   const refreshToken = getRefreshToken();
   const [userAccessCookie, setUserAccessCookie] = useState(accessToken);
   const [userRefreshCookie, setUserRefreshCookie] = useState(refreshToken);
   const [, setLoginUserId] = useRecoilState(loginUserIdState);
+
+  // 메인페이지에서 관리하는 검색 state
+  const setSearchedTitle = useSetRecoilState(searchedTitleState);
+  const setFilterList = useSetRecoilState(filterList);
+  const setFilteredLocation = useSetRecoilState(filteredLocation);
+  const setFilteredGroupSize = useSetRecoilState(filteredGroupSize);
+  const setFilteredAge = useSetRecoilState(filteredAge);
+  const [isSearched, setIsSearched] = useRecoilState(isSearchClicked);
+
+  // 유저 프로필 사진
+  const profileImg = localStorage.getItem("profileUrl");
+  const [userProfile, setUserProfile] = useState("");
 
   // 네비게이트 함수 생성
   const navigate = useNavigate();
@@ -31,6 +52,15 @@ function Header() {
 
   // 다님 로고 클릭시
   const handleClickDanimLogo = () => {
+    // 검색 state가 남아있을때만 실행되는 조건
+    if (isSearched) {
+      setSearchedTitle("");
+      setFilterList([]);
+      setFilteredLocation("");
+      setFilteredGroupSize("");
+      setFilteredAge([]);
+      setIsSearched(() => false);
+    }
     navigate("/");
   };
 
@@ -62,9 +92,16 @@ function Header() {
     navigate("/");
   };
 
+  // 동행 만들기 버튼 클릭시
   const handleCreatePostClick = () => {
     navigate("/create-post/step1");
   };
+
+  useEffect(() => {
+    if (profileImg !== "" && profileImg !== null) {
+      setUserProfile(() => profileImg);
+    }
+  }, [userProfile]);
 
   return (
     <st.headerAria>
@@ -89,6 +126,10 @@ function Header() {
             <st.chatAndUserButton
               buttonName="user"
               type="button"
+              profile={
+                userProfile ||
+                "https://danimdata.s3.ap-northeast-2.amazonaws.com/avatar.png"
+              }
               onClick={handleMyPageButtonClick}
             >
               마이 페이지

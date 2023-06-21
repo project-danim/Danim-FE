@@ -151,8 +151,7 @@ export const fetchLogout = async () => {
     }
     return null;
   } catch (err) {
-    showError(err);
-    throw err;
+    return console.error("An error occurred:", err);
   }
 };
 

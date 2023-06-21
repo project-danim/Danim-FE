@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 // 필터링 된 게시글 상태
 export const filterdPost: any = atom({
@@ -10,6 +10,12 @@ export const filterdPost: any = atom({
 export const isSearchClicked: any = atom({
   key: "isSearchClickedState",
   default: false,
+});
+
+// 사용자가 검색한 제목 상태
+export const searchedTitleState = atom({
+  key: "searchedTitleState",
+  default: "",
 });
 
 // 사용자가 선택한 필터링 조건 상태
@@ -46,4 +52,18 @@ export const allKeywordState: any = atom({
 export const isRecruitmentEndState = atom({
   key: "isRecruitmentEndState",
   default: true,
+});
+
+// 필터 키워드 상태 초기화 selector
+export const resetFilterState = selector({
+  key: "resetFilterState",
+  get: () => {}, // get 메서드를 빈 함수로 정의
+  set: ({ set }) => {
+    // 각 상태를 초기화합니다.
+    set(searchedTitleState, "");
+    set(filterList, []);
+    set(filteredLocation, "");
+    set(filteredGroupSize, "");
+    set(filteredAge, []);
+  },
 });

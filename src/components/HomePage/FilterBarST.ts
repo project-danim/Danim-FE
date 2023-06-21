@@ -252,7 +252,8 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background-color: #b5bf69;
+    background-color: ${(props) =>
+      props["data-active"] ? "#b5bf69" : "#2E5902"};
   }
   @media (max-width: 1024px) and (min-width: 391px) {
     right: 38px;
@@ -336,31 +337,32 @@ const LocationListUl = styled.ul`
   overflow: visible;
   height: 100px;
   position: absolute;
-  & > div > li {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    text-align: left;
+  top: 206px;
+  width: 286px;
+  box-sizing: border-box;
+  & > div {
+    z-index: 1;
+    position: relative;
     padding: 8px 16px;
-    list-style: none;
-    text-align: left;
-    overflow: visible;
     border-left: 1px solid #e4edc4;
     border-right: 1px solid #e4edc4;
     background-color: #ffffff;
-    position: relative;
-    // 태블릿
-    @media (max-width: 1024px) {
-      font-size: 14px;
-    }
-    @media (max-width: 650px) and (min-width: 391px) {
-      font-size: 12px;
-    }
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
   }
-  & > div:last-child > li {
+  & > div:last-child {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    border-bottom: 1px solid #e4edc4;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  }
+  // 태블릿
+  @media (max-width: 1024px) {
+    font-size: 14px;
+  }
+  @media (max-width: 650px) and (min-width: 391px) {
+    font-size: 12px;
   }
 `;
 

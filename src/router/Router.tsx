@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useMemo } from "react";
 import {
   CreatePostPage1,
   CreatePostPage2,
@@ -20,6 +21,21 @@ import MyPage from "../pages/My/MyPage";
 import ChatRoomListPage from "../pages/Chat/ChatRoomList";
 
 function Router() {
+  const userId = localStorage.getItem("id");
+
+  // userId에 따른 로그인 페이지 라우트
+  const loginRouteElement = useMemo(
+    // <Navigate>는 React Router v6에서 새로 도입됨. 다른 URL로 이동하게 만드는 역할로 이전 버전의 <Redirect> 컴포넌트 대체
+    () => (userId ? <Navigate to="/" replace /> : <LoginPage />),
+    [userId]
+  );
+
+  // userId에 따른 회원가입 페이지 라우트
+  const SignUpRouteElement = useMemo(
+    () => (userId ? <Navigate to="/" replace /> : <SignUpPage />),
+    [userId]
+  );
+
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -31,9 +47,9 @@ function Router() {
           <Route path="edit-post/step1/:id" element={<EditingPostPage1 />} />
           <Route path="edit-post/step2/:id" element={<EditingPostPage2 />} />
           <Route path="post/:id" element={<PostPage />} />
-          <Route path="signup" element={<SignUpPage />} />
+          <Route path="signup" element={SignUpRouteElement} />
           <Route path="/signup/social" element={<SignUpForSocialPage />} />
-          <Route path="login" element={<LoginPage />} />
+          <Route path="login" element={loginRouteElement} />
           <Route path="/api/user/kakao/callback" element={<Redirection />} />
           <Route path="/chat/:postId" element={<ChatPage />} />
           <Route path="/chat-list" element={<ChatRoomListPage />} />

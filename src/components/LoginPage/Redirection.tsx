@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { axiosInstance, setCookie, showError } from "../../api/signUp";
-import SignUpForSocial from "../SignUpPage/SignUpForSocial";
+// import SignUpForSocial from "../SignUpPage/SignUpForSocial";
 import userIdState from "../../recoil/login/userInfo";
 
 export const fetchKakaoToken = async (code: string) => {
@@ -26,6 +26,8 @@ function Redirection() {
   const userCode: string | null = url.searchParams.get("code");
   const navigate = useNavigate();
   const [userId, setUserId] = useRecoilState(userIdState);
+  // 이미 카카오로 가입한 회원인지 확인하는 state
+  const [isExistUser, setIsExistUser] = useState(false);
 
   useEffect(() => {
     if (userId !== undefined && userId !== null) {
@@ -37,14 +39,13 @@ function Redirection() {
       // userCode가 null이 아닐 때만 실행
       try {
         const response = await fetchKakaoToken(userCode);
-        const userIdResponse = response.data.id;
-        const userNickname = response.data.nickName;
-        const userImageUrl = response.data.myPageImageUrl;
-        setUserId(() => userIdResponse);
         // 사용자 아이디, 닉네임, 프로필 이미지 로컬 스토리지에 저장
-        localStorage.setItem("id", userIdResponse);
-        localStorage.setItem("nickname", userNickname);
-        localStorage.setItem("userImageUrl", userImageUrl);
+        localStorage.setItem("id", response.data.id);
+        localStorage.setItem("nickname", response.data.nickName);
+        localStorage.setItem("userImageUrl", response.data.myPageImageUrl);
+        setIsExistUser(() => response.data.isExistMember);
+        setUserId(() => response.data.id);
+        console.log("여기!!!", isExistUser);
       } catch (err) {
         showError(err);
       }
@@ -58,19 +59,16 @@ function Redirection() {
   }, []);
 
   useEffect(() => {
-    if (userId && userId !== "") {
+    if (isExistUser) {
+      console.log("여기!!!");
+      navigate("/");
+    }
+    if (!isExistUser && userId && userId !== "") {
       navigate("/signup/social");
     }
-  }, [userId]);
-  return (
-    <div>
-      {userId && userId !== null ? (
-        <SignUpForSocial />
-      ) : (
-        <>카카오 로그인 중입니다.</>
-      )}
-    </div>
-  );
+  }, [userId, isExistUser]);
+
+  return <div>카카오 로그인 중입니다.</div>;
 }
 
 export default Redirection;
