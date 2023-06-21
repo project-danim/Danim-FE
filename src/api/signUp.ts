@@ -111,6 +111,13 @@ export const fetchLogin = async (user: {
     if (response.data.message === "로그인 성공") {
       const accessToken = response.headers.access_key;
       const refreshToken = response.headers.refresh_key;
+      const { id } = response.data.data;
+      const { nickName: nickname } = response.data.data;
+      const { myPageImageUrl: profileUrl } = response.data.data;
+      localStorage.setItem("nickname", nickname);
+      localStorage.setItem("profileUrl", profileUrl);
+      localStorage.setItem("id", id);
+      localStorage.setItem("isAuthenticated", "true");
       if (accessToken && refreshToken) {
         setCookie("accessToken", accessToken, 1);
         setCookie("refreshToken", refreshToken, 30);
