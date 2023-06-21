@@ -19,13 +19,21 @@ export const createComment = async (
     );
     if (response.status === 200) {
       console.log(`댓글 조회에 성공하였습니다`);
-    } else if (response.status === 208) {
-      alert(`이미 후기를 남겼습니다. 다음 여행을 기대해 주세요!`);
+      // } else if (response.status === 208) {
+      //   alert(`이미 후기를 남겼습니다. 다음 여행을 기대해 주세요!`);
     }
     return response.data;
   } catch (error: any) {
     if (error.response.status === 401) {
-      alert(`여행에 참여한 사람만 작성할 수 있습니다.`);
+      const { detail } = error.response.data;
+      // alert(`여행에 참여한 사람만 작성할 수 있습니다.`);
+      if (detail === "이미 작성하였습니다.") {
+        alert("이미 댓글을 작성하였습니다");
+      } else if (detail === "여행에 참여한 사람만 작성할 수 있습니다.") {
+        alert("여행에 참여한 사람만 작성할 수 있습니다.");
+      } else {
+        alert("게시글 작성자는 후기를 작성할 수 없습니다.");
+      }
     } else if (error.response.status === 400) {
       alert(`여행이 종료되어야 작성할 수 있습니다.`);
     }
