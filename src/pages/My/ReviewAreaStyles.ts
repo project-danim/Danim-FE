@@ -124,7 +124,6 @@ export const FixButton = styled.button`
 `;
 // 텍스트 입력 영역
 export const TextArea = styled.textarea<any>`
-  /* width: 809px; */
   height: 184px;
   font-size: 15px;
   border: 1px solid #D6D6D6;
@@ -132,8 +131,11 @@ export const TextArea = styled.textarea<any>`
   resize: none;
   padding: 20px;
   box-sizing: border-box;
-  /* flex: 1 1 auto; */
   margin-top: 6px;
+
+
+
+  
 `;
 export const ReviewMile = styled.div`
   width: 75px;
@@ -143,7 +145,7 @@ export const ReviewMile = styled.div`
 
 export const ReviewContainer = styled.div`
 height: 254px;
-border-bottom: 1px solid rgba(163, 163, 163, 1);
+border-bottom:  0.5px solid #A3A3A3;
 
 `
 
@@ -152,7 +154,7 @@ border-bottom: 1px solid rgba(163, 163, 163, 1);
 // 후기, 게시글 영역
 export const PostContainer = styled.div`
 height: 254px;
-border-bottom: 1px solid rgba(163, 163, 163, 1);
+border-bottom:  0.5px solid #A3A3A3;
 display:flex
 `
 
@@ -188,9 +190,12 @@ padding:20px;
 
 `
 
+export const FormmatedImage = styled.img``
+
 export const ImageContainer = styled.div`
-width: 205px;
-height: 205px;
+position: absolute;
+right: 25px;
+margin-top: 23px;
 
 `
 
@@ -275,7 +280,6 @@ export const TabButton = styled.button<{ active: boolean }>`
 `;
 
 export const TabContent = styled.div`
-  margin-top: 20px;
   width: 100%;
 `;
 
