@@ -49,7 +49,6 @@ function Login() {
         localStorage.setItem("nickname", nickname);
         localStorage.setItem("profileUrl", profileUrl);
         localStorage.setItem("id", id);
-        sessionStorage.setItem("id", id);
         return navigate("/");
       }
       return alert("로그인을 다시 시도해주세요.");
