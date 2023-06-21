@@ -184,6 +184,7 @@ export const withdrawalUser = async () => {
           ACCESS_KEY: accessToken,
         },
       });
+      localStorage.setItem("isAuthenticated", "false");
       document.cookie =
         "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie =

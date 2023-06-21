@@ -354,6 +354,7 @@ const LocationListUl = styled.ul`
     flex-direction: row;
     justify-content: flex-start;
     text-align: left;
+    cursor: pointer;
   }
   & > div:last-child {
     border-bottom-left-radius: 8px;
