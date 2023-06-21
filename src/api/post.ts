@@ -22,7 +22,23 @@ export const createPost = async (data: any) => {
       }
     );
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response && error.response.status === 400) {
+      const { detail } = error.response.data;
+
+      if (detail === "title") {
+        throw new Error("필수항목에는 빈값을 등록할 수 없습니다: 제목");
+      } else if (detail === "groupSize") {
+        throw new Error("필수항목에는 빈값을 등록할 수 없습니다: 그룹사이즈");
+      } else if (detail === "ageRange") {
+        throw new Error("필수항목에는 빈값을 등록할 수 없습니다: 연령대");
+      } else if (detail === "gender") {
+        throw new Error("필수항목에는 빈값을 등록할 수 없습니다: 성별");
+      } else if (detail === "location") {
+        throw new Error("필수항목에는 빈값을 등록할 수 없습니다: 장소");
+      }
+    }
+
     console.error(error);
     throw error;
   }

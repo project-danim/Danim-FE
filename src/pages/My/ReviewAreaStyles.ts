@@ -5,14 +5,17 @@ import styled from "styled-components";
 //   height: 114px;
 // `; 이거 대신 최상위 태그에 margin-top
 
+// 마이페이지 전체 컨테이너
+export const MyPageContainer = styled.div`
+  position: relative;
+  height:2000px
+`;
+
+
 // 사용자 프로필 프롭 타입
 type UserProfileProp = {
   userProfile: string;
 };
-// 마이페이지 전체 컨테이너
-export const MyPageContainer = styled.div`
-  position: relative;
-`;
 // 점수와 닉네임 컨테이너
 export const ScoreAndNicknameContainer = styled.div`
   display: flex;
@@ -95,18 +98,6 @@ export const ProfileMileContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-// mile 텍스트가 들어간 파란색 박스 영역
-export const ProfileMileBox = styled.div`
-  width: 34px;
-  height: 21px;
-  border: 1px solid rgba(126, 168, 227, 1);
-  border-radius: 6px;
-  background-color: rgba(126, 168, 227, 1);
-  color: rgba(255, 255, 255, 1);
-  margin-left: 4px;
-  text-align: center;
-  margin-top: 2px;
-`;
 // 유저 닉네임 영역
 export const UserNickName = styled.div`
   /* width: 70px; */
@@ -133,7 +124,6 @@ export const FixButton = styled.button`
 `;
 // 텍스트 입력 영역
 export const TextArea = styled.textarea<any>`
-  /* width: 809px; */
   height: 184px;
   font-size: 15px;
   border: 1px solid #D6D6D6;
@@ -141,51 +131,74 @@ export const TextArea = styled.textarea<any>`
   resize: none;
   padding: 20px;
   box-sizing: border-box;
-  /* flex: 1 1 auto; */
   margin-top: 6px;
+
+
+
+  
 `;
 export const ReviewMile = styled.div`
   width: 75px;
   height: 14px;
   color: rgba(0, 0, 0, 0.5);
 `;
+
+export const ReviewContainer = styled.div`
+height: 254px;
+border-bottom:  0.5px solid #A3A3A3;
+
+`
+
+
+
 // 후기, 게시글 영역
 export const PostContainer = styled.div`
-  background-color: white;
-  margin-top: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* align-items: center; */
-  font-size: 16px;
-`;
-// 임시 영역
-export const ImsiArea = styled.div`
-  display: flex;
-  border-bottom: 1px solid rgba(181, 191, 105, 1);
-  position: absolute;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  justify-content: space-between;
-`;
-// 리뷰 영역
-export const ReviewArea = styled.div`
-  margin-left: 280px;
-`;
-// 작성한 게시글 영역
-export const PostArea = styled.div`
-  margin-right: 280px;
-`;
-export const ImsiArea2 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-top: 160px;
-  text-align: left;
-  border-bottom: 1px solid #D6D6D6;
-`;
+height: 254px;
+border-bottom:  0.5px solid #A3A3A3;
+display:flex
+`
+
+export const TextContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+width: 591px;
+height: 195px;
+`
+
+export const PostTitle = styled.div`
+width: 250px;
+height: 24px;
+padding: 20px;
+font-family: Pretendard;
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 24px;
+color: #000000;
+`
+
+export const PostDate = styled.div`
+padding:10px 20px;
+
+`
+
+export const PostContent = styled.div`
+width: 591px;
+height: 97px;
+padding:20px;
+
+`
+
+export const FormmatedImage = styled.img``
+
+export const ImageContainer = styled.div`
+position: absolute;
+right: 25px;
+margin-top: 23px;
+
+`
+
 export const CreatedTime = styled.div`
   color: rgba(133, 133, 133, 1);
   width: 74px;
@@ -200,11 +213,6 @@ export const ReviewContents = styled.div`
   width: 458px;
   height: 59px;
   color: rgba(0, 0, 0, 1);
-`;
-export const ReviewContainer = styled.div`
-  width: 1119px;
-  height: 254px;
-  margin-top: 150px;
 `;
 // 탈퇴하기 버튼
 export const WithDrawalButton = styled.button`
@@ -272,7 +280,6 @@ export const TabButton = styled.button<{ active: boolean }>`
 `;
 
 export const TabContent = styled.div`
-  margin-top: 20px;
   width: 100%;
 `;
 
@@ -284,6 +291,6 @@ font-style: normal;
 font-weight: 700;
 font-size: 20px;
 line-height: 24px;
-
-
 `
+
+

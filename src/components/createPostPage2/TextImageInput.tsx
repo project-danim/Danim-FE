@@ -40,6 +40,7 @@ const UploadImageButton = styled.button`
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
   padding: 10px 12px;
   height: 42px;
+  cursor: pointer;
 `;
 
 function TextImageInput() {

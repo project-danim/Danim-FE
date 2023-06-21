@@ -1,23 +1,5 @@
-// import { useRecoilValue } from "recoil";
 import st from "./ChatST";
-// import { chatRoomChatRecordState } from "../../recoil/chat/chatState";
 
-// interface Props {
-//   msg: {
-//     type: string;
-//     sender: string | null;
-//     message: string;
-//     time: string;
-//   };
-//   prevMsg: {
-//     type: string;
-//     sender: string | null;
-//     message: string;
-//     time: string;
-//   } | null;
-//   userNickname: string;
-//   isDisplayNickname: boolean;
-// }
 
 function Message({ msg, prevMsg, userNickname }: any) {
   //  닉네임을 표시할지에 대한 값으로 !prevMsg가 true면 이전 메세지가 없으므로 닉네임 표시 true
@@ -31,10 +13,6 @@ function Message({ msg, prevMsg, userNickname }: any) {
     const minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   };
-
-  // const chatRecord = useRecoilValue(chatRoomChatRecordState);
-  const myId = localStorage.getItem("id");
-  console.log(myId);
 
   return (
     <section>
