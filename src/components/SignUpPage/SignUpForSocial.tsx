@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
-import { useRecoilState } from "recoil";
 import useToggle from "../../hooks/useToggle";
 import { fetchSignUpForSocial } from "../../api/signUp";
 import st from "./SignUpST";
 import { UserInfoForKakao } from "../../types/userType";
-import userIdState from "../../recoil/login/userInfo";
 
 function SignUpForSocial() {
-  const [userIdAtom] = useRecoilState(userIdState);
+  const userId = localStorage.getItem("id");
 
   // 성별, 나이 입력값 state
   const [activeGender, setActiveGender] = useState("");
@@ -105,14 +103,17 @@ function SignUpForSocial() {
       return;
     }
 
-    const user: UserInfoForKakao = {
-      userId: userIdAtom,
-      gender: activeGender,
-      ageRange: activeAge,
-      agreeForGender: true,
-      agreeForAge: true,
-    };
-    mutateSignUpForSocial(user);
+    // 로컬에 저장된 사용자 아이디가 있을 경우만 회원가입 요청
+    if (userId) {
+      const user: UserInfoForKakao = {
+        userId,
+        gender: activeGender,
+        ageRange: activeAge,
+        agreeForGender: true,
+        agreeForAge: true,
+      };
+      mutateSignUpForSocial(user);
+    }
   };
   return (
     <st.ContainerForm
