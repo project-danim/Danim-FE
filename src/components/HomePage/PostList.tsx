@@ -98,10 +98,11 @@ function PostList() {
     }
   }, [allPosts, filteredPosts]);
 
-  // 테스트할때 사용
-  // useEffect(() => {
-  //   console.log(searchedPage);
-  // }, [searchedPage]);
+  useEffect(() => {
+    if (!isSearched) {
+      getAllPosts();
+    }
+  }, [isSearched]);
 
   return (
     <div>
