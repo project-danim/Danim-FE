@@ -43,13 +43,6 @@ function Login() {
         return alert(response);
       }
       if (response.data.message === "로그인 성공") {
-        const { id } = response.data.data;
-        const { nickName: nickname } = response.data.data;
-        const { myPageImageUrl: profileUrl } = response.data.data;
-        localStorage.setItem("nickname", nickname);
-        localStorage.setItem("profileUrl", profileUrl);
-        localStorage.setItem("id", id);
-        localStorage.setItem("isAuthenticated", "true");
         return navigate("/");
       }
       return alert("로그인을 다시 시도해주세요.");
