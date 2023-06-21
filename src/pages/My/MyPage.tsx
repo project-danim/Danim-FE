@@ -187,7 +187,14 @@ function MyPage() {
         {activeTab === 0 && (
           <div>
             {reviews.length === 0 ? (
-              <div>아직 남겨진 리뷰가 없어요..같이 다녀 볼까요?</div>
+              <Styled.NoneReviewsMessage>
+                아직 남겨진 리뷰가 없어요... 같이
+                <Styled.Highlight href="https://www.da-nim.com">
+                  {" "}
+                  다녀{" "}
+                </Styled.Highlight>
+                볼까요?
+              </Styled.NoneReviewsMessage>
             ) : (
               reviews.map((review) => {
                 const formattedReviewDate = new Date(review.createdAt)
@@ -227,7 +234,14 @@ function MyPage() {
         {activeTab === 1 && (
           <div>
             {posts.length === 0 ? (
-              <div>아직 남기신 게시글이 없어요..같이 다녀 볼까요?</div>
+              <Styled.NonePostsMessage>
+                아직 남기신 게시글이 없어요... 같이
+                <Styled.Highlight href="https://www.da-nim.com">
+                  {" "}
+                  다녀{" "}
+                </Styled.Highlight>
+                볼까요?
+              </Styled.NonePostsMessage>
             ) : (
               posts.map((post) => {
                 const formattedPostDate = new Date(post.tripEndDate)

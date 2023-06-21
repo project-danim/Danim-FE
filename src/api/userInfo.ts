@@ -60,7 +60,6 @@ export const fecthPosts = async (id: string) => {
 
   
 
-
 // 내 정보 수정?
 export const fetchMyInfo = async (id: any, userInfo: any) => {
     try {
@@ -76,7 +75,6 @@ export const fetchMyInfo = async (id: any, userInfo: any) => {
       return response.data;
   
     } catch (error: any) {
-        console.log(error)
       const errorMessage = error.response?.data?.detail || error.message;
       return errorMessage;
     }
