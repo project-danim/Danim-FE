@@ -2,7 +2,6 @@ import { useRecoilState } from "recoil";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import st from "./SignUpST";
-import loginSt from "../LoginPage/LoginST";
 import { fetchCheckId } from "../../api/signUp";
 import {
   isUserIdUniqueState,
@@ -104,7 +103,7 @@ function UserId({
         <>
           <label htmlFor="userId">
             <st.IdAreaExplainText>아이디</st.IdAreaExplainText>
-            <loginSt.CommonInput
+            <st.CommonInput
               ref={idRef}
               type="text"
               value={loginUserId}
