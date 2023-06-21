@@ -49,12 +49,12 @@ function Login() {
         localStorage.setItem("nickname", nickname);
         localStorage.setItem("profileUrl", profileUrl);
         localStorage.setItem("id", id);
+        localStorage.setItem("isAuthenticated", "true");
         return navigate("/");
       }
       return alert("로그인을 다시 시도해주세요.");
     },
     onError: (error: any) => {
-      console.log(error);
       alert("요청 실패 : 로그인을 다시 시도해 주세요.");
     },
   });

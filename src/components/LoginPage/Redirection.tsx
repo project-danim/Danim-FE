@@ -54,7 +54,6 @@ function Redirection() {
 
   useEffect(() => {
     if (isExistUser) {
-      console.log("여기!!!");
       navigate("/");
     }
     if (!isExistUser && userId && userId !== "") {

@@ -55,8 +55,8 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
         setNicknameError("중복된 닉네임입니다.");
       }
     },
-    onError: (error) => {
-      console.log("실패", error);
+    onError: (err) => {
+      throw err;
     },
   });
 

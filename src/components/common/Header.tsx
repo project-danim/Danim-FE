@@ -39,13 +39,17 @@ function Header() {
 
   // 로그아웃 뮤테이션 함수
   const { mutate: mutateLogout } = useMutation(fetchLogout, {
-    onSuccess: () => {
+    onSuccess: (response) => {
+      if (response === "찾을 수 없는 회원입니다.") {
+        return alert(response);
+      }
       alert("로그아웃이 완료되었습니다.");
+      setUserAccessCookie(null);
+      setUserRefreshCookie(null);
       setLoginUserId("");
       return navigate("/");
     },
-    onError: (error: any) => {
-      console.log(error);
+    onError: () => {
       alert("요청 실패 : 로그아웃을 다시 시도해 주세요.");
     },
   });
@@ -87,9 +91,6 @@ function Header() {
   // 로그아웃 버튼 클릭시
   const handleLogoutButtonClick = () => {
     mutateLogout();
-    setUserAccessCookie(null);
-    setUserRefreshCookie(null);
-    navigate("/");
   };
 
   // 동행 만들기 버튼 클릭시
@@ -105,8 +106,14 @@ function Header() {
 
   return (
     <st.headerAria>
+      <st.DanimTitle>다님</st.DanimTitle>
       <st.Container>
-        <st.DanimLogo onClick={handleClickDanimLogo}>danim</st.DanimLogo>
+        {/* <st.DanimLogo onClick={handleClickDanimLogo}>danim</st.DanimLogo> */}
+        <st.DanimLogo
+          onClick={handleClickDanimLogo}
+          // src="https://danimdata.s3.ap-northeast-2.amazonaws.com/%EB%8B%A4%EB%8B%98+%EB%A1%9C%EA%B3%A0.png"
+          src="/header/danimLogo.svg"
+        />
         {userAccessCookie || userRefreshCookie ? (
           <st.ButtonContainer>
             <st.CommonStyleButton

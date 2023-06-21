@@ -77,8 +77,7 @@ function SignUpForSocial() {
         navigate("/");
       }
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
       alert("요청이 실패했습니다. 다시 시도해주세요!");
     },
   });
