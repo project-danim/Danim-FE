@@ -128,7 +128,7 @@ function MyPage() {
   const commentFootprintRating = (point: any) => {
     const icons = [];
     for (let i = 0; i < point; i += 1) {
-      icons.push(<IoFootsteps size={14} key={i} />);
+      icons.push(<IoFootsteps size={14} color="black" key={i} />);
     }
     return icons;
   };
@@ -216,6 +216,7 @@ function MyPage() {
                       {review.nickName}
                     </Styled.ReviewNickName>
                   </div>
+
                   <Styled.ReviewContents>
                     {review.comment}
                   </Styled.ReviewContents>
@@ -244,7 +245,12 @@ function MyPage() {
               return (
                 <Styled.PostContainer key={`${post.id}-${post.tripEndDate}`}>
                   <Styled.TextContainer>
-                    <Styled.PostTitle>{post.postTitle}</Styled.PostTitle>
+                    {/* <Styled.PostTitle>{post.postTitle}</Styled.PostTitle> */}
+                    <Styled.PostTitle
+                      href={`https://www.da-nim.com/post/${post.id}`}
+                    >
+                      {post.postTitle}
+                    </Styled.PostTitle>
                     <Styled.PostDate>{formattedPostDate}</Styled.PostDate>
                     <Styled.PostContent>
                       {formattedPostContent}

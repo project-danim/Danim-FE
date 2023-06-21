@@ -137,17 +137,6 @@ export const TextArea = styled.textarea<any>`
 
   
 `;
-export const ReviewMile = styled.div`
-  width: 75px;
-  height: 14px;
-  color: rgba(0, 0, 0, 0.5);
-`;
-
-export const ReviewContainer = styled.div`
-height: 254px;
-border-bottom:  0.5px solid #A3A3A3;
-
-`
 
 
 
@@ -166,27 +155,40 @@ width: 591px;
 height: 195px;
 `
 
-export const PostTitle = styled.div`
+export const PostTitle = styled.a`
 width: 250px;
 height: 24px;
-padding: 20px;
-font-family: Pretendard;
+padding: 30px;
+font-family: 'Pretendard';
 font-style: normal;
 font-weight: 700;
 font-size: 20px;
 line-height: 24px;
 color: #000000;
+text-decoration:none
 `
 
 export const PostDate = styled.div`
-padding:10px 20px;
+padding:10px 30px;
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 14px;
+
+color: #858585;
 
 `
 
 export const PostContent = styled.div`
-width: 591px;
-height: 97px;
-padding:20px;
+padding:30px;
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 19px;
+text-align: justify;
+color: #000000;
 
 `
 
@@ -199,20 +201,39 @@ margin-top: 23px;
 
 `
 
+export const ReviewContainer = styled.div`
+height: 254px;
+border-bottom:  0.5px solid #A3A3A3;
+`
+
+export const ReviewMile = styled.div`
+width: 75px;
+height: 14px;
+color: rgba(0, 0, 0, 0.5);
+padding:10px;
+`;
+
+
 export const CreatedTime = styled.div`
   color: rgba(133, 133, 133, 1);
   width: 74px;
   height: 34px;
+  padding: 10px;
 `;
 export const ReviewNickName = styled.div`
   width: 118px;
   height: 36px;
   color: rgba(0, 0, 0, 0.5);
+  padding: 10px 5px;
+
 `;
 export const ReviewContents = styled.div`
   width: 458px;
   height: 59px;
   color: rgba(0, 0, 0, 1);
+  padding: 20px;
+
+
 `;
 // 탈퇴하기 버튼
 export const WithDrawalButton = styled.button`
