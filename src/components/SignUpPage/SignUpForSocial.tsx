@@ -196,7 +196,11 @@ function SignUpForSocial() {
           </st.CommonAgreeForInfoText>
         </label>
       </div>
-      <st.OriginalButton type="submit" onClick={handleSignUpBtnClick}>
+      <st.OriginalButton
+        type="submit"
+        buttonName="signUp"
+        onClick={handleSignUpBtnClick}
+      >
         SNS로 회원가입
       </st.OriginalButton>
     </st.ContainerForm>

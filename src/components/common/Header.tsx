@@ -108,11 +108,10 @@ function Header() {
     <st.headerAria>
       <st.DanimTitle>다님</st.DanimTitle>
       <st.Container>
-        {/* <st.DanimLogo onClick={handleClickDanimLogo}>danim</st.DanimLogo> */}
         <st.DanimLogo
           onClick={handleClickDanimLogo}
-          // src="https://danimdata.s3.ap-northeast-2.amazonaws.com/%EB%8B%A4%EB%8B%98+%EB%A1%9C%EA%B3%A0.png"
           src="/header/danimLogo.svg"
+          alt="다님 로고"
         />
         {userAccessCookie || userRefreshCookie ? (
           <st.ButtonContainer>
@@ -128,7 +127,7 @@ function Header() {
               type="button"
               onClick={handleChatButtonClick}
             >
-              채팅하기
+              <img src="/header/chat.svg" alt="채팅하기" />
             </st.chatAndUserButton>
             <st.chatAndUserButton
               buttonName="user"
@@ -139,7 +138,7 @@ function Header() {
               }
               onClick={handleMyPageButtonClick}
             >
-              마이 페이지
+              <img src="/header/user.svg" alt="마이 페이지" />
             </st.chatAndUserButton>
             <st.CommonStyleButton
               buttonName="logout"
