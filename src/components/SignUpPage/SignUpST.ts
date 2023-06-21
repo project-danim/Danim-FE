@@ -17,9 +17,9 @@ const OriginalButton = styled.button<OriginalButtonProps>`
   padding: 10px 17.5px;
   width: 100%;
   color: #ffffff;
-  background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
   background-color: ${({ buttonName }) =>
     buttonName === "signUp" ? "#2E5902" : "#A3BF3B"};
+  background-color: ${(props) => (props.active ? "#2E5902" : "#a3bf3b")};
   border: none;
   border-radius: 8px;
   font-weight: 400;
