@@ -28,7 +28,7 @@ function Chat() {
   const chatRoomPostTitle = useRecoilValue(chatRoomPostTitleState);
   const chatRecord = useRecoilValue(chatRoomChatRecordState);
 
-  console.log(chatRecord);
+  // console.log(chatRecord);
 
   // 👇 서버에서 받은 채팅 기록을 사용할 수 있는 형태로 가공
   let flattenedChatRecord = [];
@@ -55,7 +55,7 @@ function Chat() {
   const [messages, setMessages] = useState<any[]>(formattedMessages);
   const [messageInput, setMessageInput] = useState("");
 
-  console.log(messages);
+  // console.log(messages);
 
   // 현재 대화중인 사람 목록
   const conversationPeople: string[] = chatEnteredUsersNickname.map(

@@ -22,13 +22,11 @@ function EditingPostPage2() {
 
   const postData: any = useRecoilValue(postCreateState);
 
-  console.log(postData);
   const navigate = useNavigate();
 
   // 작성 완료 버튼 - 서버로 값을 전송
   const handleSubmit = async () => {
     const formData = new FormData();
-    // console.log(formData);
 
     Object.keys(postData).forEach((key) => {
       if (key === "MapAPI") {
