@@ -16,8 +16,9 @@ function SignUpForSocial() {
 
   // 성별, 연령대 에러 메세지 상태
   const [genderError, setGenderError] = useState("");
-  const [agreeForGenderError, setAgreeForGenderError] = useState("");
   const [ageError, setAgeError] = useState("");
+  const [agreeGenderError, setAgreeGenderError] = useState("");
+  const [agreeAgeError, setAgreeAgeError] = useState("");
 
   // 전체 동의, 성별 정보 동의, 연령 정보 동의에 대한 상태
   const [agreeAll, setAgreeAll] = useState(false);
@@ -38,7 +39,7 @@ function SignUpForSocial() {
       return;
     }
     if (agreeGender) {
-      setAgreeForGenderError("");
+      setAgreeGenderError("");
     }
   }, [activeGender, agreeGender]);
 
@@ -47,8 +48,9 @@ function SignUpForSocial() {
     setActiveGender(gender);
   };
   const handleAgreeForGender = () => {
+    const nextAgreeGender = !agreeGender;
     handleAgreeGender();
-    if (!agreeGender) setAgreeAll(false);
+    if (!nextAgreeGender) setAgreeAll(false);
   };
 
   // 연령 유효성 검사
@@ -67,8 +69,9 @@ function SignUpForSocial() {
     setActiveAge(age);
   };
   const handleAgreeForAge = () => {
+    const nextAgreeAge = !agreeAge;
     handleAgreeAge();
-    if (!agreeAge) setAgreeAll(false);
+    if (!nextAgreeAge) setAgreeAll(false);
   };
 
   // 전체 동의 클릭 핸들러
@@ -101,7 +104,7 @@ function SignUpForSocial() {
       return;
     }
     if (!agreeGender) {
-      setAgreeForGenderError("성별 정보 제공에 동의해주세요.");
+      setAgreeGenderError("성별 정보 제공에 동의해주세요.");
       return;
     }
 
@@ -111,7 +114,7 @@ function SignUpForSocial() {
       return;
     }
     if (!agreeAge) {
-      setAgeError("연령 정보 제공에 동의해주세요.");
+      setAgreeAgeError("연령 정보 제공에 동의해주세요.");
       return;
     }
 
@@ -207,7 +210,7 @@ function SignUpForSocial() {
             </st.CommonAgreeForInfoText>
           </label>
           <st.CommonErrorText role="alert" id="agreeForGenderError">
-            {agreeForGenderError}
+            {agreeGenderError}
           </st.CommonErrorText>
         </div>
         <label htmlFor="agreeForAge">
@@ -222,6 +225,9 @@ function SignUpForSocial() {
             (필수)연령 정보 제공 동의
           </st.CommonAgreeForInfoText>
         </label>
+        <st.CommonErrorText role="alert" id="agreeForGenderError">
+          {agreeAgeError}
+        </st.CommonErrorText>
       </div>
       <st.OriginalButton
         type="submit"
