@@ -264,6 +264,7 @@ function SignUp() {
                 ref={userGenderRef}
                 key={gender}
                 type="button"
+                buttonName="other"
                 onClick={() => handleGenderClick(gender)}
                 active={activeGender === gender}
               >
@@ -288,17 +289,25 @@ function SignUp() {
         </st.GenderAriaContainer>
         <div>
           <st.IdAreaExplainText>*연령</st.IdAreaExplainText>
-          <st.AgeAriaContainer htmlFor="isAgreeForAge">
-            {ages.map((age) => (
-              <st.OriginalButton
-                key={age}
-                type="button"
-                onClick={() => handleAgeClick(age)}
-                active={activeAge === age}
-              >
-                {age}
-              </st.OriginalButton>
-            ))}
+          <st.AgeAriaContainer>
+            {Array.from({ length: Math.ceil(ages.length / 3) }).map(
+              (val: any, index) => (
+                <div key={val}>
+                  {ages.slice(index * 3, index * 3 + 3).map((age) => (
+                    <st.OriginalButton
+                      key={age}
+                      type="button"
+                      buttonName="other"
+                      onClick={() => handleAgeClick(age)}
+                      active={activeAge === age}
+                      aria-describedby="ageError"
+                    >
+                      {age}
+                    </st.OriginalButton>
+                  ))}
+                </div>
+              )
+            )}
           </st.AgeAriaContainer>
           <label>
             <st.CommonAgreeForInfoInput

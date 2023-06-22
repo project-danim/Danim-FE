@@ -19,13 +19,6 @@ const CommonInput = styled.input`
   &:focus {
     outline: 1px solid #a3bf3b;
   }
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 11px;
-    padding: 8px 0;
-    max-width: 260px;
-    padding-left: 8px;
-    line-height: 15px;
-  }
 `;
 
 // 로그인 버튼
@@ -43,11 +36,6 @@ const LoginButton = styled.button`
   &:hover {
     cursor: pointer;
   }
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 11px;
-    padding: 8px 11px;
-    line-height: 15px;
-  }
 `;
 
 // 아이디 찾기,비밀번호 찾기, 비밀번호 변경 컨테이너
@@ -58,9 +46,6 @@ const FindUserInfoContainer = styled.div`
   text-align: center;
   margin-top: 8px;
   color: #868686;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 10px;
-  }
 `;
 
 // 소셜 회원가입 컨테이너
@@ -69,9 +54,6 @@ const SocialLoginContainer = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    max-width: 240px;
-  }
 `;
 
 // 소셜 회원가입 버튼
@@ -104,12 +86,6 @@ const SocialButton = styled.button<SocialLoginButtonProps>`
   margin-bottom: 8px;
   font-family: "Pretendard-Regular";
   cursor: pointer;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 11px;
-    background-size: 30px;
-    padding: 8px 11px;
-    line-height: 15px;
-  }
 `;
 
 // 소셜 로그인 안내 문구
@@ -118,9 +94,6 @@ const SocialExplainText = styled.p`
   font-weight: 400;
   line-height: 14px;
   margin-top: 24px;
-  @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 10px;
-  }
 `;
 
 export default {
