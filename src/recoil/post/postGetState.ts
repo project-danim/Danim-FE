@@ -22,6 +22,7 @@ interface PostData {
   tripStartDate?: string;
   contentsImages?: string;
   myPageImageUrl?: string;
+  keyword?:string; 
 }
 
 export const PostGetState = atom<PostData | null>({

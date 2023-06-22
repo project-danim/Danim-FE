@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { useMutation, useQuery } from "react-query";
 import { IoFootsteps } from "react-icons/io5";
