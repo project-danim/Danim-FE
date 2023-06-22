@@ -128,6 +128,7 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
           <st.OriginalButton
             type="submit"
             onClick={handleCheckNicknameBtnClick}
+            buttonName="checkOverlap"
           >
             중복 확인
           </st.OriginalButton>
