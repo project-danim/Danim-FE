@@ -134,6 +134,7 @@ export const TextArea = styled.textarea<any>`
   padding: 20px;
   box-sizing: border-box;
   margin-top: 6px;
+
 `;
 
 

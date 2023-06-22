@@ -17,7 +17,6 @@ function MyPage() {
   const handleTabClick = (index: number) => {
     setActiveTab(index);
   };
-
   const id = localStorage.getItem("id");
   const [editing, setEditing] = useState(false);
   const [nickname, setNickname] = useState("");
@@ -25,6 +24,8 @@ function MyPage() {
   const [imgUrl, setImgUrl] = useState("");
   const [owner, setOwner] = useState(true);
   const [score, setScore] = useState(20);
+  const [uploadImg, setUploadImg] = useState("");
+
   // 유저 리뷰 상태
   const [reviews, setReviews] = useState<any[]>([]);
   const [posts, setPosts] = useState<any[]>([]);
@@ -66,16 +67,20 @@ function MyPage() {
   useEffect(() => {
     if (id) {
       mutateGetUserInfo(id);
-      // mutatePutMyInfo(id);
       mutateGetReviews(id);
       mutateGetPosts(id);
     }
   }, []);
+
   // 이미지 버튼 클릭시
-  const clickFileInput = () => {
+  const clickFileInput = (e: any) => {
     const fileInput = document.getElementById("fileInput");
     fileInput?.click();
+    const selectedFile = e.target.files[0];
+    setUploadImg(selectedFile);
+    console.log(uploadImg);
   };
+
   // 수정하기 버튼 클릭함수
   const clickButton = () => {
     if (!editing) {
