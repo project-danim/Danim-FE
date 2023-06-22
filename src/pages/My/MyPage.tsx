@@ -103,7 +103,7 @@ function MyPage() {
         })
         .catch((err) => {
           if (err.response.status === 400 || err.response.status === 500) {
-            alert("탈퇴에 실패했습니다.");
+            alert("회원 탈퇴에 실패했습니다.");
           } else {
             alert("회원 탈퇴가 취소되었습니다.");
           }

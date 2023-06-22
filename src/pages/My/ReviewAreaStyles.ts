@@ -109,8 +109,8 @@ export const UserNickName = styled.div`
   margin-left: 8px;
   margin-top: 2px;
   & > span {
-    font-weight: 400;
-  }
+  font-weight: 400;  
+}
 `;
 // 수정 버튼 영역
 export const FixButton = styled.button`
@@ -121,7 +121,9 @@ export const FixButton = styled.button`
   background-color: white;
   color: rgba(133, 133, 133, 1);
   cursor: pointer;
+  font-family: "Pretendard";
 `;
+
 // 텍스트 입력 영역
 export const TextArea = styled.textarea<any>`
   height: 184px;
@@ -132,10 +134,6 @@ export const TextArea = styled.textarea<any>`
   padding: 20px;
   box-sizing: border-box;
   margin-top: 6px;
-
-
-
-  
 `;
 
 
@@ -247,6 +245,7 @@ export const WithDrawalButton = styled.button`
   font-weight: 400;
   line-height: 16px;
   cursor: pointer;
+  font-family: "pretendard";
 `;
 // 뒤로가기 버튼
 export const MoveBackButton = styled.button`

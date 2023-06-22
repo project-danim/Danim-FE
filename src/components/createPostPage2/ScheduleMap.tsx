@@ -215,7 +215,8 @@ function ScheduleMap() {
             </MapMarker>
           ))} */}
 
-          {markers.map((marker, index) => (
+          {/* {markers.map((marker, index) => ( */}
+          {markers.map((marker) => (
             <React.Fragment
               key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
             >
