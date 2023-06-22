@@ -108,6 +108,9 @@ export const fetchLogin = async (user: {
 }) => {
   try {
     const response = await axiosInstance.post("/api/user/login", user);
+    if (response.data.status === 500) {
+      throw response.data;
+    }
     if (response.data.message === "로그인 성공") {
       const accessToken = response.headers.access_key;
       const refreshToken = response.headers.refresh_key;

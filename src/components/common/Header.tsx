@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { fetchLogout, getAccessToken, getRefreshToken } from "../../api/signUp";
 import loginUserIdState from "../../recoil/login/userInfo";
-import st from "./HeaderST";
+import st from "./commonStyle/HeaderST";
 import {
   filterList,
   filteredAge,
