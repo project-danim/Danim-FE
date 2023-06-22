@@ -37,7 +37,7 @@ function Redirection() {
         const response = await fetchKakaoToken(userCode);
         localStorage.setItem("id", response.data.id);
         localStorage.setItem("nickname", response.data.nickName);
-        localStorage.setItem("userImageUrl", response.data.myPageImageUrl);
+        localStorage.setItem("profileUrl", response.data.myPageImageUrl);
         localStorage.setItem("isAuthenticated", "true");
         setIsExistUser(response.data.isExistMember);
         setUserId(response.data.id);
