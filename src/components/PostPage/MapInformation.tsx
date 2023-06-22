@@ -1,6 +1,6 @@
 import { Map, Polyline, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useRecoilState } from "recoil";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PostGetState } from "../../recoil/post/postGetState";
 import * as Styled from "./MapInformationStyle";
 
@@ -67,6 +67,9 @@ function MapInformation() {
   if (!postData || !postData.map) {
     return <div>Loading...</div>;
   }
+
+  // 선택된 마커의 정보를 저장할 상태를 만듭니다
+
   return (
     <Styled.Container>
       <Styled.MapContainer>
@@ -86,54 +89,64 @@ function MapInformation() {
             ${selectedInfo.info.position.lng}`}
               position={selectedInfo.info.position}
             >
-              {/* 지도 pin - svg */}
-              <svg
-                width="35"
-                height="35"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                // style={{ marginTop: "-10px", marginRight: "10px" }}
+              <a
+                href={`https://map.kakao.com/link/map/${encodeURIComponent(
+                  selectedInfo.info.content
+                )},${selectedInfo.info.position.lat},${
+                  selectedInfo.info.position.lng
+                }`}
+                target="_blank"
+                rel="noreferrer"
               >
                 {/* 지도 pin - svg */}
-                <path
-                  d={`M12 0C7.31 0 3.5 3.81 3.5 ${8.5 - 0.01 * 100}C3.5 ${
-                    14.28 - 0.02 * 100
-                  } 12 ${24 - 0.02 * 100} 12 ${24 - 0.02 * 100}C12 ${
-                    24 - 0.02 * 100
-                  } 20.5 ${14.28 - 0.02 * 100} ${20.5} ${
-                    8.5 - 0.01 * 100
-                  }C20.5 3.81 16.69 0 12 0ZM12 12.75C10.83 12.75 9.875 11.795 9.875 ${
-                    10.625 - 0.01 * 100
-                  }C9.875 ${
-                    9.455 - 0.01 * 100
-                  } 10.83 8.5 12 8.5C13.17 8.5 14.125 ${
-                    9.455 - 0.01 * 100
-                  } 14.125 ${
-                    10.625 - 0.01 * 100
-                  }C14.125 11.795 13.17 12.75 12 12.75Z`}
-                  fill="#2e5902"
-                  stroke="#2e5902"
-                  strokeWidth="0.5"
-                />
-                <circle
-                  cx="12"
-                  cy="9"
-                  r="5.5"
-                  fill="#2e5902"
-                  // stroke="#1c72ce"
-                  strokeWidth="0.5"
-                />
-                <text
-                  x="11.7"
-                  y="12.5"
-                  fill="#fbfbfb"
-                  textAnchor="middle"
-                  fontSize="9"
+                <svg
+                  width="35"
+                  height="35"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  // style={{ marginTop: "-10px", marginRight: "10px" }}
                 >
-                  {index + 1}
-                </text>
-              </svg>
+                  {/* 지도 pin - svg */}
+                  <path
+                    d={`M12 0C7.31 0 3.5 3.81 3.5 ${8.5 - 0.01 * 100}C3.5 ${
+                      14.28 - 0.02 * 100
+                    } 12 ${24 - 0.02 * 100} 12 ${24 - 0.02 * 100}C12 ${
+                      24 - 0.02 * 100
+                    } 20.5 ${14.28 - 0.02 * 100} ${20.5} ${
+                      8.5 - 0.01 * 100
+                    }C20.5 3.81 16.69 0 12 0ZM12 12.75C10.83 12.75 9.875 11.795 9.875 ${
+                      10.625 - 0.01 * 100
+                    }C9.875 ${
+                      9.455 - 0.01 * 100
+                    } 10.83 8.5 12 8.5C13.17 8.5 14.125 ${
+                      9.455 - 0.01 * 100
+                    } 14.125 ${
+                      10.625 - 0.01 * 100
+                    }C14.125 11.795 13.17 12.75 12 12.75Z`}
+                    fill="#2e5902"
+                    stroke="#2e5902"
+                    strokeWidth="0.5"
+                  />
+                  <circle
+                    cx="12"
+                    cy="9"
+                    r="5.5"
+                    fill="#2e5902"
+                    // stroke="#1c72ce"
+                    strokeWidth="0.5"
+                  />
+                  <text
+                    x="11.7"
+                    y="12.5"
+                    fill="#fbfbfb"
+                    textAnchor="middle"
+                    fontSize="9"
+                  >
+                    {index + 1}
+                  </text>
+                </svg>
+              </a>
             </CustomOverlayMap>
           ))}
 
