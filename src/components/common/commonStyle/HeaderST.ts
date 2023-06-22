@@ -67,9 +67,8 @@ const DanimTitle = styled.h1`
 
 // 로고
 const DanimLogo = styled.img`
-  width: 74px;
-  height: 59px;
-  overflow: hidden;
+  width: 92px;
+  height: 28px;
   cursor: pointer;
 `;
 

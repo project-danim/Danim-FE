@@ -31,13 +31,18 @@ const CommonButton = styled.button<FilterButtonProps>`
   margin: 0 auto;
   width: ${({ buttonName }) => (buttonName === "postDetail" ? "100%" : "auto")};
   font-family: ${({ buttonName }) =>
-    buttonName === "postDetail" ? "Roboto" : "Pretendard-Regular"};
+    buttonName === "postDetail" ? "Roboto" : "Pretendard"};
   cursor: pointer;
+  &:hover {
+    border: 2px solid #eaedd4;
+    padding: ${({ buttonName }) =>
+      buttonName === "search" ? "10px 66px" : "8px 46px"};
+  }
 `;
 
 // 공통 키워드 버튼
 const CommonKeywordButton = styled.button`
-  font-family: "Pretendard-Regular";
+  font-family: inherit;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
   border: none;
@@ -52,7 +57,6 @@ const CommonKeywordButton = styled.button`
 // 마감된 게시글 컨테이너
 const expiredPostContainer = styled.div<PostContainerProps>`
   width: 100%;
-  margin-bottom: 10px;
   position: relative;
   /* background-color: ${({ expired }) =>
     expired ? "rgba(0, 0, 0, 0.1)" : "transparent"}; */
@@ -94,7 +98,6 @@ const postContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  font-family: "Pretendard-Regular";
 `;
 
 // 게시글 제목
@@ -149,14 +152,15 @@ const groupSizeAndDateContainer = styled.div`
   display: flex;
   flex-direction: row;
   padding-left: 1px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 14px;
   letter-spacing: 0em;
   justify-content: space-between;
   width: 100%;
   & > p {
-    margin: 10px 0;
+    margin-top: 10px;
+    margin-bottom: 17px;
   }
 `;
 
@@ -169,8 +173,9 @@ const keywordContainer = styled.div`
   gap: 10px 8px;
   max-width: 240px;
   box-sizing: border-box;
-  padding: 10px 0;
+  padding-bottom: 20px;
   padding-left: 1px;
+
   /* border-bottom: 1px solid #c2c2c2; */
   height: 102px;
 `;
