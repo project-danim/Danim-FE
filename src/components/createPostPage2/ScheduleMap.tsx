@@ -136,6 +136,13 @@ function ScheduleMap() {
     searchPlaces();
   }, [mapInfo, searchTerm]);
 
+  // 후버된 마커의 열린 상태 관리
+  const [hoverMarkerIsOpen, setHoverMarkerIsOpen] = useState(false);
+  // 후버된 마커의 정보 state
+  const [hoverMarkerInfo, setHoverMarkerInfo] = useState<MarkerType | null>(
+    null
+  );
+
   // 선택된 장소와 시간들을 추가한 후 검색 키워드들을 삭제
   const addSelectedInfo = () => {
     if (info && selectedDate) {
@@ -207,15 +214,28 @@ function ScheduleMap() {
               )}
             </MapMarker>
           ))} */}
-          {markers.map((marker) => (
+
+          {markers.map((marker, index) => (
             <React.Fragment
               key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
             >
               <MapMarker
                 position={marker.position}
-                onClick={() => setInfo(marker)}
+                onClick={() => {
+                  setInfo(marker);
+                  setHoverMarkerIsOpen(false); // 마커를 클릭했을 때 hover 상태를 false로 만들어주는 코드
+                }}
+                onMouseOver={() => {
+                  setHoverMarkerIsOpen(true);
+                  setHoverMarkerInfo(marker);
+                }}
+                onMouseOut={() => {
+                  setHoverMarkerIsOpen(false);
+                  setHoverMarkerInfo(null);
+                }}
               />
 
+              {/* 선택된 마커의 정보를 이용해 오버레이를 렌더링 */}
               {info && info.content === marker.content && (
                 <CustomOverlayMap position={marker.position}>
                   <Styled.StyledOverlay>
@@ -230,6 +250,20 @@ function ScheduleMap() {
                   </Styled.StyledOverlay>
                 </CustomOverlayMap>
               )}
+
+              {/* Hover 상태에 따른 오버레이 렌더링 */}
+              {hoverMarkerInfo &&
+                hoverMarkerInfo.content === marker.content &&
+                hoverMarkerIsOpen && (
+                  <CustomOverlayMap position={marker.position}>
+                    <Styled.StyledOverlay>
+                      <div className="wrap">
+                        {hoverMarkerInfo.content}
+                        {/* 주소: {hoverMarkerInfo.address} */}
+                      </div>
+                    </Styled.StyledOverlay>
+                  </CustomOverlayMap>
+                )}
             </React.Fragment>
           ))}
 

@@ -18,7 +18,7 @@ function AppliedChatList() {
     isLoading,
     isError,
   } = useQuery("AppliedChatList", getMyjoinChatRoomList);
-  console.log(chatLists);
+  // console.log(chatLists);
 
   // 현재 채팅방에 참여한 유저들의 닉네임
   const setChatEnteredUsersNickname = useSetRecoilState(
@@ -60,7 +60,7 @@ function AppliedChatList() {
     return <div>데이터를 불러오는 도중 문제가 발생했습니다.</div>;
   }
 
-  console.log(chatLists);
+  // console.log(chatLists);
 
   return (
     <div>
