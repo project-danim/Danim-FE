@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { Footer, Header } from ".";
+import { Header } from ".";
 
 const OutletWrapper = styled.div`
   width: 100%;
@@ -21,7 +21,7 @@ function HomeLayout() {
       <OutletWrapper>
         <Outlet />
       </OutletWrapper>
-      <Footer />
+      {/* <Footer /> */}
     </Container>
   );
 }
