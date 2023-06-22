@@ -25,7 +25,6 @@ const StyleContainer = styled.div`
 
 // 공통 버튼
 const CommonButton = styled.button<FilterButtonProps>`
-  font-family: "Pretendard-Regular";
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,10 +40,7 @@ const CommonButton = styled.button<FilterButtonProps>`
     if (props["data-active"]) {
       return "#ffffff";
     }
-    if (props.buttonName === "ageButton") {
-      return "#5C5C5C";
-    }
-    return "#000000";
+    return "#5C5C5C";
   }};
   line-height: ${(props) =>
     props.buttonName === "ageButton" ? "38px" : "40px"};
@@ -132,6 +128,7 @@ const CommonDropDownButton = styled.button`
   box-sizing: border-box;
   font-size: 16px;
   position: relative;
+  color: #5c5c5c;
   // 태블릿
   @media (max-width: 1200px) and (min-width: 840px) {
     min-width: 220px;
@@ -157,6 +154,7 @@ const CommonUnderButton = styled.div`
   background-image: url("/filter_underBar.svg");
   width: 20px;
   background-repeat: no-repeat;
+  font-family: inherit;
 `;
 
 // 공통 드롭다운으로 선택된 값
@@ -213,7 +211,7 @@ const KeywordFilterContainer = styled.div`
 const RecruitEndAndDetailContainer = styled.div`
   border: 2px solid #eaedd4;
   box-shadow: 0px 1px 2px 0px #00000040;
-  margin-bottom: 10px;
+  margin-bottom: 24px;
   border-radius: 10px;
   position: relative;
 `;
@@ -315,6 +313,7 @@ const TitleInput = styled.input`
   border-radius: 6px;
   max-width: 596px;
   width: 100%;
+  color: #5c5c5c;
   &:focus {
     outline: 1px solid #a3bf3b;
   }
@@ -343,6 +342,7 @@ const LocationListUl = styled.ul`
   top: 206px;
   width: 286px;
   box-sizing: border-box;
+  color: #5c5c5c;
   & > div {
     z-index: 1;
     position: relative;

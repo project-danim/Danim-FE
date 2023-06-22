@@ -4,7 +4,7 @@ import styled from "styled-components";
 const postsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px 20px;
+  gap: 44px 20px;
   justify-content: space-between;
   margin-top: 96px;
   // 임의로 설정한 부분으로 디자인 없는 상태입니다!
