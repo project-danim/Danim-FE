@@ -62,6 +62,11 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
 
   // 닉네임 중복 검사
   const handleCheckNicknameBtnClick = () => {
+    // 중복 검사 완료된 값으로 재요청 차단
+    if (isNicknameUnique) {
+      return null;
+    }
+
     // 값이 없는 상태로 중복검사 요청시
     if (nickname === "") {
       nicknameRef.current.focus();

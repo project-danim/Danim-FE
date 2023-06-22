@@ -61,7 +61,7 @@ function UserId({
 
   // 아이디 중복 검사
   const handleCheckIdBtnClick = () => {
-    // 중복확인이 완료된 값으로 재요청 차단
+    // 중복검사 완료된 값으로 재요청 차단
     if (isIdUnique) {
       return null;
     }
