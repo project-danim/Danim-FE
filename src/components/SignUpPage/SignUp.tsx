@@ -153,8 +153,12 @@ function SignUp() {
       return;
     }
 
-    // 비밀번호 값이 없거나 비밀번호가 일치하지 않을 경우
+    // 비밀번호 값이 없거나 유효하지 않은 값이거나, 비밀번호가 일치하지 않을 경우
     if (!password) {
+      passwordRef.current?.focus();
+      return;
+    }
+    if (passwordError === "5~12자 이내의 영문,숫자 조합을 입력하세요.") {
       passwordRef.current?.focus();
       return;
     }
