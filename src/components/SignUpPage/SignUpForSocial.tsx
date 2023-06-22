@@ -12,15 +12,18 @@ function SignUpForSocial() {
   // 성별, 나이 입력값 state
   const [activeGender, setActiveGender] = useState("");
   const userGenderRef = useRef<HTMLButtonElement>(null);
-  const [agreeGender, handleAgreeGender] = useToggle(false);
   const [activeAge, setActiveAge] = useState("");
-  const [agreeForAge, handleIsAgreeForAge] = useToggle(false);
 
   // 성별, 연령대 에러 메세지 상태
   const [genderError, setGenderError] = useState("");
-  const [agreeForGenderError, setAgreeForGenderError] = useState("");
   const [ageError, setAgeError] = useState("");
-  // const [agreeForAgeError, setAgreeForAgeError] = useState("");
+  const [agreeGenderError, setAgreeGenderError] = useState("");
+  const [agreeAgeError, setAgreeAgeError] = useState("");
+
+  // 전체 동의, 성별 정보 동의, 연령 정보 동의에 대한 상태
+  const [agreeAll, setAgreeAll] = useState(false);
+  const [agreeAge, handleAgreeAge] = useToggle(false);
+  const [agreeGender, handleAgreeGender] = useToggle(false);
 
   // 네비게이트 생성
   const navigate = useNavigate();
@@ -36,7 +39,7 @@ function SignUpForSocial() {
       return;
     }
     if (agreeGender) {
-      setAgreeForGenderError("");
+      setAgreeGenderError("");
     }
   }, [activeGender, agreeGender]);
 
@@ -45,7 +48,9 @@ function SignUpForSocial() {
     setActiveGender(gender);
   };
   const handleAgreeForGender = () => {
+    const nextAgreeGender = !agreeGender;
     handleAgreeGender();
+    if (!nextAgreeGender) setAgreeAll(false);
   };
 
   // 연령 유효성 검사
@@ -54,17 +59,27 @@ function SignUpForSocial() {
       setAgeError("");
       return;
     }
-    if (agreeForAge) {
+    if (agreeAge) {
       setGenderError("");
     }
-  }, [activeAge, agreeForAge]);
+  }, [activeAge, agreeAge]);
 
   // 연령 클릭 핸들러, 연령 정보 제공 핸들러
   const handleAgeClick = (age: string) => {
     setActiveAge(age);
   };
   const handleAgreeForAge = () => {
-    handleIsAgreeForAge();
+    const nextAgreeAge = !agreeAge;
+    handleAgreeAge();
+    if (!nextAgreeAge) setAgreeAll(false);
+  };
+
+  // 전체 동의 클릭 핸들러
+  const handleAgreeAll = () => {
+    const nextAgreeAllState = !agreeAll;
+    setAgreeAll(nextAgreeAllState);
+    handleAgreeGender();
+    handleAgreeForAge();
   };
 
   // 회원가입 뮤테이션 함수
@@ -89,7 +104,7 @@ function SignUpForSocial() {
       return;
     }
     if (!agreeGender) {
-      setAgreeForGenderError("성별 정보 제공에 동의해주세요.");
+      setAgreeGenderError("성별 정보 제공에 동의해주세요.");
       return;
     }
 
@@ -98,8 +113,14 @@ function SignUpForSocial() {
       setAgeError("연령을 선택해주세요.");
       return;
     }
-    if (!agreeForAge) {
-      setAgeError("연령 정보 제공에 동의해주세요.");
+    if (!agreeAge) {
+      setAgreeAgeError("연령 정보 제공에 동의해주세요.");
+      return;
+    }
+
+    // 전체 정보 동의 하지 않은 경우
+    if (!agreeAll) {
+      alert("모든 약관에 동의해야 회원가입이 가능합니다.");
       return;
     }
 
@@ -167,27 +188,36 @@ function SignUpForSocial() {
 
       <div>
         <label htmlFor="agreeForAll">
-          <st.CommonAgreeForInfoInput type="checkbox" id="agreeForAll" />
-          <st.CommonAgreeForInfoText>약관 전체 동의</st.CommonAgreeForInfoText>
-        </label>
-        <label htmlFor="agreeForGender">
           <st.CommonAgreeForInfoInput
             type="checkbox"
-            id="agreeForGender"
-            onChange={handleAgreeForGender}
-            aria-describedby="agreeForGenderError"
+            id="agreeForAll"
+            checked={agreeAll}
+            onChange={handleAgreeAll}
           />
-          <st.CommonAgreeForInfoText>
-            (필수)성별 정보 제공 동의
-          </st.CommonAgreeForInfoText>
+          <st.CommonAgreeForInfoText>약관 전체 동의</st.CommonAgreeForInfoText>
         </label>
-        <st.CommonErrorText role="alert" id="agreeForGenderError">
-          {agreeForGenderError}
-        </st.CommonErrorText>
+        <div>
+          <label htmlFor="agreeForGender">
+            <st.CommonAgreeForInfoInput
+              type="checkbox"
+              id="agreeForGender"
+              checked={agreeGender}
+              onChange={handleAgreeForGender}
+              aria-describedby="agreeForGenderError"
+            />
+            <st.CommonAgreeForInfoText>
+              (필수)성별 정보 제공 동의
+            </st.CommonAgreeForInfoText>
+          </label>
+          <st.CommonErrorText role="alert" id="agreeForGenderError">
+            {agreeGenderError}
+          </st.CommonErrorText>
+        </div>
         <label htmlFor="agreeForAge">
           <st.CommonAgreeForInfoInput
             type="checkbox"
             id="agreeForAge"
+            checked={agreeAge}
             onChange={handleAgreeForAge}
             aria-describedby="agreeForAgeError"
           />
@@ -195,6 +225,9 @@ function SignUpForSocial() {
             (필수)연령 정보 제공 동의
           </st.CommonAgreeForInfoText>
         </label>
+        <st.CommonErrorText role="alert" id="agreeForGenderError">
+          {agreeAgeError}
+        </st.CommonErrorText>
       </div>
       <st.OriginalButton
         type="submit"
