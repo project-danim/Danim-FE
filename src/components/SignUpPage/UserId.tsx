@@ -135,7 +135,11 @@ function UserId({
                 placeholder="이메일 주소를 입력해 주세요."
                 aria-describedby="userIdError"
               />
-              <st.OriginalButton type="submit" onClick={handleCheckIdBtnClick}>
+              <st.OriginalButton
+                type="submit"
+                buttonName="checkOverlap"
+                onClick={handleCheckIdBtnClick}
+              >
                 중복 확인
               </st.OriginalButton>
             </st.IdAreaContainer>
