@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { useMutation, useQuery } from "react-query";
 import { IoFootsteps } from "react-icons/io5";
@@ -23,12 +23,13 @@ function PostComment() {
   const [selectedScore, setSelectedScore] = useState<number>(0);
   // 댓글 내용 state
   const [comment, setComment] = useState<string>("");
-  // 댓글 목록 state, 작성된 코맨트들
-  // const [comments, setComments] = useState<Comment[]>([]);
+
+  // const [loginUserNickname, setloginUserNickname] = useState<string>("");
+  // const [loginUserImageUrl, setLoginUserImageUrl] = useState<string>("");
 
   // 현재 로그인 중인 유저의 nickname, profileURL
   const userNickname = localStorage.getItem("nickname");
-  const userprofileUrl = localStorage.getItem("profileUrl");
+  const userProfileUrl = localStorage.getItem("profileUrl");
 
   // 댓글 불러오기
   const {
@@ -109,7 +110,7 @@ function PostComment() {
       <Styled.UserInFoAndButtonWrapper>
         {userNickname ? (
           <>
-            <Styled.UserProfile src={`${userprofileUrl}`} />
+            <Styled.UserProfile src={`${userProfileUrl}`} />
             <Styled.UserNickname>{userNickname}</Styled.UserNickname>
             {[1, 2, 3, 4, 5].map((score) => (
               <Styled.FootButton

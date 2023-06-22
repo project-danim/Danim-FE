@@ -12,9 +12,9 @@ interface PostData {
   createdAt?: string[];
   gender?: string[];
   groupSize?: number;
-  keyword?: string;
   location?: string;
   map?: string;
+  isComplete?: boolean;
   numberOfParticipants?: number;
   modifiedAt?: string[];
   participants?: number[];
