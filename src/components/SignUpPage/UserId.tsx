@@ -61,6 +61,11 @@ function UserId({
 
   // 아이디 중복 검사
   const handleCheckIdBtnClick = () => {
+    // 중복확인이 완료된 값으로 재요청 차단
+    if (isIdUnique) {
+      return null;
+    }
+
     // 유효하지 않은 입력값으로 중복검사 요청시
     if (userIdError === "올바르지 않은 아이디 형식입니다.") {
       return idRef.current?.focus();
