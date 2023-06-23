@@ -23,3 +23,9 @@ export const chatRoomPostTitleState = atom({
   key: "chatRoomPostTitleState",
   default: "",
 });
+
+// 신청하기, 대화하기 - 유저 정보 state
+export const chatRoomUserInfoState = atom({
+  key: "chatRoomUserInfoState",
+  default: [],
+});
