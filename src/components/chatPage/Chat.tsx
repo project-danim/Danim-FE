@@ -2,15 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { useRecoilValue } from "recoil";
 import SockJs from "sockjs-client";
 import StompJs from "stompjs";
-// import chatStart from "../../api/chat";
+import { useNavigate } from "react-router-dom";
 import Message from "./Message";
-import st from "./ChatST";
 import {
   chatEnteredUsersNicknameState,
   chatRoomChatRecordState,
   chatRoomPostTitleState,
   roomNameState,
 } from "../../recoil/chat/chatState";
+import titleIcon from "../../../public/chat/frame.svg";
+import * as st from "./ChatST";
 
 interface User {
   imageUrl: string;
@@ -28,7 +29,12 @@ function Chat() {
   const chatRoomPostTitle = useRecoilValue(chatRoomPostTitleState);
   const chatRecord = useRecoilValue(chatRoomChatRecordState);
 
-  // console.log(chatRecord);
+  const navigate = useNavigate();
+
+  // 뒤로가기 버튼
+  const goBack = () => {
+    navigate(-1); // 뒤로 가기
+  };
 
   // 👇 서버에서 받은 채팅 기록을 사용할 수 있는 형태로 가공
   let flattenedChatRecord = [];
@@ -172,24 +178,23 @@ function Chat() {
 
   return (
     <st.ChatPageBackground>
-      {/* 상세 게시글에서 입장으로 바뀜
-      <button type="button" onClick={handleEnterButtonClick}>
-        입장하기
-      </button> */}
-      <header>
-        {/* <button type="button">뒤로가기</button> */}
-        {/* 신청해서 받아온 게시글 제목이 있어야함  */}
-        <h2>{`${chatRoomPostTitle}`}</h2>
+      <st.TitleChatContainer>
+        <st.TitleWrapper>
+          <st.GobackButton type="button" onClick={goBack}>
+            <st.GobackButtonIcon />
+          </st.GobackButton>
+          <st.TitleIcon src={titleIcon} alt="Title Icon" />
+          <st.ChatTitle>{`${chatRoomPostTitle}`}</st.ChatTitle>
+        </st.TitleWrapper>
         <st.AllUserContainer>
           <p>대화 상대</p>
           <p>{userId}</p>
           {allUserNickname.map(
-            // 메세지를 map 을 돌려서 받아옴
             (nickname) =>
               nickname !== userId && <p key={nickname}>{nickname}</p>
           )}
         </st.AllUserContainer>
-      </header>
+      </st.TitleChatContainer>
       {messages.map((msg, index) => {
         // ENTER 타입의 메시지에서는 prevMsg를 null로 설정
         if (msg.type === "ENTER") {
