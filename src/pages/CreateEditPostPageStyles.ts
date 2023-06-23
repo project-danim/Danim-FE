@@ -17,7 +17,7 @@ export const VerticalLineWrapper = styled.div`
 export const VerticalLineStyle = styled.div`
   width: 50%;
   height: 10px;
-  background-color: #a3bf3b;
+  background-color: #2e5902;
 `;
 
 // common : contents container
@@ -93,7 +93,7 @@ export const SubInfotext = styled.div`
 
 // post page 1 : gender age wrapper
 export const GenderAgeWrapper = styled.div`
-  display: flex;
+  /* display: flex; */
 `;
 
 // post page 1 : 성별 wrapper
@@ -104,6 +104,14 @@ export const GenderWrapper = styled.div`
 // post page 1 : 나이 wrapper
 export const AgeWrapper = styled.div`
   flex-grow: 110; // 내부 컴포넌트 하나당의 비율
+`;
+
+// GenderAgeVerticalLine
+export const GenderAgeVerticalLine = styled.div`
+  height: 0.5px;
+  width: 100%;
+  margin: 20px 0;
+  background-color: #f5f5f5;
 `;
 
 // common : 아래 이동 하단 버튼

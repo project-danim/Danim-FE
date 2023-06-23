@@ -25,11 +25,20 @@ const StyledInput = styled.div`
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
+`;
+
+const SubTitle = styled.div`
+  color: #858585;
+  font-size: 14px;
+  margin: 10px 0;
 `;
 
 const DatePickerWrapper = styled.div`
+  display: flex;
+  gap: 10px;
   width: 100%;
-  margin: 5px;
+  margin: 5px 0;
 `;
 
 const NoticeTextWrapper = styled.div`
@@ -122,6 +131,7 @@ function TripDatePicker() {
 
   return (
     <Container>
+      <SubTitle>여행의 일정을 알려주세요</SubTitle>
       <DatePickerWrapper>
         {postIsEditing ? (
           <NoticeTextWrapper>출발 날짜를 알려주세요.</NoticeTextWrapper>
@@ -137,8 +147,7 @@ function TripDatePicker() {
           placeholderText="다님이 출발할 날짜를 알려주세요."
           customInput={<CustomStartInput />}
         />
-      </DatePickerWrapper>
-      <DatePickerWrapper>
+
         {postIsEditing ? (
           <NoticeTextWrapper>도착 날짜를 알려주세요.</NoticeTextWrapper>
         ) : null}

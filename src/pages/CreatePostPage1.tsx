@@ -132,6 +132,7 @@ function CreatePostPage1() {
             <Styled.GenderWrapper>
               <Gender />
             </Styled.GenderWrapper>
+            <Styled.GenderAgeVerticalLine />
             <Styled.AgeWrapper>
               <AgeRange />
             </Styled.AgeWrapper>
