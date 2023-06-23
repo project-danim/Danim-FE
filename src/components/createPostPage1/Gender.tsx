@@ -8,12 +8,13 @@ import CommonButton from "../common/CommonButton";
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   width: 100%;
 `;
 
 const ButtonWrapper = styled.div`
   margin: 5px;
+  width: 100%;
 `;
 
 function Gender() {

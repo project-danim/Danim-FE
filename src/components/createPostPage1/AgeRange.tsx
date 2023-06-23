@@ -7,17 +7,17 @@ import postIsEditingState from "../../recoil/post/postIsEditingState";
 import CommonButton from "../common/CommonButton";
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 두 개의 열로 설정 */
+  display: flex;
   width: 100%;
 `;
 
 const ButtonWrapper = styled.div`
+  width: 100%;
   margin: 5px;
 `;
 
 function AgeRange() {
-  const ageOptions = ["10대(성인)", "20대", "30대", "40대", "50대", "60대이상"];
+  const ageOptions = ["20대", "30대", "40대", "50대", "60대이상"];
   // 글 작성 - recoil state 저장, 글 수정 - 해당 state를 변경함.
   const [selectedValues, setSelectedValues] = useRecoilState(
     selectedAgeRangeState
