@@ -102,7 +102,7 @@ function Header() {
     if (profileImg !== "" && profileImg !== null) {
       setUserProfile(() => profileImg);
     }
-  }, [userProfile]);
+  }, [profileImg, userProfile]);
 
   return (
     <st.headerAria>
