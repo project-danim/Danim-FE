@@ -13,12 +13,9 @@ export const chatStart = async (postId: number) => {
   } catch (error: any) {
     if (error.response.status === 401) {
       const { detail } = error.response.data;
-      if (detail === "게시글 작성자는 모임에 신청할 수 없습니다.") {
-        // 방장(글 작성자)인 경우 처리 코드
-        alert("방장(글 작성자)는 모임에 신청할 수 없습니다.");
-      } else if (detail === "신청하신 나이대에 포함되지 않습니다.") {
+      if (detail === "신청하신 나이대에 포함되지않습니다.") {
         // 연령대 조건이 안 맞는 경우 처리 코드
-        alert("신청하신 나이대에 포함되지 않습니다.");
+        alert("신청하신 나이대에 포함되지않습니다");
       } else if (detail === "신청하신 성별에 포함되지않습니다.") {
         // 성별 조건이 안 맞는 경우 처리 코드
         alert("신청하신 성별에 포함되지 않습니다.");
@@ -52,6 +49,9 @@ export const chatStart = async (postId: number) => {
     } else {
       // 기타 에러 처리 코드
       showError(error);
+      alert(
+        "신청이 처리되지 않았습니다. 같은 에러가 반복되면 관리자에게 문의 부탁드립니다."
+      );
     }
     throw error;
   }
