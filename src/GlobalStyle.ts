@@ -45,7 +45,7 @@ const GlobalStyle = createGlobalStyle`
   --button-4-pressed-outline-color: #bfb578;
   --button-5-default-color: #a3bf3b;
   --button-5-hover-color: #82982f;
-  --button-5-pressed-color: #2f5901;
+  --button-5-pressed-color: #A3BF3B;
   --button-6-default-color: #F5F5F5;
   --button-6-hover-color: #E4EDC5;
   --button-6-pressed-color: #A3BF3B;
