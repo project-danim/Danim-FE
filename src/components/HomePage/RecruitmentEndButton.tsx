@@ -13,13 +13,15 @@ function RecruitmentEndButton() {
     setIsRecruitMentEnd(!isRecruitmentEnd);
   };
   return (
-    <st.IsRecruitButton
-      type="button"
-      onClick={handleToggleButtonClick}
-      data-active={isRecruitmentEnd}
-    >
-      모집 중
-    </st.IsRecruitButton>
+    <st.RecruitEndContainer>
+      <st.IsRecruitButton
+        type="button"
+        onClick={handleToggleButtonClick}
+        data-active={isRecruitmentEnd}
+      >
+        모집 중
+      </st.IsRecruitButton>
+    </st.RecruitEndContainer>
   );
 }
 
