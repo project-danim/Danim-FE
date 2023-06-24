@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 import { User, UserInfoForKakao } from "../types/userType";
 
 // axiosInstace 생성
@@ -10,6 +10,17 @@ export const axiosInstance = axios.create({
 export function showError(error: any) {
   console.log("여기서 error 발생", error);
 }
+
+// 쿠키 토큰 저장 함수
+export const setCookie = (name: string, value: string, days: number) => {
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = `; expires=${date.toUTCString()}`;
+  }
+  document.cookie = `${name}=${value || ""}${expires}; path=/`;
+};
 
 // 쿠키 가져오는 함수
 export const getCookie = (name: string) => {
@@ -29,16 +40,65 @@ export const getAccessToken = () => getCookie("accessToken");
 // 리프레시 토큰 가져오는 함수
 export const getRefreshToken = () => getCookie("refreshToken");
 
-// 쿠키에 토큰 저장 함수
-export const setCookie = (name: string, value: string, days: number) => {
-  let expires = "";
-  if (days) {
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    expires = `; expires=${date.toUTCString()}`;
-  }
-  document.cookie = `${name}=${value || ""}${expires}; path=/`;
-};
+// 액세스 토큰 만료 확인하는 인터셉터
+axiosInstance.interceptors.request.use(
+  async (config: any) => {
+    try {
+      const token = getAccessToken();
+
+      if (token) {
+        // accessToken이 있을 경우만 실행
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace("-", "+").replace("_", "/");
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split("")
+            .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
+            .join("")
+        );
+
+        const { exp } = JSON.parse(jsonPayload);
+
+        // Token이 만료되었을 경우
+        if (Date.now() >= exp * 1000) {
+          // Refresh Token으로 새로운 Access Token 요청
+          const refreshToken = getRefreshToken();
+          if (refreshToken) {
+            const response = await axiosInstance.post(
+              "/api/user/refreshToken",
+              {
+                headers: {
+                  REFRESH_KEY: refreshToken,
+                },
+              }
+            );
+            // 이 부분은 새로 들어온 액세스 토큰 data로 줄 수도 있으니 받아보고 확인하기!!
+            const newAccessToken = response.headers.accessToken;
+
+            // 쿠키 업데이트
+            setCookie("accessToken", newAccessToken, 1); // 1일 후 만료
+
+            // 요청의 헤더 업데이트
+            const updatedConfig = {
+              ...config,
+              headers: {
+                ...config.headers,
+                REFRESH_KEY: `Bearer ${newAccessToken}`,
+              },
+            };
+
+            return updatedConfig;
+          }
+        }
+      }
+
+      return config;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
+  (error) => Promise.reject(error)
+);
 
 // 회원가입 - 아이디 중복검사
 export const fetchCheckId = async (id: string) => {
@@ -55,6 +115,7 @@ export const fetchCheckId = async (id: string) => {
     return errMessage;
   }
 };
+
 // 회원가입 - 닉네임 중복검사
 export const fetchCheckNickname = async (nickname: string) => {
   try {
