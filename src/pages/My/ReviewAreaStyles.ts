@@ -8,7 +8,7 @@ import styled from "styled-components";
 // 마이페이지 전체 컨테이너
 export const MyPageContainer = styled.div`
   position: relative;
-  height:2000px
+  height:2160px
 `;
 
 
@@ -125,7 +125,7 @@ export const FixButton = styled.button`
 `;
 
 // 텍스트 입력 영역
-export const TextArea = styled.textarea<any>`
+export const TextArea = styled.textarea<{ editing?: boolean }>`
   height: 184px;
   font-size: 15px;
   border: 1px solid #D6D6D6;
@@ -134,14 +134,17 @@ export const TextArea = styled.textarea<any>`
   padding: 20px;
   box-sizing: border-box;
   margin-top: 6px;
-
+  outline: none;
+  pointer-events: none;
+  user-select: none;
+  border: none;
 `;
-
 
 
 // 후기, 게시글 영역
 export const PostContainer = styled.div`
-height: 254px;
+padding: 20px;
+height: 250px;
 border-bottom:  0.5px solid #A3A3A3;
 display:flex
 `
@@ -150,14 +153,14 @@ export const TextContainer = styled.div`
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-width: 591px;
-height: 195px;
+width: 618px;
+height: 210px;
 `
 
 export const PostTitle = styled.a`
-width: 250px;
-height: 24px;
-padding: 30px;
+width: 276px;
+height: 48px;
+/* padding: 12px; */
 font-family: 'Pretendard';
 font-style: normal;
 font-weight: 700;
@@ -168,19 +171,20 @@ text-decoration:none
 `
 
 export const PostDate = styled.div`
-padding:10px 30px;
+/* padding:10px 30px; */
+width: 618px;
+height: 39px;
 font-family: 'Pretendard';
 font-style: normal;
 font-weight: 400;
 font-size: 14px;
 line-height: 14px;
-
 color: #858585;
-
 `
 
 export const PostContent = styled.div`
-padding:30px;
+/* padding:30px; */
+width: 438px;
 font-family: 'Pretendard';
 font-style: normal;
 font-weight: 400;
@@ -297,7 +301,7 @@ export const TabButton = styled.button<{ active: boolean }>`
   border: none;
   cursor: pointer;
   border-bottom: ${({ active }) =>
-    active ? "11px solid #A3BF3B" : "11px solid transparent"};
+    active ? "11px solid #EBF2D4" : "11px solid transparent"};
 
   overflow: hidden;
   transition: all 0.4s ease;
@@ -308,7 +312,7 @@ export const TabContent = styled.div`
 `;
 
 export const FormattedPostTitle = styled.div`
-width: 250px;
+width: 276px;
 height: 24px;
 font-family: 'Pretendard';
 font-style: normal;
@@ -318,7 +322,7 @@ line-height: 24px;
 `
 
 export const NoneReviewsMessage = styled.div`
-display: flex;
+/* display: flex;
 width: 100%;
 height: 70px;
 font-family: 'Pretendard';
@@ -330,12 +334,22 @@ color: black;
 white-space: pre-wrap; 
 justify-content: flex-start;
 border-bottom:0.5px solid #A3BF3B;
-margin-top: 40px;
-;
+margin-top: 40px; */
+position: absolute;
+width: 191px;
+height: 15px;
+left: calc(50% - 191px/2 + 0.5px);
+top: 600px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 15px;
 `;
 
 export const NonePostsMessage = styled.div`
-display: flex;
+/* display: flex;
 width: 100%;
 height: 70px;
 font-family: 'Pretendard';
@@ -347,8 +361,18 @@ color: black;
 white-space: pre-wrap; 
 justify-content: flex-end;
 border-bottom:0.5px solid #A3BF3B;
-margin-top: 40px;
+margin-top: 40px; */
+position: absolute;
+width: 191px;
+height: 15px;
+left: calc(50% - 191px/2 + 0.5px);
+top: 600px;
 
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 15px;
 
 `;
 
@@ -357,3 +381,18 @@ export const Highlight = styled.a`
   text-decoration:none;
 
 `;
+
+
+export const UserNickNameInput= styled.input`
+width: 254px;
+height: 24px;
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 24px;
+color: #000000;
+border: 1px solid #D6D6D6;
+border-radius: 5px;
+
+`

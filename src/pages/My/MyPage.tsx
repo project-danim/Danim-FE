@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
-// import { IoFootsteps } from "react-icons/io5";
 import { IoFootsteps } from "react-icons/io5";
 import {
   fecthPosts,
@@ -18,14 +17,20 @@ function MyPage() {
     setActiveTab(index);
   };
   const id = localStorage.getItem("id");
-  const [editing, setEditing] = useState(false);
-  const [nickname, setNickname] = useState("");
+  const [editing, setEditing] = useState<boolean>(false);
   const [content, setContent] = useState("");
+  // 게시글 이미지 url
   const [imgUrl, setImgUrl] = useState("");
   const [owner, setOwner] = useState(true);
   const [score, setScore] = useState(20);
-  const [uploadImg, setUploadImg] = useState("");
+  // 업로드 이미지 url
+  const [uploadImg, setUploadImg] = useState(null);
+  const [nickname, setNickname] = useState("");
 
+  // 유저 정보를 보내는 mutation 함수
+  const mutateSendUserInfo = useMutation((userInfo: any) =>
+    fetchMyInfo(id, userInfo)
+  );
   // 유저 리뷰 상태
   const [reviews, setReviews] = useState<any[]>([]);
   const [posts, setPosts] = useState<any[]>([]);
@@ -72,34 +77,53 @@ function MyPage() {
     }
   }, []);
 
-  // 이미지 버튼 클릭시
-  const clickFileInput = (e: any) => {
+  // 이미지 업로드 버튼 클릭시
+  const clickFileInput = () => {
     const fileInput = document.getElementById("fileInput");
     fileInput?.click();
-    const selectedFile = e.target.files[0];
-    setUploadImg(selectedFile);
+  };
+
+  // 이미지 업로드 핸들러
+  const handleImageUpload = (event: any) => {
+    const file = event.target.files[0];
+    setUploadImg(file);
     console.log(uploadImg);
+  };
+
+  // 닉네임 변경 핸들러
+  const handleNicknameChange = (event: any) => {
+    setNickname(event.target.value);
   };
 
   // 수정하기 버튼 클릭함수
   const clickButton = () => {
     if (!editing) {
       profileRef.current?.focus();
-      return setEditing(() => !editing);
+      return setEditing((prev) => !prev);
     }
     const userInfo = {
       nickname,
-      image: null,
+      image: uploadImg,
       content,
     };
-    fetchMyInfo(id, userInfo);
-    return setEditing(() => !editing);
+    console.log(userInfo);
+
+    // mutation 함수로 유저의 정보 전달
+    mutateSendUserInfo.mutate(userInfo, {
+      onSuccess: (data) => {
+        console.log("수정이 완료되었습니다");
+        console.log(data);
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
+    return setEditing((prev) => !prev);
   };
 
   // 탈퇴 메세지 분기, 서버 내 에러 경우의 수가 많아서 "탈퇴에 실패했습니다." 로 통일
   const handleWithDrawalClick = () => {
     const confirmed = window.confirm("정말로 탈퇴하시겠습니까?");
-
     if (confirmed) {
       withdrawalUser()
         .then(() => {
@@ -115,18 +139,16 @@ function MyPage() {
         });
     }
   };
-
   // 뒤로가기 버튼 클릭시
   const handleMoveBackClick = () => {
     window.history.back();
   };
-
   // 작성 게시글 3줄로 줄이기
   // const htmlString = 서버에서 받아오는 값
   // const numSentences = 3;
   // const extractedSentences = extractTextFromHTML(htmlString, numSentences);
-
   // review.point = 발자국 아이콘으로 변경
+
   const commentFootprintRating = (point: any) => {
     const icons = [];
     for (let i = 0; i < point; i += 1) {
@@ -137,12 +159,16 @@ function MyPage() {
 
   // 리뷰 0점을 주게될 경우 평균값이 소숫점으로 떨어지는 이슈 -> 소숫점 반올림
   const fomattedScore = Math.round(score * 10) / 10;
-
   return (
     <Styled.MyPageContainer>
       <Styled.ProfileArea>
         <Styled.ImageBox userProfile={imgUrl}>
-          <input type="file" style={{ display: "none" }} id="fileInput" />
+          <input
+            type="file"
+            style={{ display: "none" }}
+            id="fileInput"
+            onChange={handleImageUpload}
+          />
           <Styled.ProfileFixButton type="button" onClick={clickFileInput} />
           <Styled.ImageArea />
         </Styled.ImageBox>
@@ -151,7 +177,19 @@ function MyPage() {
             <Styled.ScoreAndNicknameContainer>
               <Styled.Score>{fomattedScore}</Styled.Score>
               <Styled.UserNickName>
-                {nickname}
+                {editing ? (
+                  <Styled.UserNickNameInput
+                    type="text"
+                    value={nickname}
+                    onChange={handleNicknameChange}
+                  />
+                ) : (
+                  <Styled.UserNickNameInput
+                    type="text"
+                    placeholder={nickname}
+                    readOnly
+                  />
+                )}
                 <span>님</span>
               </Styled.UserNickName>
             </Styled.ScoreAndNicknameContainer>
@@ -181,7 +219,7 @@ function MyPage() {
             active={activeTab === 0}
             onClick={() => handleTabClick(0)}
           >
-            리뷰
+            후기
           </Styled.TabButton>
           <Styled.TabButton
             active={activeTab === 1}
@@ -196,12 +234,13 @@ function MyPage() {
           <div>
             {reviews.length === 0 ? (
               <Styled.NoneReviewsMessage>
-                아직 남겨진 리뷰가 없어요... 같이
+                {/* 아직 남겨진 리뷰가 없어요... 같이
                 <Styled.Highlight href="https://www.da-nim.com">
                   {" "}
                   다녀{" "}
                 </Styled.Highlight>
-                볼까요?🌱
+                볼까요?🌱 */}
+                작성된 후기가 없습니다.
               </Styled.NoneReviewsMessage>
             ) : (
               reviews.map((review) => {
@@ -243,12 +282,13 @@ function MyPage() {
           <div>
             {posts.length === 0 ? (
               <Styled.NonePostsMessage>
-                아직 남기신 게시글이 없어요... 같이
+                {/* 아직 남기신 게시글이 없어요... 같이
                 <Styled.Highlight href="https://www.da-nim.com">
                   {" "}
                   다녀{" "}
                 </Styled.Highlight>
-                볼까요?🌱
+                볼까요?🌱 */}{" "}
+                작성된 게시글이 없습니다.
               </Styled.NonePostsMessage>
             ) : (
               posts.map((post) => {
@@ -274,7 +314,9 @@ function MyPage() {
                       >
                         {post.postTitle}
                       </Styled.PostTitle>
-                      <Styled.PostDate>{formattedPostDate}</Styled.PostDate>
+                      <Styled.PostDate>
+                        작성일 | {formattedPostDate}
+                      </Styled.PostDate>
                       <Styled.PostContent>
                         {formattedPostContent}
                       </Styled.PostContent>
