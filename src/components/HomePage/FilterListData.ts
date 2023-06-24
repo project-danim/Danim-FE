@@ -20,11 +20,4 @@ export const locationList = [
 export const groupSizeList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 // 연령대 리스트
-export const ageList = [
-  "10대(성인)",
-  "20대",
-  "30대",
-  "40대",
-  "50대",
-  "60대 이상",
-];
+export const ageList = ["20대", "30대", "40대", "50대", "60대"];
