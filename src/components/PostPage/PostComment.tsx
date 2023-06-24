@@ -20,7 +20,7 @@ function PostComment() {
   const [postId] = useRecoilState(postIdState);
 
   // mile 평점 state
-  const [selectedScore, setSelectedScore] = useState<number>(0);
+  const [selectedScore, setSelectedScore] = useState<number>(5);
   // 댓글 내용 state
   const [comment, setComment] = useState<string>("");
 
