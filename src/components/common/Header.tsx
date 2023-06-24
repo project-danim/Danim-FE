@@ -132,13 +132,15 @@ function Header() {
             <st.chatAndUserButton
               buttonName="user"
               type="button"
-              profile={
-                userProfile ||
-                "https://danimdata.s3.ap-northeast-2.amazonaws.com/avatar.png"
-              }
               onClick={handleMyPageButtonClick}
             >
-              <img src="/header/user.svg" alt="마이 페이지" />
+              <st.userProfile
+                src={
+                  userProfile ||
+                  "https://danimdata.s3.ap-northeast-2.amazonaws.com/avatar.png"
+                }
+                alt="마이 페이지"
+              />
             </st.chatAndUserButton>
             <st.CommonStyleButton
               buttonName="logout"
