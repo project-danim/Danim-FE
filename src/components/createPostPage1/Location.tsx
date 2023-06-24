@@ -60,13 +60,22 @@ function Location() {
         // postIsEditing 이 true 일때 -> 수정 중 일때
         if (postIsEditing) {
           if (selectedValue) {
-            color = keywordOption === selectedValue ? "#2F5901" : "#A4BF3B";
+            color =
+              keywordOption === selectedValue
+                ? "var(--button-6-pressed-color)"
+                : "var(--button-6-default-color)";
           } else {
-            color = keywordOption === location ? "#2F5901" : "#A4BF3B";
+            color =
+              keywordOption === selectedValue
+                ? "var(--button-6-pressed-color)"
+                : "var(--button-6-default-color)";
           }
           // postIsEditing 이 false 일때 -> 글이 작성 중 일때
         } else {
-          color = keywordOption === selectedValue ? "#2F5901" : "#A4BF3B";
+          color =
+            keywordOption === selectedValue
+              ? "var(--button-6-pressed-color)"
+              : "var(--button-6-default-color)";
         }
         return {
           keywordOption,
@@ -84,7 +93,7 @@ function Location() {
             key={keywordOption}
             type="button"
             onClick={() => handleOptionToggle(keywordOption)}
-            style={style}
+            bgColor={style.backgroundColor}
           >
             {keywordOption}
           </CommonButton>

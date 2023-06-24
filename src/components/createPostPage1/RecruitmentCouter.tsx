@@ -20,9 +20,18 @@ const Container = styled.div`
 
 const CountButton = styled.button`
   border: none;
-  background: none;
+  background: D6D6D6;
   cursor: pointer;
-  color: #5c5c5c;
+  color: #ffffff;
+  border-radius: 5px;
+  width: 24px;
+  height: 24px;
+  &:hover {
+    border: 1px solid var(--button-6-pressed-color);
+    background-color: var(--button-6-pressed-color);
+    color: white;
+    transition: all 0.5s ease;
+  }
 `;
 
 const NoticeTextWrapper = styled.div`

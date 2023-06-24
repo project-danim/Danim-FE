@@ -44,19 +44,19 @@ function Keywords() {
           if (selectedValue) {
             color =
               keywordOption === selectedValue
-                ? "#2F5901"
+                ? "var(--button-6-pressed-color)"
                 : "var(--button-6-default-color)";
           } else {
             color =
               keywordOption === keyword
-                ? "#2F5901"
+                ? "var(--button-6-pressed-color)"
                 : "var(--button-6-default-color)";
           }
           // postIsEditing 이 false 일때 -> 글이 작성 중 일때
         } else {
           color =
             keywordOption === selectedValue
-              ? "#2F5901"
+              ? "var(--button-6-pressed-color)"
               : "var(--button-6-default-color)";
         }
         return {

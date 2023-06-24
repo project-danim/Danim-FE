@@ -52,12 +52,18 @@ function AgeRange() {
         let color = "gray";
         if (postIsEditing) {
           if (selectedValues.length) {
-            color = selectedValues.includes(ageOption) ? "#2F5901" : "#A4BF3B";
+            color = selectedValues.includes(ageOption)
+              ? "var(--button-6-pressed-color)"
+              : "var(--button-6-default-color)";
           } else {
-            color = ageRange?.includes(ageOption) ? "#2F5901" : "#A4BF3B";
+            color = ageRange?.includes(ageOption)
+              ? "var(--button-6-pressed-color)"
+              : "var(--button-6-default-color)";
           }
         } else {
-          color = selectedValues.includes(ageOption) ? "#2F5901" : "#A4BF3B";
+          color = selectedValues.includes(ageOption)
+            ? "var(--button-6-pressed-color)"
+            : "var(--button-6-default-color)";
         }
         return {
           ageOption,
@@ -75,7 +81,7 @@ function AgeRange() {
             key={ageOption}
             type="button"
             onClick={() => handleOptionToggle(ageOption)}
-            style={style}
+            bgColor={style.backgroundColor}
           >
             {ageOption}
           </CommonButton>
