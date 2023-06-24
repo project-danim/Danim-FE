@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { useMutation, useQueryClient } from "react-query";
 import { PostGetState, postIdState } from "../../recoil/post/postGetState";
 import { cancelApply, chatStart } from "../../api/chat";
 import {
@@ -15,9 +16,17 @@ export const StyledButton = styled.button`
   height: 112px;
   width: 112px;
   border-radius: 20px;
-  background-color: #2e5902;
+  background-color: var(--button-1-default-color);
   color: white;
   border: none;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--button-1-default-color);
+    border: 2px solid var(--button-1-hover-outline-color);
+  }
+  &:active {
+    background-color: var(--button-1-pressed-color);
+  }
 `;
 
 function PostButton() {
@@ -42,7 +51,10 @@ function PostButton() {
   // 모집 마감일
   const { recruitmentEndDate } = getPostData || {};
   // 게시글이 만료되었는지 판별
-  const isExpired = new Date() > new Date(recruitmentEndDate);
+  const adjustedEndDate = new Date(recruitmentEndDate);
+  adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
+
+  const isExpired = new Date() > adjustedEndDate;
 
   // 신청하려는 모임의 채팅방 Id
   const { chatRoomId } = getPostData || {};
@@ -86,36 +98,55 @@ function PostButton() {
     }
   };
 
-  // 모임 참여 취소
-  const handleCancel = async () => {
-    try {
+  const queryClient = useQueryClient();
+  // 취소 mutation
+  const handleCancelMutation = useMutation(
+    async () => {
       if (chatRoomId === undefined) {
-        console.error("채팅방이 존재하지 않습니다.");
-        return;
+        throw new Error("채팅방이 존재하지 않습니다.");
       }
       const response = await cancelApply(chatRoomId);
-      console.log(response);
-    } catch (error) {
-      console.error("취소하기에 실패했습니다:", error);
+      return response;
+    },
+    {
+      onSuccess: (data) => {
+        alert("취소가 완료되었습니다.");
+        console.log(data);
+      },
+      onError: (error) => {
+        console.error("취소하기에 실패했습니다:", error);
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries("post");
+      },
     }
+  );
+
+  // 모임 참여 취소
+  const handleCancel = async () => {
+    handleCancelMutation.mutate();
   };
 
   let buttonText = "";
   let buttonAction = () => {};
 
-  if (isComplete) {
-    buttonText = "모집완료";
+  if (isApplicant) {
+    buttonText = "취소하기";
+    buttonAction = handleCancel;
   } else if (isAuthor) {
     buttonText = "대화하기";
     buttonAction = handleApplyAndChat;
-  } else if (isApplicant) {
-    buttonText = "취소하기";
-    buttonAction = handleCancel;
+  } else if (isComplete) {
+    buttonText = "모집완료";
+    buttonAction = () =>
+      alert(`모집이 완료된 방입니다. 다른 모임을 찾아보세요.`);
   } else if (!isAuthor && !isApplicant && !isExpired) {
     buttonText = "신청하기";
     buttonAction = handleApplyAndChat;
   } else {
     buttonText = "기간만료";
+    buttonAction = () =>
+      alert(`모집 기간이 지났습니다. 다른 모임을 찾아보세요.`);
   }
 
   return (
