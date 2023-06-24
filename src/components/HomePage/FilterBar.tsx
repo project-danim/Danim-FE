@@ -174,7 +174,7 @@ function FilterBar() {
 
   return (
     <st.FilterBarContainer>
-      {/* 키워드 필터 박스 */}
+      {/* 메인키워드(맛집탐방,맛집...) 컨테이너 */}
       <st.KeywordFilterContainer>
         {keywordList.map((keyword, index) => (
           <st.CommonButton
@@ -189,29 +189,10 @@ function FilterBar() {
           </st.CommonButton>
         ))}
       </st.KeywordFilterContainer>
-      {/* 제목, 지역, 인원수, 연령대, 모집 마감 박스 */}
-      <st.RecruitEndAndDetailContainer>
-        {/* 제목, 지역, 인원수, 연령대 필터 박스 */}
-        <st.DetailFilterContainer>
-          <st.StyleContainer>
-            {/* 제목 검색창 */}
-            <label htmlFor="searchTitle">
-              <st.CommonLableNameText>제목</st.CommonLableNameText>
-              <st.TitleInput
-                type="text"
-                id="searchTitle"
-                placeholder="게시글의 제목, 내용을 입력해주세요."
-                value={titleValue}
-                onChange={(e) => handleChangeTitle(e.target.value)}
-              />
-            </label>
-            <st.LocationAndSizeContainer>
-              {/* 지역 선택 필터 */}
-              <LocationFilter />
-              {/* 인원수 필터 박스 */}
-              <GroupSize />
-            </st.LocationAndSizeContainer>
-          </st.StyleContainer>
+      <RecruitmentEndButton />
+      <st.MainKeywordContainer>
+        {/* 연령대와 제목 컨테이너 */}
+        <st.AgeAndTitleContainer>
           {/* 연령대 필터 박스 */}
           <st.AgeContainer>
             <st.CommonLableNameText>연령대</st.CommonLableNameText>
@@ -233,9 +214,26 @@ function FilterBar() {
               ))}
             </st.AgeButtonContainer>
           </st.AgeContainer>
-        </st.DetailFilterContainer>
-        <RecruitmentEndButton />
-      </st.RecruitEndAndDetailContainer>
+          {/* 제목 검색창 */}
+          <label htmlFor="searchTitle">
+            <st.CommonLableNameText>제목</st.CommonLableNameText>
+            <st.TitleInput
+              type="text"
+              id="searchTitle"
+              placeholder="게시글의 제목, 내용을 입력해주세요."
+              value={titleValue}
+              onChange={(e) => handleChangeTitle(e.target.value)}
+            />
+          </label>
+        </st.AgeAndTitleContainer>
+        {/* 지역과 인원수 컨테이너 */}
+        <st.LocationAndGroupSizeContainer>
+          {/* 지역 선택 필터 */}
+          <LocationFilter />
+          {/* 인원수 필터 박스 */}
+          <GroupSize />
+        </st.LocationAndGroupSizeContainer>
+      </st.MainKeywordContainer>
       <common.CommonButton
         buttonName="search"
         type="button"
