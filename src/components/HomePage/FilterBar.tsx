@@ -69,7 +69,6 @@ function FilterBar() {
 
         // 더 이상 가져올 데이터 없음
         if (response.data.length < size) {
-          console.log("더이상 가져올 데이터없음");
           setHasMore(false);
         }
       }

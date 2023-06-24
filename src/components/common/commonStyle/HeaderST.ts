@@ -90,6 +90,13 @@ const chatAndUserButton = styled.button<CommonStyleButtonProps>`
   cursor: pointer;
 `;
 
+// 소셜 로그인 이미지 프로필
+const userProfile = styled.img`
+  width: 34px;
+  height: 34px;
+  border-radius: 100px;
+`;
+
 export default {
   headerAria,
   Container,
@@ -98,4 +105,5 @@ export default {
   ButtonContainer,
   CommonStyleButton,
   chatAndUserButton,
+  userProfile,
 };
