@@ -108,6 +108,7 @@ export const editPost = async (postId: number, formData: FormData) => {
         },
       }
     );
+    alert("게시글 수정이 완료되었습니다.");
     return response.data;
   } catch (error: any) {
     if (error.response.status === 404) {
@@ -131,6 +132,7 @@ export const deletePost = async (postId: number) => {
         },
       }
     );
+    alert("게시글이 삭제되었습니다.");
     return response.data;
   } catch (error) {
     console.error(error);
