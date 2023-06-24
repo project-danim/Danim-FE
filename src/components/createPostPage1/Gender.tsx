@@ -8,12 +8,13 @@ import CommonButton from "../common/CommonButton";
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   width: 100%;
 `;
 
 const ButtonWrapper = styled.div`
   margin: 5px;
+  width: 100%;
 `;
 
 function Gender() {
@@ -54,13 +55,17 @@ function Gender() {
         if (postIsEditing) {
           if (selectedValues.length) {
             color = selectedValues.includes(genderOption)
-              ? "#2F5901"
-              : "#A4BF3B";
+              ? "var(--button-6-pressed-color)"
+              : "var(--button-6-default-color)";
           } else {
-            color = gender?.includes(genderOption) ? "#2F5901" : "#A4BF3B";
+            color = gender?.includes(genderOption)
+              ? "var(--button-6-pressed-color)"
+              : "var(--button-6-default-color)";
           }
         } else {
-          color = selectedValues.includes(genderOption) ? "#2F5901" : "#A4BF3B";
+          color = selectedValues.includes(genderOption)
+            ? "var(--button-6-pressed-color)"
+            : "var(--button-6-default-color)";
         }
         return {
           genderOption,

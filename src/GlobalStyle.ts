@@ -30,5 +30,25 @@ const GlobalStyle = createGlobalStyle`
   .react-datepicker-popper {
     z-index: 3 !important; // 혹시 다른 스타일에 의해 오버라이드 되는 것을 방지하기 위해 !important를 사용하였습니다.
   }
+  :root {
+  --button-1-default-color: #a3bf3b;
+  --button-1-hover-outline-color: #e4edc5;
+  --button-1-pressed-color: #2e5902;
+  --button-2-default-color: #2e5902;
+  --button-2-hover-outline-color: #e4edc5;
+  --button-2-pressed-color: #224101;
+  --button-3-default-color: #2e5902;
+  --button-3-default-outline-color: #e4edc5;
+  --button-3-font-color: #5c5c5c;
+  --button-4-default-color: #b5bf69;
+  --button-4-hover-color: #a0ac49;
+  --button-4-pressed-outline-color: #bfb578;
+  --button-5-default-color: #a3bf3b;
+  --button-5-hover-color: #82982f;
+  --button-5-pressed-color: #A3BF3B;
+  --button-6-default-color: #F5F5F5;
+  --button-6-hover-color: #E4EDC5;
+  --button-6-pressed-color: #A3BF3B;
+}
 `;
 export default GlobalStyle;

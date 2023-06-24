@@ -1,6 +1,6 @@
 import { Map, Polyline, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useRecoilState } from "recoil";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { PostGetState } from "../../recoil/post/postGetState";
 import * as Styled from "./MapInformationStyle";
 

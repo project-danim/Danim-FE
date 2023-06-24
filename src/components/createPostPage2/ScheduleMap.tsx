@@ -8,12 +8,13 @@ import {
   CustomOverlayMap,
 } from "react-kakao-maps-sdk";
 import { useRecoilState, useRecoilValue } from "recoil";
+import styled from "styled-components";
 import {
   selectedInfosState,
   tripEndDateState,
   tripStartDateState,
 } from "../../recoil/post/postCreateState";
-import { CommonButton, CommonInput } from "../common";
+import { CommonInput } from "../common";
 import * as Styled from "./ScheduleMapStyle";
 import { PostGetState } from "../../recoil/post/postGetState";
 import postIsEditingState from "../../recoil/post/postIsEditingState";
@@ -47,6 +48,24 @@ interface MarkerType {
   content: string;
   address: string; // 마커의 주소정보 저장
 }
+
+const UploadImageButton = styled.button`
+  width: 100%;
+  background-color: var(--button-4-default-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 10px 12px;
+  height: 42px;
+  cursor: pointer;
+  &:hover {
+    border: 1px solid var(--button-4-hover-color);
+    background-color: var(--button-4-hover-color);
+    color: white;
+    transition: all 0.5s ease;
+  }
+`;
 
 const days = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -202,20 +221,6 @@ function ScheduleMap() {
           level={6}
           onCreate={setMapInfo}
         >
-          {/* 검색된 마커들의 정보를 표시 */}
-          {/* {markers.map((marker) => (
-            <MapMarker
-              key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-              position={marker.position}
-              onClick={() => setInfo(marker)}
-            >
-              {info && info.content === marker.content && (
-                <Styled.MarkerContent>{marker.content}</Styled.MarkerContent>
-              )}
-            </MapMarker>
-          ))} */}
-
-          {/* {markers.map((marker, index) => ( */}
           {markers.map((marker) => (
             <React.Fragment
               key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
@@ -241,11 +246,10 @@ function ScheduleMap() {
                 <CustomOverlayMap position={marker.position}>
                   <Styled.StyledOverlay>
                     <div className="wrap">
-                      <div className="title">이름 : {marker.content}</div>
                       <div className="body">
-                        <div className="desc">
-                          <div className="address">주소 : {marker.address}</div>
-                        </div>
+                        <div className="title">이름 : {marker.content}</div>
+                        <div className="address">주소 : {marker.address}</div>
+                        <div className="desc" />
                       </div>
                     </div>
                   </Styled.StyledOverlay>
@@ -257,12 +261,12 @@ function ScheduleMap() {
                 hoverMarkerInfo.content === marker.content &&
                 hoverMarkerIsOpen && (
                   <CustomOverlayMap position={marker.position}>
-                    <Styled.StyledOverlay>
+                    <Styled.HoverStyledOverlay>
                       <div className="wrap">
                         {hoverMarkerInfo.content}
                         {/* 주소: {hoverMarkerInfo.address} */}
                       </div>
-                    </Styled.StyledOverlay>
+                    </Styled.HoverStyledOverlay>
                   </CustomOverlayMap>
                 )}
             </React.Fragment>
@@ -363,9 +367,9 @@ function ScheduleMap() {
 
         {/* 선택 정보 저장 버튼 */}
         <Styled.InputAddWrapper>
-          <CommonButton type="button" onClick={addSelectedInfo}>
+          <UploadImageButton type="button" onClick={addSelectedInfo}>
             + 등록하기
-          </CommonButton>
+          </UploadImageButton>
         </Styled.InputAddWrapper>
         <Styled.MapInfoContainer ref={containerRef}>
           {/* 선택한 정보를 화면에 표시 */}

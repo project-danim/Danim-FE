@@ -13,8 +13,6 @@ const Container = styled.div`
 const ButtonWrapper = styled.div`
   margin: 0 5px 0 5px;
   width: 100%;
-  /* display: flex; */
-  /* align-items: center; */
 `;
 
 function Keywords() {
@@ -44,13 +42,22 @@ function Keywords() {
         // postIsEditing 이 true 일때 -> 수정 중 일때
         if (postIsEditing) {
           if (selectedValue) {
-            color = keywordOption === selectedValue ? "#2F5901" : "#A4BF3B";
+            color =
+              keywordOption === selectedValue
+                ? "var(--button-6-pressed-color)"
+                : "var(--button-6-default-color)";
           } else {
-            color = keywordOption === keyword ? "#2F5901" : "#A4BF3B";
+            color =
+              keywordOption === keyword
+                ? "var(--button-6-pressed-color)"
+                : "var(--button-6-default-color)";
           }
           // postIsEditing 이 false 일때 -> 글이 작성 중 일때
         } else {
-          color = keywordOption === selectedValue ? "#2F5901" : "#A4BF3B";
+          color =
+            keywordOption === selectedValue
+              ? "var(--button-6-pressed-color)"
+              : "var(--button-6-default-color)";
         }
         return {
           keywordOption,
@@ -71,7 +78,7 @@ function Keywords() {
           <CommonButton
             type="button"
             onClick={() => handleOptionToggle(keywordOption)}
-            style={style}
+            bgColor={style.backgroundColor}
           >
             {keywordOption}
           </CommonButton>

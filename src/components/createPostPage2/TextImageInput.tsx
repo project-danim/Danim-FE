@@ -33,7 +33,7 @@ const Container = styled.div`
 const UploadImageButton = styled.button`
   margin-top: 65px;
   width: 100%;
-  background-color: #a3bf3b;
+  background-color: var(--button-4-default-color);
   color: white;
   border: none;
   border-radius: 8px;
@@ -41,6 +41,16 @@ const UploadImageButton = styled.button`
   padding: 10px 12px;
   height: 42px;
   cursor: pointer;
+  &:hover {
+    border: 1px solid var(--button-4-hover-color);
+    background-color: var(--button-4-hover-color);
+    color: white;
+  }
+  &:active {
+    border: 1px solid var(--button-4-pressed-outline-color);
+    background-color: var(--button-4-hover-color);
+    color: white;
+  }
 `;
 
 function TextImageInput() {

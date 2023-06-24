@@ -25,11 +25,26 @@ const StyledInput = styled.div`
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const SubTitle = styled.div`
+  color: #858585;
+  font-size: 14px;
+  margin: 10px 0;
 `;
 
 const DatePickerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
-  margin: 5px;
+  margin: 5px 0;
 `;
 
 const NoticeTextWrapper = styled.div`
@@ -122,38 +137,41 @@ function TripDatePicker() {
 
   return (
     <Container>
-      <DatePickerWrapper>
-        {postIsEditing ? (
-          <NoticeTextWrapper>출발 날짜를 알려주세요.</NoticeTextWrapper>
-        ) : null}
-        <DatePicker
-          selected={startDate}
-          onChange={handleStartChange}
-          selectsStart
-          startDate={startDate}
-          dateFormat="yyyy년 MM월 dd일"
-          endDate={endDate}
-          minDate={new Date()} // 오늘 이전의 날짜는 선택 불가능
-          placeholderText="다님이 출발할 날짜를 알려주세요."
-          customInput={<CustomStartInput />}
-        />
-      </DatePickerWrapper>
-      <DatePickerWrapper>
-        {postIsEditing ? (
-          <NoticeTextWrapper>도착 날짜를 알려주세요.</NoticeTextWrapper>
-        ) : null}
-        <DatePicker
-          selected={endDate}
-          onChange={handleEndChange}
-          selectsEnd
-          startDate={startDate}
-          dateFormat="yyyy년 MM월 dd일"
-          endDate={endDate}
-          minDate={startDate} // 시작 날짜 이전의 날짜는 선택 불가능
-          placeholderText="다님이 끝날 날짜를 알려주세요."
-          customInput={<CustomEndInput />}
-        />
-      </DatePickerWrapper>
+      <SubTitle>여행의 일정을 알려주세요</SubTitle>
+      <Wrapper>
+        <DatePickerWrapper>
+          {postIsEditing ? (
+            <NoticeTextWrapper>출발 날짜를 알려주세요.</NoticeTextWrapper>
+          ) : null}
+          <DatePicker
+            selected={startDate}
+            onChange={handleStartChange}
+            selectsStart
+            startDate={startDate}
+            dateFormat="yyyy년 MM월 dd일"
+            endDate={endDate}
+            minDate={new Date()} // 오늘 이전의 날짜는 선택 불가능
+            placeholderText="다님이 출발할 날짜를 알려주세요."
+            customInput={<CustomStartInput />}
+          />
+        </DatePickerWrapper>
+        <DatePickerWrapper>
+          {postIsEditing ? (
+            <NoticeTextWrapper>도착 날짜를 알려주세요.</NoticeTextWrapper>
+          ) : null}
+          <DatePicker
+            selected={endDate}
+            onChange={handleEndChange}
+            selectsEnd
+            startDate={startDate}
+            dateFormat="yyyy년 MM월 dd일"
+            endDate={endDate}
+            minDate={startDate} // 시작 날짜 이전의 날짜는 선택 불가능
+            placeholderText="다님이 끝날 날짜를 알려주세요."
+            customInput={<CustomEndInput />}
+          />
+        </DatePickerWrapper>
+      </Wrapper>
     </Container>
   );
 }

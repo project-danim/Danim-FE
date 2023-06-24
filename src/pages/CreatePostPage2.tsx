@@ -73,9 +73,9 @@ function CreatePostPage2() {
           <Styled.RouterButton onClick={handleBeforeClick}>
             이전
           </Styled.RouterButton>
-          <Styled.RouterButton onClick={handleSubmit}>
+          <Styled.RouterNextButton onClick={handleSubmit}>
             작성 완료
-          </Styled.RouterButton>
+          </Styled.RouterNextButton>
         </Styled.ButtonRouterWrapper>
       </Styled.ContentsContainer>
     </Styled.Container>
