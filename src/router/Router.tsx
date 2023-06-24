@@ -20,6 +20,7 @@ import ChatPage from "../pages/Chat/ChatPage";
 import MyPage from "../pages/My/MyPage";
 import ChatRoomListPage from "../pages/Chat/ChatRoomList";
 import PrivateRoute from "./PrivateRouter";
+import NoFooterLayout from "../components/common/NoFooterLayout";
 
 function Router() {
   // const userId = localStorage.getItem("id");
@@ -66,8 +67,13 @@ function Router() {
             <Route path="create-post/step2" element={<CreatePostPage2 />} />
             <Route path="edit-post/step1/:id" element={<EditingPostPage1 />} />
             <Route path="edit-post/step2/:id" element={<EditingPostPage2 />} />
-            <Route path="/chat/:postId" element={<ChatPage />} />
             <Route path="/chat-list" element={<ChatRoomListPage />} />
+          </Route>
+        </Route>
+
+        <Route path="/" element={<NoFooterLayout />}>
+          <Route element={<PrivateRoute authentication />}>
+            <Route path="/chat/:postId" element={<ChatPage />} />
           </Route>
         </Route>
 

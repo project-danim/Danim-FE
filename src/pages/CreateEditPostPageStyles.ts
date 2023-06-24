@@ -118,15 +118,39 @@ export const GenderAgeVerticalLine = styled.div`
 export const RouterButton = styled.button`
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #a4bf3b;
+  border: 1px solid var(--button-5-default-color);
+  color: var(--button-5-default-color);
   background-color: transparent;
   transition: background-color 0.2s;
   border-radius: 8px;
   font-size: 16px;
   &:hover {
-    border: 1px solid #2f5901;
-    background-color: #2f5901;
+    border: 1px solid var(--button-5-hover-color);
+    color: var(--button-5-hover-color);
+    cursor: pointer;
+  }
+  &:active {
     color: white;
+    background-color: var(--button-5-pressed-color);
+  }
+`;
+
+// common : 아래 이동 하단 버튼
+export const RouterNextButton = styled.button`
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--button-1-default-color);
+  transition: background-color 0.2s;
+  border-radius: 8px;
+  font-size: 16px;
+  color: white;
+  &:hover {
+    border: 1px solid var(--button-1-hover-outline-color);
+    background-color: var(--button-1-default-color);
+    color: white;
+  }
+  &:active {
+    background-color: var(--button-1-pressed-color);
   }
 `;
 

@@ -155,9 +155,9 @@ function CreatePostPage1() {
           <Styled.RouterButton onClick={handleBeforeClick}>
             이전
           </Styled.RouterButton>
-          <Styled.RouterButton onClick={handleNextClick}>
+          <Styled.RouterNextButton onClick={handleNextClick}>
             다음
-          </Styled.RouterButton>
+          </Styled.RouterNextButton>
         </Styled.ButtonRouterWrapper>
       </Styled.ContentsContainer>
     </Styled.Container>
