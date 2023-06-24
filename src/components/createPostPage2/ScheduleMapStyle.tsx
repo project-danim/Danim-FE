@@ -109,28 +109,48 @@ export const MapTextWrapper = styled.div`
   justify-content: space-between;
 `;
 
+export const HoverStyledOverlay = styled.div`
+  .wrap {
+    display: flex;
+    align-items: center;
+    border: 3px solid #248cfa;
+    border-radius: 10px;
+    padding: 3px 3px;
+    position: relative;
+    height: 25px;
+    top: -60px;
+    left: 0;
+    z-index: 10px;
+    background-color: white;
+  }
+`;
+
 export const StyledOverlay = styled.div`
   .wrap {
+    display: flex;
+    align-items: center;
     border: 2px solid #2e5902;
+    border-radius: 5px;
+    padding: 3px 3px;
     position: relative;
+    min-height: 35px;
+    top: -65px;
+    left: 0;
     z-index: 10px;
     background-color: white;
   }
 
+  .body {
+    margin: 3px;
+  }
   .title {
     font-size: 15px;
-  }
-  .body {
-    // 여기에 'info' 클래스에 대한 CSS 스타일을 적용합니다.
-  }
-  .desc {
-    // 여기에 'info' 클래스에 대한 CSS 스타일을 적용합니다.
+    margin-bottom: 1px;
   }
 
   .address {
     font-size: 13px;
   }
-  // 다른 클래스들에 대해서도 동일하게 적용할 수 있습니다.
 `;
 
 export const MarkerContent = styled.div`
