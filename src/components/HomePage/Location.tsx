@@ -25,7 +25,7 @@ function LocationFilter() {
         <st.CommonUnderButton>지역 선택하기</st.CommonUnderButton>
       </st.CommonDropDownButton>
       {isLocationToggled ? (
-        <st.LocationListUl>
+        <st.LocationListUl ulName="location">
           {locationList.map((location) => (
             <div
               key={location}

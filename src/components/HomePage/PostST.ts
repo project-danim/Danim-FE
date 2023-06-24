@@ -132,6 +132,7 @@ const postNickname = styled.p<NickNameProps>`
       props.profile ? `url(${props.profile})` : `url(/avatar.svg)`};
     width: 24px;
     height: 24px;
+    border-radius: 100px;
     background-position: center;
     background-size: cover;
     margin-right: 8px;
