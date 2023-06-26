@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { useRecoilState } from "recoil";
-import KAKAO_AUTH_URL from "./kakaoAuth";
+// import KAKAO_AUTH_URL from "./kakaoAuth";
 import useInput from "../../hooks/useInput";
 import { fetchLogin } from "../../api/signUp";
 import st from "../SignUpPage/SignUpST";
 import loginSt from "./LoginST";
 import UserId from "../SignUpPage/UserId";
 import loginUserIdState from "../../recoil/login/userInfo";
+import SnsSignUp from "./SnsSignUp";
 
 function Login() {
   // 아이디 입력값 state , 아이디 에러 메세지 state
@@ -95,22 +96,14 @@ function Login() {
     mutateLogin(user);
   };
 
-  // 카카오 로그인 함수
-  const handleKakaoLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
-  };
-
-  // 구글 로그인 함수
-  const handleGoogleLogin = () => alert("아직 준비중인 서비스입니다!");
-
-  // 네이버 로그인 함수
-  const handleNaverLogin = () => {
-    alert("아직 준비중인 서비스입니다!");
-  };
-
   // 로그인 폼 제출 핸들러
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+  };
+
+  // 중비 중인 서비스 안내 함수
+  const HandleAlertNotExist = () => {
+    alert("아직 준비중인 서비스입니다!");
   };
 
   return (
@@ -138,39 +131,11 @@ function Login() {
         <loginSt.LoginButton type="submit" onClick={handleLoginBtnClick}>
           로그인
         </loginSt.LoginButton>
-        <loginSt.FindUserInfoContainer>
+        <loginSt.FindUserInfoContainer onClick={HandleAlertNotExist}>
           아이디 찾기｜비밀번호 찾기｜비밀번호 변경
         </loginSt.FindUserInfoContainer>
       </div>
-
-      <st.FormExplainText pageName="loginPage">SNS로 로그인</st.FormExplainText>
-      <loginSt.SocialLoginContainer>
-        <loginSt.SocialButton
-          url="naver"
-          type="button"
-          onClick={handleNaverLogin}
-        >
-          네이버 계정으로 회원가입
-        </loginSt.SocialButton>
-        <loginSt.SocialButton
-          url="kakao"
-          type="button"
-          onClick={handleKakaoLogin}
-        >
-          카카오 계정으로 회원가입
-        </loginSt.SocialButton>
-        <loginSt.SocialButton
-          url="google"
-          type="button"
-          onClick={handleGoogleLogin}
-        >
-          구글 계정으로 회원가입
-        </loginSt.SocialButton>
-        <loginSt.SocialExplainText>
-          소셜 로그인으로 가입 시 이용약관, 개인정보처리방침, 전자금융거래약관에
-          동의함으로 처리됩니다.
-        </loginSt.SocialExplainText>
-      </loginSt.SocialLoginContainer>
+      <SnsSignUp />
     </st.ContainerForm>
   );
 }

@@ -1,10 +1,16 @@
-import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
+import axios from "axios";
 import { User, UserInfoForKakao } from "../types/userType";
+// import chatConnect from "../utils/chatConnect";
 
-// axiosInstace 생성
+// axiosInstace (액세스 토큰 만료시 재발급 받는 인터셉터 있음)
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_URL,
 });
+
+// generalInstance (인터셉터 없음)
+// export const generalInstance = axios.create({
+//   baseURL: import.meta.env.VITE_APP_URL,
+// });
 
 // 에러 콘솔 출력 함수
 export function showError(error: any) {
@@ -40,65 +46,66 @@ export const getAccessToken = () => getCookie("accessToken");
 // 리프레시 토큰 가져오는 함수
 export const getRefreshToken = () => getCookie("refreshToken");
 
-// 액세스 토큰 만료 확인하는 인터셉터
-axiosInstance.interceptors.request.use(
-  async (config: any) => {
-    try {
-      const token = getAccessToken();
+// 로그아웃 처리 함수
+const removeAllInfo = () => {
+  document.cookie =
+    "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie =
+    "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  localStorage.removeItem("id");
+  localStorage.removeItem("nickname");
+  localStorage.removeItem("profileUrl");
+  localStorage.removeItem("showAlert");
+  localStorage.setItem("isAuthenticated", "false");
+};
 
-      if (token) {
-        // accessToken이 있을 경우만 실행
-        const base64Url = token.split(".")[1];
-        const base64 = base64Url.replace("-", "+").replace("_", "/");
-        const jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split("")
-            .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
-            .join("")
-        );
+// 액세스 토큰 확인하고 재발급 받는 함수
+export const checkAccessToken = async () => {
+  const token = getAccessToken();
 
-        const { exp } = JSON.parse(jsonPayload);
+  if (token) {
+    return "accessToken 재발급 완료";
+  }
+  // 액세스 토큰이 만료된 경우
+  if (token === null || token === "") {
+    const refreshToken = getRefreshToken();
+    if (refreshToken) {
+      try {
+        const response = await axiosInstance.get("/api/user/refreshToken", {
+          headers: {
+            REFRESH_KEY: refreshToken,
+          },
+        });
+        const newAccessToken = response.headers.access_key;
 
-        // Token이 만료되었을 경우
-        if (Date.now() >= exp * 1000) {
-          // Refresh Token으로 새로운 Access Token 요청
-          const refreshToken = getRefreshToken();
-          if (refreshToken) {
-            const response = await axiosInstance.post(
-              "/api/user/refreshToken",
-              {
-                headers: {
-                  REFRESH_KEY: refreshToken,
-                },
-              }
-            );
-            // 이 부분은 새로 들어온 액세스 토큰 data로 줄 수도 있으니 받아보고 확인하기!!
-            const newAccessToken = response.headers.accessToken;
+        // 새롭게 발급 받은 액세스 토큰을 쿠키에 저장
+        setCookie("accessToken", newAccessToken, 1);
 
-            // 쿠키 업데이트
-            setCookie("accessToken", newAccessToken, 1); // 1일 후 만료
-
-            // 요청의 헤더 업데이트
-            const updatedConfig = {
-              ...config,
-              headers: {
-                ...config.headers,
-                REFRESH_KEY: `Bearer ${newAccessToken}`,
-              },
-            };
-
-            return updatedConfig;
-          }
-        }
+        return newAccessToken;
+      } catch (error) {
+        return error;
       }
-
-      return config;
-    } catch (error) {
-      return Promise.reject(error);
     }
-  },
-  (error) => Promise.reject(error)
-);
+  }
+  return null;
+};
+
+// 액세스 토큰 만료 확인하는 인터셉터
+// axiosInstance.interceptors.request.use(
+//   async (config) => {
+//     const token = await checkAccessToken();
+//     if (token === "accessToken 재발급 완료") {
+//       return config;
+//     }
+//     if (token) {
+//       // 함수의 매개변수를 직접 변경하는 것을 금지하는 규칙 이 코드에서만 해제해놓겠습니다!
+//       // eslint-disable-next-line no-param-reassign
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
 
 // 회원가입 - 아이디 중복검사
 export const fetchCheckId = async (id: string) => {
@@ -138,7 +145,7 @@ export const fetchSignUp = async (user: User) => {
     const response = await axiosInstance.post("/api/user/signup", user);
     return response.data;
   } catch (err) {
-    return showError(err);
+    return err;
   }
 };
 
@@ -148,7 +155,7 @@ export const fetchRandomNickname = async () => {
     const response = await axiosInstance.get("api/user/randomNickname");
     return response.data.data;
   } catch (err) {
-    return showError(err);
+    return err;
   }
 };
 
@@ -158,7 +165,7 @@ export const fetchSignUpForSocial = async (userInfo: UserInfoForKakao) => {
     const response = await axiosInstance.post("/api/user/userInfo", userInfo);
     return response.data;
   } catch (err) {
-    return showError(err);
+    return err;
   }
 };
 
@@ -173,6 +180,9 @@ export const fetchLogin = async (user: {
       throw response.data;
     }
     if (response.data.message === "로그인 성공") {
+      // 웹 소켓 통신에 연결
+      // chatConnect();
+      // 토큰 및 유저 정보 저장
       const accessToken = response.headers.access_key;
       const refreshToken = response.headers.refresh_key;
       const { id } = response.data.data;
@@ -205,61 +215,44 @@ export const fetchLogout = async () => {
           ACCESS_KEY: accessToken,
         },
       });
-      document.cookie =
-        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie =
-        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      localStorage.removeItem("id");
-      localStorage.removeItem("nickname");
-      localStorage.removeItem("profileUrl");
-      localStorage.removeItem("showAlert");
-      localStorage.setItem("isAuthenticated", "false");
+      removeAllInfo();
       return response;
     }
-    if (refreshToken) {
-      document.cookie =
-        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      localStorage.removeItem("id");
-      localStorage.removeItem("nickname");
-      localStorage.removeItem("profileUrl");
-      localStorage.removeItem("showAlert");
-      localStorage.setItem("isAuthenticated", "false");
-      return { data: "refreshToken 삭제 완료" };
-    }
-    return null;
+    // 리프레쉬 토큰으로 요청
+
+    const response = await axiosInstance.delete("/api/user/logout", {
+      headers: {
+        REFRESH_KEY: refreshToken,
+      },
+    });
+    return response;
   } catch (err: any) {
     if (err) {
-      if (err.response.status === 404) {
-        // 찾을 수 없는 회원일때
-        return "찾을 수 없는 회원입니다.";
-      }
+      // if (err.response.status === 404) {
+      // }
     }
-    return err;
   }
+
+  // 액세스 토큰이 없거나 요청이 실패한 경우에도 로그아웃 처리
+  removeAllInfo();
+
+  return null;
 };
 
 // 탈퇴하기
 export const withdrawalUser = async () => {
   try {
     const accessToken = getAccessToken();
-    if (accessToken) {
-      const response = await axiosInstance.delete("/api/user/delete ", {
-        headers: {
-          ACCESS_KEY: accessToken,
-        },
-      });
-      localStorage.setItem("isAuthenticated", "false");
-      document.cookie =
-        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie =
-        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      localStorage.removeItem("id");
-      localStorage.removeItem("nickname");
-      localStorage.removeItem("profileUrl");
-      return response;
-    }
-    return null;
+    const response = await axiosInstance.delete("/api/user/delete ", {
+      headers: {
+        ACCESS_KEY: accessToken,
+      },
+    });
+    removeAllInfo();
+    return response;
   } catch (err) {
-    return showError(err);
+    // 에러가 발생하더라도 탈퇴 처리
+    removeAllInfo();
+    return err;
   }
 };

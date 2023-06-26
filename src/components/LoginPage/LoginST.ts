@@ -16,6 +16,7 @@ const CommonInput = styled.input`
   width: 360px;
   line-height: 22px;
   border-radius: 8px;
+  font-family: "Pretendard";
   &:focus {
     outline: 1px solid #a3bf3b;
   }
@@ -34,6 +35,11 @@ const LoginButton = styled.button`
   border-radius: 8px;
   font-weight: 500;
   &:hover {
+    box-sizing: border-box;
+    border: 2px solid #e4edc5;
+    background: #a3bf3b;
+    padding: 8px 17.5px;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
     cursor: pointer;
   }
 `;
@@ -44,8 +50,9 @@ const FindUserInfoContainer = styled.div`
   font-weight: 400;
   line-height: 14px;
   text-align: center;
-  margin-top: 8px;
+  margin-top: 16px;
   color: #868686;
+  cursor: pointer;
 `;
 
 // 소셜 회원가입 컨테이너
@@ -84,7 +91,7 @@ const SocialButton = styled.button<SocialLoginButtonProps>`
   font-weight: 400;
   line-height: 17px;
   margin-bottom: 8px;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard";
   cursor: pointer;
 `;
 

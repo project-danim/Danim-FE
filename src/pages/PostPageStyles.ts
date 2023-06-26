@@ -3,7 +3,7 @@ import styled from "styled-components";
 // container
 export const Container = styled.div`
   width: 100%;
-  margin: 0 auto;
+  margin: 10px;
 `;
 
 // 제목, 게시글 정보, 버튼 wrapper
@@ -12,6 +12,11 @@ export const PostInfoAndButtonGroupWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 75px 25px 0 25px;
+  @media (max-width: 375px) {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 // 세로선

@@ -41,6 +41,9 @@ const NoticeTextWrapper = styled.div`
   p {
     color: #7ea8e3;
   }
+  @media (max-width: 375px) {
+    margin: 2px 0;
+  }
 `;
 
 //

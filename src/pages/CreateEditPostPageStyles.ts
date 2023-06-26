@@ -5,12 +5,20 @@ export const Container = styled.div`
   width: 100%;
   /* max-width: 591px; */
   margin: 0 auto;
+
+  /* @media (max-width: 375px) {
+    width: 100%;
+    margin: 10px;
+  } */
 `;
 
 // common : VerticalLineWrapper
 export const VerticalLineWrapper = styled.div`
   display: flex;
   gap: 5px;
+  @media (max-width: 375px) {
+    gap: 2px;
+  }
 `;
 
 // common : VerticalLineStyle
@@ -18,14 +26,22 @@ export const VerticalLineStyle = styled.div`
   width: 50%;
   height: 10px;
   background-color: #2e5902;
+  @media (max-width: 375px) {
+    width: 47%;
+    margin: 3px;
+  }
 `;
 
 // common : contents container
 export const ContentsContainer = styled.div`
-  width: 100%;
+  width: 95%;
   max-width: 591px;
   margin: 0 auto;
   margin-bottom: 100px;
+  @media (max-width: 375px) {
+    margin-bottom: 30px;
+    /* margin: 5px; */
+  }
 `;
 
 // post step 1 : wrapper
@@ -33,6 +49,9 @@ export const Wrapper1 = styled.div`
   width: 100%;
   margin: 64px 0 64px 0;
   border-color: black;
+  @media (max-width: 375px) {
+    margin: 40px 0;
+  }
 `;
 
 // post step 2 : 게시글 제목 Wrapper
@@ -40,6 +59,9 @@ export const MainInfotextWrapper = styled.div`
   width: 100%;
   margin-top: 100px;
   border-color: black;
+  @media (max-width: 375px) {
+    margin-top: 30px;
+  }
 `;
 
 // post step 2 : 게시글 제목 Wrapper
@@ -47,6 +69,9 @@ export const Wrapper2 = styled.div`
   width: 100%;
   margin: 50px 0 20px 0;
   border-color: black;
+  @media (max-width: 375px) {
+    margin: 20px 0 10px 0;
+  }
 `;
 
 // common : create post - 제목 wrapper
@@ -96,22 +121,15 @@ export const GenderAgeWrapper = styled.div`
   /* display: flex; */
 `;
 
-// post page 1 : 성별 wrapper
-export const GenderWrapper = styled.div`
-  flex-grow: 207; // 내부 컴포넌트 하나당의 비율
-`;
-
-// post page 1 : 나이 wrapper
-export const AgeWrapper = styled.div`
-  flex-grow: 110; // 내부 컴포넌트 하나당의 비율
-`;
-
 // GenderAgeVerticalLine
 export const GenderAgeVerticalLine = styled.div`
-  height: 0.5px;
+  height: 2px;
   width: 100%;
   margin: 20px 0;
   background-color: #f5f5f5;
+  @media (max-width: 375px) {
+    margin: 10px 0;
+  }
 `;
 
 // common : 아래 이동 하단 버튼
@@ -159,6 +177,9 @@ export const ButtonRouterWrapper = styled.div`
   display: flex;
   margin-top: 98px;
   gap: 10px;
+  @media (max-width: 375px) {
+    margin-top: 10px;
+  }
 `;
 
 // 모집 마감 일자 / 모집 인원

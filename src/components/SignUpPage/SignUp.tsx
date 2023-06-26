@@ -16,6 +16,8 @@ import {
   signUpUserIdState,
 } from "../../recoil/signUp/userInfo";
 import Nickname from "./Nickname";
+import SnsSignUp from "../LoginPage/SnsSignUp";
+import { ageList } from "../HomePage/FilterListData";
 
 function SignUp() {
   // 네비게이트 생성
@@ -46,7 +48,6 @@ function SignUp() {
 
   // 성별과 연령대 정보 배열
   const genders = ["남", "여"];
-  const ages = ["10대(성인)", "20대", "30대", "40대", "50대", "60대 이상"];
 
   // 비밀번호 유효성 검사
   useEffect(() => {
@@ -206,6 +207,7 @@ function SignUp() {
     <st.ContainerForm
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}
     >
+      <SnsSignUp />
       <st.FormExplainText pageName="signUpPage">
         회원가입에 필요한 정보를 입력해주세요.
       </st.FormExplainText>
@@ -264,7 +266,7 @@ function SignUp() {
                 ref={userGenderRef}
                 key={gender}
                 type="button"
-                buttonName="other"
+                buttonName="gender"
                 onClick={() => handleGenderClick(gender)}
                 active={activeGender === gender}
               >
@@ -272,7 +274,7 @@ function SignUp() {
               </st.OriginalButton>
             ))}
           </st.GenderLabelContainer>
-          <label>
+          <st.AgreeLable>
             <st.CommonAgreeForInfoInput
               type="checkbox"
               id="isAgreeForGender"
@@ -285,31 +287,25 @@ function SignUp() {
             <st.CommonErrorText role="alert" id="agreeForGenderError">
               {genderError}
             </st.CommonErrorText>
-          </label>
+          </st.AgreeLable>
         </st.GenderAriaContainer>
         <div>
           <st.IdAreaExplainText>*연령</st.IdAreaExplainText>
           <st.AgeAriaContainer>
-            {Array.from({ length: Math.ceil(ages.length / 3) }).map(
-              (val: any, index) => (
-                <div key={val}>
-                  {ages.slice(index * 3, index * 3 + 3).map((age) => (
-                    <st.OriginalButton
-                      key={age}
-                      type="button"
-                      buttonName="other"
-                      onClick={() => handleAgeClick(age)}
-                      active={activeAge === age}
-                      aria-describedby="ageError"
-                    >
-                      {age}
-                    </st.OriginalButton>
-                  ))}
-                </div>
-              )
-            )}
+            {ageList.map((age) => (
+              <st.OriginalButton
+                key={age}
+                type="button"
+                buttonName="age"
+                onClick={() => handleAgeClick(age)}
+                active={activeAge === age}
+                aria-describedby="ageError"
+              >
+                {age}
+              </st.OriginalButton>
+            ))}
           </st.AgeAriaContainer>
-          <label>
+          <st.AgreeLable>
             <st.CommonAgreeForInfoInput
               type="checkbox"
               id="isAgreeForAge"
@@ -322,7 +318,7 @@ function SignUp() {
             <st.CommonErrorText role="alert" id="agreeForAgeError">
               {ageError}
             </st.CommonErrorText>
-          </label>
+          </st.AgreeLable>
         </div>
       </st.UserInfoContainer>
       <st.OriginalButton
