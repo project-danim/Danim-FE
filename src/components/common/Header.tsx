@@ -39,10 +39,7 @@ function Header() {
 
   // 로그아웃 뮤테이션 함수
   const { mutate: mutateLogout } = useMutation(fetchLogout, {
-    onSuccess: (response) => {
-      if (response === "찾을 수 없는 회원입니다.") {
-        return alert(response);
-      }
+    onSuccess: () => {
       alert("로그아웃이 완료되었습니다.");
       setUserAccessCookie(null);
       setUserRefreshCookie(null);
@@ -103,7 +100,6 @@ function Header() {
       setUserProfile(() => profileImg);
     }
   }, [profileImg, userProfile]);
-
   return (
     <st.headerAria>
       <st.DanimTitle>다님</st.DanimTitle>

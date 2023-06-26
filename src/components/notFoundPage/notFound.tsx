@@ -1,14 +1,26 @@
+import { useNavigate } from "react-router-dom";
 import st from "./notFoundST";
 
 function NotFound() {
+  // 네비게이터 생성
+  const navigate = useNavigate();
+
+  // 메인페이지 이동 함수
+  const handleMoveHome = () => {
+    navigate("/");
+  };
   return (
     <div>
       <st.InformationTextContainer>
         <div>
           <st.titleText>페이지를 찾을 수 없습니다.</st.titleText>
-          <st.InformationText>
-            다른 페이지를 찾아서 <span>다녀</span>볼까요?
-          </st.InformationText>
+          <div>
+            다른 페이지를 찾아서{" "}
+            <st.moveHomeTextbutton onClick={handleMoveHome}>
+              다녀
+            </st.moveHomeTextbutton>
+            볼까요?
+          </div>
         </div>
         <st.ErrorCodeText>404</st.ErrorCodeText>
       </st.InformationTextContainer>

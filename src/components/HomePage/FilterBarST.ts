@@ -17,7 +17,7 @@ type FilterButtonProps = {
 
 // 지역, 인원수 ul 프롭 타입
 type CommonUlProps = {
-  ulName: string;
+  ulName?: string;
 };
 
 // 공통 width 스타일

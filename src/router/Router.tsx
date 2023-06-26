@@ -21,6 +21,7 @@ import MyPage from "../pages/My/MyPage";
 import ChatRoomListPage from "../pages/Chat/ChatRoomList";
 import PrivateRoute from "./PrivateRouter";
 import NoFooterLayout from "../components/common/NoFooterLayout";
+import SplashPage from "../components/common/SplashPage";
 
 function Router() {
   // const userId = localStorage.getItem("id");
@@ -80,6 +81,8 @@ function Router() {
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<HomePage />} />
         </Route>
+
+        <Route path="/onboard" element={<SplashPage />} />
       </Routes>
     </BrowserRouter>
   );

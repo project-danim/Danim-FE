@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Main from "../components/HomePage/Main";
 import BannerImg from "../components/HomePage/BannerImg";
 
@@ -32,6 +33,34 @@ function HomePage() {
       Notification.requestPermission();
     }
   }, []);
+
+  // 모바일 픽셀인지 아닌지에 대한 상태
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia("(max-width: 391px)").matches
+  );
+  // 네이게이트 생성
+  const navigate = useNavigate();
+
+  // 픽셀 사이즈 변경시 모바일 픽셀인지 확인하는 함수
+  const handleMediaQueryChange = (mediaQuery: any) => {
+    setIsMobile(mediaQuery.matches);
+  };
+
+  // 모바일 픽셀일 경우 온보딩 페이지로 이동
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 391px)");
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+    handleMediaQueryChange(mediaQuery);
+
+    return () =>
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+  }, [navigate]);
+  useEffect(() => {
+    if (isMobile && !sessionStorage.getItem("splashDisplayed")) {
+      sessionStorage.setItem("splashDisplayed", "true");
+      navigate("/onboard");
+    }
+  }, [isMobile, navigate]);
 
   return (
     <>

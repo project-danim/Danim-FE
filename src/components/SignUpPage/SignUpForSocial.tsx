@@ -4,6 +4,7 @@ import { useMutation } from "react-query";
 import st from "./SignUpST";
 import { fetchSignUpForSocial } from "../../api/signUp";
 import { UserInfoForKakao } from "../../types/userType";
+import { ageList } from "../HomePage/FilterListData";
 
 function SignUpForSocial() {
   const userId = localStorage.getItem("id");
@@ -26,9 +27,8 @@ function SignUpForSocial() {
   // 네비게이트 생성
   const navigate = useNavigate();
 
-  // 성별과 연령대 정보 배열
+  // 성별 정보 배열
   const genders = ["남", "여"];
-  const ages = ["10대(성인)", "20대", "30대", "40대", "50대", "60대 이상"];
 
   // 성별 선택값 유효성 검사
   useEffect(() => {
@@ -148,33 +148,43 @@ function SignUpForSocial() {
       <st.UserInfoContainer>
         <st.GenderAriaContainer>
           <st.IdAreaExplainText>*성별</st.IdAreaExplainText>
-          <st.GenderLabelContainer htmlFor="gender">
+          <st.GenderLabelContainer htmlFor="isAgreeForGender">
             {genders.map((gender) => (
               <st.OriginalButton
                 ref={userGenderRef}
                 key={gender}
                 type="button"
-                buttonName="other"
+                buttonName="gender"
                 onClick={() => handleGenderClick(gender)}
                 active={activeGender === gender}
-                aria-describedby="genderError"
               >
                 {gender}
               </st.OriginalButton>
             ))}
           </st.GenderLabelContainer>
-          <st.CommonErrorText role="alert" id="genderError">
-            {genderError}
-          </st.CommonErrorText>
+          {/* <st.AgreeLable>
+            <st.CommonAgreeForInfoInput
+              type="checkbox"
+              id="isAgreeForGender"
+              onChange={handleAgreeForGender}
+              aria-describedby="agreeForGenderError"
+            />
+            <st.CommonAgreeForInfoText>
+              (필수)개인정보 이용 및 제 3자 제공에 동의합니다.
+            </st.CommonAgreeForInfoText>
+            <st.CommonErrorText role="alert" id="agreeForGenderError">
+              {genderError}
+            </st.CommonErrorText>
+          </st.AgreeLable> */}
         </st.GenderAriaContainer>
         <div>
           <st.IdAreaExplainText>*연령</st.IdAreaExplainText>
           <st.AgeAriaContainer>
-            {ages.map((age) => (
+            {ageList.map((age) => (
               <st.OriginalButton
                 key={age}
                 type="button"
-                buttonName="other"
+                buttonName="age"
                 onClick={() => handleAgeClick(age)}
                 active={activeAge === age}
                 aria-describedby="ageError"
@@ -182,13 +192,9 @@ function SignUpForSocial() {
                 {age}
               </st.OriginalButton>
             ))}
-            <st.CommonErrorText role="alert" id="ageError">
-              {ageError}
-            </st.CommonErrorText>
           </st.AgeAriaContainer>
         </div>
       </st.UserInfoContainer>
-
       <st.AgreeContainer>
         <label htmlFor="agreeForAll">
           <st.CommonAgreeForInfoInput
