@@ -27,6 +27,16 @@ export const StyledButton = styled.button`
   &:active {
     background-color: var(--button-1-pressed-color);
   }
+  @media (max-width: 375px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    border-radius: 8px;
+    width: 350px;
+    margin: 5px;
+  }
 `;
 
 function PostButton() {

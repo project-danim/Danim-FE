@@ -40,14 +40,14 @@ function PostInformation() {
               {postData.location}
             </Styled.SingleKeywordWrapper>
             <Styled.AgeGenderWrapper>
-              {postData.ageRange?.map((value) => (
+              {postData.gender?.map((value) => (
                 <Styled.SingleKeywordWrapper key={value}>
                   {value}
                 </Styled.SingleKeywordWrapper>
               ))}
             </Styled.AgeGenderWrapper>
             <Styled.AgeGenderWrapper>
-              {postData.gender?.map((value) => (
+              {postData.ageRange?.map((value) => (
                 <Styled.SingleKeywordWrapper key={value}>
                   {value}
                 </Styled.SingleKeywordWrapper>

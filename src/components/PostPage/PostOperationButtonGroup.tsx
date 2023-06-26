@@ -33,6 +33,9 @@ export const DeleteAddButtonWrapper = styled.div`
   justify-content: center;
   margin-top: 30px;
   height: 13px;
+  @media (max-width: 375px) {
+    margin: 10px;
+  }
 `;
 
 function PostOperationButtonGroup() {
