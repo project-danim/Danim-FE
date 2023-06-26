@@ -29,33 +29,57 @@ const OriginalButton = styled.button<OriginalButtonProps>`
     padding: 8px 15.5px;
   }
 
+  // 중복검사 버튼
   ${({ buttonName }) =>
     buttonName === "checkOverlap" &&
     css`
-      background-color: #a3bf3b;
+      background: #b5bf69;
       color: #fff;
       font-weight: 400;
       font-size: 14px;
       padding: 10px 12px;
     `}
-
+  // 그외 다른 버튼
   ${({ buttonName }) =>
     buttonName === "other" &&
     css`
-      background-color: #a3bf3b;
+      border-radius: 8px;
+      background: #f5f5f5;
+      box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
       color: #fff;
+      color: #5c5c5c;
     `}
-  ${(props) =>
-    props.active &&
-    css`
-      background-color: #2e5902;
-    `}
-
-  ${({ buttonName }) =>
+    // 회원가입 버튼
+    ${({ buttonName }) =>
     buttonName === "signUp" &&
     css`
       background-color: #2e5902;
       font-size: 14px;
+    `}
+    // 연령대, 성별 버튼
+    ${({ buttonName }) =>
+    (buttonName === "age" || buttonName === "gender") &&
+    css`
+      color: #5c5c5c;
+      padding: 10px 12px;
+      &:hover {
+        background-color: #e4edc5;
+        padding: 10px 12px;
+        border: none;
+      }
+    `}
+    // 버튼 활성화 시
+    ${(props) =>
+    props.active &&
+    css`
+      background-color: #2e5902;
+    `}
+      // 연령대, 성별 활성화시 
+    ${({ active, buttonName }) =>
+    active &&
+    (buttonName === "age" || buttonName === "gender") &&
+    css`
+      background-color: #a3bf3b !important;
     `}
 `;
 
@@ -69,7 +93,7 @@ const CommonInput = styled.input`
   width: 100%;
   line-height: 22px;
   border-radius: 8px;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard";
   &:focus {
     outline: 1px solid #a3bf3b;
   }
@@ -106,7 +130,7 @@ const ContainerForm = styled.form`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  margin-top: 106px;
+  margin-top: 96px;
   margin-bottom: 144px;
 `;
 
@@ -114,9 +138,10 @@ const ContainerForm = styled.form`
 const FormExplainText = styled.p<FormExplainTextProps>`
   font-size: 12px;
   text-align: center;
-  margin-bottom: ${(props) =>
-    props.pageName === "loginPage" ? "56px" : "36px"};
-  margin-top: ${(props) => (props.pageName === "loginPage" ? "56px" : "0")};
+  margin-bottom: 40px;
+  /* margin-top: ${(props) =>
+    props.pageName === "loginPage" ? "56px" : "0"}; */
+  margin-top: 56px;
   position: relative;
   &::before {
     content: "";
@@ -182,6 +207,7 @@ const GenderLabelContainer = styled.label`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 8px;
   & > button:first-child {
     margin-right: 20px;
   }
@@ -194,16 +220,14 @@ const GenderAriaContainer = styled.div`
 // 연령
 const AgeAriaContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  & > div {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    & > button {
-      width: calc(33.33% - 15px);
-      margin-bottom: 15px;
-    }
-  }
+  flex-direction: row;
+  margin-bottom: 10px;
+  gap: 10px;
+`;
+
+// 약관 동의 체크박스 레이블
+const AgreeLable = styled.label`
+  padding-left: 10px;
 `;
 
 // 약관 동의 컨테이너
@@ -219,7 +243,7 @@ const AgreeContainer = styled.div`
   padding: 13px 16px;
   border-radius: 8px;
   border: 0.5px solid #a3a3a3;
-  margin-top: -15px;
+  margin-top: 40px;
   margin-bottom: 96px;
   & > label > span {
     font-size: 14px;
@@ -241,5 +265,6 @@ export default {
   GenderLabelContainer,
   GenderAriaContainer,
   AgeAriaContainer,
+  AgreeLable,
   AgreeContainer,
 };
