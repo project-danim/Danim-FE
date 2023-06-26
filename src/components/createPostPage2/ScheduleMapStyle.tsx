@@ -50,6 +50,9 @@ export const MapInfoContainer = styled.div`
   ::-webkit-scrollbar-thumb:hover {
     background-color: #2f5901; /* 스크롤 바 호버 시 색상 */
   }
+  @media (max-width: 375px) {
+    height: 360px;
+  }
 `;
 
 // 세로선
@@ -57,7 +60,8 @@ export const VerticalLine = styled.div`
   position: absolute; // MapInfoContainer 를 부모로 가짐
   width: 1px;
   height: 100%;
-  left: 2.6%;
+  /* left: 2.6%; */
+  left: 25px;
   background-color: #a3bf3b;
   /* z-index: -1; */
 `;

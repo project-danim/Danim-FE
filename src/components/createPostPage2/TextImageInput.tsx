@@ -28,6 +28,9 @@ const StyledReactQuill = styled(ReactQuill)`
 const Container = styled.div`
   width: 100%;
   margin-bottom: 100px;
+  @media (max-width: 375px) {
+    margin-bottom: 50px;
+  }
 `;
 
 const UploadImageButton = styled.button`
@@ -50,6 +53,9 @@ const UploadImageButton = styled.button`
     border: 1px solid var(--button-4-pressed-outline-color);
     background-color: var(--button-4-hover-color);
     color: white;
+  }
+  @media (max-width: 375px) {
+    margin-top: 80px;
   }
 `;
 

@@ -22,6 +22,9 @@ const StyledInput = styled.div`
   line-height: 22px;
   border-radius: 8px;
   color: #5c5c5c;
+  @media (max-width: 375px) {
+    font-size: 13px;
+  }
 `;
 
 const Container = styled.div`

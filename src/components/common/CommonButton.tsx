@@ -6,6 +6,7 @@ const CommonButton = styled.button<any>`
   padding: 10px 17.5px;
   box-sizing: border-box;
   width: 100%;
+  min-width: 95px;
   color: 5C5C5C;
   background-color: ${(props) => props.bgColor || props.bgColor};
   border: none;
@@ -17,6 +18,12 @@ const CommonButton = styled.button<any>`
   }
   &:active {
     background-color: var(--button-6-pressed-color);
+  }
+
+  @media (max-width: 375px) {
+    font-size: 14.5px;
+    min-width: 25px;
+    padding: 11px 2px;
   }
 `;
 

@@ -197,11 +197,9 @@ function ScheduleMap() {
         });
       }
 
-      // Clean up
       return () => observer.disconnect();
     }
 
-    // If refs are not defined, return an empty cleanup function
     return () => {};
   }, []);
 

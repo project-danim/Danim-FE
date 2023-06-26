@@ -88,12 +88,9 @@ function EditingPostPage1() {
             <p>* 중복선택 가능</p>
           </Styled.SubInfotext>
           <Styled.GenderAgeWrapper>
-            <Styled.GenderWrapper>
-              <Gender />
-            </Styled.GenderWrapper>
-            <Styled.AgeWrapper>
-              <AgeRange />
-            </Styled.AgeWrapper>
+            <Gender />
+            <Styled.GenderAgeVerticalLine />
+            <AgeRange />
           </Styled.GenderAgeWrapper>
         </Styled.Wrapper1>
 
@@ -102,8 +99,14 @@ function EditingPostPage1() {
             키워드로 글을 작성하면 같이 다닐 확률이 높아져요!
           </Styled.SubInfotext>
           <PostTitle />
-          <RecruitmentDatePicker />
-          <RecruitmentCouter />
+          <Styled.RecruitmentAndCouterContainer>
+            <Styled.RecruitmentAndCouterWrapper>
+              <RecruitmentDatePicker />
+            </Styled.RecruitmentAndCouterWrapper>
+            <Styled.RecruitmentAndCouterWrapper>
+              <RecruitmentCouter />
+            </Styled.RecruitmentAndCouterWrapper>
+          </Styled.RecruitmentAndCouterContainer>
         </Styled.Wrapper1>
 
         <Styled.ButtonRouterWrapper>
