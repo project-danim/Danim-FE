@@ -70,23 +70,23 @@ function CreatePostPage1() {
 
   // 다음 버튼
   const handleNextClick = () => {
-    const states = [
-      selectedKeyword,
-      selectedLocation,
-      selectedGender.length,
-      selectedAgeRange.length,
-      recoilPostTitle,
-      recruitmentStartDate,
-      recruitmentEndDate,
-      recruitmentCount,
-      tripStartDate,
-      tripEndDate,
+    const keywordValueStates = [
+      { value: selectedKeyword, message: "키워드를 입력해주세요!" },
+      { value: selectedLocation, message: "위치를 입력해주세요!" },
+      { value: selectedGender.length, message: "성별을 선택해주세요!" },
+      { value: selectedAgeRange.length, message: "나이 범위를 선택해주세요!" },
+      { value: recoilPostTitle, message: "제목을 입력해주세요!" },
+      { value: recruitmentStartDate, message: "모집 시작일을 입력해주세요!" },
+      { value: recruitmentEndDate, message: "모집 종료일을 입력해주세요!" },
+      { value: recruitmentCount, message: "모집 인원수를 입력해주세요!" },
+      { value: tripStartDate, message: "여행 시작일을 입력해주세요!" },
+      { value: tripEndDate, message: "여행 종료일을 입력해주세요!" },
     ];
 
     // 사용자가 값을 입력하지 않은 항목이 있다면 return
-    for (let i = 0; i < states.length; i += 1) {
-      if (!states[i]) {
-        alert("여행을 함께할 사람들을 위한 정보를 작성해 주세요!");
+    for (let i = 0; i < keywordValueStates.length; i += 1) {
+      if (!keywordValueStates[i].value) {
+        alert(keywordValueStates[i].message);
         return;
       }
     }
@@ -129,13 +129,9 @@ function CreatePostPage1() {
             <p>* 중복선택 가능</p>
           </Styled.SubInfotext>
           <Styled.GenderAgeWrapper>
-            <Styled.GenderWrapper>
-              <Gender />
-            </Styled.GenderWrapper>
+            <Gender />
             <Styled.GenderAgeVerticalLine />
-            <Styled.AgeWrapper>
-              <AgeRange />
-            </Styled.AgeWrapper>
+            <AgeRange />
           </Styled.GenderAgeWrapper>
         </Styled.Wrapper1>
 

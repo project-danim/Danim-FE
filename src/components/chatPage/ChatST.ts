@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 
+export const Container = styled.div`
+  width: 100%;
+`;
+
 // 채팅 배경화면
 export const ChatPageBackground = styled.div`
+  width: 100%;
   margin: 0 auto;
   margin-bottom: 90px;
 `;
@@ -14,20 +19,30 @@ export const TitleChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* position: fixed; */
+  position: fixed;
+`;
+
+export const MessageContainer = styled.div`
+  max-width: 1120px;
+  width: 100%;
+  margin: 0 auto;
+  /* margin-top: 100px; */
 `;
 
 // 제목 wrapper
 export const TitleWrapper = styled.div`
+  max-width: 1120px;
   width: 100%;
   display: flex;
   align-items: center;
   height: 75px;
+  background-color: #b0c1d9;
 `;
 
 // 대화 상대 컨테이너 (자신 포함)
 export const AllUserContainer = styled.div`
-  width: 90%;
+  max-width: 1120px;
+  width: 70%;
   padding: 29px 25px;
   box-sizing: border-box;
   background-color: #ffffff;
@@ -75,17 +90,26 @@ export const ChatTitle = styled.div`
   margin-left: 8px;
 `;
 
+export const InputWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
 // 메세지 입력 컨테이너
 export const MessageInputForm = styled.form`
+  /* max-width: 1120px; */
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+  /* align-items: center; */
   position: fixed;
   bottom: 0;
   column-gap: 26px;
   width: 100%;
   max-width: 1120px;
   margin-bottom: 19px;
+  /* margin: 0 auto; */
 `;
 
 // 메세지 입력 창

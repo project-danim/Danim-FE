@@ -33,6 +33,11 @@ export const SubInfotext = styled.div`
     margin-left: 10px;
     font-size: 12px;
   }
+
+  @media (max-width: 375px) {
+    gap: 3px;
+    font-size: 15px;
+  }
 `;
 
 function PostTitle() {
