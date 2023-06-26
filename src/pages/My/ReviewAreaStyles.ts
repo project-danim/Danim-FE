@@ -59,16 +59,10 @@ export const ImageBox = styled.div<UserProfileProp>`
   width: 232px;
   height: 232px;
   margin-right: 25px;
-  /* 이런 에러가 뜸 */
-  /* Failed to load url /mypage (resolved id: /mypage).
-  This file is in /public and will be copied as-is during
-  build without going through the plugin transforms, and
-  herefore should not be imported from source code. It can only be referenced via HTML tags. */
-  /* background-image: ${(props) => `url(${props.userProfile})`}; */
 `;
 // 프로필 박스 내 이미지 업로드 영역(원, 클릭시~)
 export const ImageArea = styled.div`
-  background-image: url("myPage/userProfile.svg");
+  background-image: url(uploadImg);
   width: 232px;
   height: 232px;
   border-radius: 200px;
@@ -143,24 +137,23 @@ export const TextArea = styled.textarea<{ editing?: boolean }>`
 
 // 후기, 게시글 영역
 export const PostContainer = styled.div`
-padding: 20px;
-height: 250px;
+height: 249px;
 border-bottom:  0.5px solid #A3A3A3;
 display:flex
 `
 
 export const TextContainer = styled.div`
+padding: 20px;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-width: 618px;
+width: 578px;
 height: 210px;
 `
 
 export const PostTitle = styled.a`
 width: 276px;
 height: 48px;
-/* padding: 12px; */
 font-family: 'Pretendard';
 font-style: normal;
 font-weight: 700;
@@ -171,7 +164,6 @@ text-decoration:none
 `
 
 export const PostDate = styled.div`
-/* padding:10px 30px; */
 width: 618px;
 height: 39px;
 font-family: 'Pretendard';
@@ -185,6 +177,7 @@ color: #858585;
 export const PostContent = styled.div`
 /* padding:30px; */
 width: 438px;
+height: 39px;
 font-family: 'Pretendard';
 font-style: normal;
 font-weight: 400;
@@ -205,7 +198,7 @@ margin-top: 23px;
 `
 
 export const ReviewContainer = styled.div`
-height: 254px;
+height: 174px;
 border-bottom:  0.5px solid #A3A3A3;
 `
 

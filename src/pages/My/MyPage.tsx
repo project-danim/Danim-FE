@@ -9,6 +9,7 @@ import {
 } from "../../api/userInfo";
 import { withdrawalUser } from "../../api/signUp";
 import * as Styled from "./ReviewAreaStyles";
+import { Footer } from "../../components/common";
 
 function MyPage() {
   // 탭 핸들러
@@ -19,12 +20,9 @@ function MyPage() {
   const id = localStorage.getItem("id");
   const [editing, setEditing] = useState<boolean>(false);
   const [content, setContent] = useState("");
-  // 게시글 이미지 url
-  const [imgUrl, setImgUrl] = useState("");
   const [owner, setOwner] = useState(true);
   const [score, setScore] = useState(20);
-  // 업로드 이미지 url
-  const [uploadImg, setUploadImg] = useState(null);
+  const [uploadImg, setUploadImg] = useState("");
   const [nickname, setNickname] = useState("");
 
   // 유저 정보를 보내는 mutation 함수
@@ -42,7 +40,7 @@ function MyPage() {
       const userInfo = response;
       setNickname(() => userInfo.nickname);
       setContent(() => userInfo.content);
-      setImgUrl(() => userInfo.imageUrl);
+      setUploadImg(() => userInfo.imageUrl);
       setOwner(() => userInfo.owner);
       setScore(() => userInfo.score);
     },
@@ -84,23 +82,28 @@ function MyPage() {
   };
 
   // 이미지 업로드 핸들러
-  const handleImageUpload = (event: any) => {
-    const file = event.target.files[0];
-    setUploadImg(file);
-    console.log(uploadImg);
-  };
+  // const handleImageUpload = (event: any) => {
+  //   const file = event.target.files[0];
+  //   setUploadImg(file);
+  //   console.log(uploadImg);
+  // };
 
   // 닉네임 변경 핸들러
   const handleNicknameChange = (event: any) => {
     setNickname(event.target.value);
   };
 
-  // 수정하기 버튼 클릭함수
-  const clickButton = () => {
+  const hadleImageChange = (event: any) => {
+    setUploadImg(event.target.value);
+  };
+
+  const clickButton = async () => {
     if (!editing) {
       profileRef.current?.focus();
-      return setEditing((prev) => !prev);
+      setEditing((prev) => !prev);
+      return;
     }
+
     const userInfo = {
       nickname,
       image: uploadImg,
@@ -108,7 +111,6 @@ function MyPage() {
     };
     console.log(userInfo);
 
-    // mutation 함수로 유저의 정보 전달
     mutateSendUserInfo.mutate(userInfo, {
       onSuccess: (data) => {
         console.log("수정이 완료되었습니다");
@@ -118,7 +120,8 @@ function MyPage() {
         console.error(error);
       },
     });
-    return setEditing((prev) => !prev);
+
+    setEditing((prev) => !prev);
   };
 
   // 탈퇴 메세지 분기, 서버 내 에러 경우의 수가 많아서 "탈퇴에 실패했습니다." 로 통일
@@ -162,13 +165,8 @@ function MyPage() {
   return (
     <Styled.MyPageContainer>
       <Styled.ProfileArea>
-        <Styled.ImageBox userProfile={imgUrl}>
-          <input
-            type="file"
-            style={{ display: "none" }}
-            id="fileInput"
-            onChange={handleImageUpload}
-          />
+        <Styled.ImageBox userProfile={uploadImg}>
+          <input type="file" style={{ display: "none" }} id="fileInput" />
           <Styled.ProfileFixButton type="button" onClick={clickFileInput} />
           <Styled.ImageArea />
         </Styled.ImageBox>
@@ -325,7 +323,11 @@ function MyPage() {
                       <img
                         src={post.imageUrl}
                         alt="이미지"
-                        style={{ width: 205, height: 205, objectFit: "cover" }}
+                        style={{
+                          width: 205,
+                          height: 205,
+                          objectFit: "cover",
+                        }}
                       />
                     </Styled.ImageContainer>
                   </Styled.PostContainer>
@@ -335,9 +337,8 @@ function MyPage() {
           </div>
         )}
       </Styled.TabContent>
-      <Styled.MoveBackButton type="button" onClick={handleMoveBackClick}>
-        뒤로 가기
-      </Styled.MoveBackButton>
+      <Styled.MoveBackButton type="button" onClick={handleMoveBackClick} />
+      <Footer />
     </Styled.MyPageContainer>
   );
 }
