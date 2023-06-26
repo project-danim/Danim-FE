@@ -23,14 +23,14 @@ const titleText = styled.h2`
 `;
 
 // 페이지 안내 텍스트
-const InformationText = styled.p`
-  & > span {
-    font-size: 50px;
-    font-weight: 600;
-    line-height: 60px;
-    color: #a3bf3b;
-  }
-`;
+// const InformationText = styled.p`
+//   & > span {
+//     font-size: 50px;
+//     font-weight: 600;
+//     line-height: 60px;
+//     color: #a3bf3b;
+//   }
+// `;
 
 // 404 텍스트
 const ErrorCodeText = styled.p`
@@ -51,11 +51,22 @@ const notFouncImg = styled.img`
   width: 100%;
 `;
 
+// 다녀 텍스트(홈 이동 텍스트)
+const moveHomeTextbutton = styled.button`
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 60px;
+  color: #a3bf3b;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
 export default {
   InformationTextContainer,
   titleText,
-  InformationText,
+  // InformationText,
   ErrorCodeText,
   ExitText,
   notFouncImg,
+  moveHomeTextbutton,
 };
