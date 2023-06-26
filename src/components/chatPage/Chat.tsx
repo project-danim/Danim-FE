@@ -12,6 +12,7 @@ import {
 } from "../../recoil/chat/chatState";
 import titleIcon from "../../../public/chat/frame.svg";
 import * as st from "./ChatST";
+import { Header } from "../common";
 
 interface User {
   imageUrl: string;
@@ -177,64 +178,74 @@ function Chat() {
   }, [messages]);
 
   return (
-    <st.ChatPageBackground>
-      <st.TitleChatContainer>
-        <st.TitleWrapper>
-          <st.GobackButton type="button" onClick={goBack}>
-            <st.GobackButtonIcon />
-          </st.GobackButton>
-          <st.TitleIcon src={titleIcon} alt="Title Icon" />
-          <st.ChatTitle>{`${chatRoomPostTitle}`}</st.ChatTitle>
-        </st.TitleWrapper>
-        <st.AllUserContainer>
-          <p>대화 상대</p>
-          <p>{userId}</p>
-          {allUserNickname.map(
-            (nickname) =>
-              nickname !== userId && <p key={nickname}>{nickname}</p>
-          )}
-        </st.AllUserContainer>
-      </st.TitleChatContainer>
-      {messages.map((msg, index) => {
-        // ENTER 타입의 메시지에서는 prevMsg를 null로 설정
-        if (msg.type === "ENTER") {
-          return (
-            <Message
-              msg={msg}
-              prevMsg={null}
-              userNickname={userId}
-              key={msg.time}
-            />
-          );
-        }
-        // TALK 타입의 메시지에서는 이전 TALK 타입의 메시지를 찾음
-        const prevMsg = messages
-          // 현재 메세지 제외한 메세지들을 배열로 만들기
-          .slice(0, index)
-          // 뒤집어서 가장 마지막의 메세지 타입을 확인 -> 가장 마지막 메세지가 TALK면 prev=true
-          .reverse()
-          .find((m) => m.type === "TALK");
-        return (
-          <Message
-            msg={msg}
-            prevMsg={prevMsg}
-            userNickname={userId}
-            key={msg.time}
-          />
-        );
-      })}
-      {/* 가장 아래를 참조하게 하는 ref */}
-      <div ref={messagesEndRef} />
+    <st.Container>
+      <st.ChatPageBackground>
+        <st.TitleChatContainer>
+          <Header />
+          <st.TitleWrapper>
+            <st.GobackButton type="button" onClick={goBack}>
+              <st.GobackButtonIcon />
+            </st.GobackButton>
+            <st.TitleIcon src={titleIcon} alt="Title Icon" />
+            <st.ChatTitle>{`${chatRoomPostTitle}`}</st.ChatTitle>
+          </st.TitleWrapper>
+          <st.AllUserContainer>
+            <p>대화 상대</p>
+            <p>{userId}</p>
+            {allUserNickname.map(
+              (nickname) =>
+                nickname !== userId && <p key={nickname}>{nickname}</p>
+            )}
+          </st.AllUserContainer>
+        </st.TitleChatContainer>
 
-      <st.MessageInputForm onSubmit={sendMessage}>
-        <st.MessageInput
-          type="text"
-          value={messageInput}
-          onChange={(e) => setMessageInput(e.target.value)}
-        />
-        <st.MessageSendButton type="submit">전송하기</st.MessageSendButton>
-      </st.MessageInputForm>
-    </st.ChatPageBackground>
+        <st.MessageContainer>
+          {/* 대화창 영역 - enter, talk 메세지 */}
+          {messages.map((msg, index) => {
+            // ENTER 타입의 메시지에서는 prevMsg를 null로 설정
+            if (msg.type === "ENTER") {
+              return (
+                <Message
+                  msg={msg}
+                  prevMsg={null}
+                  userNickname={userId}
+                  key={msg.time}
+                />
+              );
+            }
+
+            // TALK 타입의 메시지에서는 이전 TALK 타입의 메시지를 찾음
+            const prevMsg = messages
+              // 현재 메세지 제외한 메세지들을 배열로 만들기
+              .slice(0, index)
+              // 뒤집어서 가장 마지막의 메세지 타입을 확인 -> 가장 마지막 메세지가 TALK면 prev=true
+              .reverse()
+              .find((m) => m.type === "TALK");
+            return (
+              <Message
+                msg={msg}
+                prevMsg={prevMsg}
+                userNickname={userId}
+                key={msg.time}
+              />
+            );
+          })}
+        </st.MessageContainer>
+
+        {/* 가장 아래를 참조하게 하는 ref */}
+        <div ref={messagesEndRef} />
+        <st.InputWrapper>
+          <st.MessageInputForm onSubmit={sendMessage}>
+            <st.MessageInput
+              type="text"
+              value={messageInput}
+              onChange={(e) => setMessageInput(e.target.value)}
+            />
+            <st.MessageSendButton type="submit">전송하기</st.MessageSendButton>
+          </st.MessageInputForm>
+        </st.InputWrapper>
+      </st.ChatPageBackground>
+    </st.Container>
   );
 }
 export default Chat;
