@@ -10,6 +10,7 @@ import {
   chatRoomPostTitleState,
   roomNameState,
 } from "../../recoil/chat/chatState";
+import getAlarmCount from "../../utils/getAlarmCount";
 
 function AppliedChatList() {
   const navigate = useNavigate();
@@ -68,16 +69,23 @@ function AppliedChatList() {
         {chatLists.data.map((chat: any) => (
           <Styled.ChatRoomContainer key={chat.roomId}>
             <Styled.ChatRoomWrapper>
-              <Styled.TitleDateWrapper>
-                <Styled.Title>{chat.postTitle}</Styled.Title>
-                <Styled.Date>
-                  {(chat.lastMessage?.createdAt &&
-                    `작성일 | ${convertDateFormat(
-                      new Date(chat.lastMessage.createdAt)
-                    )}`) ||
-                    null}
-                </Styled.Date>
-              </Styled.TitleDateWrapper>
+              <Styled.TitleDateAlarmWrapper>
+                <Styled.TitleDateWrapper>
+                  <Styled.Title>{chat.postTitle}</Styled.Title>
+                  <Styled.Date>
+                    {(chat.lastMessage?.createdAt &&
+                      `작성일 | ${convertDateFormat(
+                        new Date(chat.lastMessage.createdAt)
+                      )}`) ||
+                      null}
+                  </Styled.Date>
+                </Styled.TitleDateWrapper>
+                <Styled.ChatAlarm hasNewChat={getAlarmCount(chat.roomId)}>
+                  {getAlarmCount(chat.roomId)
+                    ? `${getAlarmCount(chat.roomId)}개`
+                    : null}
+                </Styled.ChatAlarm>
+              </Styled.TitleDateAlarmWrapper>
               <Styled.ChatContentsChatWrapper>
                 {chat.lastMessage ? (
                   <Styled.MessageWrapper>
