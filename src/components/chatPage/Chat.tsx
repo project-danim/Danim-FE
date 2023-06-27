@@ -122,32 +122,33 @@ function Chat() {
       }
     );
   };
-  // 뒤로가기 버튼
+  // 뒤로 가기 버튼
   const goBack = () => {
-    if (stompClientRef.current) {
-      stompClientRef.current.send(
-        "/pub/chat/message",
-        {},
-        JSON.stringify({
-          type: "LEAVE",
-          roomName,
-          sender: userId,
-          message: "",
-        })
-      );
-    }
+    // unmount 시 LEAVE 되기 때문에 아래 코드가 있으면 두 번 LEAVE 됨
+    // if (stompClientRef.current) {
+    //   stompClientRef.current.send(
+    //     "/pub/chat/message",
+    //     {},
+    //     JSON.stringify({
+    //       type: "LEAVE",
+    //       roomName,
+    //       sender: userId,
+    //       message: "",
+    //     })
+    //   );
+    // }
     navigate(-1); // 뒤로 가기
   };
 
   // 웹소켓 연결 해제
-  const disconnect = () => {
-    if (stomp) {
-      stomp.debug = null;
-      stomp.disconnect(() => {
-        console.log("연결 끊김");
-      });
-    }
-  };
+  // const disconnect = () => {
+  //   if (stomp) {
+  //     stomp.debug = null;
+  //     stomp.disconnect(() => {
+  //       console.log("연결 끊김");
+  //     });
+  //   }
+  // };
 
   // 메세지 전송
   const sendMessage = (event: any) => {
@@ -169,18 +170,34 @@ function Chat() {
     setMessageInput("");
   };
 
-  useEffect(
-    () => () => {
-      disconnect();
-    },
-    []
-  );
+  // 언마운트 될때 disconnect 됨
+  // useEffect(
+  //   () => () => {
+  //     disconnect();
+  //   },
+  //   []
+  // );
 
   // 받아온 roomName이 있을때만 소켓 연결 시도
   useEffect(() => {
     if (roomName !== "") {
       connect();
     }
+    // 컴포넌트에서 unmount 될때 서버로 "LEAVE" 메세지를 보냄
+    return () => {
+      if (stompClientRef.current) {
+        stompClientRef.current.send(
+          "/pub/chat/message",
+          {},
+          JSON.stringify({
+            type: "LEAVE",
+            roomName,
+            sender: userId,
+            message: "",
+          })
+        );
+      }
+    };
   }, [roomName]);
 
   // 전체 배경 색 바꾸기
@@ -237,7 +254,7 @@ function Chat() {
         <st.MessageContainer>
           {/* 대화창 영역 - enter, talk 메세지 */}
           {messages.map((msg, index) => {
-            console.log(messages);
+            // console.log(messages);
             // ENTER 타입의 메시지에서는 prevMsg를 null로 설정
             if (msg.type === "ENTER") {
               return (
