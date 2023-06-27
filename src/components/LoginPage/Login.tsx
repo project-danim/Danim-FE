@@ -55,12 +55,13 @@ function Login() {
 
   // 비밀번호 유효성 검사
   useEffect(() => {
-    const passwordPattern =
-      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_!?@#$%^&*]{5,12}$/;
-    if (!!password && !passwordPattern.test(password)) {
-      setPasswordError("5~12자 이내의 영문,숫자 조합을 입력하세요.");
-      return;
-    }
+    // 보안 상의 이유로 자릿수에 대한 힌트 제거
+    // const passwordPattern =
+    //   /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_!?@#$%^&*]{5,12}$/;
+    // if (!!password && !passwordPattern.test(password)) {
+    //   setPasswordError("5~12자 이내의 영문,숫자 조합을 입력하세요.");
+    //   return;
+    // }
     if (password) {
       setPasswordError("");
     }
