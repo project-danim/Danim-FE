@@ -64,8 +64,8 @@ const CommonButton = styled.button<FilterButtonProps>`
     cursor: pointer;
     border: 1px solid #2e5902;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-    /* padding: ${(props) =>
-      props.buttonName === "ageButton" ? "0px 41.5px" : "0 10px"}; */
+    padding: ${(props) =>
+      props.buttonName === "ageButton" ? "0px 41.5px" : "0 11px"};
     /* line-height: ${(props) =>
       props.buttonName === "ageButton" ? "36px" : "36px"}; */
     line-height: 36px;
@@ -138,6 +138,7 @@ const CommonDropDownButton = styled.button`
   font-size: 16px;
   position: relative;
   color: #5c5c5c;
+  cursor: pointer;
   // 태블릿
   @media (max-width: 1200px) and (min-width: 840px) {
     min-width: 220px;
@@ -238,7 +239,7 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
   border: 1px solid #b5bf69;
   width: 71px;
   border-radius: 30px;
-  text-indent: -57px;
+  text-indent: -91px;
   display: flex;
   align-items: center;
   position: absolute;

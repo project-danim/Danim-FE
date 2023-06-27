@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import FilterBar from "./FilterBar";
 import PostList from "./PostList";
+import useChatConnect from "../../utils/chatConnect";
 
 const MainPageContainer = styled.div`
   max-width: 1120px;
@@ -11,6 +12,12 @@ const MainPageContainer = styled.div`
 `;
 
 function Main() {
+  // 로컬 스토리지에 저장된 사용자 아이디
+  const userId = localStorage.getItem("id");
+  if (userId) {
+    useChatConnect(userId);
+  }
+
   return (
     <MainPageContainer>
       <FilterBar />
