@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { Header } from ".";
+// import { Header } from ".";
 
 const Container = styled.div`
   width: 100%;

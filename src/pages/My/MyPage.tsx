@@ -9,7 +9,7 @@ import {
 } from "../../api/userInfo";
 import { withdrawalUser } from "../../api/signUp";
 import * as Styled from "./ReviewAreaStyles";
-import { Footer } from "../../components/common";
+// import { Footer } from "../../components/common";
 
 function MyPage() {
   // 탭 핸들러
@@ -82,11 +82,11 @@ function MyPage() {
   };
 
   // 이미지 업로드 핸들러
-  // const handleImageUpload = (event: any) => {
-  //   const file = event.target.files[0];
-  //   setUploadImg(file);
-  //   console.log(uploadImg);
-  // };
+  const handleImageUpload = (event: any) => {
+    const file = event.target.files[0];
+    setUploadImg(file);
+    console.log(uploadImg);
+  };
 
   // 닉네임 변경 핸들러
   const handleNicknameChange = (event: any) => {
@@ -166,7 +166,12 @@ function MyPage() {
     <Styled.MyPageContainer>
       <Styled.ProfileArea>
         <Styled.ImageBox userProfile={uploadImg}>
-          <input type="file" style={{ display: "none" }} id="fileInput" />
+          <input
+            type="file"
+            style={{ display: "none" }}
+            id="fileInput"
+            onChange={handleImageUpload}
+          />
           <Styled.ProfileFixButton type="button" onClick={clickFileInput} />
           <Styled.ImageArea />
         </Styled.ImageBox>
@@ -338,7 +343,7 @@ function MyPage() {
         )}
       </Styled.TabContent>
       <Styled.MoveBackButton type="button" onClick={handleMoveBackClick} />
-      <Footer />
+      {/* <Footer /> */}
     </Styled.MyPageContainer>
   );
 }

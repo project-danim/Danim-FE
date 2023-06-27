@@ -40,6 +40,7 @@ export const Score = styled.div`
     background-color: #7EA8E3;
     border-radius: 6px;
     margin-left: 8px;
+    line-height: 18px;
   }
 `;
 // 프로필 박스 영역
@@ -62,7 +63,7 @@ export const ImageBox = styled.div<UserProfileProp>`
 `;
 // 프로필 박스 내 이미지 업로드 영역(원, 클릭시~)
 export const ImageArea = styled.div`
-  background-image: url(uploadImg);
+  background-image: url("myPage/userProfile.svg");
   width: 232px;
   height: 232px;
   border-radius: 200px;

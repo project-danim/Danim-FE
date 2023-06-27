@@ -15,8 +15,8 @@ function SignUpForSocial() {
   const [activeAge, setActiveAge] = useState("");
 
   // 성별, 연령대 에러 메세지 상태
-  const [genderError, setGenderError] = useState("");
-  const [ageError, setAgeError] = useState("");
+  const [, setGenderError] = useState("");
+  const [, setAgeError] = useState("");
 
   // 전체 동의, 성별 정보 동의, 연령 정보 동의, 개인정보 이용 동의에 대한 상태
   const [agreeAll, setAgreeAll] = useState(false);
