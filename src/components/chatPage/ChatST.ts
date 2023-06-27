@@ -87,6 +87,7 @@ export const GobackButtonIcon = styled(BiArrowBack)`
 // 뒤로가기 버튼
 export const GobackButton = styled.button`
   background-color: transparent;
+  border: none;
 `;
 
 // 제목 아이콘
