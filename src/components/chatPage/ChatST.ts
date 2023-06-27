@@ -39,6 +39,18 @@ export const TitleWrapper = styled.div`
   background-color: #b0c1d9;
 `;
 
+export const ConversationPeople = styled.div`
+  display: flex;
+`;
+
+export const ConversationPeopleImg = styled.img`
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  margin-left: 8px;
+  border-radius: 50%;
+`;
+
 // 대화 상대 컨테이너 (자신 포함)
 export const AllUserContainer = styled.div`
   max-width: 1120px;
@@ -94,6 +106,13 @@ export const InputWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+`;
+
+export const EmptyContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 130px;
 `;
 
 // 메세지 입력 컨테이너

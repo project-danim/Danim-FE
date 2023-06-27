@@ -12,7 +12,6 @@ import {
 } from "../../recoil/chat/chatState";
 import titleIcon from "../../../public/chat/frame.svg";
 import * as st from "./ChatST";
-import { Header } from "../common";
 
 interface User {
   imageUrl: string;
@@ -23,9 +22,7 @@ let stomp: any;
 
 function Chat() {
   // 상세 게시글 페이지에서 입장하기를 눌렀을때 저장된 recoil state 호출 - 참여자, 방이름, 게시글 제목, 과거 채팅 기록
-  const chatEnteredUsersNickname = useRecoilValue(
-    chatEnteredUsersNicknameState
-  );
+  const chatEnteredUsers = useRecoilValue(chatEnteredUsersNicknameState);
   const chatEnteredRoomName = useRecoilValue(roomNameState);
   const chatRoomPostTitle = useRecoilValue(chatRoomPostTitleState);
   const chatRecord = useRecoilValue(chatRoomChatRecordState);
@@ -62,17 +59,18 @@ function Chat() {
   const [messages, setMessages] = useState<any[]>(formattedMessages);
   const [messageInput, setMessageInput] = useState("");
 
-  // console.log(messages);
+  // console.log(chatEnteredUsers);
 
   // 현재 대화중인 사람 목록
-  const conversationPeople: string[] = chatEnteredUsersNickname.map(
-    (user: User) => user.nickname
-  );
+  // const conversationPeople: string[] = chatEnteredUsers.map(
+  //   (user: { imageUrl: string; nickname: string }) => user.nickname
+  // );
+  // console.log(conversationPeople);
 
   // 룸 네임 ( "260c4214-6e7a-402a-af6d-96550179f6d4" 이런 형식)
   const [roomName, setRoomName] = useState("");
   // 채팅에 참여하고 있는 모든 사용자 닉네임
-  const [allUserNickname, setAllUserNickname] = useState<string[]>([]);
+  // const [setAllUserNickname] = useState<string[]>([]);
   // 현재의 통신 객체 ref
   const stompClientRef = useRef<any>(null);
   // 유저 아이디 세션 스토리지 저장한 값으로 가져오는걸로 바꾸기
@@ -83,7 +81,7 @@ function Chat() {
 
   // 컴포넌트가 랜더링 될 때 recoil 에서 받아온 state update
   useEffect(() => {
-    setAllUserNickname(conversationPeople || []);
+    // setAllUserNickname(conversationPeople || []);
     setRoomName(chatEnteredRoomName);
   }, []);
 
@@ -181,7 +179,6 @@ function Chat() {
     <st.Container>
       <st.ChatPageBackground>
         <st.TitleChatContainer>
-          <Header />
           <st.TitleWrapper>
             <st.GobackButton type="button" onClick={goBack}>
               <st.GobackButtonIcon />
@@ -190,15 +187,21 @@ function Chat() {
             <st.ChatTitle>{`${chatRoomPostTitle}`}</st.ChatTitle>
           </st.TitleWrapper>
           <st.AllUserContainer>
-            <p>대화 상대</p>
-            <p>{userId}</p>
-            {allUserNickname.map(
-              (nickname) =>
-                nickname !== userId && <p key={nickname}>{nickname}</p>
-            )}
+            {/* <p>대화 상대</p>
+            <p>{userId}</p> */}
+            {chatEnteredUsers.map((user: User) => (
+              <st.ConversationPeople key={user.imageUrl + user.nickname}>
+                <st.ConversationPeopleImg
+                  src={user.imageUrl}
+                  alt="User Avatar"
+                />
+                <p>{user.nickname}</p>
+              </st.ConversationPeople>
+            ))}
           </st.AllUserContainer>
         </st.TitleChatContainer>
 
+        <st.EmptyContainer>---</st.EmptyContainer>
         <st.MessageContainer>
           {/* 대화창 영역 - enter, talk 메세지 */}
           {messages.map((msg, index) => {
@@ -209,7 +212,7 @@ function Chat() {
                   msg={msg}
                   prevMsg={null}
                   userNickname={userId}
-                  key={msg.time}
+                  key={msg.time + messages}
                 />
               );
             }
@@ -226,7 +229,7 @@ function Chat() {
                 msg={msg}
                 prevMsg={prevMsg}
                 userNickname={userId}
-                key={msg.time}
+                key={msg.time + messages}
               />
             );
           })}
