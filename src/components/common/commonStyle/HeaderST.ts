@@ -1,9 +1,10 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 // 버튼 프롭 타입 정의
 type CommonStyleButtonProps = {
   buttonName: string;
   profile?: string | null;
+  hasNew?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 // 공통 버튼 배경 색상, 글자 색상 맵
@@ -87,6 +88,14 @@ const chatAndUserButton = styled.button<CommonStyleButtonProps>`
   height: 34px;
   padding: 0;
   background-color: transparent;
+  ${({ hasNew }) =>
+    hasNew &&
+    css`
+      &::after {
+        content: "알림!";
+        display: inline-block;
+      }
+    `}
   cursor: pointer;
 `;
 
