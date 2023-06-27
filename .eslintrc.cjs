@@ -42,6 +42,7 @@ module.exports = {
       { devDependencies: ["**/vite.config.ts"] },
     ],
     "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off", // jsx 내부에서 spread 연산자 사용 가능
     "max-len": ["error", { code: 120 }],
     "jsx-a11y/label-has-associated-control": [
       2,
