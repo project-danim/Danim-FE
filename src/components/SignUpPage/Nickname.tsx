@@ -62,6 +62,11 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
 
   // 닉네임 중복 검사
   const handleCheckNicknameBtnClick = () => {
+    // 에러 메세지 있는 상태로 요청시 차단
+    if (nicknameError !== "닉네임 중복을 확인하세요.") {
+      return null;
+    }
+
     // 중복 검사 완료된 값으로 재요청 차단
     if (isNicknameUnique) {
       return null;
@@ -77,7 +82,7 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
 
   // 닉네임 유효성 검사
   useEffect(() => {
-    const nicknamePattern = /^[\dA-Za-z가-힣]{3,8}$/;
+    const nicknamePattern = /^[A-Za-z가-힣]{3,8}$/;
     const specCharPattern = /[\p{P}\p{S}\s]+/u;
     if (!nickname) {
       setNicknameError("");

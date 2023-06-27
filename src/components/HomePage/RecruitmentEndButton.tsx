@@ -19,7 +19,7 @@ function RecruitmentEndButton() {
         onClick={handleToggleButtonClick}
         data-active={isRecruitmentEnd}
       >
-        모집 중
+        모집 마감 포함
       </st.IsRecruitButton>
     </st.RecruitEndContainer>
   );
