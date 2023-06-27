@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
+import Slider from "react-slick";
 
 export const Container = styled.div`
   width: 100%;
@@ -26,7 +27,6 @@ export const MessageContainer = styled.div`
   max-width: 1120px;
   width: 100%;
   margin: 0 auto;
-  /* margin-top: 100px; */
 `;
 
 // 제목 wrapper
@@ -39,26 +39,52 @@ export const TitleWrapper = styled.div`
   background-color: #b0c1d9;
 `;
 
-export const ConversationPeople = styled.div`
+export const Conversation = styled.div`
+  color: #000;
+  font-size: 14px;
+  margin: 0 25px;
+  min-width: 150px;
   display: flex;
+  align-items: center;
+`;
+
+export const ConversationPeopleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  &:not(:first-child) {
+    margin: 12px;
+  }
 `;
 
 export const ConversationPeopleImg = styled.img`
   width: 24px;
   height: 24px;
-  margin-right: 8px;
-  margin-left: 8px;
+  /* margin-right: 8px; */
+  /* margin-left: 8px; */
   border-radius: 50%;
+`;
+
+export const ConversationPeopleLine = styled.div`
+  width: 1px;
+  height: 45%;
+  background-color: #858585;
+  /* margin-left: 12px; */
+`;
+
+export const ConversationUserNickname = styled.div`
+  /* margin: 0 6px; */
 `;
 
 // 대화 상대 컨테이너 (자신 포함)
 export const AllUserContainer = styled.div`
   max-width: 1120px;
+  height: 73px;
   width: 70%;
-  padding: 29px 25px;
   box-sizing: border-box;
   background-color: #ffffff;
   margin: 0 auto;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
   display: flex;
   flex-direction: row;
@@ -118,11 +144,9 @@ export const EmptyContainer = styled.div`
 
 // 메세지 입력 컨테이너
 export const MessageInputForm = styled.form`
-  /* max-width: 1120px; */
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* align-items: center; */
   position: fixed;
   bottom: 0;
   column-gap: 26px;
@@ -130,6 +154,15 @@ export const MessageInputForm = styled.form`
   max-width: 1120px;
   margin-bottom: 19px;
   /* margin: 0 auto; */
+`;
+
+// 슬라이더
+export const StyledSlider = styled(Slider)`
+  .slick-slide > div > div {
+    display: flex !important;
+  }
+  width: 90%;
+  /* margin: o auto; */
 `;
 
 // 메세지 입력 창
