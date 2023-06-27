@@ -60,7 +60,7 @@ export const MainInfotextWrapper = styled.div`
   margin-top: 100px;
   border-color: black;
   @media (max-width: 375px) {
-    margin-top: 30px;
+    margin-top: 50px;
   }
 `;
 
