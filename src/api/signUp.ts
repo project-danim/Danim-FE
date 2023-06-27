@@ -57,6 +57,7 @@ const removeAllInfo = () => {
   localStorage.removeItem("profileUrl");
   localStorage.removeItem("showAlert");
   localStorage.setItem("isAuthenticated", "false");
+  localStorage.removeItem("newChat");
 };
 
 // 액세스 토큰 확인하고 재발급 받는 함수

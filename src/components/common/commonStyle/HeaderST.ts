@@ -88,14 +88,20 @@ const chatAndUserButton = styled.button<CommonStyleButtonProps>`
   height: 34px;
   padding: 0;
   background-color: transparent;
+  position: relative;
   ${({ hasNew }) =>
     hasNew &&
     css`
       &::after {
-        content: "알림!";
+        content: "⚡️";
         display: inline-block;
+        position: absolute;
+        left: 13px;
+        top: -15px;
+        font-size: 35px;
       }
     `}
+
   cursor: pointer;
 `;
 
