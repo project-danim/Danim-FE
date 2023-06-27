@@ -16,17 +16,23 @@ const useChatConnect = (userId: string) => {
       {},
       () => {
         stomp.subscribe(`/sub/alarm/${userId}`, (data: any) => {
+          // 로컬 스토리지 배열 저장은 문자열 그대로 사용
+          localStorage.setItem("chatAlarms", data.body);
+
           // 받아온 데이터가 문자열이므로 JSON 객체로 변환
           const alarmArray = JSON.parse(data.body);
-          // console.log(alarmArray);
-          // 받아온 배열 안의 알람 객체의 value가 0이 아닌게 있으면
-          alarmArray.forEach((chatAlarm: any) => {
-            const alarm = Object.values(chatAlarm);
-            if (alarm[0] !== 0) {
-              return setHasNewChat(() => true);
-            }
-            return null;
-          });
+
+          // alarmLeng이 총 알람의 개수
+          const alarmLeng = alarmArray.length;
+
+          // 총 알람의 개수가 0이 아니면 새로운 채팅 있음
+          if (alarmArray[alarmLeng - 1].sum !== 0) {
+            setHasNewChat(true);
+            localStorage.setItem("hasNewChat", "true");
+          } else {
+            setHasNewChat(false);
+            localStorage.setItem("hasNewChat", "false");
+          }
         });
       },
       // 에러 콜백 함수는 string 또는 Frame 타입의 파라미터를 받아야 함.
