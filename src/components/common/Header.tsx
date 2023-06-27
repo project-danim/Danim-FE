@@ -13,8 +13,14 @@ import {
   isSearchClicked,
   searchedTitleState,
 } from "../../recoil/filter/filterdPost";
+import hasNewChatState from "../../recoil/chat/alarm";
 
 function Header() {
+  // 채팅 알람 state
+  const [hasNewChat] = useRecoilState(hasNewChatState);
+  // 채팅이 새로 왔는지에 대한 state
+  const [hasNew, setHasNew] = useState(false);
+
   // 토큰 state
   const accessToken = getAccessToken();
   const refreshToken = getRefreshToken();
@@ -100,6 +106,10 @@ function Header() {
       setUserProfile(() => profileImg);
     }
   }, [profileImg, userProfile]);
+
+  useEffect(() => {
+    setHasNew(() => hasNewChat);
+  }, [hasNewChat]);
   return (
     <st.headerAria>
       <st.DanimTitle>다님</st.DanimTitle>
@@ -122,6 +132,7 @@ function Header() {
               buttonName="chat"
               type="button"
               onClick={handleChatButtonClick}
+              hasNew={hasNew}
             >
               <img src="/header/chat.svg" alt="채팅하기" />
             </st.chatAndUserButton>
