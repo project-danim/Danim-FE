@@ -1,24 +1,25 @@
-import { useRef } from "react";
+// 웹소켓 연결을 위한 커스텀 훅
+import { useEffect } from "react";
 import SockJS from "sockjs-client";
 import StompJs from "stompjs";
 
-let stomp: any;
-
-// 웹소켓 연결
-const chatConnect = () => {
-  // 현재의 통신 객체 ref
-  const stompClientRef = useRef<any>(null);
-
-  const sock = new SockJS(`${import.meta.env.VITE_APP_URL}/ws-stomp`);
-  stomp = StompJs.over(sock);
-  stomp.connect(
-    {},
-    () => {
-      stompClientRef.current = stomp;
-    },
-    (err: Error) => {
-      console.log("에러발생! 연결실패!", err);
-    }
-  );
+const useChatConnect = (userId: string) => {
+  useEffect(() => {
+    const sock = new SockJS(`${import.meta.env.VITE_APP_URL}/ws-stomp`);
+    const stomp = StompJs.over(sock);
+    stomp.connect(
+      {},
+      () => {
+        stomp.subscribe(`/sub/alarm/${userId}`, (data: any) => {
+          // console.log("여기서 확인해야함", data);
+        });
+        // console.log("구독완료");
+      },
+      // 에러 콜백 함수는 string 또는 Frame 타입의 파라미터를 받아야 함.
+      (err: string | StompJs.Frame) => {
+        console.log("에러발생! 연결실패!", err);
+      }
+    );
+  }, []);
 };
-export default chatConnect;
+export default useChatConnect;
