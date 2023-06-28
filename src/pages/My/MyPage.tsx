@@ -93,9 +93,9 @@ function MyPage() {
     setNickname(event.target.value);
   };
 
-  // const hadleImageChange = (event: any) => {
-  //   setUploadImg(event.target.value);
-  // };
+  const hadleImageChange = (event: any) => {
+    setUploadImg(event.target.value);
+  };
 
   const clickButton = async () => {
     if (!editing) {
