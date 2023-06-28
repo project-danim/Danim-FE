@@ -1,5 +1,6 @@
-// roomId를 받아서 채팅 알람 배열의 roomId에 해당하는 알람 수 반환하는 함수
+// import { useEffect } from "react";
 
+// roomId를 받아서 채팅 알람 배열의 roomId에 해당하는 알람 수 반환하는 함수
 const getAlarmCount = (roomId: number) => {
   // 로컬에 저장된 채팅 알람 배열
   const stringChatAlarmArray = localStorage.getItem("chatAlarms");
@@ -19,4 +20,14 @@ const getAlarmCount = (roomId: number) => {
   }
   return false;
 };
+
+// roomId 변화 감지하는 커스텀 훅
+// export const useAlarmCount = (roomId: number) => {
+//   useEffect(() => {
+//     console.log("값 변화");
+//     // roomId가 변경되었으므로 새로운 알람 수를 가져올 수 있음
+//     const alarmCount = getAlarmCount(roomId);
+//     // 여기서 필요한 로직을 수행하거나 알람 수를 상태로 업데이트할 수 있음
+//   }, [roomId]);
+// };
 export default getAlarmCount;
