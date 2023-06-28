@@ -11,7 +11,7 @@ const useChatConnect = (userId: string) => {
       {},
       () => {
         stomp.subscribe(`/sub/alarm/${userId}`, (data: any) => {
-          // console.log("여기서 확인해야함", data);
+           console.log(data);
         });
         // console.log("구독완료");
       },
