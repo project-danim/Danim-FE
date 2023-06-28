@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import Slider from "react-slick";
 
+// 드롭다운을 위한 interface
+interface DropdownContentProps {
+  isOpen: boolean;
+}
+
 export const Container = styled.div`
   width: 100%;
 `;
@@ -13,6 +18,14 @@ export const ChatPageBackground = styled.div`
   margin-bottom: 90px;
 `;
 
+// 채팅창 위의 공백을 위한 container
+export const EmptyContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 130px;
+`;
+
 // 제목, 대화상대 wrapper
 export const TitleChatContainer = styled.div`
   align-items: center;
@@ -22,7 +35,7 @@ export const TitleChatContainer = styled.div`
   align-items: center;
   position: fixed;
 `;
-
+//
 export const MessageContainer = styled.div`
   max-width: 1120px;
   width: 100%;
@@ -39,15 +52,7 @@ export const TitleWrapper = styled.div`
   background-color: #b0c1d9;
 `;
 
-export const Conversation = styled.div`
-  color: #000;
-  font-size: 14px;
-  margin: 0 25px;
-  min-width: 150px;
-  display: flex;
-  align-items: center;
-`;
-
+// 대화에 참여중인 사람들 container
 export const ConversationPeopleContainer = styled.div`
   display: flex;
   align-items: center;
@@ -56,6 +61,16 @@ export const ConversationPeopleContainer = styled.div`
   }
 `;
 
+// 대화 상대 text wrapper
+export const Conversation = styled.div`
+  color: #000;
+  font-size: 14px;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+`;
+
+// 대화상대 profile
 export const ConversationPeopleImg = styled.img`
   width: 24px;
   height: 24px;
@@ -64,6 +79,7 @@ export const ConversationPeopleImg = styled.img`
   border-radius: 50%;
 `;
 
+// 대화상대 구분 선
 export const ConversationPeopleLine = styled.div`
   width: 1px;
   height: 45%;
@@ -71,13 +87,48 @@ export const ConversationPeopleLine = styled.div`
   /* margin-left: 12px; */
 `;
 
-export const ConversationUserNickname = styled.div`
-  /* margin: 0 6px; */
+// 프로필 클릭시 드롭다운 container
+export const DropdownContainer = styled.div`
+  position: relative;
+  /* display: inline-block; */
+`;
+
+export const ConversationUserList = styled.div`
+  display: flex;
+`;
+
+// 대화 중인 유저 - 드롭다운을 위한 버튼
+export const ConversationUserNickname = styled.button`
+  cursor: pointer;
+  display: flex;
+  /* height: 200px; */
+`;
+
+//
+export const DropdownContent = styled.div<DropdownContentProps>`
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: gray;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 12px 16px;
+  z-index: 9999;
+  height: 100px;
+`;
+
+export const KickAndMyPageButton = styled.button`
+  height: 100px;
+  width: 100px;
+  z-index: 9999;
+  z-index: 9999;
 `;
 
 // 대화 상대 컨테이너 (자신 포함)
 export const AllUserContainer = styled.div`
-  max-width: 1120px;
+  /* max-width: 1120px; */
+
   height: 73px;
   width: 70%;
   box-sizing: border-box;
@@ -129,17 +180,11 @@ export const ChatTitle = styled.div`
   margin-left: 8px;
 `;
 
+// 텍스트 입력창을 위한 wrapper
 export const InputWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-`;
-
-export const EmptyContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 130px;
 `;
 
 // 메세지 입력 컨테이너
@@ -158,10 +203,30 @@ export const MessageInputForm = styled.form`
 
 // 슬라이더
 export const StyledSlider = styled(Slider)`
+  /* overflow-x: hidden; */
+
+  height: 50px;
+
+  /* align-items: center; */
   .slick-slide > div > div {
     display: flex !important;
   }
-  width: 90%;
+  .slick-list {
+    margin-top: 12px;
+    /* text-overflow: ellipsis; */
+    overflow: visible;
+  }
+  .slick-track {
+    /* overflow: hidden; */
+  }
+  /* overflow-y: auto; */
+  /* overflow-y: visible;  */
+
+  .slick-next:before,
+  .slick-prev:before {
+    color: gray;
+  }
+  width: 75%;
   /* margin: o auto; */
 `;
 
@@ -191,4 +256,15 @@ export const MessageSendButton = styled.button`
   text-indent: -9999px;
   border: none;
   cursor: pointer;
+`;
+
+// 슬라이더 👉
+export const SliderContainer = styled.div`
+  width: 100%;
+  /* overflow-x: auto; */
+`;
+
+export const SliderContent = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
 `;

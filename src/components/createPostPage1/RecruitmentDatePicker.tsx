@@ -111,10 +111,11 @@ function RecruitmentDatePicker() {
 
   return (
     <Container>
+      {/* 🐼 */}
+      {/* {postIsEditing ? (
+        <NoticeTextWrapper>모집 마감 일자를 알려주세요.</NoticeTextWrapper>
+      ) : null} */}
       <DatePickerWrapper>
-        {postIsEditing ? (
-          <NoticeTextWrapper>모집 마감 일자를 알려주세요.</NoticeTextWrapper>
-        ) : null}
         <DatePicker
           selected={endDate}
           onChange={handleEndDateChange}
