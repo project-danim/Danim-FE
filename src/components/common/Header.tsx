@@ -13,10 +13,13 @@ import {
   isSearchClicked,
   searchedTitleState,
 } from "../../recoil/filter/filterdPost";
+import hasNewChatState from "../../recoil/chat/alarm";
 
 function Header() {
   // 로컬에 저장된 새로운 채팅 여부 (boolean)
   const hasNew = localStorage.getItem("hasNewChat");
+  // 채팅 알람에 대한 state
+  const [hasNewChat] = useRecoilState(hasNewChatState);
 
   // 토큰 state
   const accessToken = getAccessToken();
@@ -104,6 +107,11 @@ function Header() {
       setUserProfile(() => profileImg);
     }
   }, [profileImg, userProfile]);
+
+  useEffect(() => {
+    const stringHasNewChat = String(hasNewChat);
+    localStorage.setItem("hasNewChat", stringHasNewChat);
+  }, [hasNewChat]);
 
   return (
     <st.headerAria>
