@@ -1,6 +1,11 @@
 // 내가 작성한 게시물 채팅방 list 와 지원한 채팅방 리스트 style
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+// 채팅 알림 태그 프롭 타입
+type ChatAlarmProp = {
+  hasNewChat?: boolean;
+};
 
 export const Container = styled.div`
   width: 100%;
@@ -20,12 +25,13 @@ export const ChatRoomContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 30px 0;
+  padding: 20px;
 `;
 
 export const ChatRoomWrapper = styled.div`
   width: 95%;
   /* border: 1px solid black; */
-  margin: 20px;
+  /* margin: 20px; */
 `;
 
 // 메세지, 메세지 작성자 wrapper
@@ -38,13 +44,21 @@ export const MessageWrapper = styled.div`
   background-color: white;
 `;
 
-// 게시글 제목, 날짜 wrapper
-export const TitleDateWrapper = styled.div`
-  width: 88%;
+// 게시글 제목, 날짜, 채팅 알람 wrapper
+export const TitleDateAlarmWrapper = styled.div`
+  /* width: 88%; */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* margin: 30px 13px; */
+  gap: 22px;
+`;
+
+// 게시글 제목, 날짜 wrapper
+export const TitleDateWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 // 글 제목
@@ -60,6 +74,27 @@ export const Title = styled.div`
 export const Date = styled.div`
   font-size: 12px;
   color: #999;
+  line-height: 19px;
+`;
+
+// 채팅 알림
+export const ChatAlarm = styled.p<ChatAlarmProp>`
+  width: 100px;
+  text-align: right;
+  ${({ hasNewChat }) =>
+    hasNewChat &&
+    css`
+      &::before {
+        content: "";
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        background: #fb1b1b;
+        margin-right: 8px;
+        margin-bottom: -2px;
+      }
+    `};
 `;
 
 // 대화내용, 대화하기 버튼

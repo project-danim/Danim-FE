@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+// import { useEffect } from "react";
 import { chatStart, getMyjoinChatRoomList } from "../../api/chat";
 import * as Styled from "./ChatListTapComponentStyle";
 import convertDateFormat from "../../utils/convertDateFormat";
@@ -10,6 +11,7 @@ import {
   chatRoomPostTitleState,
   roomNameState,
 } from "../../recoil/chat/chatState";
+import getAlarmCount from "../../utils/getAlarmCount";
 
 function AppliedChatList() {
   const navigate = useNavigate();
@@ -60,50 +62,63 @@ function AppliedChatList() {
     return <div>데이터를 불러오는 도중 문제가 발생했습니다.</div>;
   }
 
-  // console.log(chatLists);
-
   return (
     <div>
       <Styled.Container>
-        {chatLists.data.map((chat: any) => (
-          <Styled.ChatRoomContainer key={chat.roomId}>
-            <Styled.ChatRoomWrapper>
-              <Styled.TitleDateWrapper>
-                <Styled.Title>{chat.postTitle}</Styled.Title>
-                <Styled.Date>
-                  {(chat.lastMessage?.createdAt &&
-                    `작성일 | ${convertDateFormat(
-                      new Date(chat.lastMessage.createdAt)
-                    )}`) ||
-                    null}
-                </Styled.Date>
-              </Styled.TitleDateWrapper>
-              <Styled.ChatContentsChatWrapper>
-                {chat.lastMessage ? (
-                  <Styled.MessageWrapper>
-                    <Styled.Author>{chat.lastMessage.sender}</Styled.Author>
-                    <Styled.Content>{chat.lastMessage.message}</Styled.Content>
-                  </Styled.MessageWrapper>
-                ) : (
-                  <Styled.MessageWrapper>
-                    <Styled.Author />
-                    대화가 시작되지 않았습니다.
-                  </Styled.MessageWrapper>
-                )}
-                <Styled.ChatButton
-                  onClick={() =>
-                    handleClick({
-                      chatRoomId: chat.roomId,
-                      postTitle: chat.postTitle,
-                    })
-                  }
-                >
-                  대화하기
-                </Styled.ChatButton>
-              </Styled.ChatContentsChatWrapper>
-            </Styled.ChatRoomWrapper>
-          </Styled.ChatRoomContainer>
-        ))}
+        {chatLists.data.map((chat: any) => {
+          // roomId 값을 가져와 useAlarmCount 훅에 전달하여 변화 감지
+          // useAlarmCount(chat.roomId);
+          // 70번 주석처리하기 위해 임의로 콘솔 넣었습니다.
+          console.log("hhs");
+          return (
+            <Styled.ChatRoomContainer key={chat.roomId}>
+              <Styled.ChatRoomWrapper>
+                <Styled.TitleDateAlarmWrapper>
+                  <Styled.TitleDateWrapper>
+                    <Styled.Title>{chat.postTitle}</Styled.Title>
+                    <Styled.Date>
+                      {(chat.lastMessage?.createdAt &&
+                        `작성일 | ${convertDateFormat(
+                          new Date(chat.lastMessage.createdAt)
+                        )}`) ||
+                        null}
+                    </Styled.Date>
+                  </Styled.TitleDateWrapper>
+                  <Styled.ChatAlarm hasNewChat={getAlarmCount(chat.roomId)}>
+                    {getAlarmCount(chat.roomId)
+                      ? `${getAlarmCount(chat.roomId)}개`
+                      : null}
+                  </Styled.ChatAlarm>
+                </Styled.TitleDateAlarmWrapper>
+                <Styled.ChatContentsChatWrapper>
+                  {chat.lastMessage ? (
+                    <Styled.MessageWrapper>
+                      <Styled.Author>{chat.lastMessage.sender}</Styled.Author>
+                      <Styled.Content>
+                        {chat.lastMessage.message}
+                      </Styled.Content>
+                    </Styled.MessageWrapper>
+                  ) : (
+                    <Styled.MessageWrapper>
+                      <Styled.Author />
+                      대화가 시작되지 않았습니다.
+                    </Styled.MessageWrapper>
+                  )}
+                  <Styled.ChatButton
+                    onClick={() =>
+                      handleClick({
+                        chatRoomId: chat.roomId,
+                        postTitle: chat.postTitle,
+                      })
+                    }
+                  >
+                    대화하기
+                  </Styled.ChatButton>
+                </Styled.ChatContentsChatWrapper>
+              </Styled.ChatRoomWrapper>
+            </Styled.ChatRoomContainer>
+          );
+        })}
       </Styled.Container>
     </div>
   );

@@ -14,6 +14,7 @@ import {
 } from "../../recoil/chat/chatState";
 import titleIcon from "../../../public/chat/frame.svg";
 import * as st from "./ChatST";
+import { Header } from "../common";
 
 interface User {
   imageUrl: string;
@@ -34,16 +35,12 @@ const sliderSettings = {
 function Chat() {
   // 상세 게시글 페이지에서 입장하기를 눌렀을때 저장된 recoil state 호출 - 참여자, 방이름, 게시글 제목, 과거 채팅 기록
   const chatEnteredUsers = useRecoilValue(chatEnteredUsersNicknameState);
+
   const chatEnteredRoomName = useRecoilValue(roomNameState);
   const chatRoomPostTitle = useRecoilValue(chatRoomPostTitleState);
   const chatRecord = useRecoilValue(chatRoomChatRecordState);
 
   const navigate = useNavigate();
-
-  // 뒤로가기 버튼
-  const goBack = () => {
-    navigate(-1); // 뒤로 가기
-  };
 
   // 👇 서버에서 받은 채팅 기록을 사용할 수 있는 형태로 가공
   let flattenedChatRecord = [];
@@ -125,6 +122,22 @@ function Chat() {
       }
     );
   };
+  // 뒤로가기 버튼
+  const goBack = () => {
+    if (stompClientRef.current) {
+      stompClientRef.current.send(
+        "/pub/chat/message",
+        {},
+        JSON.stringify({
+          type: "LEAVE",
+          roomName,
+          sender: userId,
+          message: "",
+        })
+      );
+    }
+    navigate(-1); // 뒤로 가기
+  };
 
   // 웹소켓 연결 해제
   const disconnect = () => {
@@ -190,6 +203,7 @@ function Chat() {
     <st.Container>
       <st.ChatPageBackground>
         <st.TitleChatContainer>
+          <Header />
           <st.TitleWrapper>
             <st.GobackButton type="button" onClick={goBack}>
               <st.GobackButtonIcon />
