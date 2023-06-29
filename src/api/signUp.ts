@@ -195,7 +195,7 @@ export const fetchLogin = async (user: {
       localStorage.setItem("isAuthenticated", "true");
       if (accessToken && refreshToken) {
         setCookie("accessToken", accessToken, 1);
-        setCookie("refreshToken", refreshToken, 30);
+        setCookie("refreshToken", refreshToken, 14);
       }
     }
     return response;

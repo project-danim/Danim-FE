@@ -56,6 +56,10 @@ const CommonButton = styled.button<FilterButtonProps>`
       &:hover {
         padding: 8px 89.5px !important;
       }
+      // 모바일
+      @media (max-width: 430px) and (min-width: 375px) {
+        margin-top: 60px;
+      }
     `}
 
   cursor: pointer;
@@ -78,6 +82,16 @@ const CommonKeywordButton = styled.button`
   font-weight: 400;
   line-height: 20px;
   max-height: 36px;
+  // 모바일
+  @media (max-width: 430px) and (min-width: 375px) {
+    padding: 1px 4px;
+    line-height: 14px;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 2px;
+    background: #f5f5f5;
+    min-height: auto;
+  }
 `;
 
 // 마감된 게시글 컨테이너
@@ -91,34 +105,35 @@ const expiredPostContainer = styled.div<PostContainerProps>`
     expired &&
     css`
       & > img {
-        width: 99%;
-        height: ;
         margin: 0 auto;
         height: 118px;
+        @media (min-width: 375px) and (max-width: 430px) {
+          height: 129px;
+        }
       }
       &::after {
         content: "모집 마감";
-        background-color: #b5bf69;
+        /* background-color: #b5bf69; */
+        background-color: rgba(128, 128, 128, 0.5);
         position: absolute;
-        /* display: flex; */
         width: 100%;
-        height: 120px;
-        /* padding: 20px; */
-        /* justify-content: center; */
-        /* align-items: center; */
-        /* gap: 10px; */
-        /* border-radius: 8px; */
+        height: 118px;
         color: #ffffff;
         top: 43px;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 500;
         line-height: 22px;
         display: flex;
         justify-content: center;
         align-items: center;
+        border-radius: 6px;
+        @media (min-width: 375px) and (max-width: 430px) {
+          top: 0;
+          height: 129px;
+        }
       }
       > * {
-        filter: blur(1.6px);
+        filter: blur(1.2px);
       }
     `};
 `;
@@ -134,9 +149,11 @@ const postContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0;
-  /* 채팅 때문에 ui 망가져서 임의로 넣은 max-height 꼭 지우기!! */
-  max-height: 457px;
   cursor: pointer;
+  @media (min-width: 375px) and (max-width: 430px) {
+    padding: 0;
+    border: none;
+  }
 `;
 
 // 게시글 제목
@@ -153,6 +170,15 @@ const postTitle = styled.p`
   overflow: hidden;
   max-width: 230px;
   text-overflow: ellipsis;
+  @media (min-width: 375px) and (max-width: 430px) {
+    width: 171px;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-bottom: 20px;
+  }
 `;
 
 // 게시글 닉네임
@@ -177,6 +203,22 @@ const postNickname = styled.p<NickNameProps>`
     background-size: cover;
     margin-right: 8px;
   }
+  @media (min-width: 375px) and (max-width: 430px) {
+    padding: 0;
+    overflow: hidden;
+    color: #c2c2c2;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    font-family: Roboto;
+    font-weight: 400;
+    line-height: 16px;
+    &::before {
+      width: 16px;
+      height: 16px;
+      margin: 4px 0;
+      margin-right: 4px;
+    }
+  }
 `;
 
 // 게시글 이미지
@@ -186,6 +228,21 @@ const postImage = styled.img`
   max-width: 265px;
   height: 120px;
   flex-shrink: 0;
+  @media (min-width: 375px) and (max-width: 430px) {
+    width: 171px;
+    height: 129px;
+    border-radius: 6px;
+  }
+`;
+
+// 모집 기한 텍스트
+const dateText = styled.p`
+  color: #a3a3a3;
+  font-size: 12px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
 `;
 
 // 게시글 모집인원 모집기한 컨테이너
@@ -217,6 +274,16 @@ const keywordContainer = styled.div`
   padding: 0 12px;
   padding-bottom: 10px;
   border-bottom: 0.25px solid #c2c2c2;
+  align-content: flex-start;
+  @media (min-width: 375px) and (max-width: 430px) {
+    padding: 0;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+    min-height: 43px;
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
 `;
 
 export default {
@@ -227,6 +294,7 @@ export default {
   postTitle,
   postNickname,
   postImage,
+  dateText,
   groupSizeAndDateContainer,
   keywordContainer,
 };

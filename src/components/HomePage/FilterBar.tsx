@@ -22,6 +22,8 @@ import LocationFilter from "./Location";
 import GroupSize from "./GroupSize";
 
 function FilterBar() {
+  // 모바일 픽셀인지 아닌지에 대한 상태
+  const [isMobile] = useState(window.matchMedia("(max-width: 430px)").matches);
   // 사용자가 선택한 모든 검색 조건들
   const [allFilter, setAllKeyword] = useRecoilState<any>(allKeywordState);
   // 검색으로 받은 게시글 state
@@ -195,7 +197,9 @@ function FilterBar() {
         <st.AgeAndTitleContainer>
           {/* 연령대 필터 박스 */}
           <st.AgeContainer>
-            <st.CommonLableNameText>연령대</st.CommonLableNameText>
+            {isMobile ? null : (
+              <st.CommonLableNameText>연령대</st.CommonLableNameText>
+            )}
             <st.AgeButtonContainer>
               {ageList.map((age) => (
                 <st.CommonButton
@@ -216,7 +220,9 @@ function FilterBar() {
           </st.AgeContainer>
           {/* 제목 검색창 */}
           <label htmlFor="searchTitle">
-            <st.CommonLableNameText>제목</st.CommonLableNameText>
+            {isMobile ? null : (
+              <st.CommonLableNameText>제목</st.CommonLableNameText>
+            )}
             <st.TitleInput
               type="text"
               id="searchTitle"
@@ -234,6 +240,7 @@ function FilterBar() {
           <GroupSize />
         </st.LocationAndGroupSizeContainer>
       </st.MainKeywordContainer>
+
       <common.CommonButton
         buttonName="search"
         type="button"

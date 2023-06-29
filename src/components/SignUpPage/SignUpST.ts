@@ -67,6 +67,10 @@ const OriginalButton = styled.button<OriginalButtonProps>`
         padding: 10px 12px;
         border: none;
       }
+      // 모바일
+      @media (max-width: 430px) and (min-width: 375px) {
+        font-size: 15px;
+      }
     `}
     // 버튼 활성화 시
     ${(props) =>
@@ -108,6 +112,10 @@ const CommonErrorText = styled.div`
   margin-top: 8px;
   margin-bottom: 32px;
   padding-left: 2px;
+  // 모바일
+  @media (max-width: 430px) and (min-width: 375px) {
+    margin-bottom: 24px;
+  }
 `;
 
 // 공통 정보 동의 텍스트
@@ -132,6 +140,11 @@ const ContainerForm = styled.form`
   flex-direction: column;
   margin-top: 96px;
   margin-bottom: 144px;
+  // 모바일
+  @media (max-width: 430px) and (min-width: 375px) {
+    margin-top: 40px;
+    padding: 0 20px;
+  }
 `;
 
 // 소셜 로그인 텍스트 ("SNS로 로그인")
@@ -139,8 +152,6 @@ const FormExplainText = styled.p<FormExplainTextProps>`
   font-size: 12px;
   text-align: center;
   margin-bottom: 40px;
-  /* margin-top: ${(props) =>
-    props.pageName === "loginPage" ? "56px" : "0"}; */
   margin-top: 56px;
   position: relative;
   &::before {
@@ -163,19 +174,13 @@ const FormExplainText = styled.p<FormExplainTextProps>`
     top: 6px;
     right: 0;
   }
-  /* @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 10px;
-    &::before {
-      width: ${(props) => (props.pageName === "loginPage" ? "80px" : "40px")};
-      top: 5px;
-    }
-    &::after {
-      width: ${(props) => (props.pageName === "loginPage" ? "80px" : "40px")};
-      top: 5px;
-    }
+  // 모바일
+  @media (max-width: 430px) and (min-width: 375px) {
     margin-bottom: 30px;
-    margin-top: ${(props) => (props.pageName === "loginPage" ? "30px" : "0")};
-  } */
+    /* margin-top: ${(props) =>
+      props.pageName === "loginPage" ? "44px" : "10px"}; */
+    margin-top: 44px;
+  }
 `;
 
 const SignUpExplainText = styled.p`
@@ -200,6 +205,12 @@ const IdAreaContainer = styled.div`
 const IdAreaExplainText = styled.p`
   margin: 0;
   margin-bottom: 8px;
+  // 모바일
+  @media (max-width: 430px) and (min-width: 375px) {
+    color: #333;
+    font-size: 14px;
+    font-weight: 700;
+  }
 `;
 
 // 성별

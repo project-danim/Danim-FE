@@ -20,6 +20,10 @@ const CommonInput = styled.input`
   &:focus {
     outline: 1px solid #a3bf3b;
   }
+  // 모바일
+  @media (max-width: 430px) and (min-width: 375px) {
+    width: 100%;
+  }
 `;
 
 // 로그인 버튼
@@ -91,8 +95,12 @@ const SocialButton = styled.button<SocialLoginButtonProps>`
   font-weight: 400;
   line-height: 17px;
   margin-bottom: 8px;
-  font-family: "Pretendard";
+  font-family: inherit;
   cursor: pointer;
+  // 모바일
+  @media (max-width: 430px) and (min-width: 375px) {
+    padding: 13px 0;
+  }
 `;
 
 // 소셜 로그인 안내 문구

@@ -38,6 +38,10 @@ const CommonStyleButton = styled.button<CommonStyleButtonProps>`
   cursor: pointer;
   box-sizing: border-box;
   margin-right: ${(props) => (props.buttonName === "post" ? "48px" : null)};
+  @media (max-width: 450px) and (min-width: 375px) {
+    font-size: 13px;
+    min-width: ${(props) => (props.buttonName === "post" ? "auto" : "90px")};
+  }
 `;
 
 // 헤더 영역 전체
@@ -57,6 +61,9 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   margin: 0 auto;
+  @media (max-width: 450px) and (min-width: 375px) {
+    padding: 0 20px;
+  }
 `;
 
 // 페이지 제목
@@ -79,6 +86,28 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 16px;
+  // 모바일
+  @media (max-width: 450px) and (min-width: 375px) {
+    gap: 8px;
+  }
+`;
+
+// 모바일 버튼 컨테이너
+const MobileButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  & > button {
+    border: none;
+    background-color: transparent;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 // 채팅 버튼과 마이페이지 버튼
@@ -93,9 +122,13 @@ const chatAndUserButton = styled.button<CommonStyleButtonProps>`
     hasNew &&
     css`
       &::after {
-        content: "⚡️";
+        content: "";
         display: inline-block;
         position: absolute;
+        border-radius: 8px;
+        background: #7ea8e3;
+        width: 16px;
+        height: 16px;
         left: 13px;
         top: -15px;
         font-size: 35px;
@@ -118,6 +151,7 @@ export default {
   DanimTitle,
   DanimLogo,
   ButtonContainer,
+  MobileButtonContainer,
   CommonStyleButton,
   chatAndUserButton,
   userProfile,

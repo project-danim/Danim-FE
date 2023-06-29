@@ -136,7 +136,7 @@ function Login() {
           아이디 찾기｜비밀번호 찾기｜비밀번호 변경
         </loginSt.FindUserInfoContainer>
       </div>
-      <SnsSignUp />
+      <SnsSignUp pageName="loginPage" />
     </st.ContainerForm>
   );
 }

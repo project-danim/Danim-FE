@@ -207,7 +207,7 @@ function SignUp() {
     <st.ContainerForm
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}
     >
-      <SnsSignUp />
+      <SnsSignUp pageName="signUpPage" />
       <st.FormExplainText pageName="signUpPage">
         회원가입에 필요한 정보를 입력해주세요.
       </st.FormExplainText>
