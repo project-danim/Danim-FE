@@ -4,7 +4,9 @@ import st from "./FilterBarMobileST";
 function FilterBarMobile() {
   return (
     <div>
-      <st.DanimSearchText>다님 검색하기</st.DanimSearchText>
+      <st.DanimSearchText>
+        <span>다님</span> 검색하기
+      </st.DanimSearchText>
       <FilterBar />
     </div>
   );
