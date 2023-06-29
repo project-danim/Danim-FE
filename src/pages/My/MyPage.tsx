@@ -85,7 +85,6 @@ function MyPage() {
   const handleImageUpload = (event: any) => {
     const file = event.target.files[0];
     setUploadImg(file);
-    console.log(uploadImg);
   };
 
   // 닉네임 변경 핸들러
@@ -93,9 +92,9 @@ function MyPage() {
     setNickname(event.target.value);
   };
 
-  const hadleImageChange = (event: any) => {
-    setUploadImg(event.target.value);
-  };
+  // const hadleImageChange = (event: any) => {
+  //   setUploadImg(event.target.value);
+  // };
 
   const clickButton = async () => {
     if (!editing) {
@@ -173,13 +172,13 @@ function MyPage() {
             onChange={handleImageUpload}
           />
           <Styled.ProfileFixButton type="button" onClick={clickFileInput} />
-          <Styled.ImageArea />
+          <Styled.ImageArea src={uploadImg} />
         </Styled.ImageBox>
         <Styled.UserInfo>
           <Styled.ProfileMileContainer>
             <Styled.ScoreAndNicknameContainer>
               <Styled.Score>{fomattedScore}</Styled.Score>
-              <Styled.UserNickName>
+              <Styled.UserNickNameWrapper>
                 {editing ? (
                   <Styled.UserNickNameInput
                     type="text"
@@ -187,14 +186,11 @@ function MyPage() {
                     onChange={handleNicknameChange}
                   />
                 ) : (
-                  <Styled.UserNickNameInput
-                    type="text"
-                    placeholder={nickname}
-                    readOnly
-                  />
+                  <Styled.UserNickName>
+                    {nickname} <span>님</span>
+                  </Styled.UserNickName>
                 )}
-                <span>님</span>
-              </Styled.UserNickName>
+              </Styled.UserNickNameWrapper>
             </Styled.ScoreAndNicknameContainer>
             {owner && (
               <div>
@@ -204,13 +200,16 @@ function MyPage() {
               </div>
             )}
           </Styled.ProfileMileContainer>
-          <Styled.TextArea
-            ref={profileRef}
-            readOnly={!editing}
-            value={content === null ? "" : content}
-            placeholder="간단한 자기 소개를 해주세요."
-            onChange={(e: any) => setContent(e.target.value)}
-          />
+          {editing ? (
+            <Styled.ContentWrapper
+              ref={profileRef}
+              value={content === null ? "" : content}
+              placeholder="간단한 자기 소개를 해주세요."
+              onChange={(e: any) => setContent(e.target.value)}
+            />
+          ) : (
+            <Styled.Content>{content}</Styled.Content>
+          )}
         </Styled.UserInfo>
         <Styled.WithDrawalButton type="button" onClick={handleWithDrawalClick}>
           탈퇴하기
