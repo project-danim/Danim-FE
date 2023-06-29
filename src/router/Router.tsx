@@ -22,23 +22,9 @@ import ChatRoomListPage from "../pages/Chat/ChatRoomList";
 import PrivateRoute from "./PrivateRouter";
 import NoFooterLayout from "../components/common/NoFooterLayout";
 import SplashPage from "../components/common/SplashPage";
+import MenuBar from "../components/HomePage/Mobile/MenuBar";
 
 function Router() {
-  // const userId = localStorage.getItem("id");
-
-  // // userId에 따른 로그인 페이지 라우트
-  // const loginRouteElement = useMemo(
-  //   // <Navigate>는 React Router v6에서 새로 도입됨. 다른 URL로 이동하게 만드는 역할로 이전 버전의 <Redirect> 컴포넌트 대체
-  //   () => (userId ? <Navigate to="/" replace /> : <LoginPage />),
-  //   [userId]
-  // );
-
-  // // userId에 따른 회원가입 페이지 라우트
-  // const SignUpRouteElement = useMemo(
-  //   () => (userId ? <Navigate to="/" replace /> : <SignUpPage />),
-  //   [userId]
-  // );
-
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -76,6 +62,7 @@ function Router() {
           <Route element={<PrivateRoute authentication />}>
             <Route path="/chat/:postId" element={<ChatPage />} />
           </Route>
+          <Route path="/menu-bar" element={<MenuBar />} />
         </Route>
 
         <Route path="/" element={<HomeLayout />}>
