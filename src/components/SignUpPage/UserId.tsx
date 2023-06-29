@@ -113,7 +113,7 @@ function UserId({
               type="text"
               value={loginUserId}
               onChange={handleChangeLoginId}
-              placeholder="이메일 주소를 입력해주세요."
+              placeholder="아이디를 입력해주세요."
               aria-describedby="idInputError"
             />
           </label>
