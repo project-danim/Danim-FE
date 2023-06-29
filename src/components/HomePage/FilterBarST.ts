@@ -289,18 +289,11 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
   &::after {
     content: "";
     display: inline-block;
-    /* position: relative; */
-    /* left: ${(props) => (props["data-active"] ? "34px" : "0px")}; */
     animation-name: ${(props) =>
       props["data-active"] ? "move-right" : "move-left"};
     animation-duration: 0.2s;
     animation-timing-function: linear;
     animation-fill-mode: forwards; /* 애니메이션 완료 후 마지막 상태 유지 */
-    transform: translateX(${(props) => (props["data-active"] ? "32px" : "0")});
-    -webkit-transform: translateX(
-      ${(props) => (props["data-active"] ? "22px" : "-10px")}
-    );
-
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -313,26 +306,21 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
 
   @keyframes move-left {
     0% {
-      transform: translateX(32px);
-      -webkit-transform: translateX(22px);
+      transform: translateX(34px);
     }
     50% {
       transform: translateX(15px);
-      -webkit-transform: translateX(0px);
     }
     100% {
       transform: translateX(0);
-      -webkit-transform: translateX(-12px);
     }
   }
   @keyframes move-right {
     0% {
       transform: translateX(0);
-      -webkit-transform: translateX(-12px);
     }
     100% {
-      transform: translateX(32px);
-      -webkit-transform: translateX(22px);
+      transform: translateX(34px);
     }
   }
 `;

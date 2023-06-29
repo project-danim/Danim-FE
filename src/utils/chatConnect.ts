@@ -5,11 +5,14 @@ import SockJS from "sockjs-client";
 import StompJs from "stompjs";
 import hasNewChatState from "../recoil/chat/alarm";
 
-const useChatConnect = (userId: string) => {
+const useChatConnect = (userId: string | null) => {
   // 채팅 알람 state
   const [, setHasNewChat] = useRecoilState(hasNewChatState);
 
   useEffect(() => {
+    if (!userId) {
+      return;
+    }
     const sock = new SockJS(`${import.meta.env.VITE_APP_URL}/ws-stomp`);
     const stomp = StompJs.over(sock);
     stomp.connect(
@@ -40,6 +43,6 @@ const useChatConnect = (userId: string) => {
         console.log("에러발생! 연결실패!", err);
       }
     );
-  }, []);
+  }, [userId]);
 };
 export default useChatConnect;
