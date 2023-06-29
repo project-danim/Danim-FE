@@ -170,6 +170,7 @@ const CommonDropDownButton = styled.button`
   @media (max-width: 650px) and (min-width: 375px) {
     font-size: 14px;
     min-width: 100px;
+    padding-left: 8px;
   }
 `;
 
@@ -252,7 +253,7 @@ const RecruitEndContainer = styled.div`
   width: 100%;
   position: relative;
   @media (min-width: 375px) and (max-width: 430px) {
-    top: 280px;
+    top: 189px;
   }
 `;
 
@@ -437,6 +438,9 @@ const LocationListUl = styled.ul<CommonUlProps>`
     justify-content: flex-start;
     text-align: left;
     cursor: pointer;
+    @media (max-width: 450px) and (min-width: 375px) {
+      padding-left: 8px;
+    }
   }
   & > div:last-child {
     border-bottom-left-radius: 8px;
@@ -453,7 +457,7 @@ const LocationListUl = styled.ul<CommonUlProps>`
   // 모바일
   @media (max-width: 450px) and (min-width: 375px) {
     width: calc(100% - 40px);
-    top: ${({ ulName }) => (ulName === "location" ? "445px" : "516px")};
+    top: ${({ ulName }) => (ulName === "location" ? "374px" : "422px")};
   }
 `;
 
