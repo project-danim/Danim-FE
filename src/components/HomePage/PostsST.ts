@@ -8,8 +8,11 @@ const postsContainer = styled.div`
   justify-content: space-between;
   margin-top: 96px;
   // 임의로 설정한 부분으로 디자인 없는 상태입니다!
-  @media (max-width: 1120px) and (min-width: 320px) {
+  @media (max-width: 1120px) and (min-width: 650px) {
     grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 430px) and (min-width: 375px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 

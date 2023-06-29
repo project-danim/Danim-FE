@@ -234,6 +234,7 @@ function FilterBar() {
           <GroupSize />
         </st.LocationAndGroupSizeContainer>
       </st.MainKeywordContainer>
+
       <common.CommonButton
         buttonName="search"
         type="button"

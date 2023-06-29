@@ -56,6 +56,10 @@ const CommonButton = styled.button<FilterButtonProps>`
       &:hover {
         padding: 8px 89.5px !important;
       }
+      // 모바일
+      @media (max-width: 430px) and (min-width: 375px) {
+        margin-top: 60px;
+      }
     `}
 
   cursor: pointer;
@@ -100,14 +104,8 @@ const expiredPostContainer = styled.div<PostContainerProps>`
         content: "모집 마감";
         background-color: #b5bf69;
         position: absolute;
-        /* display: flex; */
         width: 100%;
         height: 120px;
-        /* padding: 20px; */
-        /* justify-content: center; */
-        /* align-items: center; */
-        /* gap: 10px; */
-        /* border-radius: 8px; */
         color: #ffffff;
         top: 43px;
         font-size: 14px;
@@ -134,8 +132,6 @@ const postContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0;
-  /* 채팅 때문에 ui 망가져서 임의로 넣은 max-height 꼭 지우기!! */
-  max-height: 457px;
   cursor: pointer;
 `;
 
@@ -186,6 +182,10 @@ const postImage = styled.img`
   max-width: 265px;
   height: 120px;
   flex-shrink: 0;
+  @media (min-width: 375px) and (max-width: 430px) {
+    width: 171px;
+    height: 129px;
+  }
 `;
 
 // 게시글 모집인원 모집기한 컨테이너

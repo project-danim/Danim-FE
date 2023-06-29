@@ -12,16 +12,15 @@ const MainPageContainer = styled.div`
   text-align: center;
   margin-bottom: 154px;
   // 모바일
-  @media (min-width: 375px) and (max-width: 390px) {
+  @media (min-width: 375px) and (max-width: 430px) {
     padding: 20px;
     box-sizing: border-box;
-    border: 2px solid red;
   }
 `;
 
 function Main() {
   // 모바일 픽셀인지 아닌지에 대한 상태
-  const [isMobile] = useState(window.matchMedia("(max-width: 391px)").matches);
+  const [isMobile] = useState(window.matchMedia("(max-width: 430px)").matches);
 
   // 로컬 스토리지에 저장된 사용자 아이디
   const userId = localStorage.getItem("id");
@@ -34,6 +33,7 @@ function Main() {
       {isMobile ? (
         <MainPageContainer>
           <FilterBarMobile />
+          <PostList />
         </MainPageContainer>
       ) : (
         <MainPageContainer>

@@ -33,7 +33,6 @@ const CommonButton = styled.button<FilterButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-
   // 글자 관련
   font-size: 16px;
   color: ${(props) => {
@@ -44,6 +43,7 @@ const CommonButton = styled.button<FilterButtonProps>`
   }};
   line-height: ${(props) =>
     props.buttonName === "ageButton" ? "38px" : "40px"};
+  white-space: nowrap;
 
   border-radius: 20px;
   padding: ${(props) =>
@@ -71,7 +71,7 @@ const CommonButton = styled.button<FilterButtonProps>`
       props.buttonName === "ageButton" ? "0px 41.5px" : "0 11px"};
     line-height: 36px;
     // 태블릿
-    @media (max-width: 1024px) and (min-width: 391px) {
+    @media (max-width: 1024px) and (min-width: 431px) {
       padding: ${(props) =>
         props.buttonName === "ageButton" ? "0 18px" : "0 10px"};
     }
@@ -98,7 +98,7 @@ const CommonButton = styled.button<FilterButtonProps>`
     padding: ${(props) =>
       props.buttonName === "ageButton" ? "0 18px" : "0 12px"};
   }
-  @media (max-width: 650px) and (min-width: 391px) {
+  @media (max-width: 650px) and (min-width: 431px) {
     font-size: 12px;
     line-height: ${(props) =>
       props.buttonName === "ageButton" ? "30px" : "36px"};
@@ -106,9 +106,28 @@ const CommonButton = styled.button<FilterButtonProps>`
       props.buttonName === "ageButton" ? "0 5px" : "0 8px"};
   }
   // 모바일
-  @media (min-width: 375px) and (max-width: 390px) {
-    /* all: unset; */
+  @media (max-width: 430px) and (min-width: 375px) {
+    border: 1px solid #e4edc5;
     font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    padding: ${(props) =>
+      props.buttonName === "ageButton" ? "8px 25px" : "8px 12px"};
+
+    &::before {
+      content: "";
+      display: inline-block;
+      background-image: ${(props) =>
+        props["data-active"]
+          ? `url(/filterBar/mobile/active/${props.url}.svg)`
+          : `url(/filterBar/mobile/${props.url}.svg)`};
+      width: 20px;
+      height: 20px;
+      background-repeat: no-repeat;
+      margin-right: 6px;
+      position: relative;
+      ${(props) => props.buttonName === "ageButton" && "display: none;"}
+    }
   }
 `;
 
@@ -148,10 +167,8 @@ const CommonDropDownButton = styled.button`
   @media (max-width: 839px) {
     min-width: 140px;
   }
-  @media (max-width: 650px) and (min-width: 391px) {
-    font-size: 12px;
-  }
-  @media (max-width: 650px) and (min-width: 391px) {
+  @media (max-width: 650px) and (min-width: 375px) {
+    font-size: 14px;
     min-width: 100px;
   }
 `;
@@ -171,12 +188,6 @@ const CommonSelectedValue = styled.div`
   // 태블릿
   @media (max-width: 1024px) and (min-width: 391px) {
     font-size: 14px;
-  }
-  @media (max-width: 650px) and (min-width: 391px) {
-    font-size: 12px;
-  }
-  // 모바일
-  @media (max-width: 390px) {
   }
 `;
 
@@ -199,9 +210,8 @@ const FilterBarContainer = styled.div`
     padding: 0 20px;
   }
   // 모바일
-  @media (min-width: 375px) and (max-width: 390px) {
+  @media (max-width: 450px) and (min-width: 375px) {
     all: unset;
-    border: 1px solid black;
   }
 `;
 
@@ -224,14 +234,16 @@ const KeywordFilterContainer = styled.div`
   top: -30px;
   z-index: 1;
   // 모바일
-  @media (min-width: 375px) and (max-width: 390px) {
+  @media (min-width: 375px) and (max-width: 430px) {
     all: unset;
     display: flex;
     flex-direction: row;
-    column-gap: 100px;
-    border: 2px solid pink;
-    background-color: transparent;
-    overflow-x: auto;
+    overflow-x: scroll;
+    gap: 8px;
+    /* 스크롤 바 전체 */
+    ::-webkit-scrollbar {
+      height: 10px;
+    }
   }
 `;
 
@@ -239,6 +251,9 @@ const KeywordFilterContainer = styled.div`
 const RecruitEndContainer = styled.div`
   width: 100%;
   position: relative;
+  @media (min-width: 375px) and (max-width: 430px) {
+    top: 280px;
+  }
 `;
 
 // 모집 마감 토글 버튼
@@ -277,7 +292,7 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
     background-color: ${(props) =>
       props["data-active"] ? "#b5bf69" : "#2E5902"};
   }
-  @media (max-width: 1024px) and (min-width: 391px) {
+  @media (max-width: 1024px) and (min-width: 451px) {
     right: 38px;
   }
 
@@ -308,6 +323,10 @@ const MainKeywordContainer = styled.div`
   flex-direction: row;
   padding-top: 24px;
   gap: 24px;
+  // 모바일
+  @media (max-width: 450px) and (min-width: 375px) {
+    all: unset;
+  }
 `;
 
 // 연령대와 제목 컨테이너
@@ -315,6 +334,10 @@ const AgeAndTitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 26px;
+  // 모바일
+  @media (max-width: 450px) and (min-width: 375px) {
+    all: unset;
+  }
 `;
 
 // 제목 검색창
@@ -333,8 +356,13 @@ const TitleInput = styled.input`
     outline: 1px solid #a3bf3b;
   }
   // 태블릿
-  @media (max-width: 839px) and (min-width: 391px) {
+  @media (max-width: 839px) and (min-width: 451px) {
     font-size: 12px;
+  }
+  // 모바일
+  @media (max-width: 450px) and (min-width: 375px) {
+    margin-bottom: 10px;
+    font-size: 14px;
   }
 `;
 
@@ -342,6 +370,14 @@ const TitleInput = styled.input`
 const AgeContainer = styled.div`
   box-sizing: border-box;
   width: 100%;
+  // 모바일
+  @media (max-width: 450px) and (min-width: 375px) {
+    overflow-x: scroll;
+    /* 스크롤 바 전체 */
+    ::-webkit-scrollbar {
+      height: 10px;
+    }
+  }
 `;
 
 // 연령대 버튼 컨테이너
@@ -358,7 +394,13 @@ const AgeButtonContainer = styled.div`
     gap: 4px 4px;
   }
   // 모바일
-  @media (max-width: 390px) {
+  @media (max-width: 450px) and (min-width: 375px) {
+    gap: 8px;
+    overflow-x: scroll;
+    /* 스크롤 바 전체 */
+    ::-webkit-scrollbar {
+      height: 0px;
+    }
   }
 `;
 
@@ -368,6 +410,10 @@ const LocationAndGroupSizeContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   gap: 24px;
+  // 모바일
+  @media (max-width: 450px) and (min-width: 375px) {
+    gap: 10px;
+  }
 `;
 
 // 지역 리스트 ul
@@ -401,8 +447,13 @@ const LocationListUl = styled.ul<CommonUlProps>`
   @media (max-width: 1024px) {
     font-size: 14px;
   }
-  @media (max-width: 650px) and (min-width: 391px) {
+  @media (max-width: 650px) and (min-width: 451px) {
     font-size: 12px;
+  }
+  // 모바일
+  @media (max-width: 450px) and (min-width: 375px) {
+    width: calc(100% - 40px);
+    top: ${({ ulName }) => (ulName === "location" ? "445px" : "516px")};
   }
 `;
 
