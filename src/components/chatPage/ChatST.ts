@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
-import Slider from "react-slick";
 
 // 드롭다운을 위한 interface
 interface DropdownContentProps {
@@ -24,133 +23,6 @@ export const EmptyContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 130px;
-`;
-
-// 제목, 대화상대 wrapper
-export const TitleChatContainer = styled.div`
-  align-items: center;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-`;
-//
-export const MessageContainer = styled.div`
-  max-width: 1120px;
-  width: 100%;
-  margin: 0 auto;
-`;
-
-// 제목 wrapper
-export const TitleWrapper = styled.div`
-  max-width: 1120px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  height: 75px;
-  background-color: #b0c1d9;
-`;
-
-// 대화에 참여중인 사람들 container
-export const ConversationPeopleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  &:not(:first-child) {
-    margin: 12px;
-  }
-`;
-
-// 대화 상대 text wrapper
-export const Conversation = styled.div`
-  color: #000;
-  font-size: 14px;
-  min-width: 150px;
-  display: flex;
-  align-items: center;
-`;
-
-// 대화상대 profile
-export const ConversationPeopleImg = styled.img`
-  width: 24px;
-  height: 24px;
-  /* margin-right: 8px; */
-  /* margin-left: 8px; */
-  border-radius: 50%;
-`;
-
-// 대화상대 구분 선
-export const ConversationPeopleLine = styled.div`
-  width: 1px;
-  height: 45%;
-  background-color: #858585;
-  /* margin-left: 12px; */
-`;
-
-// 프로필 클릭시 드롭다운 container
-export const DropdownContainer = styled.div`
-  position: relative;
-  /* display: inline-block; */
-`;
-
-export const ConversationUserList = styled.div`
-  display: flex;
-`;
-
-// 대화 중인 유저 - 드롭다운을 위한 버튼
-export const ConversationUserNickname = styled.button`
-  cursor: pointer;
-  display: flex;
-  /* height: 200px; */
-`;
-
-//
-export const DropdownContent = styled.div<DropdownContentProps>`
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: gray;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px 16px;
-  z-index: 9999;
-  height: 100px;
-`;
-
-export const KickAndMyPageButton = styled.button`
-  height: 100px;
-  width: 100px;
-  z-index: 9999;
-  z-index: 9999;
-`;
-
-// 대화 상대 컨테이너 (자신 포함)
-export const AllUserContainer = styled.div`
-  /* max-width: 1120px; */
-
-  height: 73px;
-  width: 70%;
-  box-sizing: border-box;
-  background-color: #ffffff;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: row;
-  color: #5c5c5c;
-  font-size: 14px;
-  line-height: 16px;
-  & > p {
-    padding: 0 12px;
-  }
-  & > p:nth-child(1) {
-    padding: 0 47px 0 0;
-  }
-  & > p:nth-child(2) {
-    border-right: solid 1px black;
-  }
 `;
 
 // 뒤로가기 아이콘
@@ -180,6 +52,156 @@ export const ChatTitle = styled.div`
   margin-left: 8px;
 `;
 
+// 제목, 대화상대 wrapper
+export const TitleChatContainer = styled.div`
+  align-items: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+`;
+//
+export const MessageContainer = styled.div`
+  max-width: 1120px;
+  width: 100%;
+  margin: 0 auto;
+`;
+
+// 제목 wrapper
+export const TitleWrapper = styled.div`
+  max-width: 1120px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 75px;
+  background-color: #b0c1d9;
+`;
+
+// 슬라이더 👉
+export const SliderContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 30px;
+`;
+
+// 슬라이더 content 내용
+export const SliderContent = styled.div`
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  margin: 0 10px;
+  flex-grow: 1;
+  transition: transform 1ms ease-in-out;
+`;
+
+// 슬라이더 버튼
+export const SliderButton = styled.div`
+  border: none;
+  margin-bottom: 3px;
+  font-size: 20px;
+  color: #858585;
+`;
+
+// 대화에 참여중인 사람들 container
+export const ConversationPeopleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  /* margin: 12px; */
+  /* min-width: 200px; */
+  /* width: 90%; */
+`;
+
+// 대화 상대 text wrapper
+export const Conversation = styled.div`
+  color: #000;
+  font-size: 14px;
+  min-width: 70px;
+  margin-left: 25px;
+  display: flex;
+  justify-content: center;
+`;
+
+// 대화상대 profile
+export const ConversationPeopleImg = styled.img`
+  width: 24px;
+  height: 24px;
+  margin: 0 8px;
+  border-radius: 50%;
+`;
+
+// 대화상대 구분 선
+// export const ConversationPeopleLine = styled.div`
+//   width: 1px;
+//   height: 45%;
+//   background-color: #858585;
+//   /* margin-left: 12px; */
+// `;
+
+// 프로필 클릭시 드롭다운 container
+export const DropdownContainer = styled.div`
+  position: relative;
+  /* display: inline-block; */
+`;
+
+// 대화 중인 유저 - 드롭다운을 위한 버튼
+export const ConversationUserNickname = styled.button`
+  cursor: pointer;
+  display: flex;
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+`;
+
+// 드롭다운 컨텐츠
+export const DropdownContent = styled.div<DropdownContentProps>`
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  position: absolute;
+  padding: 4px 8px;
+  top: 30px;
+  left: 0;
+  background-color: gray;
+  width: 78px;
+  height: 82px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+// 강퇴하기, 마이페이지 버튼
+export const KickAndMyPageButton = styled.button`
+  border: none;
+  background-color: #f5f5f5;
+  display: flex;
+  width: 77px;
+  padding: 8px;
+  margin: 6px 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  font-size: 14px;
+`;
+
+// 대화 상대 컨테이너 (자신 포함)
+export const AllUserContainer = styled.div`
+  max-width: 1120px;
+  height: 73px;
+  width: 70%;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  color: #5c5c5c;
+  font-size: 14px;
+  line-height: 16px;
+`;
+
 // 텍스트 입력창을 위한 wrapper
 export const InputWrapper = styled.div`
   width: 100%;
@@ -199,35 +221,6 @@ export const MessageInputForm = styled.form`
   max-width: 1120px;
   margin-bottom: 19px;
   /* margin: 0 auto; */
-`;
-
-// 슬라이더
-export const StyledSlider = styled(Slider)`
-  /* overflow-x: hidden; */
-
-  height: 50px;
-
-  /* align-items: center; */
-  .slick-slide > div > div {
-    display: flex !important;
-  }
-  .slick-list {
-    margin-top: 12px;
-    /* text-overflow: ellipsis; */
-    overflow: visible;
-  }
-  .slick-track {
-    /* overflow: hidden; */
-  }
-  /* overflow-y: auto; */
-  /* overflow-y: visible;  */
-
-  .slick-next:before,
-  .slick-prev:before {
-    color: gray;
-  }
-  width: 75%;
-  /* margin: o auto; */
 `;
 
 // 메세지 입력 창
@@ -256,15 +249,4 @@ export const MessageSendButton = styled.button`
   text-indent: -9999px;
   border: none;
   cursor: pointer;
-`;
-
-// 슬라이더 👉
-export const SliderContainer = styled.div`
-  width: 100%;
-  /* overflow-x: auto; */
-`;
-
-export const SliderContent = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
 `;
