@@ -4,6 +4,10 @@ import styled from "styled-components";
 const DanimSearchText = styled.p`
   text-align: left;
   margin-bottom: 10px;
+  font-weight: 400;
+  & > span {
+    font-weight: 600;
+  }
 `;
 
 export default {
