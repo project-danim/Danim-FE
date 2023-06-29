@@ -14,8 +14,11 @@ import {
   searchedTitleState,
 } from "../../recoil/filter/filterdPost";
 import hasNewChatState from "../../recoil/chat/alarm";
+import MobileHeader from "./MobileHeader";
 
 function Header() {
+  // 모바일 픽셀인지 아닌지에 대한 상태
+  const [isMobile] = useState(window.matchMedia("(max-width: 430px)").matches);
   // 로컬에 저장된 새로운 채팅 여부 (boolean)
   const hasNew = localStorage.getItem("hasNewChat");
   // 채팅 알람에 대한 state
@@ -113,7 +116,7 @@ function Header() {
     localStorage.setItem("hasNewChat", stringHasNewChat);
   }, [hasNewChat]);
 
-  return (
+  return !isMobile ? (
     <st.headerAria>
       <st.DanimTitle>다님</st.DanimTitle>
       <st.Container>
@@ -180,6 +183,8 @@ function Header() {
         )}
       </st.Container>
     </st.headerAria>
+  ) : (
+    <MobileHeader />
   );
 }
 
