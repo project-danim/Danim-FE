@@ -140,12 +140,12 @@ function PostButton() {
   let buttonText = "";
   let buttonAction = () => {};
 
-  if (isApplicant) {
-    buttonText = "취소하기";
-    buttonAction = handleCancel;
-  } else if (isAuthor) {
+  if (isAuthor) {
     buttonText = "대화하기";
     buttonAction = handleApplyAndChat;
+  } else if (isApplicant) {
+    buttonText = "취소하기";
+    buttonAction = handleCancel;
   } else if (isComplete) {
     buttonText = "모집완료";
     buttonAction = () =>

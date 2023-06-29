@@ -28,11 +28,10 @@ function Chat() {
   const chatRoomPostTitle = useRecoilValue(chatRoomPostTitleState);
   const chatRecord = useRecoilValue(chatRoomChatRecordState);
 
-  console.log(`가공전 record`, chatRecord);
-
-  // const [imposterState, setImposterState] = useState();
-
   const navigate = useNavigate();
+
+  // 임포스터 배열
+  const [imposters, setImposters] = useState<any[]>([]);
 
   // 👇 서버에서 받은 채팅 기록을 사용할 수 있는 형태로 가공
   let flattenedChatRecord = [];
@@ -50,32 +49,20 @@ function Chat() {
       type: record.type,
       roomName: record.chatRoomName,
       sender: record.sender,
-      imposter: record.imposter, // <-- 아직은 처리 안되어있음으로 null 값
+      imposter: record.imposter,
       message: record.message,
+      chatUserId: record.id,
       time: formattedTime,
     };
   });
-
-  // console.log(formattedMessages);
-
-  console.log(formattedMessages);
 
   // 현재 메세지 / record 메세지 (formattedMessages)
   const [messages, setMessages] = useState<any[]>(formattedMessages);
   const [messageInput, setMessageInput] = useState("");
 
-  // console.log(messages);
-
-  // 현재 대화중인 사람 목록
-  // const conversationPeople: string[] = chatEnteredUsers.map(
-  //   (user: { imageUrl: string; nickname: string }) => user.nickname
-  // );
-  // console.log(conversationPeople);
-
   // 룸 네임 ( "260c4214-6e7a-402a-af6d-96550179f6d4" 이런 형식)
   const [roomName, setRoomName] = useState("");
-  // 채팅에 참여하고 있는 모든 사용자 닉네임
-  // const [setAllUserNickname] = useState<string[]>([]);
+
   // 현재의 통신 객체 ref
   const stompClientRef = useRef<any>(null);
 
@@ -87,7 +74,6 @@ function Chat() {
 
   // 컴포넌트가 랜더링 될 때 recoil 에서 받아온 state update
   useEffect(() => {
-    // setAllUserNickname(conversationPeople || []);
     setRoomName(chatEnteredRoomName);
   }, []);
 
@@ -102,6 +88,20 @@ function Chat() {
         stomp.subscribe(`/sub/chat/room/${roomName}`, (data: any) => {
           // 구독할때 룸네임 넣어서 sub 하고
           const newMessage = JSON.parse(data.body);
+
+          // Imposters 값을 state에 저장
+          if (newMessage.imposters) {
+            setImposters(newMessage.imposters);
+          }
+
+          // 새로운 메시지가 imposter 정보를 담고 있다면 imposters state를 업데이트
+          if (newMessage.imposter) {
+            setImposters((prevImposters) => [
+              ...prevImposters,
+              newMessage.imposter,
+            ]);
+          }
+          // 과거의 메세지와 현재 메세지 추가
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         });
         stomp.send(
@@ -113,8 +113,6 @@ function Chat() {
             sender: userNickname,
             message: "",
           })
-          // const imposter = JSON.parse(data.body)
-          // setImposterState()
         );
       },
       (err: Error) => {
@@ -126,16 +124,6 @@ function Chat() {
   const goBack = () => {
     navigate(-1); // 뒤로 가기
   };
-
-  // 웹소켓 연결 해제
-  // const disconnect = () => {
-  //   if (stomp) {
-  //     stomp.debug = null;
-  //     stomp.disconnect(() => {
-  //       console.log("연결 끊김");
-  //     });
-  //   }
-  // };
 
   // 메세지 전송
   const sendMessage = (event: any) => {
@@ -156,14 +144,6 @@ function Chat() {
     );
     setMessageInput("");
   };
-
-  // 언마운트 될때 disconnect 됨
-  // useEffect(
-  //   () => () => {
-  //     disconnect();
-  //   },
-  //   []
-  // );
 
   // 받아온 roomName이 있을때만 소켓 연결 시도
   useEffect(() => {
@@ -206,18 +186,24 @@ function Chat() {
 
   // 강퇴하기
   const kickUser = (nickname: string) => {
-    if (stompClientRef.current) {
-      stompClientRef.current.send(
-        "/pub/chat/message",
-        {},
-        JSON.stringify({
-          type: "KICK",
-          roomName,
-          sender: userNickname,
-          message: "",
-          imposter: nickname,
-        })
-      );
+    const confirmKick = window.confirm(
+      `${nickname}님을 강퇴하시겠습니까? 강퇴하기는 취소 불가능 합니다.`
+    );
+
+    if (confirmKick) {
+      if (stompClientRef.current) {
+        stompClientRef.current.send(
+          "/pub/chat/message",
+          {},
+          JSON.stringify({
+            type: "KICK",
+            roomName,
+            sender: userNickname,
+            message: "",
+            imposter: nickname,
+          })
+        );
+      }
     }
     setDropdownOpenState((prevState) => ({ ...prevState, [nickname]: false }));
   };
@@ -231,7 +217,7 @@ function Chat() {
     };
   }, []);
 
-  // 메세지의 가장 끝으로 내려보내기 / 강퇴 멤버 검사
+  // 메세지의 가장 끝으로 내려보내기 / 접근 유저 중 강퇴 멤버 검사
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -246,6 +232,7 @@ function Chat() {
         lastMessage.imposter === userNickname
       ) {
         // 메인 페이지로 이동
+        alert("강퇴 당하셨습니다. 해당 모임으로는 재 입장하실 수 없습니다.");
         navigate(-1);
       }
     }
@@ -269,7 +256,21 @@ function Chat() {
   };
 
   // 슬라이더에 보여질 사용자 배열
-  const visibleUsers = chatEnteredUsers.slice(currentIndex, currentIndex + 6);
+  const visibleUsers: User[] =
+    Array.isArray(chatEnteredUsers) && chatEnteredUsers.length > 0
+      ? chatEnteredUsers.slice(currentIndex, currentIndex + 6)
+      : [];
+
+  // 강퇴하기 버튼을 보여주거나 보여주지 않는 state
+  const [isKickButtonVisible, setKickButtonVisible] = useState(false);
+
+  useEffect(() => {
+    if (!Array.isArray(visibleUsers) || visibleUsers.length === 0) {
+      return;
+    }
+
+    setKickButtonVisible(userNickname === visibleUsers[0].nickname);
+  }, [visibleUsers, userNickname]);
 
   return (
     <st.Container>
@@ -288,17 +289,7 @@ function Chat() {
               <st.SliderButton onClick={handlePrevClick}>{"<"}</st.SliderButton>
               <st.SliderContent>
                 {visibleUsers
-                  .filter((user: User) => {
-                    // imposter가 undefined 이거나 null이 아닌 사용자만 필터링합니다.
-                    const lastMessageOfUser = messages
-                      .slice()
-                      .reverse()
-                      .find((msg) => msg.sender === user.nickname);
-                    return (
-                      lastMessageOfUser?.imposter === undefined ||
-                      lastMessageOfUser?.imposter === null
-                    );
-                  })
+                  .filter((user: User) => !imposters.includes(user.nickname))
                   .map((user: User) => (
                     <st.ConversationPeopleContainer
                       key={uuid() + user.nickname}
@@ -314,16 +305,18 @@ function Chat() {
                         >
                           {user.nickname}
                         </st.ConversationUserNickname>
-                        {/* 배열의 첫번째 요소에만 오른쪽 선을 준다
-                    {index === 0 && <st.ConversationPeopleLine />} */}
                         <st.DropdownContent
                           isOpen={dropdownOpenState[user.nickname]}
+                          isKickButtonVisible={isKickButtonVisible}
                         >
-                          <st.KickAndMyPageButton
-                            onClick={() => kickUser(user.nickname)}
-                          >
-                            강퇴하기
-                          </st.KickAndMyPageButton>
+                          {isKickButtonVisible && (
+                            <st.KickAndMyPageButton
+                              onClick={() => kickUser(user.nickname)}
+                            >
+                              강퇴하기
+                            </st.KickAndMyPageButton>
+                          )}
+
                           <st.KickAndMyPageButton>
                             마이페이지
                           </st.KickAndMyPageButton>

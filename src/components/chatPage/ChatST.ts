@@ -4,6 +4,7 @@ import { BiArrowBack } from "react-icons/bi";
 // 드롭다운을 위한 interface
 interface DropdownContentProps {
   isOpen: boolean;
+  isKickButtonVisible: boolean;
 }
 
 export const Container = styled.div`
@@ -131,14 +132,6 @@ export const ConversationPeopleImg = styled.img`
   border-radius: 50%;
 `;
 
-// 대화상대 구분 선
-// export const ConversationPeopleLine = styled.div`
-//   width: 1px;
-//   height: 45%;
-//   background-color: #858585;
-//   /* margin-left: 12px; */
-// `;
-
 // 프로필 클릭시 드롭다운 container
 export const DropdownContainer = styled.div`
   position: relative;
@@ -163,7 +156,8 @@ export const DropdownContent = styled.div<DropdownContentProps>`
   left: 0;
   background-color: gray;
   width: 78px;
-  height: 82px;
+  height: ${({ isKickButtonVisible }) =>
+    isKickButtonVisible ? "82px" : "42px"};
   border-radius: 8px;
   background: #fff;
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
