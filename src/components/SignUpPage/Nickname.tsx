@@ -82,7 +82,7 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
 
   // 닉네임 유효성 검사
   useEffect(() => {
-    const nicknamePattern = /^[A-Za-z가-힣]{3,8}$/;
+    const nicknamePattern = /^[A-Za-z가-힣]{3,9}$/;
     const specCharPattern = /[\p{P}\p{S}\s]+/u;
     if (!nickname) {
       setNicknameError("");
@@ -93,7 +93,7 @@ function Nickname({ nicknameRef, signUpNicknameError }: MyComponentProps) {
       return;
     }
     if (nickname && !nicknamePattern.test(nickname)) {
-      setNicknameError("한글/영문의 3~8자로 입력하세요.");
+      setNicknameError("한글/영문의 3~9자로 입력하세요.");
       return;
     }
     if (nickname) {
