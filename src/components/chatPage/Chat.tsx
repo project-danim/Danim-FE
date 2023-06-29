@@ -236,6 +236,9 @@ function Chat() {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
 
+      if (messages.length === 0) {
+        return;
+      }
       // 마지막 메시지가 Type : KICK 이고, 현재 사용자가 강퇴당한 경우
       const lastMessage = messages[messages.length - 1];
       if (
