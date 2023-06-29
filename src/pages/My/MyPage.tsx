@@ -108,7 +108,7 @@ function MyPage() {
       image: uploadImg,
       content,
     };
-    console.log(userInfo);
+    // console.log(userInfo);
 
     mutateSendUserInfo.mutate(userInfo, {
       onSuccess: (data) => {
@@ -154,7 +154,7 @@ function MyPage() {
   const commentFootprintRating = (point: any) => {
     const icons = [];
     for (let i = 0; i < point; i += 1) {
-      icons.push(<IoFootsteps size={14} color="black" key={i} />);
+      icons.push(<IoFootsteps size={20} color="black" key={i} />);
     }
     return icons;
   };
@@ -194,7 +194,13 @@ function MyPage() {
             </Styled.ScoreAndNicknameContainer>
             {owner && (
               <div>
-                <Styled.FixButton onClick={clickButton}>
+                <Styled.FixButton
+                  onClick={clickButton}
+                  style={{
+                    backgroundColor: editing ? "#bfbb78" : "white",
+                    color: editing ? "white" : "black",
+                  }}
+                >
                   {editing ? "저장" : "수정하기"}
                 </Styled.FixButton>
               </div>
@@ -215,6 +221,7 @@ function MyPage() {
           탈퇴하기
         </Styled.WithDrawalButton>
       </Styled.ProfileArea>
+      <Styled.MoveBackButton type="button" onClick={handleMoveBackClick} />
       <Styled.TabContainer>
         <Styled.TabButtonWrapper>
           <Styled.TabButton
@@ -259,17 +266,16 @@ function MyPage() {
                     key={`${review.userId}-${review.createdAt}`}
                   >
                     <div style={{ display: "flex" }}>
-                      <Styled.CreatedTime>
-                        {formattedReviewDate}
-                      </Styled.CreatedTime>
-                      <Styled.ReviewMile>
-                        {commentFootprintRating(review.point)}
-                      </Styled.ReviewMile>
                       <Styled.ReviewNickName>
                         {review.nickName}
                       </Styled.ReviewNickName>
+                      <Styled.ReviewMile>
+                        {commentFootprintRating(review.point)}
+                      </Styled.ReviewMile>
+                      <Styled.CreatedTime>
+                        작성일 | {formattedReviewDate}
+                      </Styled.CreatedTime>
                     </div>
-
                     <Styled.ReviewContents>
                       {review.comment}
                     </Styled.ReviewContents>
@@ -341,7 +347,7 @@ function MyPage() {
           </div>
         )}
       </Styled.TabContent>
-      <Styled.MoveBackButton type="button" onClick={handleMoveBackClick} />
+
       {/* <Footer /> */}
     </Styled.MyPageContainer>
   );

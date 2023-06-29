@@ -117,6 +117,11 @@ export const FixButton = styled.button`
   color: rgba(133, 133, 133, 1);
   cursor: pointer;
   font-family: "Pretendard";
+  font-size: 14px;
+  color: white;
+  background-color: rgba(191, 187, 120, 1);
+
+
 `;
 
 // 텍스트 입력 영역
@@ -209,37 +214,35 @@ margin-top: 23px;
 `
 
 export const ReviewContainer = styled.div`
-height: 174px;
+padding: 20px;
+height: 134px;
 border-bottom:  0.5px solid #A3A3A3;
 `
 
 export const ReviewMile = styled.div`
-width: 75px;
-height: 14px;
+width: 120px;
+/* height:px; */
 color: rgba(0, 0, 0, 0.5);
-padding:10px;
 `;
 
 
 export const CreatedTime = styled.div`
   color: rgba(133, 133, 133, 1);
-  width: 74px;
+  width: 125px;
   height: 34px;
-  padding: 10px;
 `;
 export const ReviewNickName = styled.div`
   width: 118px;
   height: 36px;
   color: rgba(0, 0, 0, 0.5);
-  padding: 10px 5px;
 
 `;
 export const ReviewContents = styled.div`
   width: 458px;
   height: 59px;
   color: rgba(0, 0, 0, 1);
-  padding: 20px;
-
+  margin-top: 20px;
+  
 
 `;
 // 탈퇴하기 버튼
@@ -286,7 +289,7 @@ cursor: pointer;
 export const TabContainer = styled.div`
   display: flex;
   width: 100%;
-  margin-top: 120px;
+  margin-top:46px;
 `;
 
 // 버튼 Wrapper

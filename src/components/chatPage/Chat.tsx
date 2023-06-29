@@ -23,14 +23,14 @@ interface User {
 
 let stomp: any;
 
-const sliderSettings = {
-  // dots: true, // 페이징을 보여줄 것인지 결정
-  infinite: false, // 무한 롤링 여부
-  speed: 500, // 슬라이드하는데 걸리는 시간 (ms)
-  slidesToShow: 5, // 한 번에 스크롤되는 이미지 개수
-  slidesToScroll: 1, // 한 번 스크롤 시 이동할 이미지 개수
-  swipe: true,
-};
+// const sliderSettings = {
+//   // dots: true, // 페이징을 보여줄 것인지 결정
+//   infinite: false, // 무한 롤링 여부
+//   speed: 500, // 슬라이드하는데 걸리는 시간 (ms)
+//   slidesToShow: 5, // 한 번에 스크롤되는 이미지 개수
+//   slidesToScroll: 1, // 한 번 스크롤 시 이동할 이미지 개수
+//   swipe: true,
+// };
 
 function Chat() {
   // 상세 게시글 페이지에서 입장하기를 눌렀을때 저장된 recoil state 호출 - 참여자, 방이름, 게시글 제목, 과거 채팅 기록
