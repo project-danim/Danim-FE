@@ -13,6 +13,8 @@ const postsContainer = styled.div`
   }
   @media (max-width: 430px) and (min-width: 375px) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 24px 8px;
+    margin-top: 0;
   }
 `;
 
