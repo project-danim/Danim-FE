@@ -39,9 +39,10 @@ function Main() {
 
   // 로컬 스토리지에 저장된 사용자 아이디
   const userId = localStorage.getItem("id");
-  if (userId) {
-    useChatConnect(userId);
-  }
+
+  // useChatConnect Hook은 컴포넌트 최상위 레벨에서 호출되어야 함
+
+  useChatConnect(userId);
 
   return (
     <div>
