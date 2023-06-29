@@ -5,6 +5,7 @@ import PostList from "./PostList";
 import useChatConnect from "../../utils/chatConnect";
 import FilterBarMobile from "./Mobile/FilterBarMobile";
 
+// 메인페이지 컨테이너
 const MainPageContainer = styled.div`
   max-width: 1120px;
   width: 100%;
@@ -14,7 +15,21 @@ const MainPageContainer = styled.div`
   // 모바일
   @media (min-width: 375px) and (max-width: 430px) {
     padding: 20px;
+    padding-top: 24px;
     box-sizing: border-box;
+  }
+`;
+
+// 함께 다님 텍스트
+const TogetDanimText = styled.p`
+  margin: 28px 0 12px;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 22px;
+  & > span {
+    font-weight: 800;
   }
 `;
 
@@ -33,6 +48,9 @@ function Main() {
       {isMobile ? (
         <MainPageContainer>
           <FilterBarMobile />
+          <TogetDanimText>
+            함께 <span>다님</span>
+          </TogetDanimText>
           <PostList />
         </MainPageContainer>
       ) : (
