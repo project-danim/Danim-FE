@@ -252,36 +252,34 @@ function MyPage() {
                 작성된 후기가 없습니다.
               </Styled.NoneReviewsMessage>
             ) : (
-              reviews.map((review) => {
-                const formattedReviewDate = new Date(review.createdAt)
-                  .toLocaleString("ko-KR", {
-                    year: "2-digit",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour12: false,
-                  })
-                  .slice(0, -1);
-                return (
-                  <Styled.ReviewContainer
-                    key={`${review.userId}-${review.createdAt}`}
-                  >
-                    <div style={{ display: "flex" }}>
-                      <Styled.ReviewNickName>
-                        {review.nickName}
-                      </Styled.ReviewNickName>
-                      <Styled.ReviewMile>
-                        {commentFootprintRating(review.point)}
-                      </Styled.ReviewMile>
-                      <Styled.CreatedTime>
-                        작성일 | {formattedReviewDate}
-                      </Styled.CreatedTime>
-                    </div>
-                    <Styled.ReviewContents>
-                      {review.comment}
-                    </Styled.ReviewContents>
-                  </Styled.ReviewContainer>
-                );
-              })
+              reviews.map((review) => (
+                // const formattedReviewDate = new Date(review.createdAt)
+                //   .toLocaleString("ko-KR", {
+                //     year: "2-digit",
+                //     month: "2-digit",
+                //     day: "2-digit",
+                //     hour12: false,
+                //   })
+                //   .slice(0, -1);
+                <Styled.ReviewContainer
+                  key={`${review.userId}-${review.createdAt}`}
+                >
+                  <div style={{ display: "flex" }}>
+                    <Styled.ReviewNickName>
+                      {review.nickName}
+                    </Styled.ReviewNickName>
+                    <Styled.ReviewMile>
+                      {commentFootprintRating(review.point)}
+                    </Styled.ReviewMile>
+                    <Styled.CreatedTime>
+                      작성일 | {review.createdAt}
+                    </Styled.CreatedTime>
+                  </div>
+                  <Styled.ReviewContents>
+                    {review.comment}
+                  </Styled.ReviewContents>
+                </Styled.ReviewContainer>
+              ))
             )}
           </div>
         )}
@@ -300,15 +298,14 @@ function MyPage() {
               </Styled.NonePostsMessage>
             ) : (
               posts.map((post) => {
-                const formattedPostDate = new Date(post.tripEndDate)
-                  .toLocaleString("ko-KR", {
-                    year: "2-digit",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour12: false,
-                  })
-                  .slice(0, -1);
-
+                // const formattedPostDate = new Date(post.tripEndDate)
+                //   .toLocaleString("ko-KR", {
+                //     year: "2-digit",
+                //     month: "2-digit",
+                //     day: "2-digit",
+                //     hour12: false,
+                //   })
+                //   .slice(0, -1);
                 const formattedPostContent = post.content.replace(
                   /<[^>]*>?/g,
                   ""
