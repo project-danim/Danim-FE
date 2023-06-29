@@ -8,7 +8,7 @@ import PostMobile from "./Mobile/PostMobile";
 
 function PostContainer({ posts, lastPostRef, postName }: any) {
   // 모바일 픽셀인지 아닌지에 대한 상태
-  const [isMobile] = useState(window.matchMedia("(max-width: 391px)").matches);
+  const [isMobile] = useState(window.matchMedia("(max-width: 430px)").matches);
 
   // 키워드(맛집탐방,투어 등) state
   const [allFilterList] = useRecoilState(filterList);
