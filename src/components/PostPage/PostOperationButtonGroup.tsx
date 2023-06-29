@@ -17,6 +17,7 @@ export const DeleteAddButton = styled.button`
   font-size: 12px;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 `;
 
 // 수정 | 삭제 - 세로선

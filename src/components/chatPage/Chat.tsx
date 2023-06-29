@@ -5,6 +5,7 @@ import StompJs from "stompjs";
 import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import uuid from "react-uuid";
 import Message from "./Message";
 import {
   chatEnteredUsersNicknameState,
@@ -14,7 +15,6 @@ import {
 } from "../../recoil/chat/chatState";
 import titleIcon from "../../../public/chat/frame.svg";
 import * as st from "./ChatST";
-import { Header } from "../common";
 
 interface User {
   imageUrl: string;
@@ -35,7 +35,6 @@ const sliderSettings = {
 function Chat() {
   // 상세 게시글 페이지에서 입장하기를 눌렀을때 저장된 recoil state 호출 - 참여자, 방이름, 게시글 제목, 과거 채팅 기록
   const chatEnteredUsers = useRecoilValue(chatEnteredUsersNicknameState);
-
   const chatEnteredRoomName = useRecoilValue(roomNameState);
   const chatRoomPostTitle = useRecoilValue(chatRoomPostTitleState);
   const chatRecord = useRecoilValue(chatRoomChatRecordState);
@@ -122,32 +121,20 @@ function Chat() {
       }
     );
   };
-  // 뒤로가기 버튼
+  // 뒤로 가기 버튼
   const goBack = () => {
-    if (stompClientRef.current) {
-      stompClientRef.current.send(
-        "/pub/chat/message",
-        {},
-        JSON.stringify({
-          type: "LEAVE",
-          roomName,
-          sender: userId,
-          message: "",
-        })
-      );
-    }
     navigate(-1); // 뒤로 가기
   };
 
   // 웹소켓 연결 해제
-  const disconnect = () => {
-    if (stomp) {
-      stomp.debug = null;
-      stomp.disconnect(() => {
-        console.log("연결 끊김");
-      });
-    }
-  };
+  // const disconnect = () => {
+  //   if (stomp) {
+  //     stomp.debug = null;
+  //     stomp.disconnect(() => {
+  //       console.log("연결 끊김");
+  //     });
+  //   }
+  // };
 
   // 메세지 전송
   const sendMessage = (event: any) => {
@@ -169,18 +156,34 @@ function Chat() {
     setMessageInput("");
   };
 
-  useEffect(
-    () => () => {
-      disconnect();
-    },
-    []
-  );
+  // 언마운트 될때 disconnect 됨
+  // useEffect(
+  //   () => () => {
+  //     disconnect();
+  //   },
+  //   []
+  // );
 
   // 받아온 roomName이 있을때만 소켓 연결 시도
   useEffect(() => {
     if (roomName !== "") {
       connect();
     }
+    // 컴포넌트에서 unmount 될때 서버로 "LEAVE" 메세지를 보냄
+    return () => {
+      if (stompClientRef.current) {
+        stompClientRef.current.send(
+          "/pub/chat/message",
+          {},
+          JSON.stringify({
+            type: "LEAVE",
+            roomName,
+            sender: userId,
+            message: "",
+          })
+        );
+      }
+    };
   }, [roomName]);
 
   // 전체 배경 색 바꾸기
@@ -199,11 +202,41 @@ function Chat() {
     }
   }, [messages]);
 
+  // 닉네임 클릭시 드롭다운을 위한 state
+  const [dropdownOpenState, setDropdownOpenState] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  // 드롭다운 handler
+  const toggleDropdown = (nickname: string) => {
+    setDropdownOpenState((prevState) => ({
+      ...prevState,
+      [nickname]: !prevState[nickname],
+    }));
+  };
+
+  // 슬라이더
+
+  // 슬라이더 현재 인덱스 상태
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // 슬라이더 이전 버튼 클릭 핸들러
+  const handlePrevClick = () => {
+    setCurrentIndex((prevIndex) => prevIndex - 1);
+  };
+
+  // 슬라이더 다음 버튼 클릭 핸들러
+  const handleNextClick = () => {
+    setCurrentIndex((prevIndex) => prevIndex + 1);
+  };
+
+  // 슬라이더에 보여질 사용자 배열
+  const visibleUsers = chatEnteredUsers.slice(currentIndex, currentIndex + 5);
+
   return (
     <st.Container>
       <st.ChatPageBackground>
         <st.TitleChatContainer>
-          <Header />
           <st.TitleWrapper>
             <st.GobackButton type="button" onClick={goBack}>
               <st.GobackButtonIcon />
@@ -213,23 +246,49 @@ function Chat() {
           </st.TitleWrapper>
           <st.AllUserContainer>
             <st.Conversation>대화 상대</st.Conversation>
-            <st.StyledSlider {...sliderSettings}>
-              {chatEnteredUsers.map((user: User, index: number) => (
-                <st.ConversationPeopleContainer
-                  key={user.imageUrl + user.nickname}
-                >
-                  <st.ConversationPeopleImg
-                    src={user.imageUrl}
-                    alt="User Avatar"
-                  />
-                  <st.ConversationUserNickname>
-                    {user.nickname}
-                  </st.ConversationUserNickname>
-                  {/* 배열의 첫번째 요소에만 오른쪽 선을 준다 */}
-                  {index === 0 && <st.ConversationPeopleLine />}
-                </st.ConversationPeopleContainer>
-              ))}
-            </st.StyledSlider>
+            {/* <st.StyledSlider {...sliderSettings}> */}
+
+            <st.SliderContainer>
+              <st.SliderContent>
+                <button type="button" onClick={handlePrevClick}>
+                  {"<"}
+                </button>
+                {visibleUsers.map((user: User) => (
+                  <st.ConversationPeopleContainer key={uuid() + user.nickname}>
+                    <st.ConversationPeopleImg
+                      src={user.imageUrl}
+                      alt="User Avatar"
+                    />
+
+                    <st.DropdownContainer>
+                      <st.ConversationUserList>
+                        <st.ConversationUserNickname
+                          onClick={() => toggleDropdown(user.nickname)}
+                        >
+                          {user.nickname}
+                        </st.ConversationUserNickname>
+                      </st.ConversationUserList>
+                      {/* 배열의 첫번째 요소에만 오른쪽 선을 준다
+                    {index === 0 && <st.ConversationPeopleLine />} */}
+                      <st.DropdownContent
+                        isOpen={dropdownOpenState[user.nickname]}
+                      >
+                        <st.KickAndMyPageButton>
+                          하위 버튼 1
+                        </st.KickAndMyPageButton>
+                        <st.KickAndMyPageButton>
+                          하위 버튼 2
+                        </st.KickAndMyPageButton>
+                      </st.DropdownContent>
+                    </st.DropdownContainer>
+                  </st.ConversationPeopleContainer>
+                ))}
+                {/* </st.StyledSlider> */}
+                <button type="button" onClick={handleNextClick}>
+                  {">"}
+                </button>
+              </st.SliderContent>
+            </st.SliderContainer>
           </st.AllUserContainer>
         </st.TitleChatContainer>
 
@@ -237,7 +296,6 @@ function Chat() {
         <st.MessageContainer>
           {/* 대화창 영역 - enter, talk 메세지 */}
           {messages.map((msg, index) => {
-            console.log(messages);
             // ENTER 타입의 메시지에서는 prevMsg를 null로 설정
             if (msg.type === "ENTER") {
               return (
@@ -245,7 +303,7 @@ function Chat() {
                   msg={msg}
                   prevMsg={null}
                   userNickname={userId}
-                  key={msg.time + messages}
+                  key={`ENTER : ${uuid() + msg.time}`}
                 />
               );
             }
@@ -262,7 +320,7 @@ function Chat() {
                 msg={msg}
                 prevMsg={prevMsg}
                 userNickname={userId}
-                key={msg.time + messages}
+                key={`TALK : ${uuid() + msg.time}`}
               />
             );
           })}
