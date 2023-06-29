@@ -3,8 +3,6 @@ import { useRecoilValue } from "recoil";
 import SockJs from "sockjs-client";
 import StompJs from "stompjs";
 import { useNavigate } from "react-router-dom";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import uuid from "react-uuid";
 import Message from "./Message";
 import {
@@ -23,21 +21,16 @@ interface User {
 
 let stomp: any;
 
-// const sliderSettings = {
-//   // dots: true, // 페이징을 보여줄 것인지 결정
-//   infinite: false, // 무한 롤링 여부
-//   speed: 500, // 슬라이드하는데 걸리는 시간 (ms)
-//   slidesToShow: 5, // 한 번에 스크롤되는 이미지 개수
-//   slidesToScroll: 1, // 한 번 스크롤 시 이동할 이미지 개수
-//   swipe: true,
-// };
-
 function Chat() {
   // 상세 게시글 페이지에서 입장하기를 눌렀을때 저장된 recoil state 호출 - 참여자, 방이름, 게시글 제목, 과거 채팅 기록
   const chatEnteredUsers = useRecoilValue(chatEnteredUsersNicknameState);
   const chatEnteredRoomName = useRecoilValue(roomNameState);
   const chatRoomPostTitle = useRecoilValue(chatRoomPostTitleState);
   const chatRecord = useRecoilValue(chatRoomChatRecordState);
+
+  console.log(`가공전 record`, chatRecord);
+
+  // const [imposterState, setImposterState] = useState();
 
   const navigate = useNavigate();
 
@@ -50,23 +43,28 @@ function Chat() {
       flattenedChatRecord = chatRecord;
     }
   }
+
   const formattedMessages = flattenedChatRecord.map((record) => {
     const formattedTime = `${record.createdAt.replace(" ", "T")}.000Z`;
     return {
       type: record.type,
       roomName: record.chatRoomName,
       sender: record.sender,
-      imposter: null, // <-- 아직은 처리 안되어있음으로 null 값
+      imposter: record.imposter, // <-- 아직은 처리 안되어있음으로 null 값
       message: record.message,
       time: formattedTime,
     };
   });
 
+  // console.log(formattedMessages);
+
+  console.log(formattedMessages);
+
   // 현재 메세지 / record 메세지 (formattedMessages)
   const [messages, setMessages] = useState<any[]>(formattedMessages);
   const [messageInput, setMessageInput] = useState("");
 
-  // console.log(chatEnteredUsers);
+  // console.log(messages);
 
   // 현재 대화중인 사람 목록
   // const conversationPeople: string[] = chatEnteredUsers.map(
@@ -80,8 +78,9 @@ function Chat() {
   // const [setAllUserNickname] = useState<string[]>([]);
   // 현재의 통신 객체 ref
   const stompClientRef = useRef<any>(null);
+
   // 유저 아이디 세션 스토리지 저장한 값으로 가져오는걸로 바꾸기
-  const userId = localStorage.getItem("nickname");
+  const userNickname = localStorage.getItem("nickname");
 
   // 메세지 끝 값 참조
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -111,9 +110,11 @@ function Chat() {
           JSON.stringify({
             type: "ENTER",
             roomName,
-            sender: userId,
+            sender: userNickname,
             message: "",
           })
+          // const imposter = JSON.parse(data.body)
+          // setImposterState()
         );
       },
       (err: Error) => {
@@ -143,7 +144,7 @@ function Chat() {
       return;
     }
     const sendList = {
-      sender: userId,
+      sender: userNickname,
       type: "TALK",
       message: messageInput.trim(),
       roomName,
@@ -178,13 +179,48 @@ function Chat() {
           JSON.stringify({
             type: "LEAVE",
             roomName,
-            sender: userId,
+            sender: userNickname,
             message: "",
           })
         );
       }
     };
   }, [roomName]);
+
+  // 닉네임 클릭시 드롭다운을 위한 state
+  const [dropdownOpenState, setDropdownOpenState] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  // 드롭다운 handler
+  const toggleDropdown = (nickname: string) => {
+    setDropdownOpenState((prevState) => {
+      const newDropdownOpenState = Object.keys(prevState).reduce(
+        (result, key) => ({ ...result, [key]: false }),
+        {}
+      );
+
+      return { ...newDropdownOpenState, [nickname]: !prevState[nickname] };
+    });
+  };
+
+  // 강퇴하기
+  const kickUser = (nickname: string) => {
+    if (stompClientRef.current) {
+      stompClientRef.current.send(
+        "/pub/chat/message",
+        {},
+        JSON.stringify({
+          type: "KICK",
+          roomName,
+          sender: userNickname,
+          message: "",
+          imposter: nickname,
+        })
+      );
+    }
+    setDropdownOpenState((prevState) => ({ ...prevState, [nickname]: false }));
+  };
 
   // 전체 배경 색 바꾸기
   useEffect(() => {
@@ -195,25 +231,22 @@ function Chat() {
     };
   }, []);
 
-  // 메세지의 가장 끝으로 내려보내기
+  // 메세지의 가장 끝으로 내려보내기 / 강퇴 멤버 검사
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+
+      // 마지막 메시지가 Type : KICK 이고, 현재 사용자가 강퇴당한 경우
+      const lastMessage = messages[messages.length - 1];
+      if (
+        lastMessage.type === "KICK" &&
+        lastMessage.imposter === userNickname
+      ) {
+        // 메인 페이지로 이동
+        navigate(-1);
+      }
     }
   }, [messages]);
-
-  // 닉네임 클릭시 드롭다운을 위한 state
-  const [dropdownOpenState, setDropdownOpenState] = useState<{
-    [key: string]: boolean;
-  }>({});
-
-  // 드롭다운 handler
-  const toggleDropdown = (nickname: string) => {
-    setDropdownOpenState((prevState) => ({
-      ...prevState,
-      [nickname]: !prevState[nickname],
-    }));
-  };
 
   // 슬라이더
 
@@ -222,7 +255,9 @@ function Chat() {
 
   // 슬라이더 이전 버튼 클릭 핸들러
   const handlePrevClick = () => {
-    setCurrentIndex((prevIndex) => prevIndex - 1);
+    if (currentIndex > 0) {
+      setCurrentIndex((prevIndex) => prevIndex - 1);
+    }
   };
 
   // 슬라이더 다음 버튼 클릭 핸들러
@@ -231,7 +266,7 @@ function Chat() {
   };
 
   // 슬라이더에 보여질 사용자 배열
-  const visibleUsers = chatEnteredUsers.slice(currentIndex, currentIndex + 5);
+  const visibleUsers = chatEnteredUsers.slice(currentIndex, currentIndex + 6);
 
   return (
     <st.Container>
@@ -246,48 +281,56 @@ function Chat() {
           </st.TitleWrapper>
           <st.AllUserContainer>
             <st.Conversation>대화 상대</st.Conversation>
-            {/* <st.StyledSlider {...sliderSettings}> */}
-
             <st.SliderContainer>
+              <st.SliderButton onClick={handlePrevClick}>{"<"}</st.SliderButton>
               <st.SliderContent>
-                <button type="button" onClick={handlePrevClick}>
-                  {"<"}
-                </button>
-                {visibleUsers.map((user: User) => (
-                  <st.ConversationPeopleContainer key={uuid() + user.nickname}>
-                    <st.ConversationPeopleImg
-                      src={user.imageUrl}
-                      alt="User Avatar"
-                    />
+                {visibleUsers
+                  .filter((user: User) => {
+                    // imposter가 undefined 이거나 null이 아닌 사용자만 필터링합니다.
+                    const lastMessageOfUser = messages
+                      .slice()
+                      .reverse()
+                      .find((msg) => msg.sender === user.nickname);
+                    return (
+                      lastMessageOfUser?.imposter === undefined ||
+                      lastMessageOfUser?.imposter === null
+                    );
+                  })
+                  .map((user: User) => (
+                    <st.ConversationPeopleContainer
+                      key={uuid() + user.nickname}
+                    >
+                      <st.ConversationPeopleImg
+                        src={user.imageUrl}
+                        alt="User Avatar"
+                      />
 
-                    <st.DropdownContainer>
-                      <st.ConversationUserList>
+                      <st.DropdownContainer>
                         <st.ConversationUserNickname
                           onClick={() => toggleDropdown(user.nickname)}
                         >
                           {user.nickname}
                         </st.ConversationUserNickname>
-                      </st.ConversationUserList>
-                      {/* 배열의 첫번째 요소에만 오른쪽 선을 준다
+                        {/* 배열의 첫번째 요소에만 오른쪽 선을 준다
                     {index === 0 && <st.ConversationPeopleLine />} */}
-                      <st.DropdownContent
-                        isOpen={dropdownOpenState[user.nickname]}
-                      >
-                        <st.KickAndMyPageButton>
-                          하위 버튼 1
-                        </st.KickAndMyPageButton>
-                        <st.KickAndMyPageButton>
-                          하위 버튼 2
-                        </st.KickAndMyPageButton>
-                      </st.DropdownContent>
-                    </st.DropdownContainer>
-                  </st.ConversationPeopleContainer>
-                ))}
+                        <st.DropdownContent
+                          isOpen={dropdownOpenState[user.nickname]}
+                        >
+                          <st.KickAndMyPageButton
+                            onClick={() => kickUser(user.nickname)}
+                          >
+                            강퇴하기
+                          </st.KickAndMyPageButton>
+                          <st.KickAndMyPageButton>
+                            마이페이지
+                          </st.KickAndMyPageButton>
+                        </st.DropdownContent>
+                      </st.DropdownContainer>
+                    </st.ConversationPeopleContainer>
+                  ))}
                 {/* </st.StyledSlider> */}
-                <button type="button" onClick={handleNextClick}>
-                  {">"}
-                </button>
               </st.SliderContent>
+              <st.SliderButton onClick={handleNextClick}>{">"}</st.SliderButton>
             </st.SliderContainer>
           </st.AllUserContainer>
         </st.TitleChatContainer>
@@ -302,7 +345,7 @@ function Chat() {
                 <Message
                   msg={msg}
                   prevMsg={null}
-                  userNickname={userId}
+                  userNickname={userNickname}
                   key={`ENTER : ${uuid() + msg.time}`}
                 />
               );
@@ -319,7 +362,7 @@ function Chat() {
               <Message
                 msg={msg}
                 prevMsg={prevMsg}
-                userNickname={userId}
+                userNickname={userNickname}
                 key={`TALK : ${uuid() + msg.time}`}
               />
             );
