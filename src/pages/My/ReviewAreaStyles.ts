@@ -62,8 +62,8 @@ export const ImageBox = styled.div<UserProfileProp>`
   margin-right: 25px;
 `;
 // 프로필 박스 내 이미지 업로드 영역(원, 클릭시~)
-export const ImageArea = styled.div`
-  background-image: url("myPage/userProfile.svg");
+export const ImageArea = styled.img`
+  /* background-image: url("myPage/userProfile.svg"); */
   width: 232px;
   height: 232px;
   border-radius: 200px;
@@ -94,7 +94,7 @@ export const ProfileMileContainer = styled.div`
   justify-content: space-between;
 `;
 // 유저 닉네임 영역
-export const UserNickName = styled.div`
+export const UserNickNameWrapper = styled.div`
   /* width: 70px; */
   height: 24px;
   font-style: normal;
@@ -120,7 +120,8 @@ export const FixButton = styled.button`
 `;
 
 // 텍스트 입력 영역
-export const TextArea = styled.textarea<{ editing?: boolean }>`
+export const ContentWrapper = styled.textarea<{ editing?: boolean }>`
+  width: 812px;
   height: 184px;
   font-size: 15px;
   border: 1px solid #D6D6D6;
@@ -129,11 +130,20 @@ export const TextArea = styled.textarea<{ editing?: boolean }>`
   padding: 20px;
   box-sizing: border-box;
   margin-top: 6px;
-  outline: none;
-  pointer-events: none;
-  user-select: none;
-  border: none;
+  /* pointer-events: none; */
+  /* user-select: none;
+  border: none; */
 `;
+
+export const Content = styled.div`
+width: 812px;
+  height: 184px;
+  font-size: 15px;
+  resize: none;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-top: 6px;
+`
 
 
 // 후기, 게시글 영역
@@ -388,5 +398,9 @@ line-height: 24px;
 color: #000000;
 border: 1px solid #D6D6D6;
 border-radius: 5px;
+
+`
+
+export const UserNickName = styled.div`
 
 `
