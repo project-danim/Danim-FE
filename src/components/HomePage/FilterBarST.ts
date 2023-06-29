@@ -75,6 +75,12 @@ const CommonButton = styled.button<FilterButtonProps>`
       padding: ${(props) =>
         props.buttonName === "ageButton" ? "0 18px" : "0 10px"};
     }
+    // 모바일
+    @media (max-width: 430px) and (min-width: 375px) {
+      padding: ${(props) =>
+        props.buttonName === "ageButton" ? "0px 25px" : "0px 12px"};
+      transform: none;
+    }
   }
   // 아이콘 스타일링
   &::before {
@@ -265,28 +271,36 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
   line-height: 22px;
   text-align: left;
   color: #5c5c5c;
+  text-indent: -91px;
+
   padding: 5px;
   border: 1px solid #b5bf69;
   width: 71px;
   border-radius: 30px;
-  text-indent: -91px;
   display: flex;
   align-items: center;
-  position: absolute;
   background-color: ${(props) =>
     props["data-active"] ? "#FFFFFF" : "#E6E6E6"};
+
+  position: absolute;
   right: 0;
   cursor: pointer;
 
   &::after {
     content: "";
     display: inline-block;
-    position: relative;
-    left: ${(props) => (props["data-active"] ? "34px" : "0px")};
+    /* position: relative; */
+    /* left: ${(props) => (props["data-active"] ? "34px" : "0px")}; */
     animation-name: ${(props) =>
       props["data-active"] ? "move-right" : "move-left"};
     animation-duration: 0.2s;
     animation-timing-function: linear;
+    animation-fill-mode: forwards; /* 애니메이션 완료 후 마지막 상태 유지 */
+    transform: translateX(${(props) => (props["data-active"] ? "32px" : "0")});
+    -webkit-transform: translateX(
+      ${(props) => (props["data-active"] ? "22px" : "-10px")}
+    );
+
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -294,26 +308,31 @@ const IsRecruitButton = styled.button<IsRecruitEndButtonProps>`
       props["data-active"] ? "#b5bf69" : "#2E5902"};
   }
   @media (max-width: 1024px) and (min-width: 451px) {
-    right: 38px;
+    /* right: 38px; */
   }
 
   @keyframes move-left {
     0% {
-      left: 34px;
+      transform: translateX(32px);
+      -webkit-transform: translateX(22px);
     }
     50% {
-      left: 15px;
+      transform: translateX(15px);
+      -webkit-transform: translateX(0px);
     }
     100% {
-      left: 0;
+      transform: translateX(0);
+      -webkit-transform: translateX(-12px);
     }
   }
   @keyframes move-right {
     0% {
-      left: 0;
+      transform: translateX(0);
+      -webkit-transform: translateX(-12px);
     }
     100% {
-      left: 34px;
+      transform: translateX(32px);
+      -webkit-transform: translateX(22px);
     }
   }
 `;

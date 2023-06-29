@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 type CommonStyleButtonProps = {
   buttonName: string;
   profile?: string | null;
-  hasNew?: boolean;
+  hasNew?: boolean | null;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 // 공통 버튼 배경 색상, 글자 색상 맵
@@ -88,6 +88,12 @@ const ButtonContainer = styled.div`
   gap: 16px;
   // 모바일
   @media (max-width: 450px) and (min-width: 375px) {
+    width: 100%;
+    justify-content: space-between;
+    & > button {
+      border: none;
+      background-color: transparent;
+    }
     gap: 8px;
   }
 `;

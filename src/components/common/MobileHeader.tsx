@@ -70,41 +70,26 @@ function MobileHeader() {
     <st.headerAria>
       <st.DanimTitle>다님</st.DanimTitle>
       <st.Container>
-        {userAccessCookie || userRefreshCookie ? (
-          // 로그인 된 상태일 경우
-          <st.ButtonContainer>
-            <button type="button" onClick={handleMenuButtonClick}>
-              <img src="/mobile/header/menu.svg" alt="메뉴" />
-            </button>
-            <st.DanimLogo
-              onClick={handleClickDanimLogo}
-              src="/mobile/header/danimLogo.svg"
-              alt="다님 로고"
-            />
-            <st.chatAndUserButton
-              type="button"
-              buttonName="chat"
-              onClick={handleChatButtonClick}
-              hasNew={hasNew === "true"}
-            >
-              <img src="/mobile/header/chat.svg" alt="채팅하기" />
-            </st.chatAndUserButton>
-          </st.ButtonContainer>
-        ) : (
-          <st.MobileButtonContainer>
-            <button type="button" onClick={handleMenuButtonClick}>
-              <img src="/mobile/header/menu.svg" alt="메뉴" />
-            </button>
-            <st.DanimLogo
-              onClick={handleClickDanimLogo}
-              src="/mobile/header/danimLogo.svg"
-              alt="다님 로고"
-            />
-            <button type="button" onClick={handleChatButtonClick}>
-              <img src="/mobile/header/chat.svg" alt="채팅하기" />
-            </button>
-          </st.MobileButtonContainer>
-        )}
+        <st.ButtonContainer>
+          <button type="button" onClick={handleMenuButtonClick}>
+            <img src="/mobile/header/menu.svg" alt="메뉴" />
+          </button>
+          <st.DanimLogo
+            onClick={handleClickDanimLogo}
+            src="/mobile/header/danimLogo.svg"
+            alt="다님 로고"
+          />
+          <st.chatAndUserButton
+            type="button"
+            buttonName="chat"
+            onClick={handleChatButtonClick}
+            hasNew={
+              userAccessCookie || userRefreshCookie ? hasNew === "true" : null
+            }
+          >
+            <img src="/mobile/header/chat.svg" alt="채팅하기" />
+          </st.chatAndUserButton>
+        </st.ButtonContainer>
       </st.Container>
     </st.headerAria>
   );
