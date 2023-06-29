@@ -36,11 +36,11 @@ const DatePickerWrapper = styled.div`
   width: 100%;
 `;
 
-const NoticeTextWrapper = styled.div`
-  font-size: 10px;
-  color: #858585;
-  margin: 3px;
-`;
+// const NoticeTextWrapper = styled.div`
+//   font-size: 10px;
+//   color: #858585;
+//   margin: 3px;
+// `;
 
 type Props = {
   value?: string;
