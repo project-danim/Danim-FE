@@ -130,14 +130,20 @@ const chatAndUserButton = styled.button<CommonStyleButtonProps>`
       &::after {
         content: "";
         display: inline-block;
-        position: absolute;
         border-radius: 8px;
         background: #7ea8e3;
         width: 16px;
         height: 16px;
-        left: 13px;
-        top: -15px;
-        font-size: 35px;
+        position: relative;
+        bottom: 40px;
+        left: 12px;
+        // 모바일
+        @media (max-width: 450px) and (min-width: 375px) {
+          width: 8px;
+          height: 8px;
+          bottom: -2px;
+          left: -8px;
+        }
       }
     `}
 
