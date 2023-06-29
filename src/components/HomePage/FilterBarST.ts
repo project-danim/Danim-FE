@@ -33,14 +33,9 @@ const CommonButton = styled.button<FilterButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
+
+  // 글자 관련
   font-size: 16px;
-  border-radius: 20px;
-  padding: ${(props) =>
-    props.buttonName === "ageButton" ? "0px 41.5px" : "0 12px"};
-  background-color: #ffffff;
-  background-color: ${(props) =>
-    props["data-active"] ? "#2E5902" : "#ffffff"};
   color: ${(props) => {
     if (props["data-active"]) {
       return "#ffffff";
@@ -49,6 +44,13 @@ const CommonButton = styled.button<FilterButtonProps>`
   }};
   line-height: ${(props) =>
     props.buttonName === "ageButton" ? "38px" : "40px"};
+
+  border-radius: 20px;
+  padding: ${(props) =>
+    props.buttonName === "ageButton" ? "0px 41.5px" : "0 12px"};
+  background-color: #ffffff;
+  background-color: ${(props) =>
+    props["data-active"] ? "#2E5902" : "#ffffff"};
   border: ${(props) =>
     props.buttonName === "ageButton" ? "1px solid #E4EDC5" : "none"};
   border: ${(props) => (props["data-active"] ? "none" : null)};
@@ -58,6 +60,7 @@ const CommonButton = styled.button<FilterButtonProps>`
       ? "scale(1.025)"
       : "scale(1)"};
   box-sizing: border-box;
+
   // 호버시 스타일링
   &:hover {
     box-sizing: border-box;
@@ -66,8 +69,6 @@ const CommonButton = styled.button<FilterButtonProps>`
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
     padding: ${(props) =>
       props.buttonName === "ageButton" ? "0px 41.5px" : "0 11px"};
-    /* line-height: ${(props) =>
-      props.buttonName === "ageButton" ? "36px" : "36px"}; */
     line-height: 36px;
     // 태블릿
     @media (max-width: 1024px) and (min-width: 391px) {
@@ -90,6 +91,7 @@ const CommonButton = styled.button<FilterButtonProps>`
     position: relative;
     ${(props) => props.buttonName === "ageButton" && "display: none;"}
   }
+
   // 태블릿
   @media (max-width: 1024px) {
     font-size: 14px;
@@ -104,9 +106,9 @@ const CommonButton = styled.button<FilterButtonProps>`
       props.buttonName === "ageButton" ? "0 5px" : "0 8px"};
   }
   // 모바일
-  @media (max-width: 390px) {
-    padding: ${(props) =>
-      props.buttonName === "ageButton" ? "0 18px" : "0 12px"};
+  @media (min-width: 375px) and (max-width: 390px) {
+    /* all: unset; */
+    font-size: 14px;
   }
 `;
 
@@ -180,12 +182,12 @@ const CommonSelectedValue = styled.div`
 
 // 필터바 컨테이너
 const FilterBarContainer = styled.div`
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   margin-top: 89px;
   border-radius: 10px;
   border: 2px solid #e4edc5;
-  display: inline-flex;
   padding: 22px 95px 32px 95px;
   flex-direction: column;
   justify-content: center;
@@ -197,7 +199,9 @@ const FilterBarContainer = styled.div`
     padding: 0 20px;
   }
   // 모바일
-  @media (max-width: 390px) {
+  @media (min-width: 375px) and (max-width: 390px) {
+    all: unset;
+    border: 1px solid black;
   }
 `;
 
@@ -219,6 +223,16 @@ const KeywordFilterContainer = styled.div`
   position: absolute;
   top: -30px;
   z-index: 1;
+  // 모바일
+  @media (min-width: 375px) and (max-width: 390px) {
+    all: unset;
+    display: flex;
+    flex-direction: row;
+    column-gap: 100px;
+    border: 2px solid pink;
+    background-color: transparent;
+    overflow-x: auto;
+  }
 `;
 
 // 모집 마감 토글 버튼 컨테이너
