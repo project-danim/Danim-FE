@@ -86,8 +86,27 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 16px;
+  // 모바일
   @media (max-width: 450px) and (min-width: 375px) {
     gap: 8px;
+  }
+`;
+
+// 모바일 버튼 컨테이너
+const MobileButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  & > button {
+    border: none;
+    background-color: transparent;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -103,9 +122,13 @@ const chatAndUserButton = styled.button<CommonStyleButtonProps>`
     hasNew &&
     css`
       &::after {
-        content: "⚡️";
+        content: "";
         display: inline-block;
         position: absolute;
+        border-radius: 8px;
+        background: #7ea8e3;
+        width: 16px;
+        height: 16px;
         left: 13px;
         top: -15px;
         font-size: 35px;
@@ -128,6 +151,7 @@ export default {
   DanimTitle,
   DanimLogo,
   ButtonContainer,
+  MobileButtonContainer,
   CommonStyleButton,
   chatAndUserButton,
   userProfile,
