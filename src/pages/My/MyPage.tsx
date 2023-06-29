@@ -323,7 +323,8 @@ function MyPage() {
                         {post.postTitle}
                       </Styled.PostTitle>
                       <Styled.PostDate>
-                        작성일 | {formattedPostDate}
+                        {/* 작성일 | {formattedPostDate} */}
+                        작성일 | {post.createdAt}
                       </Styled.PostDate>
                       <Styled.PostContent>
                         {formattedPostContent}
