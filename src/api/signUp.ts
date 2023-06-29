@@ -58,6 +58,7 @@ const removeAllInfo = () => {
   localStorage.removeItem("showAlert");
   localStorage.setItem("isAuthenticated", "false");
   localStorage.removeItem("newChat");
+  localStorage.removeItem("chatAlarms");
 };
 
 // 액세스 토큰 확인하고 재발급 받는 함수
