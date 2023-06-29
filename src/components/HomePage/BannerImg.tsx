@@ -4,6 +4,11 @@ import styled from "styled-components";
 const StyledImg = styled.img`
   width: 100%;
   height: auto;
+  // 모바일
+  @media (min-width: 375px) and (max-width: 430px) {
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
 `;
 
 function BannerImg() {
@@ -13,7 +18,7 @@ function BannerImg() {
   const checkViewportWidth = () => {
     const width = window.innerWidth;
 
-    if (width <= 390) {
+    if (width <= 430) {
       return "main/danimBanner_mobile.svg";
     }
     if (width <= 940) {
