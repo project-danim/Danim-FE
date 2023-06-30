@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { IoFootsteps } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 import {
   fecthPosts,
   fecthReviews,
@@ -17,7 +18,11 @@ function MyPage() {
   const handleTabClick = (index: number) => {
     setActiveTab(index);
   };
-  const id = localStorage.getItem("id");
+  // 만약에 로그인 한 유저의 값을 가져오는게 아니라면 param 의 값을 가져옴
+  const { id: paramId } = useParams();
+  // 로그인한 유저라면 localStorage 에서 가져옴
+  const id = paramId;
+
   const [editing, setEditing] = useState<boolean>(false);
   const [content, setContent] = useState("");
   const [owner, setOwner] = useState(true);

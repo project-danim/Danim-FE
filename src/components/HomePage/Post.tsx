@@ -6,8 +6,17 @@ function Post({ post, lastPostRef }: any) {
   // 네비게이션 함수
   const navigate = useNavigate();
 
+  // 사용자 닉네임 클릭시
+  const handleNicknameClick = (userId: number, event: any) => {
+    // 현재 이벤트가 상위 DOM 요소로 전파되는 것을 중지
+    event.stopPropagation();
+    navigate(`/myPage/${userId}`);
+  };
+
   // 자세히 보기 버튼 클릭시
-  const handleDetailButtonClick = (id: number) => {
+  const handleDetailButtonClick = (id: number, event: any) => {
+    // 현재 이벤트가 상위 DOM 요소로 전파되는 것을 중지
+    event.stopPropagation();
     navigate(`/post/${id}`);
   };
 
@@ -33,11 +42,14 @@ function Post({ post, lastPostRef }: any) {
     <st.postContainer
       key={post.id}
       ref={lastPostRef}
-      onClick={() => handleDetailButtonClick(post.id)}
+      onClick={(event) => handleDetailButtonClick(post.id, event)}
     >
       <st.postTitle>{post.postTitle}</st.postTitle>
       <st.expiredPostContainer expired={post.isRecruitmentEnd}>
-        <st.postNickname profile={post.userImage}>
+        <st.postNickname
+          profile={post.userImage}
+          onClick={(event) => handleNicknameClick(post.userId, event)}
+        >
           {post.nickname}
         </st.postNickname>
         <st.postImage src={post.imageUrl} alt="게시글 이미지" />
@@ -60,7 +72,7 @@ function Post({ post, lastPostRef }: any) {
       <st.CommonButton
         buttonName="postDetail"
         type="button"
-        onClick={() => handleDetailButtonClick(post.id)}
+        onClick={(event) => handleDetailButtonClick(post.id, event)}
       >
         자세히 보기
       </st.CommonButton>
