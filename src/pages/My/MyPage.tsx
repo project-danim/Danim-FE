@@ -136,10 +136,15 @@ function MyPage() {
             alert("회원 탈퇴에 실패했습니다.");
           } else {
             alert("회원 탈퇴가 취소되었습니다.");
+            // Swal.fire({
+            //   icon: "warning",
+            //   text: "회원 탈퇴가 취소되었습니다",
+            // });
           }
         });
     }
   };
+
   // 뒤로가기 버튼 클릭시
   const handleMoveBackClick = () => {
     window.history.back();
