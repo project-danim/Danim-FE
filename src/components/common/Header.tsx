@@ -24,6 +24,9 @@ function Header() {
   // 채팅 알람에 대한 state
   const [hasNewChat] = useRecoilState(hasNewChatState);
 
+  // 로컬에 저장된 사용자 아이디
+  const userId = localStorage.getItem("id");
+
   // 토큰 state
   const accessToken = getAccessToken();
   const refreshToken = getRefreshToken();
@@ -91,7 +94,7 @@ function Header() {
 
   // 마이페이지 버튼 클릭시
   const handleMyPageButtonClick = () => {
-    navigate("/mypage");
+    navigate(`/mypage/${userId}`);
   };
 
   // 로그아웃 버튼 클릭시
