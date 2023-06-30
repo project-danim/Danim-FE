@@ -14,13 +14,6 @@ const CommonInput = styled.input`
   &:focus {
     outline: 1px solid #a3bf3b;
   }
-  /* @media (max-width: 1400px) and (min-width: 320px) {
-    font-size: 11px;
-    padding: 8px 0;
-    max-width: 260px;
-    padding-left: 8px;
-    line-height: 15px;
-  } */
 `;
 
 export default CommonInput;

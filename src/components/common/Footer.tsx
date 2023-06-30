@@ -22,7 +22,6 @@ function Footer() {
             <p>Copyright | 2023 (주)다님, Inc. All rights reserved.</p>
           </div>
         </st.logoAndCopyrightContainer>
-        {/* 공지사항 부분에 공지사항 연결해 놓으면 좋을거 같은데 나중에 할게요,, */}
         <st.allInfoContainer>
           {messages.map((message) => (
             <p key={message}>{message}</p>

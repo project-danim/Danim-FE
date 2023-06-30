@@ -54,10 +54,7 @@ export const VerticalLine = styled.div`
 export const MapInfoWrapper = styled.div`
   display: flex;
   align-items: center;
-  /* width: 95%; */
-  /* margin: 0 10px; */
   padding: 16px 5px;
-  /* border: solid 1px black; */
 `;
 
 // 숫자 선 wrapper
