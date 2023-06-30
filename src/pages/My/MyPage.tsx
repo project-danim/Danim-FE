@@ -117,7 +117,6 @@ function MyPage() {
     mutateSendUserInfo.mutate(userInfo, {
       onSuccess: (data) => {
         console.log("수정이 완료되었습니다");
-        console.log(data);
       },
       onError: (error) => {
         console.error(error);

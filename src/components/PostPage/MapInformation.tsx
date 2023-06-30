@@ -25,8 +25,6 @@ function MapInformation() {
   const parsedMap: MarkerInfo[] =
     postData && postData.map ? JSON.parse(postData.map) : [];
 
-  // console.log(parsedMap);
-
   // map data 중 첫번째 값 찾기
   const firstMarkerPosition = parsedMap[0]?.info.position;
 
@@ -105,7 +103,6 @@ function MapInformation() {
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  // style={{ marginTop: "-10px", marginRight: "10px" }}
                 >
                   {/* 지도 pin - svg */}
                   <path
@@ -133,7 +130,6 @@ function MapInformation() {
                     cy="9"
                     r="5.5"
                     fill="#2e5902"
-                    // stroke="#1c72ce"
                     strokeWidth="0.5"
                   />
                   <text
@@ -160,8 +156,6 @@ function MapInformation() {
           />
         </Map>
       </Styled.MapContainer>
-      {/* ---------------------------------------------------------------------- */}
-
       <Styled.MapInfoContainer ref={containerRef}>
         {/* 선택한 정보를 화면에 표시 */}
         <Styled.VerticalLine ref={lineRef} />
