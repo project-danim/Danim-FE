@@ -2,6 +2,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
+import Swal from "sweetalert2";
 import { fetchLogout, getAccessToken, getRefreshToken } from "../../api/signUp";
 import loginUserIdState from "../../recoil/login/userInfo";
 import st from "./commonStyle/HeaderST";
@@ -52,15 +53,24 @@ function Header() {
   // 로그아웃 뮤테이션 함수
   const { mutate: mutateLogout } = useMutation(fetchLogout, {
     onSuccess: () => {
-      alert("로그아웃이 완료되었습니다.");
+      Swal.fire({
+        icon: "success",
+        title: "👏",
+        text: "로그아웃이 완료되었습니다.",
+        confirmButtonColor: "#A3BF3B",
+      });
       setUserAccessCookie(null);
       setUserRefreshCookie(null);
       setLoginUserId("");
       return navigate("/");
     },
-    onError: () => {
-      alert("요청 실패 : 로그아웃을 다시 시도해 주세요.");
-    },
+    onError: () =>
+      Swal.fire({
+        icon: "error",
+        title: "😥",
+        text: "요청 실패 : 로그아웃을 다시 시도해 주세요.",
+        confirmButtonColor: "#A3BF3B",
+      }),
   });
 
   // 다님 로고 클릭시

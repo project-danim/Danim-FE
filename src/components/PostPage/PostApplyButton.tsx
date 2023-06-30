@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { useMutation, useQueryClient } from "react-query";
+import Swal from "sweetalert2";
 import { PostGetState, postIdState } from "../../recoil/post/postGetState";
 import { cancelApply, chatStart } from "../../api/chat";
 import {
@@ -120,11 +121,21 @@ function PostButton() {
     },
     {
       onSuccess: (data) => {
-        alert("취소가 완료되었습니다.");
+        Swal.fire({
+          title: "Success",
+          text: "취소가 완료되었습니다.",
+          icon: "success",
+          confirmButtonColor: "#A3BF3B",
+        });
         console.log(data);
       },
       onError: (error) => {
-        console.error("취소하기에 실패했습니다:", error);
+        Swal.fire({
+          title: "Error",
+          text: "취소하기에 실패했습니다:",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
       },
       onSettled: () => {
         queryClient.invalidateQueries("post");
@@ -149,14 +160,24 @@ function PostButton() {
   } else if (isComplete) {
     buttonText = "모집완료";
     buttonAction = () =>
-      alert(`모집이 완료된 방입니다. 다른 모임을 찾아보세요.`);
+      Swal.fire({
+        title: "Error",
+        text: `모집이 완료된 방입니다. 다른 모임을 찾아보세요.`,
+        icon: "error",
+        confirmButtonColor: "#A3BF3B",
+      });
   } else if (!isAuthor && !isApplicant && !isExpired) {
     buttonText = "신청하기";
     buttonAction = handleApplyAndChat;
   } else {
     buttonText = "기간만료";
     buttonAction = () =>
-      alert(`모집 기간이 지났습니다. 다른 모임을 찾아보세요.`);
+      Swal.fire({
+        title: "Error",
+        text: `모집 기간이 지났습니다. 다른 모임을 찾아보세요.`,
+        icon: "error",
+        confirmButtonColor: "#A3BF3B",
+      });
   }
 
   return (
