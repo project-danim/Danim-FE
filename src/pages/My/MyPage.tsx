@@ -97,10 +97,6 @@ function MyPage() {
     setNickname(event.target.value);
   };
 
-  // const hadleImageChange = (event: any) => {
-  //   setUploadImg(event.target.value);
-  // };
-
   const clickButton = async () => {
     if (!editing) {
       profileRef.current?.focus();
@@ -348,7 +344,6 @@ function MyPage() {
           </div>
         )}
       </Styled.TabContent>
-
       {/* <Footer /> */}
     </Styled.MyPageContainer>
   );
