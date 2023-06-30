@@ -17,6 +17,7 @@ import * as st from "./ChatST";
 interface User {
   imageUrl: string;
   nickname: string;
+  memberId: number;
 }
 
 let stomp: any;
@@ -29,6 +30,9 @@ function Chat() {
   const chatRecord = useRecoilValue(chatRoomChatRecordState);
 
   const navigate = useNavigate();
+
+  // console.log(`채팅방 유저`, chatEnteredUsers);
+  // console.log(chatRecord);
 
   // 임포스터 배열
   const [imposters, setImposters] = useState<any[]>([]);
@@ -51,7 +55,6 @@ function Chat() {
       sender: record.sender,
       imposter: record.imposter,
       message: record.message,
-      chatUserId: record.id,
       time: formattedTime,
     };
   });
@@ -272,6 +275,10 @@ function Chat() {
     setKickButtonVisible(userNickname === visibleUsers[0].nickname);
   }, [visibleUsers, userNickname]);
 
+  const navigateToUserPage = (userId: number) => {
+    navigate(`/myPage/${userId}`);
+  };
+
   return (
     <st.Container>
       <st.ChatPageBackground>
@@ -317,8 +324,10 @@ function Chat() {
                             </st.KickAndMyPageButton>
                           )}
 
-                          <st.KickAndMyPageButton>
-                            마이페이지
+                          <st.KickAndMyPageButton
+                            onClick={() => navigateToUserPage(user.memberId)}
+                          >
+                            유저프로필
                           </st.KickAndMyPageButton>
                         </st.DropdownContent>
                       </st.DropdownContainer>
