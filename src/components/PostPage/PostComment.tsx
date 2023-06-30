@@ -24,9 +24,6 @@ function PostComment() {
   // 댓글 내용 state
   const [comment, setComment] = useState<string>("");
 
-  // const [loginUserNickname, setloginUserNickname] = useState<string>("");
-  // const [loginUserImageUrl, setLoginUserImageUrl] = useState<string>("");
-
   // 현재 로그인 중인 유저의 nickname, profileURL
   const userNickname = localStorage.getItem("nickname");
   const userProfileUrl = localStorage.getItem("profileUrl");
@@ -73,7 +70,6 @@ function PostComment() {
   const handleSubmit = () => {
     // api로 전달할 코멘트 객체 생성
     const newComment: UserComment = {
-      // id: Date.now(),
       comment,
       score: selectedScore,
     };

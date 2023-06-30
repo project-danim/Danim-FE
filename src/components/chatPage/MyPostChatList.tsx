@@ -19,7 +19,6 @@ function MyPostChatList() {
     isLoading,
     isError,
   } = useQuery("myPostChatRoomList", getMyPostChatRoomList);
-  // console.log(chatLists);
 
   // [채팅방으로 보내기 위한 recoil state]
   // 현재 채팅방에 참여한 유저들의 닉네임

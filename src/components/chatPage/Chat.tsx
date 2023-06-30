@@ -87,6 +87,7 @@ function Chat() {
     stomp.connect(
       {},
       () => {
+        stomp.debug = null;
         stompClientRef.current = stomp;
         stomp.subscribe(`/sub/chat/room/${roomName}`, (data: any) => {
           // 구독할때 룸네임 넣어서 sub 하고

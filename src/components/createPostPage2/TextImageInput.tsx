@@ -6,7 +6,6 @@ import { useMutation } from "react-query";
 import styled from "styled-components";
 import {
   contentsImagesState,
-  // imageUrlsState,
   tripPostContentState,
 } from "../../recoil/post/postCreateState";
 import { uploadImage } from "../../api/post";
@@ -119,7 +118,7 @@ function TextImageInput() {
         quill.insertEmbed(index, "image", imageUrl);
       }
     } catch (error) {
-      // console.log(error);
+      // (error);
     }
   };
 

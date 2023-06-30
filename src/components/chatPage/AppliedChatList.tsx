@@ -20,7 +20,6 @@ function AppliedChatList() {
     isLoading,
     isError,
   } = useQuery("AppliedChatList", getMyjoinChatRoomList);
-  // console.log(chatLists);
 
   // 현재 채팅방에 참여한 유저들의 닉네임
   const setChatEnteredUsersNickname = useSetRecoilState(
@@ -69,7 +68,7 @@ function AppliedChatList() {
           // roomId 값을 가져와 useAlarmCount 훅에 전달하여 변화 감지
           // useAlarmCount(chat.roomId);
           // 70번 주석처리하기 위해 임의로 콘솔 넣었습니다.
-          console.log("hhs");
+          console.log("chat 데이터를 가져왔습니다.");
           return (
             <Styled.ChatRoomContainer key={chat.roomId}>
               <Styled.ChatRoomWrapper>
