@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { useMutation } from "react-query";
+import Swal from "sweetalert2";
 import useInput from "../../hooks/useInput";
 import st from "./SignUpST";
 import { fetchSignUp } from "../../api/signUp";
@@ -119,7 +120,7 @@ function SignUp() {
   // 회원가입 api 응답 성공시 핸들링 함수
   function handleApiResponse<T>(response: ApiResponse<T>) {
     if (response.status === 200) {
-      alert("회원가입이 완료되었습니다!");
+      // alert("회원가입이 완료되었습니다!");
     }
   }
 
@@ -199,8 +200,16 @@ function SignUp() {
       agreeForAge: true,
     };
     mutateSignUp(user);
-    alert("회원가입이 완료되었습니다!");
-    navigate("/login");
+    Swal.fire({
+      icon: "success",
+      title: "👏",
+      text: "회원가입이 완료되었습니다!",
+      confirmButtonColor: "#A3BF3B",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/login");
+      }
+    });
   };
 
   return (

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { useRecoilState } from "recoil";
 // import KAKAO_AUTH_URL from "./kakaoAuth";
+import Swal from "sweetalert2";
 import useInput from "../../hooks/useInput";
 import { fetchLogin } from "../../api/signUp";
 import st from "../SignUpPage/SignUpST";
@@ -38,18 +39,47 @@ function Login() {
   const { mutate: mutateLogin } = useMutation(fetchLogin, {
     onSuccess: (response) => {
       if (response === "등록되지 않은 아이디 입니다.") {
-        return alert(response);
+        return Swal.fire({
+          icon: "error",
+          title: "😥",
+          text: "등록되지 않은 아이디 입니다.",
+          confirmButtonColor: "#A3BF3B",
+        });
       }
       if (response === "잘못된 비밀번호 입니다.") {
-        return alert(response);
+        return Swal.fire({
+          icon: "error",
+          title: "😨",
+          text: "잘못된 비밀번호 입니다.",
+          confirmButtonColor: "#A3BF3B",
+        });
       }
       if (response.data.message === "로그인 성공") {
-        return navigate("/");
+        return Swal.fire({
+          icon: "success",
+          title: "👏",
+          text: "로그인이 완료되었습니다!",
+          confirmButtonColor: "#A3BF3B",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/");
+          }
+        });
       }
-      return alert("로그인을 다시 시도해주세요.");
+      return Swal.fire({
+        icon: "error",
+        title: "😓",
+        text: "로그인을 다시 시도해주세요.",
+        confirmButtonColor: "#A3BF3B",
+      });
     },
     onError: () => {
-      alert("요청 실패 : 로그인을 다시 시도해 주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "로그인에 실패했습니다.",
+        text: "다시 시도해주세요.",
+        confirmButtonColor: " #A3BF3B;",
+      });
     },
   });
 

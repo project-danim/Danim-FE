@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
+import Swal from "sweetalert2";
 import st from "./SignUpST";
 import { fetchSignUpForSocial } from "../../api/signUp";
 import { UserInfoForKakao } from "../../types/userType";
@@ -91,12 +92,23 @@ function SignUpForSocial() {
   const { mutate: mutateSignUpForSocial } = useMutation(fetchSignUpForSocial, {
     onSuccess: (response) => {
       if (response.message === "로그인 성공") {
-        alert("회원가입이 완료되었습니다!");
-        navigate("/");
+        Swal.fire({
+          icon: "success",
+          title: "회원가입이 완료되었습니다!",
+          confirmButtonColor: "#A3BF3B",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/");
+          }
+        });
       }
     },
     onError: () => {
-      alert("요청이 실패했습니다. 다시 시도해주세요!");
+      Swal.fire({
+        icon: "error",
+        title: "요청이 실패했습니다. 다시 시도해주세요!",
+        confirmButtonColor: "#A3BF3B",
+      });
     },
   });
 
