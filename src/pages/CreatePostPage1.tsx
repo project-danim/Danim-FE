@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import {
   AgeRange,
   Gender,
@@ -86,7 +87,12 @@ function CreatePostPage1() {
     // 사용자가 값을 입력하지 않은 항목이 있다면 return
     for (let i = 0; i < keywordValueStates.length; i += 1) {
       if (!keywordValueStates[i].value) {
-        alert(keywordValueStates[i].message);
+        Swal.fire({
+          title: "Success",
+          text: "성공적으로 처리되었습니다.",
+          icon: "success",
+          confirmButtonColor: "#A3BF3B",
+        });
         return;
       }
     }
