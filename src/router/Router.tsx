@@ -49,7 +49,7 @@ function Router() {
 
           {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
           <Route element={<PrivateRoute authentication />}>
-            <Route path="myPage" element={<MyPage />} />
+            <Route path="myPage/:id" element={<MyPage />} />
             <Route path="create-post/step1" element={<CreatePostPage1 />} />
             <Route path="create-post/step2" element={<CreatePostPage2 />} />
             <Route path="edit-post/step1/:id" element={<EditingPostPage1 />} />
