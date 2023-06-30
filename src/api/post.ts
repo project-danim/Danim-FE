@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import { getCookie } from "./signUp";
 
 interface UploadResponse {
@@ -66,7 +67,12 @@ export const uploadImage = async (
   } catch (error: any) {
     console.log("에러 발생:", error);
     if (error.response.status === 400) {
-      alert(`jpg, jpeg, png, gif의 형식만 업로드 가능합니다.`);
+      Swal.fire({
+        title: "Error",
+        text: `jpg, jpeg, png, gif의 형식만 업로드 가능합니다.`,
+        icon: "error",
+        confirmButtonColor: "#A3BF3B",
+      });
     }
     throw error;
   }
@@ -87,7 +93,12 @@ export const getPost = async (postId: number) => {
     return response.data;
   } catch (error: any) {
     if (error.response.status === 404) {
-      alert(`게시글을 찾을 수 없습니다.`);
+      Swal.fire({
+        title: "Error",
+        text: `게시글을 찾을 수 없습니다.`,
+        icon: "error",
+        confirmButtonColor: "#A3BF3B",
+      });
     }
     console.error(error);
     throw error;
@@ -108,13 +119,28 @@ export const editPost = async (postId: number, formData: FormData) => {
         },
       }
     );
-    alert("게시글 수정이 완료되었습니다.");
+    Swal.fire({
+      title: "Success",
+      text: "게시글 수정이 완료되었습니다.",
+      icon: "success",
+      confirmButtonColor: "#A3BF3B",
+    });
     return response.data;
   } catch (error: any) {
     if (error.response.status === 404) {
-      alert(`게시글을 찾을 수 없습니다.`);
+      Swal.fire({
+        title: "Error",
+        text: `게시글을 찾을 수 없습니다.`,
+        icon: "error",
+        confirmButtonColor: "#A3BF3B",
+      });
     } else if (error.response.status === 401) {
-      alert(`글 작성자만 수정할 수 있습니다`);
+      Swal.fire({
+        title: "Error",
+        text: `글 작성자만 수정할 수 있습니다`,
+        icon: "error",
+        confirmButtonColor: "#A3BF3B",
+      });
     }
     console.error(error);
     throw error;
@@ -132,7 +158,12 @@ export const deletePost = async (postId: number) => {
         },
       }
     );
-    alert("게시글이 삭제되었습니다.");
+    Swal.fire({
+      title: "Error",
+      text: "게시글이 삭제되었습니다.",
+      icon: "error",
+      confirmButtonColor: "#A3BF3B",
+    });
     return response.data;
   } catch (error) {
     console.error(error);

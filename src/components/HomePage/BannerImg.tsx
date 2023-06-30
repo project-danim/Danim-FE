@@ -6,8 +6,11 @@ const StyledImg = styled.img`
   height: auto;
   // 모바일
   @media (min-width: 375px) and (max-width: 430px) {
-    padding: 0 20px;
+    /* padding: 0 20px; */
     box-sizing: border-box;
+    max-width: 350px;
+    display: block;
+    margin: 0 auto;
   }
 `;
 

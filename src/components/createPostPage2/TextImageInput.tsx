@@ -4,9 +4,9 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useMutation } from "react-query";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 import {
   contentsImagesState,
-  // imageUrlsState,
   tripPostContentState,
 } from "../../recoil/post/postCreateState";
 import { uploadImage } from "../../api/post";
@@ -95,7 +95,12 @@ function TextImageInput() {
     // 사진 크기 제한 (10mb)
     const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert("10MB 이하의 사진만 첨부 가능합니다.");
+      Swal.fire({
+        title: "Error",
+        text: "10MB 이하의 사진만 첨부 가능합니다.",
+        icon: "error",
+        confirmButtonColor: "#A3BF3B",
+      });
       // 에러 처리 로직 추가
       return;
     }
@@ -119,7 +124,7 @@ function TextImageInput() {
         quill.insertEmbed(index, "image", imageUrl);
       }
     } catch (error) {
-      // console.log(error);
+      // (error);
     }
   };
 

@@ -31,7 +31,6 @@ export const MapInfoContainer = styled.div`
   position: relative; // 숫자 아래 선을 배치하기 위한 부모 컴포넌트 지정
   width: 98.5%;
   height: 500px;
-  /* margin-bottom: 30px; */
   border-top: solid 1px #d9d9d9;
   overflow: auto; /* 스크롤 바 스타일링 */
   overflow-x: hidden;
@@ -60,10 +59,8 @@ export const VerticalLine = styled.div`
   position: absolute; // MapInfoContainer 를 부모로 가짐
   width: 1px;
   height: 100%;
-  /* left: 2.6%; */
   left: 25px;
   background-color: #a3bf3b;
-  /* z-index: -1; */
 `;
 
 // 지도 정보 Wrapper
@@ -71,9 +68,7 @@ export const MapInfoWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 95%;
-  /* margin: 32px 5px; */
   padding: 16px 5px;
-  /* border: solid 1px black; */
 `;
 
 // input - add wrapper.
@@ -197,7 +192,6 @@ export const MapInfoDeleteButton = styled.button`
   background-color: transparent;
   border: solid 1px #d9d9d9;
   border-radius: 50%;
-  /* padding: 10px 12px; */
   color: #d9d9d9;
   font-size: 12px;
   height: 18px;

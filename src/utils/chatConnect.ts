@@ -18,6 +18,7 @@ const useChatConnect = (userId: string | null) => {
     stomp.connect(
       {},
       () => {
+        stomp.debug = () => {}; // 빈 함수를 설정하여 디버그 로깅 비활성화
         stomp.subscribe(`/sub/alarm/${userId}`, (data: any) => {
           // 로컬 스토리지 배열 저장은 문자열 그대로 사용
           localStorage.setItem("chatAlarms", data.body);

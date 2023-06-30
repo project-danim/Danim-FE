@@ -4,6 +4,7 @@ import SockJs from "sockjs-client";
 import StompJs from "stompjs";
 import { useNavigate } from "react-router-dom";
 import uuid from "react-uuid";
+import Swal from "sweetalert2";
 import Message from "./Message";
 import {
   chatEnteredUsersNicknameState,
@@ -87,6 +88,7 @@ function Chat() {
     stomp.connect(
       {},
       () => {
+        stomp.debug = null;
         stompClientRef.current = stomp;
         stomp.subscribe(`/sub/chat/room/${roomName}`, (data: any) => {
           // 구독할때 룸네임 넣어서 sub 하고
@@ -188,12 +190,19 @@ function Chat() {
   };
 
   // 강퇴하기
-  const kickUser = (nickname: string) => {
-    const confirmKick = window.confirm(
-      `${nickname}님을 강퇴하시겠습니까? 강퇴하기는 취소 불가능 합니다.`
-    );
+  const kickUser = async (nickname: string) => {
+    const confirmKick = await Swal.fire({
+      title: `${nickname}님을 강퇴하시겠습니까?`,
+      text: "강퇴하기는 취소 불가능 합니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#A3BF3B",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "네, 강퇴하겠습니다",
+      cancelButtonText: "아니요",
+    });
 
-    if (confirmKick) {
+    if (confirmKick.isConfirmed) {
       if (stompClientRef.current) {
         stompClientRef.current.send(
           "/pub/chat/message",
@@ -235,7 +244,13 @@ function Chat() {
         lastMessage.imposter === userNickname
       ) {
         // 메인 페이지로 이동
-        alert("강퇴 당하셨습니다. 해당 모임으로는 재 입장하실 수 없습니다.");
+        Swal.fire({
+          title: "Error",
+          text: "강퇴 당하셨습니다. 해당 모임으로는 재 입장하실 수 없습니다.",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
+
         navigate(-1);
       }
     }
