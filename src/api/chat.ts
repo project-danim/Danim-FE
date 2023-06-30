@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import { axiosInstance, getCookie, showError } from "./signUp";
 
 // 채팅방 입장
@@ -15,43 +16,91 @@ export const chatStart = async (postId: number) => {
       const { detail } = error.response.data;
       if (detail === "신청하신 나이대에 포함되지않습니다.") {
         // 연령대 조건이 안 맞는 경우 처리 코드
-        alert("신청하신 나이대에 포함되지않습니다");
+        Swal.fire({
+          title: "Error",
+          text: "신청하신 나이대에 포함되지 않습니다.",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
       } else if (detail === "신청하신 성별에 포함되지않습니다.") {
         // 성별 조건이 안 맞는 경우 처리 코드
-        alert("신청하신 성별에 포함되지 않습니다.");
+        Swal.fire({
+          title: "Error",
+          text: "신청하신 성별에 포함되지 않습니다.",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
       } else if (detail === "이미 강퇴당한 방입니다.") {
         // 강퇴 당한 경우 처리 코드
-        alert("이미 강퇴당한 방입니다.");
+        Swal.fire({
+          title: "Error",
+          text: "이미 강퇴당한 방입니다.",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
       } else if (detail === "모집이 완료되었습니다.") {
         // 모집 인원이 다 찬 경우 처리 코드
-        alert("모집이 완료되었습니다.");
+        Swal.fire({
+          title: "Error",
+          text: "모집이 완료되었습니다.",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
       } else {
         // 기타 401 에러 처리 코드
-        alert("권한이 없는 사용자입니다.");
+        Swal.fire({
+          title: "Error",
+          text: "권한이 없는 사용자입니다.",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
       }
     } else if (error.response.status === 403) {
       // 로그인이 필요한 경우 처리 코드
-      alert("로그인이 필요합니다.");
+      Swal.fire({
+        title: "Error",
+        text: "로그인이 필요합니다.",
+        icon: "error",
+        confirmButtonColor: "#A3BF3B",
+      });
       // throw new Error("로그인이 필요합니다.");
       throw error;
     } else if (error.response.status === 400) {
       const { detail } = error.response.data;
       if (detail === "존재하지 않는 채팅방 입니다.") {
         // 채팅방 존재 여부 확인 처리 코드
-        alert("존재하지 않는 채팅방 입니다.");
+        Swal.fire({
+          title: "Error",
+          text: "존재하지 않는 채팅방 입니다.",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
       } else if (detail === "게시글을 찾을 수 없습니다.") {
+        Swal.fire({
+          title: "Error",
+          text: "게시글을 찾을 수 없습니다.",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
         // 게시글 존재 여부 확인 처리 코드
-        alert("게시글을 찾을 수 없습니다.");
       } else {
         // 기타 400 에러 처리 코드
-        alert("잘못된 요청입니다.");
+        Swal.fire({
+          title: "Error",
+          text: "잘못된 요청입니다.",
+          icon: "error",
+          confirmButtonColor: "#A3BF3B",
+        });
       }
     } else {
       // 기타 에러 처리 코드
       showError(error);
-      alert(
-        "신청이 처리되지 않았습니다. 같은 에러가 반복되면 관리자에게 문의 부탁드립니다."
-      );
+      Swal.fire({
+        title: "Error",
+        text: "신청이 처리되지 않았습니다. 같은 에러가 반복되면 관리자에게 문의 부탁드립니다.",
+        icon: "error",
+        confirmButtonColor: "#A3BF3B",
+      });
     }
     throw error;
   }
