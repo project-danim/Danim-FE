@@ -5,6 +5,7 @@ import { User, UserInfoForKakao } from "../types/userType";
 // axiosInstace (액세스 토큰 만료시 재발급 받는 인터셉터 있음)
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_URL,
+  withCredentials: true,
 });
 
 // generalInstance (인터셉터 없음)
@@ -185,19 +186,26 @@ export const fetchLogin = async (user: {
       // 웹 소켓 통신에 연결
       // chatConnect();
       // 토큰 및 유저 정보 저장
-      const accessToken = response.headers.access_key;
-      const refreshToken = response.headers.refresh_key;
-      const { id } = response.data.data;
-      const { nickName: nickname } = response.data.data;
-      const { myPageImageUrl: profileUrl } = response.data.data;
+      // const accessToken = response.headers.access_key;
+      // const refreshToken = response.headers.refresh_key;
+
+      // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+      const {
+        accessToken,
+        id,
+        nickName: nickname,
+        myPageImageUrl: profileUrl,
+      } = response.data.data;
+      axiosInstance.defaults.headers.common.ACCESS_KEY = `${accessToken}`;
+      console.log(axiosInstance.defaults.headers.common);
       localStorage.setItem("nickname", nickname);
       localStorage.setItem("profileUrl", profileUrl);
       localStorage.setItem("id", id);
       localStorage.setItem("isAuthenticated", "true");
-      if (accessToken && refreshToken) {
-        setCookie("accessToken", accessToken, 1);
-        setCookie("refreshToken", refreshToken, 14);
-      }
+      // if (accessToken && refreshToken) {
+      //   setCookie("accessToken", accessToken, 1);
+      //   setCookie("refreshToken", refreshToken, 14);
+      // }
     }
     return response;
   } catch (err: any) {
