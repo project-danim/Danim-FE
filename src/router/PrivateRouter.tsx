@@ -35,9 +35,9 @@
 //     <Navigate to="/" />
 //   );
 // }
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { checkAccessToken } from "../api/signUp";
+// import { checkAccessToken } from "../api/signUp";
 
 interface PrivateRouteProps {
   authentication: boolean;
@@ -47,9 +47,9 @@ export default function PrivateRoute({
   authentication,
 }: PrivateRouteProps): React.ReactElement | null {
   // 컴포넌트 렌더링 시 액세스 토큰 만료 확인 및 재발급
-  useEffect(() => {
-    checkAccessToken();
-  }, []);
+  // useEffect(() => {
+  //   checkAccessToken();
+  // }, []);
 
   /**
    * 로그인 했는지 여부
