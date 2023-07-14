@@ -1,5 +1,5 @@
 import SearchKeyword from "../types/searchType";
-import { axiosInstance } from "./signUp";
+import { axiosInstance, generalInstance, getAccessToken } from "./signUp";
 
 interface FetchSearchParams {
   allKeyword: SearchKeyword;
@@ -42,6 +42,7 @@ export const fetchAllPosts = async ({
 }) => {
   try {
     const response = await axiosInstance.get(
+      // const response = await generalInstance.get(
       `/api/posts/?page=${page}&size=${size}`
     );
     return response.data;
