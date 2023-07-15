@@ -1,5 +1,6 @@
 import SearchKeyword from "../types/searchType";
-import { axiosInstance, generalInstance, getAccessToken } from "./signUp";
+// import { axiosInstance, generalInstance, getAccessToken } from "./signUp";
+import { axiosInstance } from "./signUp";
 
 interface FetchSearchParams {
   allKeyword: SearchKeyword;

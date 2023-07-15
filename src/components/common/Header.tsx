@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import Swal from "sweetalert2";
-import { fetchLogout, getAccessToken, getRefreshToken } from "../../api/signUp";
+// import { fetchLogout, getAccessToken, getRefreshToken } from "../../api/signUp";
+import { fetchLogout } from "../../api/signUp";
+
 import loginUserIdState from "../../recoil/login/userInfo";
 import st from "./commonStyle/HeaderST";
 import {

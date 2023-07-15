@@ -129,7 +129,7 @@ function PostButton() {
         });
         console.log(data);
       },
-      onError: (error) => {
+      onError: () => {
         Swal.fire({
           title: "Error",
           text: "취소하기에 실패했습니다:",
