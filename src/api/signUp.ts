@@ -5,12 +5,18 @@ import { User, UserInfoForKakao } from "../types/userType";
 // axiosInstace (액세스 토큰 만료시 재발급 받는 인터셉터 있음)
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_URL,
+  withCredentials: true,
 });
 
 // generalInstance (인터셉터 없음)
-// export const generalInstance = axios.create({
-//   baseURL: import.meta.env.VITE_APP_URL,
-// });
+export const generalInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_URL,
+});
+
+const refreshInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_URL,
+  timeout: 1000,
+});
 
 // 에러 콘솔 출력 함수
 export function showError(error: any) {
@@ -62,37 +68,37 @@ const removeAllInfo = () => {
 };
 
 // 액세스 토큰 확인하고 재발급 받는 함수
-export const checkAccessToken = async () => {
-  const token = getAccessToken();
+// export const checkAccessToken = async () => {
+//   const token = getAccessToken();
 
-  if (token) {
-    return "accessToken 재발급 완료";
-  }
-  // 액세스 토큰이 만료된 경우
-  if (token === null || token === "") {
-    const refreshToken = getRefreshToken();
-    if (refreshToken) {
-      try {
-        const response = await axiosInstance.get("/api/user/refreshToken", {
-          headers: {
-            REFRESH_KEY: refreshToken,
-          },
-        });
-        const newAccessToken = response.headers.access_key;
+//   if (token) {
+//     return "accessToken 재발급 완료";
+//   }
+//   // 액세스 토큰이 만료된 경우
+//   if (token === null || token === "") {
+//     const refreshToken = getRefreshToken();
+//     if (refreshToken) {
+//       try {
+//         const response = await axiosInstance.get("/api/user/refreshToken", {
+//           headers: {
+//             REFRESH_KEY: refreshToken,
+//           },
+//         });
+//         const newAccessToken = response.headers.access_key;
 
-        // 새롭게 발급 받은 액세스 토큰을 쿠키에 저장
-        setCookie("accessToken", newAccessToken, 1);
+//         // 새롭게 발급 받은 액세스 토큰을 쿠키에 저장
+//         setCookie("accessToken", newAccessToken, 1);
 
-        return newAccessToken;
-      } catch (error) {
-        return error;
-      }
-    }
-  }
-  return null;
-};
+//         return newAccessToken;
+//       } catch (error) {
+//         return error;
+//       }
+//     }
+//   }
+//   return null;
+// };
 
-// 액세스 토큰 만료 확인하는 인터셉터
+// 액세스 재발급 받는 인터셉터
 // axiosInstance.interceptors.request.use(
 //   async (config) => {
 //     const token = await checkAccessToken();
@@ -108,6 +114,34 @@ export const checkAccessToken = async () => {
 //   },
 //   (error) => Promise.reject(error)
 // );
+export const refreshAccessToken = async () => {
+  try {
+    // 토큰 갱신 요청은 refreshInstance를 사용하여 보내기
+    const response = await refreshInstance.get("/api/user/refreshToken");
+    console.log("여기서 리스폰스", response);
+    const { accessToken } = response.data.data;
+    axiosInstance.defaults.headers.common.ACCESS_KEY = `${accessToken}`;
+    return accessToken;
+  } catch (err: any) {
+    console.log("여기서 에러", err);
+    const errMessage = err.response.data.detail || err.message;
+    return errMessage;
+  }
+};
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest.retryAttempted) {
+      originalRequest.retryAttempted = true;
+      const accessToken = await refreshAccessToken(); // 새 액세스 토큰을 가져오는 함수
+      originalRequest.headers.ACCESS_KEY = `${accessToken}`;
+      return axiosInstance(originalRequest);
+    }
+    return Promise.reject(error);
+  }
+);
 
 // 회원가입 - 아이디 중복검사
 export const fetchCheckId = async (id: string) => {
@@ -177,7 +211,7 @@ export const fetchLogin = async (user: {
   password: string;
 }) => {
   try {
-    const response = await axiosInstance.post("/api/user/login", user);
+    const response = await generalInstance.post("/api/user/login", user);
     if (response.data.status === 500) {
       throw response.data;
     }
@@ -185,19 +219,26 @@ export const fetchLogin = async (user: {
       // 웹 소켓 통신에 연결
       // chatConnect();
       // 토큰 및 유저 정보 저장
-      const accessToken = response.headers.access_key;
-      const refreshToken = response.headers.refresh_key;
-      const { id } = response.data.data;
-      const { nickName: nickname } = response.data.data;
-      const { myPageImageUrl: profileUrl } = response.data.data;
+      // const accessToken = response.headers.access_key;
+      // const refreshToken = response.headers.refresh_key;
+
+      // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+      const {
+        accessToken,
+        id,
+        nickName: nickname,
+        myPageImageUrl: profileUrl,
+      } = response.data.data;
+      // axiosInstance.defaults.headers.common.ACCESS_KEY = `Bearer ${accessToken}`;
+      axiosInstance.defaults.headers.common.ACCESS_KEY = `${accessToken}`;
       localStorage.setItem("nickname", nickname);
       localStorage.setItem("profileUrl", profileUrl);
       localStorage.setItem("id", id);
       localStorage.setItem("isAuthenticated", "true");
-      if (accessToken && refreshToken) {
-        setCookie("accessToken", accessToken, 1);
-        setCookie("refreshToken", refreshToken, 14);
-      }
+      // if (accessToken && refreshToken) {
+      //   setCookie("accessToken", accessToken, 1);
+      //   setCookie("refreshToken", refreshToken, 14);
+      // }
     }
     return response;
   } catch (err: any) {

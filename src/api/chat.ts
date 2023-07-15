@@ -5,13 +5,15 @@ import { axiosInstance, getCookie, showError } from "./signUp";
 // 채팅방 입장
 export const chatStart = async (postId: number) => {
   try {
-    const response = await axiosInstance.post(`api/chat/room/${postId}`, null, {
-      headers: {
-        ACCESS_KEY: getCookie("accessToken"),
-      },
-    });
+    // const response = await axiosInstance.post(`api/chat/room/${postId}`, null, {
+    //   headers: {
+    //     ACCESS_KEY: getCookie("accessToken"),
+    //   },
+    // });
+    const response = await axiosInstance.post(`api/chat/room/${postId}`, null);
     return response.data;
   } catch (error: any) {
+    console.log("ㅇㅇ", axiosInstance.defaults.headers);
     if (error.response.status === 401) {
       const { detail } = error.response.data;
       if (detail === "신청하신 나이대에 포함되지않습니다.") {

@@ -29,10 +29,10 @@ function Header() {
   const userId = localStorage.getItem("id");
 
   // 토큰 state
-  const accessToken = getAccessToken();
-  const refreshToken = getRefreshToken();
-  const [userAccessCookie, setUserAccessCookie] = useState(accessToken);
-  const [userRefreshCookie, setUserRefreshCookie] = useState(refreshToken);
+  // const accessToken = getAccessToken();
+  // const refreshToken = getRefreshToken();
+  // const [userAccessCookie, setUserAccessCookie] = useState(accessToken);
+  // const [userRefreshCookie, setUserRefreshCookie] = useState(refreshToken);
   const [, setLoginUserId] = useRecoilState(loginUserIdState);
 
   // 메인페이지에서 관리하는 검색 state
@@ -59,8 +59,8 @@ function Header() {
         text: "로그아웃이 완료되었습니다.",
         confirmButtonColor: "#A3BF3B",
       });
-      setUserAccessCookie(null);
-      setUserRefreshCookie(null);
+      // setUserAccessCookie(null);
+      // setUserRefreshCookie(null);
       setLoginUserId("");
       return navigate("/");
     },
@@ -138,7 +138,8 @@ function Header() {
           src="/header/danimLogo.svg"
           alt="다님 로고"
         />
-        {userAccessCookie || userRefreshCookie ? (
+        {/* {userAccessCookie || userRefreshCookie ? ( */}
+        {userId ? (
           <st.ButtonContainer>
             <st.CommonStyleButton
               buttonName="post"
